@@ -22,7 +22,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=8.0", "ruff>=0.9"]
 ui = ["pandas>=2.1", "streamlit>=1.40"]
-paper = ["matplotlib>=3.8"]
+paper = ["matplotlib>=3.8", "pillow>=10.0"]
 data = ["datasets>=2.18"]
 accelerate = ["accelerate>=1.0", "bitsandbytes>=0.43"]
 

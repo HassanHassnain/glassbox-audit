@@ -1,7 +1,7 @@
 PYTHON ?= python3
 PYTHONPATH := src
 
-.PHONY: install test lint compile toy validate report reproduce-cleanroom reproduce-external release-check smoke
+.PHONY: install test lint compile toy validate report figures reproduce-cleanroom reproduce-external release-check smoke
 
 install:
 	$(PYTHON) -m pip install -e ".[dev,ui,paper]"
@@ -26,6 +26,9 @@ validate: test lint compile toy
 
 report: toy
 	PYTHONPATH=$(PYTHONPATH) $(PYTHON) -m glassbox_audit.cli report --artifacts artifacts/demo
+
+figures:
+	$(PYTHON) scripts/generate_readme_figures.py
 
 reproduce-cleanroom:
 	bash scripts/reproduce_cleanroom.sh

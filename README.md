@@ -8,7 +8,7 @@ Glassbox asks a narrow mechanistic-interpretability question: do sparse autoenco
 
 > **Final claim:** Glassbox found a robust late residual-stream refusal-relevant direction in Qwen2.5-1.5B, with partial Qwen2.5-3B replication and OR-Bench external causal transfer. It did **not** confirm a full circuit. SAE features beat matched random-SAE controls but did **not** beat mean/probe baselines under held-out preregistered criteria.
 
-![Glassbox evidence map](docs/figures/evidence-map.svg)
+![Glassbox audit overview](docs/figures/readme_audit_overview.png)
 
 ## Why This Repository Exists
 
@@ -24,6 +24,12 @@ Most interpretability demos stop at correlation, cherry-picked steering, or a si
 | Qwen2.5-3B replication | partial | late layer 35 effect; specificity failed |
 | Component/path analysis | completed | residual effect strong; attention/MLP effects small or non-specific |
 | Clean-room rerun | completed | reproduced layer, rates, deltas, and H3 failure within fixed tolerances |
+
+## Result Figures
+
+![Held-out and external causal effects](docs/figures/readme_causal_effects.png)
+
+![SAE stability grid and component path analysis](docs/figures/readme_stability_path.png)
 
 ## What Failed
 
@@ -92,10 +98,6 @@ Full tensors, checkpoints, generated prompt outputs, model caches, and regenerat
 ## Docs
 
 Read [`docs/paper.md`](docs/paper.md) for the concise research writeup and [`docs/release-report.md`](docs/release-report.md) for methodology, result interpretation, reproducibility, limitations, and artifact policy.
-
-## Naming
-
-The project name is **Glassbox**. The GitHub slug remains `glassbox-audit` because it is clearer and more searchable than the generic slug `glassbox`.
 
 ## Citation
 
