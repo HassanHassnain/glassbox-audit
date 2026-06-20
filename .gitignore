@@ -1,0 +1,54 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Build/package outputs
+build/
+dist/
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+
+# Generated experiment artifacts
+artifacts/*
+!artifacts/.gitkeep
+checkpoints/
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.ckpt
+*.npy
+*.npz
+*.parquet
+
+# Model/data caches
+.cache/
+hf_cache/
+huggingface/
+transformers_cache/
+wandb/
+mlruns/
+
+# Local logs and temporary reports
+logs/
+*.log
+tmp/
+temp/
+.DS_Store
+
+# Large generated datasets; regenerate with documented commands.
+data/refusal_controlled_*.jsonl
+data/or_bench_*.jsonl
+data/*.normalized.jsonl
+data/*.glassbox.jsonl

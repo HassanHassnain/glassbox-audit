@@ -1,0 +1,29 @@
+description: Fixed preregistered SAE stability grid used to test SAE-vs-baseline robustness.
+base_config: configs/qwen2.5-1.5b-expanded-medium.yaml
+dataset_path: data/refusal_controlled_v2_520.jsonl
+model: Qwen/Qwen2.5-1.5B-Instruct
+run_policy:
+  retune_after_results: false
+  compare_against:
+    - mean_difference_direction
+    - logistic_probe_direction
+    - random_directions
+    - matched_random_untrained_sae_latents
+grid:
+  seeds: [17, 23, 42]
+  expansion_factors: [2, 4]
+  top_k: [32]
+  tokens_per_prompt: [48]
+  max_activation_samples: 32000
+fixed_evaluation:
+  bootstrap_samples: 2500
+  random_controls: 24
+  steering_scales: [-4.0, -2.0, -1.0, 1.0, 2.0, 4.0]
+  control_scale: -4.0
+outputs:
+  - artifacts/sae-stability/qwen15b-medium-seed17-exp2
+  - artifacts/sae-stability/qwen15b-medium-seed17-exp4
+  - artifacts/sae-stability/qwen15b-medium-seed23-exp2
+  - artifacts/sae-stability/qwen15b-medium-seed23-exp4
+  - artifacts/sae-stability/qwen15b-medium-seed42-exp2
+  - artifacts/sae-stability/qwen15b-medium-seed42-exp4

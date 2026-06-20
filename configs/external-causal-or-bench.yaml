@@ -1,0 +1,12 @@
+description: OR-Bench external causal-transfer evaluation from frozen Qwen2.5-1.5B controlled-audit artifacts.
+artifact_source: artifacts/qwen2.5-1.5b-expanded-audit
+inputs:
+  toxic: data/or_bench_toxic.normalized.jsonl
+  hard_benign: data/or_bench_hard1k.normalized.jsonl
+output: artifacts/external-causal/or_bench_qwen15b_1000.json
+max_records_per_label: 100
+device: cuda:0
+notes:
+  - This is a CLI recipe, not a `glassbox run` experiment config.
+  - OR-Bench rows are unpaired, so report external causal transfer separately from paired controlled-corpus effects.
+  - Requires regenerated OR-Bench normalized data and a frozen controlled-audit artifact directory.

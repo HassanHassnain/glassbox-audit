@@ -1,0 +1,881 @@
+{
+  "artifact_notice": "Phase 5 statistical summary. P-values are paired sign-flip permutation tests with Benjamini-Hochberg correction within each artifact/test family.",
+  "bootstrap_samples": 3000,
+  "component_path": [
+    {
+      "artifact": "artifacts/qwen-expanded-1000-phase4/path_component_phase4.json",
+      "tests": [
+        {
+          "alternative": "less",
+          "bh_adjusted_p": 0.0002181381905437094,
+          "ci": [
+            -0.1435851703256369,
+            -0.12731180613040924
+          ],
+          "delta": -0.1355500293970108,
+          "method": "residual_direction_ablation",
+          "metric": "harmful_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0002181381905437094,
+          "ci": [
+            -0.016934400326013566,
+            -0.012210671958327294
+          ],
+          "delta": -0.014515092015266419,
+          "method": "residual_direction_ablation",
+          "metric": "benign_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0002181381905437094,
+          "ci": [
+            -0.0180392578125,
+            -0.0145701171875
+          ],
+          "delta": -0.016359375,
+          "method": "residual_direction_ablation",
+          "metric": "capability_nll",
+          "n": 500,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "less",
+          "bh_adjusted_p": 0.0002181381905437094,
+          "ci": [
+            -0.1436018999904394,
+            -0.12776014009416103
+          ],
+          "delta": -0.1355500293970108,
+          "method": "residual_output_ablation",
+          "metric": "harmful_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0002181381905437094,
+          "ci": [
+            -0.016910888376832005,
+            -0.012103002735972404
+          ],
+          "delta": -0.014515092015266419,
+          "method": "residual_output_ablation",
+          "metric": "benign_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0002181381905437094,
+          "ci": [
+            -0.0180705078125,
+            -0.0145859375
+          ],
+          "delta": -0.016359375,
+          "method": "residual_output_ablation",
+          "metric": "capability_nll",
+          "n": 500,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "less",
+          "bh_adjusted_p": 0.0002181381905437094,
+          "ci": [
+            -0.002045528709888458,
+            -0.0017047684967517853
+          ],
+          "delta": -0.0018779256343841554,
+          "method": "attention_output_ablation",
+          "metric": "harmful_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0002181381905437094,
+          "ci": [
+            0.0006978578299283982,
+            0.0010830223888158798
+          ],
+          "delta": 0.0008885092735290527,
+          "method": "attention_output_ablation",
+          "metric": "benign_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0002181381905437094,
+          "ci": [
+            0.0006875,
+            0.001234375
+          ],
+          "delta": 0.0009609375,
+          "method": "attention_output_ablation",
+          "metric": "capability_nll",
+          "n": 500,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "less",
+          "bh_adjusted_p": 1.0,
+          "ci": [
+            0.0062727068662643435,
+            0.008492730242013932
+          ],
+          "delta": 0.00738680624961853,
+          "method": "mlp_output_ablation",
+          "metric": "harmful_score",
+          "n": 250,
+          "permutation_p": 1.0
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0002181381905437094,
+          "ci": [
+            0.021460923141241074,
+            0.024405701765418054
+          ],
+          "delta": 0.022940318703651427,
+          "method": "mlp_output_ablation",
+          "metric": "benign_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0002181381905437094,
+          "ci": [
+            0.0032732421875000008,
+            0.004890625
+          ],
+          "delta": 0.0040859375,
+          "method": "mlp_output_ablation",
+          "metric": "capability_nll",
+          "n": 500,
+          "permutation_p": 0.0001999600079984003
+        }
+      ]
+    }
+  ],
+  "external_causal": [
+    {
+      "artifact": "artifacts/external-causal/or_bench_qwen15b_1000_phase4.json",
+      "tests": [
+        {
+          "alternative": "less",
+          "bh_adjusted_p": 0.00022495500899820034,
+          "ci": [
+            -0.05336595982313156,
+            -0.03958739076554774
+          ],
+          "delta": -0.046219035387039184,
+          "method": "sae_feature_ablation",
+          "metric": "harmful_score",
+          "n": 100,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.00022495500899820034,
+          "ci": [
+            -0.046564085960388184,
+            -0.033814362898468966
+          ],
+          "delta": -0.04006219685077667,
+          "method": "sae_feature_ablation",
+          "metric": "benign_score",
+          "n": 100,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.9772045590881824,
+          "ci": [
+            -0.0007033691406249993,
+            0.00064453125
+          ],
+          "delta": -1.953125e-05,
+          "method": "sae_feature_ablation",
+          "metric": "capability_nll",
+          "n": 200,
+          "permutation_p": 0.9772045590881824
+        },
+        {
+          "alternative": "less",
+          "bh_adjusted_p": 0.00022495500899820034,
+          "ci": [
+            -0.1750756807476282,
+            -0.1506326690390706
+          ],
+          "delta": -0.16290777653455735,
+          "method": "mean_difference_direction_ablation",
+          "metric": "harmful_score",
+          "n": 100,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.00022495500899820034,
+          "ci": [
+            -0.17080630919337272,
+            -0.14313022060692313
+          ],
+          "delta": -0.1569046199321747,
+          "method": "mean_difference_direction_ablation",
+          "metric": "benign_score",
+          "n": 100,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.00022495500899820034,
+          "ci": [
+            -0.025166259765624997,
+            -0.017128662109374998
+          ],
+          "delta": -0.021123046875,
+          "method": "mean_difference_direction_ablation",
+          "metric": "capability_nll",
+          "n": 200,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "less",
+          "bh_adjusted_p": 0.00022495500899820034,
+          "ci": [
+            -0.004167026996612549,
+            -0.0031069688946008677
+          ],
+          "delta": -0.003611413240432739,
+          "method": "linear_probe_direction_ablation",
+          "metric": "harmful_score",
+          "n": 100,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.00022495500899820034,
+          "ci": [
+            -0.004122995883226394,
+            -0.0024847697764635085
+          ],
+          "delta": -0.0032822346687316896,
+          "method": "linear_probe_direction_ablation",
+          "metric": "benign_score",
+          "n": 100,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.00022495500899820034,
+          "ci": [
+            -0.008183837890625,
+            -0.004999511718749999
+          ],
+          "delta": -0.006611328125,
+          "method": "linear_probe_direction_ablation",
+          "metric": "capability_nll",
+          "n": 200,
+          "permutation_p": 0.0001999600079984003
+        }
+      ]
+    }
+  ],
+  "headline_interpretation": "The large residual mean-difference effects are statistically robust. SAE feature effects are nonzero versus matched controls in several artifacts but remain smaller than mean-difference/probe baselines under preregistered criteria.",
+  "internal": [
+    {
+      "artifact": "artifacts/qwen-expanded-1000-phase4",
+      "tests": [
+        {
+          "alternative": "less",
+          "bh_adjusted_p": 0.0001999600079984003,
+          "ci": [
+            -0.038848302116990086,
+            -0.03410627655386925
+          ],
+          "delta": -0.03633926343917847,
+          "method": "sae_feature_ablation",
+          "metric": "harmful_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0001999600079984003,
+          "ci": [
+            -0.03770821375250816,
+            -0.03388325243890286
+          ],
+          "delta": -0.03579198443889618,
+          "method": "sae_feature_ablation",
+          "metric": "benign_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0001999600079984003,
+          "ci": [
+            0.0015234375,
+            0.0023125
+          ],
+          "delta": 0.001921875,
+          "method": "sae_feature_ablation",
+          "metric": "capability_nll",
+          "n": 500,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "less",
+          "bh_adjusted_p": 0.0001999600079984003,
+          "ci": [
+            -0.1435268911421299,
+            -0.12787858484089373
+          ],
+          "delta": -0.1355500293970108,
+          "method": "mean_difference_direction_ablation",
+          "metric": "harmful_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0001999600079984003,
+          "ci": [
+            -0.016932117119431492,
+            -0.012161864954233168
+          ],
+          "delta": -0.014515092015266419,
+          "method": "mean_difference_direction_ablation",
+          "metric": "benign_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0001999600079984003,
+          "ci": [
+            -0.0181484375,
+            -0.0146171875
+          ],
+          "delta": -0.016359375,
+          "method": "mean_difference_direction_ablation",
+          "metric": "capability_nll",
+          "n": 500,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "less",
+          "bh_adjusted_p": 0.0001999600079984003,
+          "ci": [
+            -0.003124390357732773,
+            -0.001749275666475296
+          ],
+          "delta": -0.0024561622142791747,
+          "method": "linear_probe_direction_ablation",
+          "metric": "harmful_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0001999600079984003,
+          "ci": [
+            -0.007972392988204955,
+            -0.005764468672871589
+          ],
+          "delta": -0.0068866112232208255,
+          "method": "linear_probe_direction_ablation",
+          "metric": "benign_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0001999600079984003,
+          "ci": [
+            -0.0088205078125,
+            -0.006640429687499999
+          ],
+          "delta": -0.0077421875,
+          "method": "linear_probe_direction_ablation",
+          "metric": "capability_nll",
+          "n": 500,
+          "permutation_p": 0.0001999600079984003
+        }
+      ]
+    },
+    {
+      "artifact": "artifacts/phase6-cleanroom/qwen15b-1000",
+      "tests": [
+        {
+          "alternative": "less",
+          "bh_adjusted_p": 0.0001999600079984003,
+          "ci": [
+            -0.038848302116990086,
+            -0.03410627655386925
+          ],
+          "delta": -0.03633926343917847,
+          "method": "sae_feature_ablation",
+          "metric": "harmful_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0001999600079984003,
+          "ci": [
+            -0.03770821375250816,
+            -0.03388325243890286
+          ],
+          "delta": -0.03579198443889618,
+          "method": "sae_feature_ablation",
+          "metric": "benign_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0001999600079984003,
+          "ci": [
+            0.0015234375,
+            0.0023125
+          ],
+          "delta": 0.001921875,
+          "method": "sae_feature_ablation",
+          "metric": "capability_nll",
+          "n": 500,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "less",
+          "bh_adjusted_p": 0.0001999600079984003,
+          "ci": [
+            -0.1435268911421299,
+            -0.12787858484089373
+          ],
+          "delta": -0.1355500293970108,
+          "method": "mean_difference_direction_ablation",
+          "metric": "harmful_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0001999600079984003,
+          "ci": [
+            -0.016932117119431492,
+            -0.012161864954233168
+          ],
+          "delta": -0.014515092015266419,
+          "method": "mean_difference_direction_ablation",
+          "metric": "benign_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0001999600079984003,
+          "ci": [
+            -0.0181484375,
+            -0.0146171875
+          ],
+          "delta": -0.016359375,
+          "method": "mean_difference_direction_ablation",
+          "metric": "capability_nll",
+          "n": 500,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "less",
+          "bh_adjusted_p": 0.0001999600079984003,
+          "ci": [
+            -0.003124390357732773,
+            -0.001749275666475296
+          ],
+          "delta": -0.0024561622142791747,
+          "method": "linear_probe_direction_ablation",
+          "metric": "harmful_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0001999600079984003,
+          "ci": [
+            -0.007972392988204955,
+            -0.005764468672871589
+          ],
+          "delta": -0.0068866112232208255,
+          "method": "linear_probe_direction_ablation",
+          "metric": "benign_score",
+          "n": 250,
+          "permutation_p": 0.0001999600079984003
+        },
+        {
+          "alternative": "two-sided",
+          "bh_adjusted_p": 0.0001999600079984003,
+          "ci": [
+            -0.0088205078125,
+            -0.006640429687499999
+          ],
+          "delta": -0.0077421875,
+          "method": "linear_probe_direction_ablation",
+          "metric": "capability_nll",
+          "n": 500,
+          "permutation_p": 0.0001999600079984003
+        }
+      ]
+    }
+  ],
+  "permutation_samples": 5000,
+  "sae_stability": {
+    "artifact_notice": "Phase 4 full fixed SAE stability grid summary. All six predeclared cells completed; no failed cell excluded.",
+    "cells": [
+      {
+        "artifact": "artifacts/qwen-expanded-medium-preregistered",
+        "best_simple_method": "linear_probe",
+        "best_simple_utility": 0.0015793447311107925,
+        "cell": "seed17-exp2",
+        "dead_feature_fraction": 0.16015625,
+        "h3_direct_harmful_beats_mean": false,
+        "h3_direct_harmful_beats_probe": true,
+        "h3_preregistered_pass": false,
+        "legacy_sae_utility_flag": false,
+        "mean_benign_delta": -0.0128966734959529,
+        "mean_harmful_ci": [
+          -0.15485879023487753,
+          -0.12756044212442177
+        ],
+        "mean_harmful_delta": -0.1412294071454268,
+        "mean_nll_delta": -0.02079326923076923,
+        "n_features": 3072,
+        "probe_benign_delta": 0.018043872943291298,
+        "probe_harmful_ci": [
+          -0.010631125764204906,
+          -0.007484814398563825
+        ],
+        "probe_harmful_delta": -0.009069649072793813,
+        "probe_nll_delta": -0.002178485576923077,
+        "random_sae_control_max": 0.008843955626854529,
+        "random_sae_control_min": -0.011427441468605628,
+        "random_sae_control_n": 48,
+        "random_sae_empirical_p": 0.02040816326530612,
+        "reconstruction_mse": 0.04143047705292702,
+        "sae_benign_delta": -0.027364583428089437,
+        "sae_harmful_ci": [
+          -0.03857819832288302,
+          -0.03225719378544734
+        ],
+        "sae_harmful_delta": -0.035362673722780666,
+        "sae_nll_delta": 0.004281850961538462,
+        "sae_utility": -0.00036910703549018265,
+        "samples_per_feature": 8.016927083333334,
+        "seed": 17,
+        "selected_features": [
+          306,
+          1120,
+          1415,
+          1129,
+          2773
+        ],
+        "status": "completed",
+        "target_layer": 27,
+        "test_records": 260,
+        "training_samples": 24628,
+        "variance_explained": 0.9983686153240775,
+        "width": 2
+      },
+      {
+        "artifact": "artifacts/sae-stability/qwen15b-medium-seed23-exp2",
+        "best_simple_method": "linear_probe",
+        "best_simple_utility": 0.0015793447311107925,
+        "cell": "seed23-exp2",
+        "dead_feature_fraction": 0.1399739682674408,
+        "h3_direct_harmful_beats_mean": false,
+        "h3_direct_harmful_beats_probe": true,
+        "h3_preregistered_pass": false,
+        "legacy_sae_utility_flag": false,
+        "mean_benign_delta": -0.0128966734959529,
+        "mean_harmful_ci": [
+          -0.15413569218837297,
+          -0.12785056139414125
+        ],
+        "mean_harmful_delta": -0.1412294071454268,
+        "mean_nll_delta": -0.02079326923076923,
+        "n_features": 3072,
+        "probe_benign_delta": 0.018043872943291298,
+        "probe_harmful_ci": [
+          -0.010599805471988825,
+          -0.007507856946725112
+        ],
+        "probe_harmful_delta": -0.009069649072793813,
+        "probe_nll_delta": -0.002178485576923077,
+        "random_sae_control_max": 0.005407299445225642,
+        "random_sae_control_min": -0.003387779455918532,
+        "random_sae_control_n": 48,
+        "random_sae_empirical_p": 0.02040816326530612,
+        "reconstruction_mse": 0.03716946020722389,
+        "sae_benign_delta": -0.04806147401149456,
+        "sae_harmful_ci": [
+          -0.06606392869582542,
+          -0.05655270174145698
+        ],
+        "sae_harmful_delta": -0.061263652031238264,
+        "sae_nll_delta": -4.507211538461539e-05,
+        "sae_utility": -0.0007877393410756038,
+        "samples_per_feature": 8.016927083333334,
+        "seed": 23,
+        "selected_features": [
+          2530,
+          843,
+          2099,
+          2454,
+          1694
+        ],
+        "status": "completed",
+        "target_layer": 27,
+        "test_records": 260,
+        "training_samples": 24628,
+        "variance_explained": 0.9985363989963979,
+        "width": 2
+      },
+      {
+        "artifact": "artifacts/sae-stability/qwen15b-medium-seed42-exp2",
+        "best_simple_method": "linear_probe",
+        "best_simple_utility": 0.0015793447311107925,
+        "cell": "seed42-exp2",
+        "dead_feature_fraction": 0.1481119841337204,
+        "h3_direct_harmful_beats_mean": false,
+        "h3_direct_harmful_beats_probe": true,
+        "h3_preregistered_pass": false,
+        "legacy_sae_utility_flag": false,
+        "mean_benign_delta": -0.0128966734959529,
+        "mean_harmful_ci": [
+          -0.15479608934659222,
+          -0.12811518339010386
+        ],
+        "mean_harmful_delta": -0.1412294071454268,
+        "mean_nll_delta": -0.02079326923076923,
+        "n_features": 3072,
+        "probe_benign_delta": 0.018043872943291298,
+        "probe_harmful_ci": [
+          -0.01068009805220824,
+          -0.007565331757068633
+        ],
+        "probe_harmful_delta": -0.009069649072793813,
+        "probe_nll_delta": -0.002178485576923077,
+        "random_sae_control_max": 0.00768506985444289,
+        "random_sae_control_min": -0.004389894467133742,
+        "random_sae_control_n": 48,
+        "random_sae_empirical_p": 0.02040816326530612,
+        "reconstruction_mse": 0.04721321165561676,
+        "sae_benign_delta": -0.017147443156975965,
+        "sae_harmful_ci": [
+          -0.0497261295410303,
+          -0.04046797045148336
+        ],
+        "sae_harmful_delta": -0.04502396354308495,
+        "sae_nll_delta": -0.0010066105769230768,
+        "sae_utility": -0.0007129475703606237,
+        "samples_per_feature": 8.016927083333334,
+        "seed": 42,
+        "selected_features": [
+          1713,
+          938,
+          2934,
+          2636,
+          643
+        ],
+        "status": "completed",
+        "target_layer": 27,
+        "test_records": 260,
+        "training_samples": 24628,
+        "variance_explained": 0.9981409118244604,
+        "width": 2
+      },
+      {
+        "artifact": "artifacts/sae-stability/qwen15b-medium-seed17-exp4",
+        "best_simple_method": "linear_probe",
+        "best_simple_utility": 0.0015793447311107925,
+        "cell": "seed17-exp4",
+        "dead_feature_fraction": 0.4402669370174408,
+        "h3_direct_harmful_beats_mean": false,
+        "h3_direct_harmful_beats_probe": true,
+        "h3_preregistered_pass": false,
+        "legacy_sae_utility_flag": false,
+        "mean_benign_delta": -0.0128966734959529,
+        "mean_harmful_ci": [
+          -0.15485879023487753,
+          -0.12756044212442177
+        ],
+        "mean_harmful_delta": -0.1412294071454268,
+        "mean_nll_delta": -0.02079326923076923,
+        "n_features": 6144,
+        "probe_benign_delta": 0.018043872943291298,
+        "probe_harmful_ci": [
+          -0.010631125764204906,
+          -0.007484814398563825
+        ],
+        "probe_harmful_delta": -0.009069649072793813,
+        "probe_nll_delta": -0.002178485576923077,
+        "random_sae_control_max": 0.008843955626854529,
+        "random_sae_control_min": -0.011427441468605628,
+        "random_sae_control_n": 48,
+        "random_sae_empirical_p": 0.02040816326530612,
+        "reconstruction_mse": 0.09359245747327805,
+        "sae_benign_delta": -0.006168390925113972,
+        "sae_harmful_ci": [
+          -0.018351681668024797,
+          -0.013975341904621855
+        ],
+        "sae_harmful_delta": -0.01613895113651569,
+        "sae_nll_delta": -0.0020582932692307693,
+        "sae_utility": -0.000142146532352154,
+        "samples_per_feature": 4.008463541666667,
+        "seed": 17,
+        "selected_features": [
+          2783,
+          3399,
+          4398,
+          499,
+          5033
+        ],
+        "status": "completed",
+        "target_layer": 27,
+        "test_records": 260,
+        "training_samples": 24628,
+        "variance_explained": 0.9963146622543404,
+        "width": 4
+      },
+      {
+        "artifact": "artifacts/sae-stability/qwen15b-medium-seed23-exp4",
+        "best_simple_method": "linear_probe",
+        "best_simple_utility": 0.0015793447311107925,
+        "cell": "seed23-exp4",
+        "dead_feature_fraction": 0.4881184995174408,
+        "h3_direct_harmful_beats_mean": false,
+        "h3_direct_harmful_beats_probe": true,
+        "h3_preregistered_pass": false,
+        "legacy_sae_utility_flag": false,
+        "mean_benign_delta": -0.0128966734959529,
+        "mean_harmful_ci": [
+          -0.15413569218837297,
+          -0.12785056139414125
+        ],
+        "mean_harmful_delta": -0.1412294071454268,
+        "mean_nll_delta": -0.02079326923076923,
+        "n_features": 6144,
+        "probe_benign_delta": 0.018043872943291298,
+        "probe_harmful_ci": [
+          -0.010599805471988825,
+          -0.007507856946725112
+        ],
+        "probe_harmful_delta": -0.009069649072793813,
+        "probe_nll_delta": -0.002178485576923077,
+        "random_sae_control_max": 0.005407299445225642,
+        "random_sae_control_min": -0.003387779455918532,
+        "random_sae_control_n": 48,
+        "random_sae_empirical_p": 0.02040816326530612,
+        "reconstruction_mse": 0.09841658174991608,
+        "sae_benign_delta": -0.016421570686193612,
+        "sae_harmful_ci": [
+          -0.036643757109458636,
+          -0.02968555963956393
+        ],
+        "sae_harmful_delta": -0.03315923489057101,
+        "sae_nll_delta": 0.0001201923076923077,
+        "sae_utility": -0.00024611165890326873,
+        "samples_per_feature": 4.008463541666667,
+        "seed": 23,
+        "selected_features": [
+          5301,
+          660,
+          4736,
+          447,
+          2181
+        ],
+        "status": "completed",
+        "target_layer": 27,
+        "test_records": 260,
+        "training_samples": 24628,
+        "variance_explained": 0.9961247054162958,
+        "width": 4
+      },
+      {
+        "artifact": "artifacts/sae-stability/qwen15b-medium-seed42-exp4",
+        "best_simple_method": "linear_probe",
+        "best_simple_utility": 0.0015793447311107925,
+        "cell": "seed42-exp4",
+        "dead_feature_fraction": 0.3938802182674408,
+        "h3_direct_harmful_beats_mean": false,
+        "h3_direct_harmful_beats_probe": true,
+        "h3_preregistered_pass": false,
+        "legacy_sae_utility_flag": false,
+        "mean_benign_delta": -0.0128966734959529,
+        "mean_harmful_ci": [
+          -0.15479608934659222,
+          -0.12811518339010386
+        ],
+        "mean_harmful_delta": -0.1412294071454268,
+        "mean_nll_delta": -0.02079326923076923,
+        "n_features": 6144,
+        "probe_benign_delta": 0.018043872943291298,
+        "probe_harmful_ci": [
+          -0.01068009805220824,
+          -0.007565331757068633
+        ],
+        "probe_harmful_delta": -0.009069649072793813,
+        "probe_nll_delta": -0.002178485576923077,
+        "random_sae_control_max": 0.007110269711567805,
+        "random_sae_control_min": -0.004389894467133742,
+        "random_sae_control_n": 48,
+        "random_sae_empirical_p": 0.02040816326530612,
+        "reconstruction_mse": 0.0857025757431984,
+        "sae_benign_delta": -0.012401850865437434,
+        "sae_harmful_ci": [
+          -0.03542589037464215,
+          -0.02743365892997155
+        ],
+        "sae_harmful_delta": -0.03130940657395583,
+        "sae_nll_delta": 0.01990685096153846,
+        "sae_utility": -0.0003933134445777307,
+        "samples_per_feature": 4.008463541666667,
+        "seed": 42,
+        "selected_features": [
+          4823,
+          3639,
+          4935,
+          2091,
+          6080
+        ],
+        "status": "completed",
+        "target_layer": 27,
+        "test_records": 260,
+        "training_samples": 24628,
+        "variance_explained": 0.9966253377054787,
+        "width": 4
+      }
+    ],
+    "completed_cells": 6,
+    "dead_feature_fraction_max": 0.4881184995174408,
+    "dead_feature_fraction_mean": 0.2950846428672473,
+    "dead_feature_fraction_min": 0.1399739682674408,
+    "h2_pass": false,
+    "h2_reason": "H2 required at least four cells to pass random controls and beat mean/probe on direct harmful-score suppression and utility. No completed cell beat mean-difference on direct harmful-score suppression.",
+    "h3_pass_cells": 0,
+    "planned_cells": 6,
+    "sae_harmful_delta_max": -0.01613895113651569,
+    "sae_harmful_delta_mean": -0.037042980316357735,
+    "sae_harmful_delta_min": -0.061263652031238264,
+    "sae_harmful_delta_stdev": 0.013772534529377064
+  },
+  "schema_version": "1.0"
+}

@@ -1,0 +1,42 @@
+{
+  "phase": "phase6_release_freeze_validation",
+  "schema_version": "1.0",
+  "finished_at": "2026-06-20T14:46:31+01:00",
+  "claim_update": "No supported claim changed in Phase 6.",
+  "cleanroom_qwen_rerun": {
+    "artifact_root": "artifacts/phase6-cleanroom/qwen15b-1000",
+    "status": "completed",
+    "required_artifacts_missing": [],
+    "random_control_checkpoints": 128,
+    "reproducibility_diff": "results/final/phase6_reproducibility_diff.json",
+    "reproducibility_status": "reproduced_within_tolerance"
+  },
+  "validation": {
+    "pytest": "26 passed",
+    "ruff": "passed",
+    "compileall": "passed",
+    "fresh_toy_audit": "artifacts/demo completed through make release-check",
+    "workbench_cli_help": "passed",
+    "workbench_artifact_load": [
+      "artifacts/demo",
+      "artifacts/phase6-cleanroom/qwen15b-1000",
+      "artifacts/qwen-expanded-1000-phase4"
+    ],
+    "json_sanity": "16 results/final/*.json files loaded after release-check and Phase 6 summary write; no parse errors",
+    "final_report_generation": "make final-report completed inside make release-check",
+    "release_check": "passed"
+  },
+  "phase6_cleanroom_headline": {
+    "selected_layer": 27,
+    "baseline_harmful_refusal_rate": 0.64,
+    "baseline_benign_overrefusal_rate": 0.148,
+    "mean_difference_harmful_delta": -0.1355500293970108,
+    "sae_feature_ablation_harmful_delta": -0.03633926343917847,
+    "matched_random_sae_empirical_p": 0.030303030303030304,
+    "h3_sae_beats_mean_probe": false
+  },
+  "phase6_not_rerun": {
+    "external_causal_validation": "not rerun in Phase 6; Phase 4 OR-Bench causal artifact remains the reported external causal result",
+    "component_path_analysis": "not rerun in Phase 6; Phase 4 component/path artifact remains the reported component result"
+  }
+}

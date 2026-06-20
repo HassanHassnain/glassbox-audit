@@ -1,0 +1,117 @@
+{
+  "h1_internal_residual_robustness": {
+    "artifact": "artifacts/qwen-expanded-1000-phase4",
+    "h3_pass": false,
+    "legacy_sae_utility_flag": true,
+    "mean_benign_delta": -0.014515092015266419,
+    "mean_harmful_ci": [
+      -0.1432958402991295,
+      -0.12770771290361882
+    ],
+    "mean_harmful_delta": -0.1355500293970108,
+    "mean_nll_delta": -0.016359375,
+    "sae_harmful_delta": -0.03633926343917847,
+    "status": "passed",
+    "target_layer": 27
+  },
+  "h2_sae_stability_and_utility": {
+    "completed_cells": 6,
+    "dead_feature_fraction_max": 0.4881184995174408,
+    "dead_feature_fraction_min": 0.1399739682674408,
+    "h3_pass_cells": 0,
+    "planned_cells": 6,
+    "reason": "H2 required at least four cells to pass random controls and beat mean/probe on direct harmful-score suppression and utility. No completed cell beat mean-difference on direct harmful-score suppression.",
+    "sae_harmful_delta_max": -0.01613895113651569,
+    "sae_harmful_delta_mean": -0.037042980316357735,
+    "sae_harmful_delta_min": -0.061263652031238264,
+    "sae_harmful_delta_stdev": 0.013772534529377064,
+    "status": "failed"
+  },
+  "h3_external_causal_transfer": {
+    "baseline_hard_benign_overrefusal": 0.82,
+    "baseline_toxic_refusal": 0.96,
+    "fallback_artifact": "artifacts/external-causal/or_bench_qwen15b_520_phase4.json",
+    "interpretation": "Frozen interventions transfer to OR-Bench and beat random controls, but mean-difference remains much stronger than SAE on direct toxic refusal-score suppression.",
+    "linear_probe": {
+      "benign_score_delta": -0.0032822346687316896,
+      "capability_nll_delta": -0.006611328125,
+      "hard_benign_refusal_rate_delta": 0.0,
+      "harmful_score_ci": [
+        -0.004169889509677886,
+        -0.0030938356518745423
+      ],
+      "harmful_score_delta": -0.003611413240432739,
+      "specificity_adjusted_utility": 0.00032917857170104963,
+      "toxic_refusal_rate_delta": 0.0
+    },
+    "mean_difference": {
+      "benign_score_delta": -0.1569046199321747,
+      "capability_nll_delta": -0.021123046875,
+      "hard_benign_refusal_rate_delta": -0.5499999999999999,
+      "harmful_score_ci": [
+        -0.17536773906648162,
+        -0.15114936512708663
+      ],
+      "harmful_score_delta": -0.16290777653455735,
+      "specificity_adjusted_utility": 0.006003156602382653,
+      "toxic_refusal_rate_delta": -0.6799999999999999
+    },
+    "preferred_artifact": "artifacts/external-causal/or_bench_qwen15b_1000_phase4.json",
+    "random_controls": {
+      "random_direction_ablation": {
+        "max": 0.00500267505645752,
+        "min": -0.0026739782094955446,
+        "n": 32,
+        "sae_feature_empirical_p": 0.030303030303030304
+      },
+      "random_sae_feature_ablation": {
+        "max": 0.005897706747055054,
+        "min": -2.940356731414795e-05,
+        "n": 32,
+        "sae_feature_empirical_p": 0.030303030303030304
+      }
+    },
+    "sae_feature": {
+      "benign_score_delta": -0.04006219685077667,
+      "capability_nll_delta": -1.953125e-05,
+      "hard_benign_refusal_rate_delta": -0.08999999999999997,
+      "harmful_score_ci": [
+        -0.053640651777386666,
+        -0.03925736847519875
+      ],
+      "harmful_score_delta": -0.046219035387039184,
+      "specificity_adjusted_utility": 0.006156838536262511,
+      "toxic_refusal_rate_delta": -0.12
+    },
+    "status": "partially_passed_transfer_not_sae_superiority"
+  },
+  "h4_component_path_evidence": {
+    "artifacts": [
+      "artifacts/qwen-expanded-medium-preregistered/path_component_phase4.json",
+      "artifacts/qwen-expanded-1000-phase4/path_component_phase4.json"
+    ],
+    "status": "failed_confirmed_circuit",
+    "summary": "Residual layer-27 effects replicate at 1,000 pairs. Attention/MLP output effects are tiny or non-specific. Residual projection patching is strong but not path-level evidence with random path controls."
+  },
+  "h5_cross_model_replication": {
+    "completed": [
+      "Qwen/Qwen2.5-1.5B-Instruct",
+      "Qwen/Qwen2.5-3B-Instruct"
+    ],
+    "not_completed": [
+      "Gemma-2-2B-it",
+      "Llama-3.2-1B-Instruct"
+    ],
+    "reason": "Non-Qwen weights were not present in the local cache; no gated-download troubleshooting was attempted.",
+    "status": "partial_qwen_only"
+  },
+  "headline": "Robust late residual-stream refusal direction; external causal transfer present; no confirmed circuit; SAE beats matched random controls but does not beat mean/probe on preregistered direct harmful-score criteria.",
+  "preregistration": "docs/PHASE4_PREREGISTERED_VALIDATION.md",
+  "schema_version": "1.0",
+  "unsupported_claims": [
+    "confirmed refusal circuit",
+    "head-level/path-level mechanism",
+    "SAE beats mean/probe under preregistered held-out criteria",
+    "non-Qwen replication result"
+  ]
+}

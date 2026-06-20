@@ -1,0 +1,37 @@
+seed: 17
+mode: real_audit
+behavior: refusal
+evidence_class: empirical_expanded_real_audit_config
+dataset_path: data/refusal_controlled_v2_1000.jsonl
+target_layer: null
+
+model:
+  backend: huggingface
+  name: Qwen/Qwen2.5-1.5B-Instruct
+  layers: [4, 8, 12, 16, 20, 24, 27]
+  dtype: float16
+  device: cuda:0
+  trust_remote_code: false
+  cache_dir: null
+
+sae:
+  expansion_factor: 2
+  top_k: 32
+  epochs: 250
+  batch_size: 512
+  learning_rate: 0.0005
+  l1_coefficient: 0.0001
+  n_features_to_intervene: 5
+  device: cuda:0
+  tokens_per_prompt: 48
+  max_activation_samples: 64000
+  activation_subsample_seed: 17
+
+evaluation:
+  threshold: null
+  bootstrap_samples: 3000
+  confidence: 0.95
+  steering_scales: [-4.0, -2.0, -1.0, 1.0, 2.0, 4.0]
+  random_controls: 32
+  control_scale: -4.0
+  layerwise_controls: true

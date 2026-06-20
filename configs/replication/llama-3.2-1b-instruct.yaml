@@ -1,0 +1,36 @@
+# Prepared but unrun in the public release; do not cite as completed.
+seed: 17
+mode: real_audit
+behavior: refusal
+evidence_class: cross_model_replication_config_unrun
+dataset_path: data/refusal_controlled_v1.jsonl
+target_layer: null
+
+model:
+  backend: huggingface
+  name: meta-llama/Llama-3.2-1B-Instruct
+  layers: [4, 8, 12, 16]
+  dtype: float16
+  device: cuda:0
+  trust_remote_code: false
+  cache_dir: null
+
+sae:
+  expansion_factor: 2
+  top_k: 32
+  epochs: 250
+  batch_size: 256
+  learning_rate: 0.0005
+  l1_coefficient: 0.0001
+  n_features_to_intervene: 5
+  device: cuda:0
+  tokens_per_prompt: 32
+
+evaluation:
+  threshold: null
+  bootstrap_samples: 2000
+  confidence: 0.95
+  steering_scales: [-4.0, -2.0, -1.0, 1.0, 2.0, 4.0]
+  random_controls: 20
+  control_scale: -4.0
+  layerwise_controls: true

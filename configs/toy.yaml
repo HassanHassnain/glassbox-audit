@@ -1,0 +1,33 @@
+seed: 17
+mode: standard
+behavior: refusal
+evidence_class: synthetic_fixture
+dataset_path: data/fixtures/refusal_pairs_tiny.jsonl
+target_layer: null
+
+model:
+  backend: toy
+  name: glassbox-toy-refusal
+  layers: [0, 1, 2, 3]
+  dtype: float32
+  device: cpu
+
+sae:
+  expansion_factor: 4
+  top_k: 8
+  epochs: 40
+  batch_size: 64
+  learning_rate: 0.003
+  l1_coefficient: 0.0001
+  n_features_to_intervene: 3
+  device: cpu
+  tokens_per_prompt: 1
+
+evaluation:
+  threshold: 0.5
+  bootstrap_samples: 60
+  confidence: 0.95
+  steering_scales: [-4.0, -2.0, -1.0, 1.0]
+  random_controls: 2
+  control_scale: -4.0
+  layerwise_controls: true
