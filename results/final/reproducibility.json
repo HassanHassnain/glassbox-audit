@@ -1,81 +1,107 @@
 {
-  "artifact_notice": "Phase 6 clean-room reproducibility diff. Tolerances were fixed before interpreting pass/fail in this artifact; no layer, threshold, feature, scale, prompt, scorer, or metric was retuned.",
-  "claim_update": "Phase 6 clean-room rerun reproduces Phase 4 within fixed tolerances. The final supported claim is unchanged.",
+  "artifact_notice": "Clean-room reproducibility diff with fixed tolerances; no layer, threshold, feature, scale, prompt, scorer, or metric was retuned.",
+  "claim_update": "Clean-room rerun reproduced the reference audit within fixed tolerances. The final supported claim is unchanged.",
+  "cleanroom": {
+    "artifact_id": "qwen2_5_1_5b_cleanroom_rerun",
+    "baseline_benign_overrefusal_rate": 0.148,
+    "baseline_harmful_refusal_rate": 0.64,
+    "behavior_threshold": 0.8465142846107483,
+    "h3_sae_beats_mean_probe_direct": false,
+    "legacy_sae_outperforms_simple_baselines": true,
+    "matched_random_sae_control_max": 0.0005319135189056397,
+    "matched_random_sae_control_min": -0.0013759415149688721,
+    "matched_random_sae_control_n": 32,
+    "matched_random_sae_empirical_p": 0.030303030303030304,
+    "mean_difference_benign_delta": -0.014515092015266419,
+    "mean_difference_harmful_delta": -0.1355500293970108,
+    "negative_findings": [
+      "SAE feature ablation is weaker than mean_difference direction ablation on harmful-score suppression.",
+      "SAE activation patching does not reduce harmful refusal score.",
+      "SAE activation patching has material capability-NLL cost."
+    ],
+    "probe_harmful_delta": -0.0024561622142791747,
+    "random_direction_control_max": 0.008747026205062866,
+    "random_direction_control_min": -0.012279527306556702,
+    "random_direction_control_n": 32,
+    "sae_feature_benign_delta": -0.03579198443889618,
+    "sae_feature_harmful_delta": -0.03633926343917847,
+    "target_layer": 27
+  },
   "cleanroom_completed": true,
   "comparisons": {
     "baseline_benign_overrefusal_rate": {
+      "cleanroom": 0.148,
       "delta": 0.0,
-      "phase4": 0.148,
-      "phase6": 0.148,
+      "reference": 0.148,
       "tolerance": 0.005,
       "within_tolerance": true
     },
     "baseline_harmful_refusal_rate": {
+      "cleanroom": 0.64,
       "delta": 0.0,
-      "phase4": 0.64,
-      "phase6": 0.64,
+      "reference": 0.64,
       "tolerance": 0.005,
       "within_tolerance": true
     },
     "behavior_threshold": {
+      "cleanroom": 0.8465142846107483,
       "delta": 0.0,
-      "phase4": 0.8465142846107483,
-      "phase6": 0.8465142846107483,
+      "reference": 0.8465142846107483,
       "tolerance": 1e-09,
       "within_tolerance": true
     },
     "h3_sae_beats_mean_probe_direct": {
+      "cleanroom": false,
       "delta": null,
-      "phase4": false,
-      "phase6": false,
+      "reference": false,
       "tolerance": "exact",
       "within_tolerance": true
     },
     "legacy_sae_outperforms_simple_baselines": {
+      "cleanroom": true,
       "delta": null,
-      "phase4": true,
-      "phase6": true,
+      "reference": true,
       "tolerance": "exact",
       "within_tolerance": true
     },
     "matched_random_sae_empirical_p": {
+      "cleanroom": 0.030303030303030304,
       "delta": 0.0,
-      "phase4": 0.030303030303030304,
-      "phase6": 0.030303030303030304,
+      "reference": 0.030303030303030304,
       "tolerance": 0.02,
       "within_tolerance": true
     },
     "mean_difference_harmful_delta": {
+      "cleanroom": -0.1355500293970108,
       "delta": 0.0,
-      "phase4": -0.1355500293970108,
-      "phase6": -0.1355500293970108,
+      "reference": -0.1355500293970108,
       "tolerance": 0.002,
       "within_tolerance": true
     },
     "probe_harmful_delta": {
+      "cleanroom": -0.0024561622142791747,
       "delta": 0.0,
-      "phase4": -0.0024561622142791747,
-      "phase6": -0.0024561622142791747,
+      "reference": -0.0024561622142791747,
       "tolerance": 0.002,
       "within_tolerance": true
     },
     "sae_feature_harmful_delta": {
+      "cleanroom": -0.03633926343917847,
       "delta": 0.0,
-      "phase4": -0.03633926343917847,
-      "phase6": -0.03633926343917847,
+      "reference": -0.03633926343917847,
       "tolerance": 0.002,
       "within_tolerance": true
     },
     "target_layer": {
+      "cleanroom": 27,
       "delta": null,
-      "phase4": 27,
-      "phase6": 27,
+      "reference": 27,
       "tolerance": "exact",
       "within_tolerance": true
     }
   },
-  "component_path_rerun_status": "not_rerun_in_phase6",
-  "external_causal_rerun_status": "not_rerun_in_phase6",
+  "component_path_rerun_status": "not rerun in clean-room pass; reference component/path result remains reported",
+  "external_causal_rerun_status": "not rerun in clean-room pass; reference external result remains reported",
   "fixed_tolerances": {
     "baseline_benign_overrefusal_rate": 0.005,
     "baseline_harmful_refusal_rate": 0.005,
@@ -88,8 +114,8 @@
     "sae_feature_harmful_delta": 0.002,
     "target_layer": "exact"
   },
-  "phase4": {
-    "artifact": "artifacts/qwen-expanded-1000-phase4",
+  "reference": {
+    "artifact_id": "qwen2_5_1_5b_reference_audit",
     "baseline_benign_overrefusal_rate": 0.148,
     "baseline_harmful_refusal_rate": 0.64,
     "behavior_threshold": 0.8465142846107483,
@@ -114,34 +140,5 @@
     "sae_feature_harmful_delta": -0.03633926343917847,
     "target_layer": 27
   },
-  "phase4_artifact": "artifacts/qwen-expanded-1000-phase4",
-  "phase6": {
-    "artifact": "artifacts/phase6-cleanroom/qwen15b-1000",
-    "baseline_benign_overrefusal_rate": 0.148,
-    "baseline_harmful_refusal_rate": 0.64,
-    "behavior_threshold": 0.8465142846107483,
-    "h3_sae_beats_mean_probe_direct": false,
-    "legacy_sae_outperforms_simple_baselines": true,
-    "matched_random_sae_control_max": 0.0005319135189056397,
-    "matched_random_sae_control_min": -0.0013759415149688721,
-    "matched_random_sae_control_n": 32,
-    "matched_random_sae_empirical_p": 0.030303030303030304,
-    "mean_difference_benign_delta": -0.014515092015266419,
-    "mean_difference_harmful_delta": -0.1355500293970108,
-    "negative_findings": [
-      "SAE feature ablation is weaker than mean_difference direction ablation on harmful-score suppression.",
-      "SAE activation patching does not reduce harmful refusal score.",
-      "SAE activation patching has material capability-NLL cost."
-    ],
-    "probe_harmful_delta": -0.0024561622142791747,
-    "random_direction_control_max": 0.008747026205062866,
-    "random_direction_control_min": -0.012279527306556702,
-    "random_direction_control_n": 32,
-    "sae_feature_benign_delta": -0.03579198443889618,
-    "sae_feature_harmful_delta": -0.03633926343917847,
-    "target_layer": 27
-  },
-  "phase6_artifact": "artifacts/phase6-cleanroom/qwen15b-1000",
-  "schema_version": "1.0",
-  "status": "reproduced_within_tolerance"
+  "schema_version": "1.1"
 }

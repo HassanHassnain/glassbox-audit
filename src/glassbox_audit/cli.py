@@ -169,25 +169,25 @@ def build_parser() -> argparse.ArgumentParser:
     path_component.add_argument("--output-name", default="path_component_analysis.json")
 
     repro = subparsers.add_parser(
-        "reproducibility-diff", help="Compare Phase 4 and clean-room rerun artifacts"
+        "reproducibility-diff", help="Compare reference and clean-room rerun artifacts"
     )
-    repro.add_argument("--phase4-artifacts", required=True)
-    repro.add_argument("--phase5-artifacts", required=True)
-    repro.add_argument("--phase4-external", required=True)
-    repro.add_argument("--phase5-external", required=True)
-    repro.add_argument("--phase4-component", required=True)
-    repro.add_argument("--phase5-component", required=True)
+    repro.add_argument("--reference-artifacts", required=True)
+    repro.add_argument("--cleanroom-artifacts", required=True)
+    repro.add_argument("--reference-external", required=True)
+    repro.add_argument("--cleanroom-external", required=True)
+    repro.add_argument("--reference-component", required=True)
+    repro.add_argument("--cleanroom-component", required=True)
     repro.add_argument("--output-json", default="results/final/reproducibility_diff.json")
     repro.add_argument("--output-doc", default="docs/REPRODUCIBILITY_REPORT.md")
 
     stats = subparsers.add_parser(
-        "statistical-tests", help="Build Phase 5 paired bootstrap/permutation summaries"
+        "statistical-tests", help="Build release paired bootstrap/permutation summaries"
     )
-    stats.add_argument("--phase4-artifacts", required=True)
-    stats.add_argument("--phase5-artifacts", default=None)
+    stats.add_argument("--reference-artifacts", required=True)
+    stats.add_argument("--cleanroom-artifacts", default=None)
     stats.add_argument(
         "--stability-summary",
-        default="results/sae-stability/phase4_full_grid_summary.json",
+        default="results/sae-stability/stability_grid.json",
     )
     stats.add_argument("--external-artifacts", nargs="*", default=[])
     stats.add_argument("--component-artifacts", nargs="*", default=[])
@@ -396,12 +396,12 @@ def main() -> None:
         print(json.dumps(compact, indent=2))
     elif args.command == "reproducibility-diff":
         artifact = write_reproducibility_diff(
-            phase4_artifact=args.phase4_artifacts,
-            phase5_artifact=args.phase5_artifacts,
-            phase4_external=args.phase4_external,
-            phase5_external=args.phase5_external,
-            phase4_component=args.phase4_component,
-            phase5_component=args.phase5_component,
+            reference_artifact=args.reference_artifacts,
+            cleanroom_artifact=args.cleanroom_artifacts,
+            reference_external=args.reference_external,
+            cleanroom_external=args.cleanroom_external,
+            reference_component=args.reference_component,
+            cleanroom_component=args.cleanroom_component,
             output_json=args.output_json,
             output_doc=args.output_doc,
         )
@@ -409,15 +409,15 @@ def main() -> None:
             json.dumps(
                 {
                     "output": args.output_json,
-                    "phase5_reproduces_phase4": artifact["phase5_reproduces_phase4"],
+                    "cleanroom_reproduces_reference": artifact["cleanroom_reproduces_reference"],
                 },
                 indent=2,
             )
         )
     elif args.command == "statistical-tests":
         artifact = write_statistical_tests(
-            phase4_artifact=args.phase4_artifacts,
-            phase5_artifact=args.phase5_artifacts,
+            reference_artifact=args.reference_artifacts,
+            cleanroom_artifact=args.cleanroom_artifacts,
             stability_summary=args.stability_summary,
             external_artifacts=args.external_artifacts,
             component_artifacts=args.component_artifacts,

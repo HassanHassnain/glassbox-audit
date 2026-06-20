@@ -1,9 +1,9 @@
 {
-  "artifact_notice": "Phase 5 statistical summary. P-values are paired sign-flip permutation tests with Benjamini-Hochberg correction within each artifact/test family.",
+  "artifact_notice": "release hardening statistical summary. P-values are paired sign-flip permutation tests with Benjamini-Hochberg correction within each artifact/test family.",
   "bootstrap_samples": 3000,
   "component_path": [
     {
-      "artifact": "artifacts/qwen-expanded-1000-phase4/path_component_phase4.json",
+      "artifact": "artifacts/qwen-expanded-1000-reference/path_component_reference.json",
       "tests": [
         {
           "alternative": "less",
@@ -166,7 +166,7 @@
   ],
   "external_causal": [
     {
-      "artifact": "artifacts/external-causal/or_bench_qwen15b_1000_phase4.json",
+      "artifact": "artifacts/external-causal/or_bench_qwen15b_1000_reference.json",
       "tests": [
         {
           "alternative": "less",
@@ -291,7 +291,7 @@
   "headline_interpretation": "The large residual mean-difference effects are statistically robust. SAE feature effects are nonzero versus matched controls in several artifacts but remain smaller than mean-difference/probe baselines under preregistered criteria.",
   "internal": [
     {
-      "artifact": "artifacts/qwen-expanded-1000-phase4",
+      "artifact": "artifacts/qwen-expanded-1000-reference",
       "tests": [
         {
           "alternative": "less",
@@ -413,7 +413,7 @@
       ]
     },
     {
-      "artifact": "artifacts/phase6-cleanroom/qwen15b-1000",
+      "artifact": "artifacts/cleanroom-cleanroom/qwen15b-1000",
       "tests": [
         {
           "alternative": "less",
@@ -537,10 +537,10 @@
   ],
   "permutation_samples": 5000,
   "sae_stability": {
-    "artifact_notice": "Phase 4 full fixed SAE stability grid summary. All six predeclared cells completed; no failed cell excluded.",
+    "artifact_notice": "reference audit full fixed SAE stability grid summary. All six predeclared cells completed; no failed cell excluded.",
     "cells": [
       {
-        "artifact": "artifacts/qwen-expanded-medium-preregistered",
+        "artifact": "artifacts/qwen2_5_1_5b_medium_audit",
         "best_simple_method": "linear_probe",
         "best_simple_utility": 0.0015793447311107925,
         "cell": "seed17-exp2",

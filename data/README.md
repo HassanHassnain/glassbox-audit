@@ -42,4 +42,4 @@ glassbox download-hf-external-data \
   --source-name bench-llm/or-bench:or-bench-hard-1k
 ```
 
-`results/final/artifact_hashes.json` records hashes for the frozen generated artifacts used in the release claim. The full tensors, checkpoints, and model outputs are intentionally excluded from the public repository.
+`results/final/artifact_manifest.json` records hashes for the frozen generated artifacts used in the release claim. The full tensors, checkpoints, and model outputs are intentionally excluded from the public repository.

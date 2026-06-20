@@ -1,31 +1,37 @@
-# Glassbox Audit
+# Glassbox
 
-**A causal activation-level audit of refusal behavior that preserves the negative result.**
+[![CI](https://github.com/HassanHassnain/glassbox-audit/actions/workflows/ci.yml/badge.svg)](https://github.com/HassanHassnain/glassbox-audit/actions/workflows/ci.yml)
 
-Glassbox asks whether sparse autoencoder features explain refusal behavior better than simpler activation directions. The final supported claim is deliberately narrow:
+**A held-out causal activation audit of refusal behavior in Qwen instruction models.**
 
-> Glassbox found a robust late residual-stream refusal-relevant direction in Qwen2.5-1.5B, with partial Qwen2.5-3B replication and external causal transfer, but did not confirm a full circuit. SAE features beat matched random-SAE controls but did not beat mean/probe baselines under preregistered held-out criteria.
+Glassbox asks a narrow mechanistic-interpretability question: do sparse autoencoder features explain refusal behavior better than simple activation directions? The answer from this release is useful precisely because it is not flattering to the method.
 
-![Glassbox workbench overview](docs/figures/workbench_overview.png)
+> **Final claim:** Glassbox found a robust late residual-stream refusal-relevant direction in Qwen2.5-1.5B, with partial Qwen2.5-3B replication and OR-Bench external causal transfer. It did **not** confirm a full circuit. SAE features beat matched random-SAE controls but did **not** beat mean/probe baselines under held-out preregistered criteria.
 
-## Result Snapshot
+![Glassbox evidence map](docs/figures/evidence-map.svg)
 
-| Result family | Status | Main readout |
+## Why This Repository Exists
+
+Most interpretability demos stop at correlation, cherry-picked steering, or a single attractive feature. Glassbox is structured as an adjudication harness: train-only discovery, validation-only threshold/scale selection, held-out causal tests, explicit baselines, random controls, negative-result reporting, and clean-room reproducibility.
+
+## Evidence Snapshot
+
+| Evidence block | Status | Main readout |
 |---|---|---|
-| Qwen2.5-1.5B expanded audit | completed | layer 27 replicated; mean ablation `-0.136`; SAE ablation `-0.036`; H1 passed, H3 failed |
-| SAE stability grid | completed | 6/6 cells; 0/6 preregistered SAE-vs-baseline passes |
-| OR-Bench external causal transfer | completed | transfer present; SAE not mean-superior |
+| Qwen2.5-1.5B controlled audit | completed | layer 27; mean ablation `-0.136`; SAE ablation `-0.036` |
+| SAE stability grid | completed | 6/6 fixed cells; 0/6 SAE-vs-mean/probe passes |
+| OR-Bench external transfer | completed | SAE toxic refusal-rate delta `-0.12`; mean delta `-0.68` |
 | Qwen2.5-3B replication | partial | late layer 35 effect; specificity failed |
-| Component/path analysis | completed | residual strong; attention/MLP small or non-specific |
-| Clean-room reproducibility | completed | Qwen2.5-1.5B audit reproduced within fixed tolerances |
+| Component/path analysis | completed | residual effect strong; attention/MLP effects small or non-specific |
+| Clean-room rerun | completed | reproduced layer, rates, deltas, and H3 failure within fixed tolerances |
 
 ## What Failed
 
-- SAE did not beat mean/probe baselines under preregistered held-out criteria.
-- Component/path evidence did not establish circuit discovery.
+- SAE did not beat mean/probe baselines under the preregistered held-out criterion.
+- Component/path evidence did not establish a circuit-level mechanism.
 - Qwen2.5-3B did not meet the specificity bar.
-- Gemma/Llama replication was prepared but unrun.
-- Final real-model artifacts use contrastive scoring, not generated-answer judging.
+- Gemma/Llama configs are recipes only; no non-Qwen replication is claimed.
+- Final real-model artifacts use contrastive log-probability scoring, not generated-answer judging.
 
 ## Quickstart
 
@@ -38,48 +44,58 @@ make report
 make release-check
 ```
 
-`make validate` runs tests, lint, compileall, and a deterministic CPU toy audit. It does not require GPU access or model weights.
+`make validate` runs unit tests, Ruff, `compileall`, and the deterministic CPU toy audit. It does not require GPUs or model weights.
 
-## Reproduce Real-Model Evidence
+## Reproduce The Real-Model Audit
 
 ```bash
 pip install -e ".[dev,accelerate,data]"
 CUDA_VISIBLE_DEVICES=0 make reproduce-cleanroom
 ```
 
-This regenerates the controlled 1,000-pair corpus and runs Qwen2.5-1.5B to `artifacts/qwen2.5-1.5b-expanded-audit`. External OR-Bench causal transfer is separate:
+The real-model path regenerates the controlled 1,000-pair corpus and writes generated artifacts under `artifacts/`, which is intentionally ignored by git. External OR-Bench transfer is separate:
 
 ```bash
 CUDA_VISIBLE_DEVICES=0 make reproduce-external
 ```
 
-Expected hardware: a CUDA GPU with enough memory for Qwen2.5-1.5B plus activation collection. CI intentionally runs only CPU-safe checks.
+Expected hardware: a CUDA GPU with enough memory for Qwen2.5-1.5B plus activation collection. GitHub Actions intentionally runs CPU-safe checks only.
 
-## Project Layout
+## Repository Map
 
 ```text
-configs/                 final public experiment recipes
-data/fixtures/           tiny committed fixtures only
-docs/                    concise public paper, methods, results, reproducibility, claims
+configs/                 public experiment recipes and unrun replication recipes
+data/fixtures/           tiny committed fixtures for tests and toy runs
+docs/paper.md            compact paper-style writeup
+docs/release-report.md   methods, results, limitations, artifacts, reviewer Q&A
 results/                 compact machine-readable evidence summaries
 scripts/                 smoke, reproduction, report, and release-audit commands
 src/glassbox_audit/      source package
 tests/                   unit tests and CPU toy-pipeline checks
 ```
 
-## Source Package
+## Machine-Readable Evidence
 
-```text
-src/glassbox_audit/
-  cli.py, config.py, pipeline.py, types.py, utils.py
-  data/           records, paired-data builder, controlled-corpus builder, external loaders
-  models/         toy and Hugging Face hookable model adapters
-  sae/            top-k SAE training plus discovery/layer scan utilities
-  interventions/  steering, ablation, patching, matched-control refresh
-  evaluation/     metrics, external behavior evaluation, external causal transfer
-  analysis/       failure analysis, component/path analysis, stats, release hardening
-  reporting/      reports, publication bundle, Streamlit workbench
-```
+The public summaries are deliberately stable and non-phase-named:
+
+- `results/final/claim_summary.json`
+- `results/final/qwen2_5_1_5b_audit.json`
+- `results/final/reproducibility.json`
+- `results/final/statistical_tests.json`
+- `results/sae-stability/stability_grid.json`
+- `results/external-causal/or_bench_qwen15b_1000_summary.json`
+- `results/component-path/component_path_summary.json`
+- `results/cross-model/qwen2_5_3b_replication.json`
+
+Full tensors, checkpoints, generated prompt outputs, model caches, and regenerated datasets are excluded from git.
+
+## Docs
+
+Read [`docs/paper.md`](docs/paper.md) for the concise research writeup and [`docs/release-report.md`](docs/release-report.md) for methodology, result interpretation, reproducibility, limitations, and artifact policy.
+
+## Naming
+
+The project name is **Glassbox**. The GitHub slug remains `glassbox-audit` because it is clearer and more searchable than the generic slug `glassbox`.
 
 ## Citation
 

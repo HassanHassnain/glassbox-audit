@@ -1,5 +1,5 @@
 {
-  "artifact": "artifacts/qwen-expanded-1000-phase4",
+  "artifact_id": "qwen2_5_1_5b_expanded_audit",
   "baseline_metrics": {
     "balanced_accuracy": 0.746,
     "behavior_gap": 0.12899719381332397,
@@ -46,6 +46,7 @@
     "variance_explained": 0.9986112750328917
   },
   "sae_nll_delta": 0.001921875,
+  "schema_version": "1.1",
   "target_layer": 27,
   "test_records": 500
 }

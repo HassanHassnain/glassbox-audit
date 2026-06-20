@@ -172,8 +172,8 @@ def _diff_scalars(old: dict[str, Any], new: dict[str, Any], keys: list[str]) -> 
         old_value = old.get(key)
         new_value = new.get(key)
         rows[key] = {
-            "phase4": old_value,
-            "phase5": new_value,
+            "reference": old_value,
+            "cleanroom": new_value,
             "delta": (
                 float(new_value) - float(old_value)
                 if isinstance(old_value, (int, float)) and isinstance(new_value, (int, float))
@@ -186,37 +186,37 @@ def _diff_scalars(old: dict[str, Any], new: dict[str, Any], keys: list[str]) -> 
 
 def write_reproducibility_diff(
     *,
-    phase4_artifact: str | Path,
-    phase5_artifact: str | Path,
-    phase4_external: str | Path,
-    phase5_external: str | Path,
-    phase4_component: str | Path,
-    phase5_component: str | Path,
+    reference_artifact: str | Path,
+    cleanroom_artifact: str | Path,
+    reference_external: str | Path,
+    cleanroom_external: str | Path,
+    reference_component: str | Path,
+    cleanroom_component: str | Path,
     output_json: str | Path = "results/final/reproducibility_diff.json",
     output_doc: str | Path = "docs/REPRODUCIBILITY_REPORT.md",
 ) -> dict[str, Any]:
-    old_core = _method_effects_from_internal(phase4_artifact)
-    new_core = _method_effects_from_internal(phase5_artifact)
-    old_external = _external_effects(phase4_external)
-    new_external = _external_effects(phase5_external)
-    old_component = _component_effects(phase4_component)
-    new_component = _component_effects(phase5_component)
-    manifest = read_json(Path(phase5_artifact) / "manifest.json")
+    old_core = _method_effects_from_internal(reference_artifact)
+    new_core = _method_effects_from_internal(cleanroom_artifact)
+    old_external = _external_effects(reference_external)
+    new_external = _external_effects(cleanroom_external)
+    old_component = _component_effects(reference_component)
+    new_component = _component_effects(cleanroom_component)
+    manifest = read_json(Path(cleanroom_artifact) / "manifest.json")
     dataset_path = manifest["config"]["dataset_path"]
     result = {
         "schema_version": "1.0",
         "artifact_notice": (
-            "Clean-room reproducibility diff. New artifacts are compared against Phase 4; "
+            "Clean-room reproducibility diff. New artifacts are compared against reference audit; "
             "no layers, thresholds, features, scales, prompts, or criteria were retuned."
         ),
         "dataset": {
             "path": dataset_path,
             "sha256": _sha256(dataset_path),
-            "phase5_records_sha256": _sha256(Path(phase5_artifact) / "records.json"),
+            "cleanroom_records_sha256": _sha256(Path(cleanroom_artifact) / "records.json"),
         },
         "core": {
-            "phase4": old_core,
-            "phase5": new_core,
+            "reference": old_core,
+            "cleanroom": new_core,
             "scalar_diffs": _diff_scalars(
                 old_core,
                 new_core,
@@ -241,8 +241,8 @@ def write_reproducibility_diff(
             },
         },
         "external_causal": {
-            "phase4": old_external,
-            "phase5": new_external,
+            "reference": old_external,
+            "cleanroom": new_external,
             "method_delta_diffs": {
                 method: _diff_scalars(
                     old_external[method],
@@ -264,8 +264,8 @@ def write_reproducibility_diff(
             },
         },
         "component_path": {
-            "phase4": old_component,
-            "phase5": new_component,
+            "reference": old_component,
+            "cleanroom": new_component,
             "component_diffs": {
                 component: _diff_scalars(
                     old_component.get(component) or {},
@@ -275,7 +275,7 @@ def write_reproducibility_diff(
                 for component in ["residual", "attention", "mlp"]
             },
         },
-        "phase5_reproduces_phase4": (
+        "cleanroom_reproduces_reference": (
             old_core["target_layer"] == new_core["target_layer"]
             and old_core["h1_residual_robustness_pass"] == new_core["h1_residual_robustness_pass"]
             and old_core["h3_sae_beats_mean_probe_pass"]
@@ -287,24 +287,24 @@ def write_reproducibility_diff(
     lines = [
         "# Reproducibility Report",
         "",
-        "**Status:** Clean-room rerun compared against Phase 4 without retuning.",
+        "**Status:** Clean-room rerun compared against reference audit without retuning.",
         "",
-        f"- Phase 4 artifact: `{phase4_artifact}`",
-        f"- Clean-room artifact: `{phase5_artifact}`",
+        f"- reference audit artifact: `{reference_artifact}`",
+        f"- Clean-room artifact: `{cleanroom_artifact}`",
         f"- Controlled dataset SHA256: `{result['dataset']['sha256']}`",
         f"- Clean-room target layer: `{new_core['target_layer']}`",
-        f"- Clean-room reproduces Phase 4 pass/fail statuses: `{result['phase5_reproduces_phase4']}`",
+        f"- Clean-room reproduces reference audit pass/fail statuses: `{result['cleanroom_reproduces_reference']}`",
         "",
         "## Core Audit Diff",
         "",
-        "| Quantity | Phase 4 | Phase 5 | Delta |",
+        "| Quantity | reference audit | release hardening | Delta |",
         "|---|---:|---:|---:|",
     ]
     for key, row in result["core"]["scalar_diffs"].items():
-        lines.append(f"| {key} | {row['phase4']} | {row['phase5']} | {row['delta']} |")
+        lines.append(f"| {key} | {row['reference']} | {row['cleanroom']} | {row['delta']} |")
     for method, rows in result["core"]["method_delta_diffs"].items():
         for key, row in rows.items():
-            lines.append(f"| {method}.{key} | {row['phase4']:.6f} | {row['phase5']:.6f} | {row['delta']:.6f} |")
+            lines.append(f"| {method}.{key} | {row['reference']:.6f} | {row['cleanroom']:.6f} | {row['delta']:.6f} |")
     lines.extend(
         [
             "",
@@ -387,9 +387,9 @@ def _external_records_for_artifact(artifact: dict[str, Any]) -> list[PromptRecor
 
 def write_statistical_tests(
     *,
-    phase4_artifact: str | Path,
-    phase5_artifact: str | Path | None = None,
-    stability_summary: str | Path | None = "results/sae-stability/phase4_full_grid_summary.json",
+    reference_artifact: str | Path,
+    cleanroom_artifact: str | Path | None = None,
+    stability_summary: str | Path | None = "results/sae-stability/stability_grid.json",
     external_artifacts: list[str | Path] | None = None,
     component_artifacts: list[str | Path] | None = None,
     output_json: str | Path = "results/final/statistical_tests.json",
@@ -398,9 +398,9 @@ def write_statistical_tests(
     permutation_samples: int = 5000,
     bootstrap_samples: int = 3000,
 ) -> dict[str, Any]:
-    internal_artifacts = [Path(phase4_artifact)]
-    if phase5_artifact is not None:
-        internal_artifacts.append(Path(phase5_artifact))
+    internal_artifacts = [Path(reference_artifact)]
+    if cleanroom_artifact is not None:
+        internal_artifacts.append(Path(cleanroom_artifact))
     internal_rows = []
     for artifact_dir in internal_artifacts:
         records = _load_test_records(artifact_dir)
@@ -483,7 +483,7 @@ def write_statistical_tests(
     result = {
         "schema_version": "1.0",
         "artifact_notice": (
-            "Phase 5 statistical summary. P-values are paired sign-flip permutation tests with "
+            "release hardening statistical summary. P-values are paired sign-flip permutation tests with "
             "Benjamini-Hochberg correction within each artifact/test family."
         ),
         "permutation_samples": permutation_samples,
@@ -536,7 +536,7 @@ def write_statistical_tests(
                 "permutation tests for headline causal deltas. Benjamini-Hochberg correction is "
                 "applied within each artifact family.",
                 "",
-                "The statistical tests support the same interpretation as Phase 4: late residual "
+                "The statistical tests support the same interpretation as reference audit: late residual "
                 "mean-difference interventions are robust, while SAE effects do not beat the "
                 "mean/probe baselines under the preregistered H3 rule.",
                 "",
@@ -721,7 +721,7 @@ def write_scorer_robustness(
                 "# Scorer Robustness",
                 "",
                 "Glassbox's real-model refusal score is a contrastive log-probability score comparing "
-                "a refusal prefix against a compliance prefix. Phase 5 evaluated fixed threshold "
+                "a refusal prefix against a compliance prefix. release hardening evaluated fixed threshold "
                 "variants and exported disagreement rows for manual review.",
                 "",
                 f"- Headline survives fixed contrastive threshold variants: `{survives}`",
@@ -729,7 +729,7 @@ def write_scorer_robustness(
                 "artifacts because generated responses were not stored.",
                 f"- Manual review sample: `{disagreement_csv}`",
                 "",
-                "The scorer audit does not create a new positive claim; it checks whether the Phase 4 "
+                "The scorer audit does not create a new positive claim; it checks whether the reference audit "
                 "ordering is an artifact of the exact binary threshold.",
             ]
         )
@@ -1001,7 +1001,7 @@ def write_dose_response(
             [
                 "# Dose Response",
                 "",
-                "Phase 5 summarizes the fixed steering scale grid already present in the audit config. "
+                "release hardening summarizes the fixed steering scale grid already present in the audit config. "
                 "No best scale is chosen after looking at test outcomes.",
                 "",
                 f"- SAE has a more specific fixed-grid regime than mean/probe: `{result['sae_has_more_specific_regime_than_mean_probe']}`",

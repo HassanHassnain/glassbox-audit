@@ -1,5 +1,5 @@
 {
-  "artifact": "artifacts/qwen-expanded-1000-phase4",
+  "artifact": "artifacts/qwen-expanded-1000-reference",
   "best_by_method": {
     "linear_probe": {
       "benign_overrefusal_rate_delta": 0.008000000000000007,

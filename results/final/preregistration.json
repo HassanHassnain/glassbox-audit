@@ -1,0 +1,46 @@
+{
+  "date_frozen": "2026-06-19",
+  "fixed_run_order": [
+    "qwen2.5-1.5b_1000_pair",
+    "sae_stability_seed23_exp4",
+    "sae_stability_seed42_exp2",
+    "sae_stability_seed42_exp4",
+    "or_bench_external_causal_transfer",
+    "component_path_supported_scans",
+    "non_qwen_replication_if_available",
+    "final_reports"
+  ],
+  "hypotheses": {
+    "H1_internal_residual_robustness": {
+      "ci_upper_below_zero": true,
+      "harmful_delta_at_most": -0.08,
+      "max_abs_benign_delta": 0.05,
+      "max_capability_nll_delta": 0.05
+    },
+    "H2_sae_stability_and_utility": {
+      "exclude_failed_cells": false,
+      "minimum_passing_cells": 4,
+      "must_beat_mean_and_probe": true,
+      "planned_cells": 6,
+      "random_sae_p_at_most": 0.05
+    },
+    "H3_external_causal_transfer": {
+      "compare_against_random_controls": true,
+      "max_capability_nll_delta": 0.05,
+      "rediscover_on_external_data": false
+    },
+    "H4_component_path_evidence": {
+      "requires_controls": true,
+      "requires_held_out_replication": true,
+      "requires_necessity": true,
+      "requires_specificity": true,
+      "requires_sufficiency": true
+    },
+    "H5_cross_model_replication": {
+      "attempt_only_if_weights_available_or_access_ready": true,
+      "fabricate_unavailable_results": false
+    }
+  },
+  "policy": "no retuning of layers, features, thresholds, scales, prompts, metrics, seeds, widths, or criteria after held-out results",
+  "scope": "refusal_only"
+}

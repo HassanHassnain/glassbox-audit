@@ -1,5 +1,5 @@
 {
-  "artifact": "artifacts/qwen-expanded-1000-phase4",
+  "artifact": "artifacts/qwen-expanded-1000-reference",
   "headline_survives_fixed_score_threshold_variants": true,
   "keyword_response_scorer_limitation": "Real-model artifacts store contrastive log-prob scores, not generated response text; keyword response scoring is therefore unavailable unless generation is enabled.",
   "manual_review_csv": "data/manual_review/refusal_scorer_disagreements.csv",

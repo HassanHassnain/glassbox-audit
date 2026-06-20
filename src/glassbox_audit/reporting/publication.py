@@ -192,7 +192,7 @@ def _generate_figures(artifact_dir: Path, figures_dir: Path) -> None:
     fig.text(0.68, 0.54, "FAILURE ANALYSIS", color="#e2e8f0", fontsize=12, weight="bold")
     for index, item in enumerate(negative):
         fig.text(0.68, 0.49 - index * 0.09, f"• {item}", color="#cbd5e1", fontsize=9, wrap=True)
-    fig.savefig(figures_dir / "workbench_overview.png", dpi=180, bbox_inches="tight", facecolor=fig.get_facecolor())
+    fig.savefig(figures_dir / "audit_overview.png", dpi=180, bbox_inches="tight", facecolor=fig.get_facecolor())
     plt.close(fig)
 
 

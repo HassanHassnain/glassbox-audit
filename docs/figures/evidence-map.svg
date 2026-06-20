@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">Glassbox evidence map</title>
+  <desc id="desc">Research summary showing train/validation/test discipline, intervention results, and supported versus failed claims.</desc>
+  <rect width="1400" height="760" fill="#f8fafc"/>
+  <rect x="48" y="44" width="1304" height="672" rx="28" fill="#ffffff" stroke="#d8dee9"/>
+  <text x="86" y="104" font-family="Inter, Arial, sans-serif" font-size="42" font-weight="700" fill="#101828">Glassbox refusal audit</text>
+  <text x="88" y="142" font-family="Inter, Arial, sans-serif" font-size="19" fill="#475467">Held-out causal activation analysis of Qwen2.5 refusal behavior</text>
+
+  <g transform="translate(86 190)">
+    <text x="0" y="0" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#344054">Protocol discipline</text>
+    <rect x="0" y="28" width="315" height="84" rx="12" fill="#eef6ff" stroke="#b2ddff"/>
+    <text x="22" y="61" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="700" fill="#175cd3">Train</text>
+    <text x="82" y="61" font-family="Inter, Arial, sans-serif" font-size="16" fill="#344054">layer scan + SAE fit</text>
+    <text x="22" y="90" font-family="Inter, Arial, sans-serif" font-size="14" fill="#667085">No held-out prompts used for discovery</text>
+    <rect x="0" y="128" width="315" height="84" rx="12" fill="#fef7e6" stroke="#fedf89"/>
+    <text x="22" y="161" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="700" fill="#b54708">Validation</text>
+    <text x="124" y="161" font-family="Inter, Arial, sans-serif" font-size="16" fill="#344054">threshold + scale</text>
+    <text x="22" y="190" font-family="Inter, Arial, sans-serif" font-size="14" fill="#667085">Selection frozen before headline tests</text>
+    <rect x="0" y="228" width="315" height="84" rx="12" fill="#ecfdf3" stroke="#abefc6"/>
+    <text x="22" y="261" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="700" fill="#067647">Test</text>
+    <text x="82" y="261" font-family="Inter, Arial, sans-serif" font-size="16" fill="#344054">causal effects + costs</text>
+    <text x="22" y="290" font-family="Inter, Arial, sans-serif" font-size="14" fill="#667085">All headline claims measured held-out</text>
+  </g>
+
+  <g transform="translate(475 190)">
+    <text x="0" y="0" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#344054">Qwen2.5-1.5B held-out intervention</text>
+    <line x1="0" y1="172" x2="500" y2="172" stroke="#98a2b3" stroke-width="1"/>
+    <text x="0" y="364" font-family="Inter, Arial, sans-serif" font-size="13" fill="#667085">Harmful refusal-score delta; lower is stronger suppression</text>
+    <g transform="translate(0 58)">
+      <text x="0" y="22" font-family="Inter, Arial, sans-serif" font-size="16" fill="#344054">Mean direction</text>
+      <rect x="168" y="5" width="294" height="34" rx="7" fill="#175cd3"/>
+      <text x="476" y="28" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#175cd3">-0.136</text>
+    </g>
+    <g transform="translate(0 128)">
+      <text x="0" y="22" font-family="Inter, Arial, sans-serif" font-size="16" fill="#344054">SAE features</text>
+      <rect x="168" y="5" width="79" height="34" rx="7" fill="#12b76a"/>
+      <text x="262" y="28" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#067647">-0.036</text>
+    </g>
+    <g transform="translate(0 198)">
+      <text x="0" y="22" font-family="Inter, Arial, sans-serif" font-size="16" fill="#344054">Linear probe</text>
+      <rect x="168" y="5" width="8" height="34" rx="4" fill="#98a2b3"/>
+      <text x="192" y="28" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="700" fill="#667085">-0.002</text>
+    </g>
+    <rect x="0" y="286" width="500" height="54" rx="12" fill="#fff1f3" stroke="#fecdd6"/>
+    <text x="22" y="319" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#c01048">Negative result preserved:</text>
+    <text x="208" y="319" font-family="Inter, Arial, sans-serif" font-size="16" fill="#344054">SAE did not beat mean/probe baselines.</text>
+  </g>
+
+  <g transform="translate(1035 190)">
+    <text x="0" y="0" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="700" fill="#344054">Claim ladder</text>
+    <g font-family="Inter, Arial, sans-serif" font-size="15">
+      <rect x="0" y="30" width="270" height="48" rx="10" fill="#ecfdf3" stroke="#abefc6"/>
+      <text x="18" y="61" fill="#067647" font-weight="700">Supported</text><text x="112" y="61" fill="#344054">residual direction</text>
+      <rect x="0" y="92" width="270" height="48" rx="10" fill="#ecfdf3" stroke="#abefc6"/>
+      <text x="18" y="123" fill="#067647" font-weight="700">Supported</text><text x="112" y="123" fill="#344054">external transfer</text>
+      <rect x="0" y="154" width="270" height="48" rx="10" fill="#fef7e6" stroke="#fedf89"/>
+      <text x="18" y="185" fill="#b54708" font-weight="700">Partial</text><text x="112" y="185" fill="#344054">Qwen2.5-3B</text>
+      <rect x="0" y="216" width="270" height="48" rx="10" fill="#fff1f3" stroke="#fecdd6"/>
+      <text x="18" y="247" fill="#c01048" font-weight="700">Failed</text><text x="112" y="247" fill="#344054">SAE superiority</text>
+      <rect x="0" y="278" width="270" height="48" rx="10" fill="#fff1f3" stroke="#fecdd6"/>
+      <text x="18" y="309" fill="#c01048" font-weight="700">Failed</text><text x="112" y="309" fill="#344054">circuit discovery</text>
+    </g>
+  </g>
+
+  <g transform="translate(86 604)">
+    <rect x="0" y="0" width="1218" height="68" rx="16" fill="#f2f4f7"/>
+    <text x="24" y="29" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" fill="#344054">Final claim</text>
+    <text x="24" y="53" font-family="Inter, Arial, sans-serif" font-size="15" fill="#475467">Robust late residual-stream direction; partial Qwen-family replication; no confirmed circuit; SAE weaker than simple mean/probe baselines.</text>
+  </g>
+</svg>

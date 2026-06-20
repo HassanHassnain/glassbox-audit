@@ -1,7 +1,7 @@
 {
   "artifacts": [
     {
-      "artifact": "artifacts/qwen-expanded-medium-preregistered/path_component_phase4.json",
+      "artifact": "artifacts/qwen2_5_1_5b_medium_audit/path_component_reference.json",
       "component_outputs": [
         {
           "benign_delta": -0.0037694188264700084,
@@ -184,10 +184,10 @@
           "layer": 27
         }
       ],
-      "source_artifact": "artifacts/qwen-expanded-medium-preregistered"
+      "source_artifact": "artifacts/qwen2_5_1_5b_medium_audit"
     },
     {
-      "artifact": "artifacts/qwen-expanded-1000-phase4/path_component_phase4.json",
+      "artifact": "artifacts/qwen-expanded-1000-reference/path_component_reference.json",
       "component_outputs": [
         {
           "benign_delta": -0.014515092015266419,
@@ -241,7 +241,7 @@
           "layer": 27
         }
       ],
-      "source_artifact": "artifacts/qwen-expanded-1000-phase4"
+      "source_artifact": "artifacts/qwen-expanded-1000-reference"
     }
   ]
 }

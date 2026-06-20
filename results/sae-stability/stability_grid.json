@@ -1,8 +1,8 @@
 {
-  "artifact_notice": "Phase 4 full fixed SAE stability grid summary. All six predeclared cells completed; no failed cell excluded.",
+  "artifact_notice": "reference audit full fixed SAE stability grid summary. All six predeclared cells completed; no failed cell excluded.",
   "cells": [
     {
-      "artifact": "artifacts/qwen-expanded-medium-preregistered",
+      "artifact": "artifacts/qwen2_5_1_5b_medium_audit",
       "best_simple_method": "linear_probe",
       "best_simple_utility": 0.0015793447311107925,
       "cell": "seed17-exp2",

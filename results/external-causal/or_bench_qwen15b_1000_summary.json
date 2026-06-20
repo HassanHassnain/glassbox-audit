@@ -23,7 +23,7 @@
     "selection_policy": "frozen controlled-corpus artifact; no external rediscovery",
     "status": "matched_center_zero_encoder_bias"
   },
-  "records_artifact": "artifacts/external-causal/or_bench_qwen15b_1000_phase4.json",
+  "records_artifact": "artifacts/external-causal/or_bench_qwen15b_1000_reference.json",
   "schema_version": "1.0",
   "selected_features": [
     1120,
@@ -32,8 +32,8 @@
     500,
     1470
   ],
-  "selected_scales_source": "artifacts/qwen-expanded-1000-phase4/interventions.json",
-  "source_artifact": "artifacts/qwen-expanded-1000-phase4",
+  "selected_scales_source": "artifacts/qwen-expanded-1000-reference/interventions.json",
+  "source_artifact": "artifacts/qwen-expanded-1000-reference",
   "summary": {
     "main_methods": {
       "linear_probe_direction_ablation": {
