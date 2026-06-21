@@ -8,7 +8,7 @@ Glassbox asks a narrow mechanistic-interpretability question: do sparse autoenco
 
 > **Final claim:** Glassbox found a robust late residual-stream refusal-relevant direction in Qwen2.5-1.5B, with partial Qwen2.5-3B replication and OR-Bench external causal transfer. It did **not** confirm a full circuit. SAE features beat matched random-SAE controls but did **not** beat mean/probe baselines under held-out preregistered criteria.
 
-![Glassbox audit overview](docs/figures/readme_audit_overview.png)
+![Layer-27 residual stream audit](docs/figures/readme_audit_overview.png)
 
 ## Why This Repository Exists
 
@@ -27,7 +27,11 @@ Most interpretability demos stop at correlation, cherry-picked steering, or a si
 
 ## Result Figures
 
+The main held-out and external causal tests point in the same direction: simple residual directions suppress the refusal score more strongly than SAE features.
+
 ![Held-out and external causal effects](docs/figures/readme_causal_effects.png)
+
+The negative SAE result is stable across the fixed grid, and the component analysis supports a residual-stream direction rather than a circuit claim.
 
 ![SAE stability grid and component path analysis](docs/figures/readme_stability_path.png)
 
