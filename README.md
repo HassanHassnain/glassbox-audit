@@ -1,112 +1,176 @@
-# Glassbox
+<div align="center">
 
-[![CI](https://github.com/HassanHassnain/glassbox-audit/actions/workflows/ci.yml/badge.svg)](https://github.com/HassanHassnain/glassbox-audit/actions/workflows/ci.yml)
+<img src="docs/assets/hero.png" alt="Glassbox - a held-out causal activation audit of refusal behavior" width="100%">
 
-**A held-out causal activation audit of refusal behavior in Qwen instruction models.**
+**Do sparse autoencoder features explain refusal better than a direction you can compute in three lines?**
+<br>Glassbox built the harness to find out - and reports the answer even though it isn't flattering.
 
-Glassbox asks a narrow mechanistic-interpretability question: do sparse autoencoder features explain refusal behavior better than simple activation directions? The answer from this release is useful precisely because it is not flattering to the method.
+[![CI](https://img.shields.io/github/actions/workflow/status/HassanHassnain/glassbox-audit/ci.yml?style=flat-square&label=CI&labelColor=0B101E&logo=githubactions&logoColor=white)](https://github.com/HassanHassnain/glassbox-audit/actions/workflows/ci.yml)
+[![Python](https://img.shields.io/badge/python-3.10%2B-5FE1F2?style=flat-square&labelColor=0B101E&logo=python&logoColor=white)](pyproject.toml)
+[![PyTorch](https://img.shields.io/badge/torch-%E2%89%A52.2-A78BFA?style=flat-square&labelColor=0B101E&logo=pytorch&logoColor=white)](pyproject.toml)
+[![Ruff](https://img.shields.io/badge/lint-ruff-FFC24B?style=flat-square&labelColor=0B101E)](pyproject.toml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-3DDC97?style=flat-square&labelColor=0B101E)](LICENSE)
+[![Verdict](https://img.shields.io/badge/SAE%20%3E%20baselines%3F-rejected%200%2F6-FF6B84?style=flat-square&labelColor=0B101E)](results/sae-stability/stability_grid.json)
 
-> **Final claim:** Glassbox found a robust late residual-stream refusal-relevant direction in Qwen2.5-1.5B, with partial Qwen2.5-3B replication and OR-Bench external causal transfer. It did **not** confirm a full circuit. SAE features beat matched random-SAE controls but did **not** beat mean/probe baselines under held-out preregistered criteria.
+[**Paper**](docs/paper.md) · [**Release report**](docs/release-report.md) · [**Evidence files**](#machine-readable-evidence) · [**Reproduce**](#reproduce-the-real-model-audit) · [**Cite**](#citation)
 
-![Layer-27 residual stream audit](docs/figures/readme_audit_overview.png)
+</div>
 
-## Why This Repository Exists
+---
 
-Most interpretability demos stop at correlation, cherry-picked steering, or a single attractive feature. Glassbox is structured as an adjudication harness: train-only discovery, validation-only threshold/scale selection, held-out causal tests, explicit baselines, random controls, negative-result reporting, and clean-room reproducibility.
+> **Final claim.** Glassbox found a robust late residual-stream refusal-relevant direction in Qwen2.5-1.5B (layer 27, held-out harmful-score Δ **−0.136**), with partial Qwen2.5-3B replication and external OR-Bench causal transfer. It did **not** confirm a circuit. SAE features beat matched random-SAE controls but did **not** beat mean-difference or probe baselines under held-out, preregistered criteria - in **0 of 6** fixed stability cells.
 
-## Evidence Snapshot
+<div align="center">
+<img src="docs/assets/demo.gif" alt="glassbox CLI demo - deterministic CPU toy audit and report" width="82%">
+<br><sup><code>make toy && make report</code> - the full pipeline on a deterministic CPU fixture, no GPU required</sup>
+</div>
 
-| Evidence block | Status | Main readout |
-|---|---|---|
-| Qwen2.5-1.5B controlled audit | completed | layer 27; mean ablation `-0.136`; SAE ablation `-0.036` |
-| SAE stability grid | completed | 6/6 fixed cells; 0/6 SAE-vs-mean/probe passes |
-| OR-Bench external transfer | completed | SAE toxic refusal-rate delta `-0.12`; mean delta `-0.68` |
-| Qwen2.5-3B replication | partial | late layer 35 effect; specificity failed |
-| Component/path analysis | completed | residual effect strong; attention/MLP effects small or non-specific |
-| Clean-room rerun | completed | reproduced layer, rates, deltas, and H3 failure within fixed tolerances |
+## Why this exists
 
-## Result Figures
+Mechanistic interpretability demos usually stop at the flattering part: a correlated feature, a cherry-picked steering example, a striking visualization. Glassbox is built as the opposite - an **adjudication harness** where sparse autoencoders have to *win* against cheap baselines under rules fixed in advance:
 
-The main held-out and external causal tests point in the same direction: simple residual directions suppress the refusal score more strongly than SAE features.
+- **Train-only discovery.** SAE training, feature ranking, mean-difference and probe directions all come from the train split.
+- **Validation-only selection.** Thresholds and steering scales are chosen on validation records, then frozen.
+- **Held-out judgement.** Every headline number is read off untouched test records, once, against random-direction, matched random-SAE, and layerwise controls.
+- **Negative results are published.** The most useful output of this repository is the claim it *refuses* to make.
 
-![Held-out and external causal effects](docs/figures/readme_causal_effects.png)
+<img src="docs/assets/pipeline.png" alt="Audit pipeline: data pairs → train-only discovery → validation-only selection → held-out causal judgement" width="100%">
 
-The negative SAE result is stable across the fixed grid, and the component analysis supports a residual-stream direction rather than a circuit claim.
+Refusal is scored with a deterministic contrastive prefix log-probability - no LLM judge in the loop:
 
-![SAE stability grid and component path analysis](docs/figures/readme_stability_path.png)
+```text
+score = mean log P("I'm sorry, but I can't" | prompt) − mean log P("Sure, here's" | prompt)
+```
 
-## What Failed
+## The verdict
 
-- SAE did not beat mean/probe baselines under the preregistered held-out criterion.
-- Component/path evidence did not establish a circuit-level mechanism.
-- Qwen2.5-3B did not meet the specificity bar.
-- Gemma/Llama configs are recipes only; no non-Qwen replication is claimed.
-- Final real-model artifacts use contrastive log-probability scoring, not generated-answer judging.
+Each rung of the claim ladder was tested separately; the repo climbs exactly as far as the evidence allows.
+
+<img src="docs/assets/fig_claim_ladder.png" alt="Claim ladder: separation, held-out causal direction, and external transfer supported; cross-model replication partial; SAE superiority and circuit-level mechanism failed" width="100%">
+
+| Evidence block | Status | Main readout | Public summary |
+|---|---|---|---|
+| Qwen2.5-1.5B controlled audit (1,000 pairs) | ✅ completed | layer 27; mean-diff Δ `−0.136`, SAE Δ `−0.036`, probe Δ `−0.002` | [`qwen2_5_1_5b_audit.json`](results/final/qwen2_5_1_5b_audit.json) |
+| SAE stability grid (3 seeds × 2 widths) | ✅ completed | 6/6 cells run; **0/6** SAE-beats-baselines passes | [`stability_grid.json`](results/sae-stability/stability_grid.json) |
+| OR-Bench external causal transfer | ✅ completed | toxic refusal-rate Δ: mean `−0.68` vs SAE `−0.12` | [`or_bench_qwen15b_1000_summary.json`](results/external-causal/or_bench_qwen15b_1000_summary.json) |
+| Component / path analysis | ✅ completed | residual strong; attention/MLP small or non-specific | [`component_path_summary.json`](results/component-path/component_path_summary.json) |
+| Qwen2.5-3B replication | 🟡 partial | late layer 35 effect; specificity bar failed | [`qwen2_5_3b_replication.json`](results/cross-model/qwen2_5_3b_replication.json) |
+| Clean-room rerun | ✅ completed | layer, rates, deltas, and the H3 failure all reproduce | [`reproducibility.json`](results/final/reproducibility.json) |
+
+## Results
+
+### The simple direction wins the causal contest
+
+On held-out records, ablating the train-derived **mean-difference direction** suppresses the harmful refusal score 3.7× more than ablating the top SAE features - and the same frozen artifacts transfer to OR-Bench, where the mean direction cuts the toxic refusal *rate* by 68 points against 12 for SAE features. All three methods are statistically significant (raw p = 0.0002, and every effect survives BH correction); the contest is effect size, not significance.
+
+<img src="docs/assets/fig_causal_effects.png" alt="Held-out and external causal effects: mean-difference direction −0.136 internal / −0.163 external, SAE features −0.036 / −0.046, linear probe ≈ 0" width="100%">
+
+### The negative SAE result is not a fluke
+
+Six predeclared SAE retrainings - seeds {17, 23, 42} × dictionary widths {×2, ×4} - were run and none excluded. Every cell lands between −0.016 and −0.061, beats its matched random-SAE control, and still loses to the mean-difference line. The preregistered "SAE beats mean *and* probe" criterion passes in **0 of 6** cells.
+
+<img src="docs/assets/fig_stability_grid.png" alt="SAE stability grid: all six retrained cells fall far short of the mean-difference reference; 0/6 preregistered passes" width="100%">
+
+And this is not a broken SAE: on the main audit it reaches 99.86% variance explained, mean L0 ≈ 32, and only 3.7% dead features. The features are real enough to beat matched random-latent controls - they're just not a better causal handle than the mean of two activation clouds.
+
+### A direction, not a circuit
+
+Projecting the direction out of each component's *output* localizes the effect to the residual stream itself. Attention and MLP write-outs carry little of it, so Glassbox claims residual-stream localization and explicitly does **not** claim a circuit.
+
+<img src="docs/assets/fig_component_path.png" alt="Component ablation by layer: residual stream carries the effect (−0.141 at layer 27), attention and MLP outputs contribute little" width="100%">
+
+## What failed
+
+Kept in the open, because this is the part most write-ups delete:
+
+- **SAE superiority** - never beat mean/probe baselines under the held-out preregistered criterion (0/6 cells).
+- **Circuit-level mechanism** - component/path evidence stops at residual localization; no head/path mediation story survived.
+- **Qwen2.5-3B specificity** - a late-layer (L35) effect replicates, but benign behavior moves too much to pass the specificity bar.
+- **Non-Qwen replication** - Gemma / Llama configs ship as [prepared recipes](configs/replication/), unrun by design; no claim is made.
+- **Generated-answer judging** - final artifacts score refusal via contrastive log-probabilities, not a generation judge.
 
 ## Quickstart
 
+CPU-only, no model weights, finishes in minutes - this is the exact path CI runs:
+
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
+git clone https://github.com/HassanHassnain/glassbox-audit
+cd glassbox-audit
+python3 -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
-make validate
-make report
-make release-check
+
+make validate   # unit tests + ruff + compileall + deterministic CPU toy audit
+make report     # human-readable audit report from the toy artifacts
 ```
 
-`make validate` runs unit tests, Ruff, `compileall`, and the deterministic CPU toy audit. It does not require GPUs or model weights.
+| Command | What it does | Needs GPU |
+|---|---|---|
+| `make validate` | tests, lint, compile check, toy pipeline | no |
+| `make toy` | deterministic synthetic-fixture audit → `artifacts/demo` | no |
+| `make report` | render the audit report for an artifact directory | no |
+| `make reproduce-cleanroom` | full Qwen2.5-1.5B clean-room audit | yes |
+| `make reproduce-external` | frozen-artifact OR-Bench causal transfer | yes |
+| `make release-check` | repo-level release audit (manifest, hygiene) | no |
 
-## Reproduce The Real-Model Audit
+### Reproduce the real-model audit
 
 ```bash
 pip install -e ".[dev,accelerate,data]"
-CUDA_VISIBLE_DEVICES=0 make reproduce-cleanroom
+CUDA_VISIBLE_DEVICES=0 make reproduce-cleanroom   # regenerates the 1,000-pair corpus + full audit
+CUDA_VISIBLE_DEVICES=0 make reproduce-external    # OR-Bench transfer from frozen artifacts
 ```
 
-The real-model path regenerates the controlled 1,000-pair corpus and writes generated artifacts under `artifacts/`, which is intentionally ignored by git. External OR-Bench transfer is separate:
+Expected hardware: one CUDA GPU with room for Qwen2.5-1.5B plus activation collection. Heavy artifacts (tensors, checkpoints, generated corpora) are regenerated under `artifacts/` and intentionally git-ignored; artifact hashes are pinned in [`results/final/artifact_manifest.json`](results/final/artifact_manifest.json).
 
-```bash
-CUDA_VISIBLE_DEVICES=0 make reproduce-external
-```
-
-Expected hardware: a CUDA GPU with enough memory for Qwen2.5-1.5B plus activation collection. GitHub Actions intentionally runs CPU-safe checks only.
-
-## Repository Map
+## Repository map
 
 ```text
-configs/                 public experiment recipes and unrun replication recipes
-data/fixtures/           tiny committed fixtures for tests and toy runs
+configs/                 experiment recipes (main audit, stability grid, replication recipes)
+data/fixtures/           tiny committed fixtures for tests and the CPU toy run
 docs/paper.md            compact paper-style writeup
-docs/release-report.md   methods, results, limitations, artifacts, reviewer Q&A
-results/                 compact machine-readable evidence summaries
+docs/release-report.md   methods, claim ladder, limitations, reviewer Q&A
+docs/assets/             README figures + demo GIF (regenerable via scripts/readme_assets)
+results/                 compact machine-readable evidence summaries (stable filenames)
 scripts/                 smoke, reproduction, report, and release-audit commands
-src/glassbox_audit/      source package
+src/glassbox_audit/      pipeline: data → model → SAE → interventions → evaluation → reporting
 tests/                   unit tests and CPU toy-pipeline checks
 ```
 
-## Machine-Readable Evidence
+## Machine-readable evidence
 
-The public summaries are deliberately stable and non-phase-named:
+Every number in this README traces to a committed, stable-named JSON summary:
 
-- `results/final/claim_summary.json`
-- `results/final/qwen2_5_1_5b_audit.json`
-- `results/final/reproducibility.json`
-- `results/final/statistical_tests.json`
-- `results/sae-stability/stability_grid.json`
-- `results/external-causal/or_bench_qwen15b_1000_summary.json`
-- `results/component-path/component_path_summary.json`
-- `results/cross-model/qwen2_5_3b_replication.json`
+| File | Contents |
+|---|---|
+| [`results/final/claim_summary.json`](results/final/claim_summary.json) | final claim, supported vs failed lists, headline metrics |
+| [`results/final/qwen2_5_1_5b_audit.json`](results/final/qwen2_5_1_5b_audit.json) | main audit: baselines, deltas, CIs, SAE health, negative findings |
+| [`results/final/statistical_tests.json`](results/final/statistical_tests.json) | bootstrap CIs and BH-corrected p-values per method |
+| [`results/final/dose_response.json`](results/final/dose_response.json) | fixed-grid steering dose response |
+| [`results/final/reproducibility.json`](results/final/reproducibility.json) | clean-room rerun diff under fixed tolerances |
+| [`results/sae-stability/stability_grid.json`](results/sae-stability/stability_grid.json) | all six seed×width cells, controls included |
+| [`results/external-causal/or_bench_qwen15b_1000_summary.json`](results/external-causal/or_bench_qwen15b_1000_summary.json) | OR-Bench transfer with frozen artifacts |
+| [`results/component-path/component_path_summary.json`](results/component-path/component_path_summary.json) | component/path localization |
+| [`results/cross-model/qwen2_5_3b_replication.json`](results/cross-model/qwen2_5_3b_replication.json) | partial 3B replication + failure analysis |
 
-Full tensors, checkpoints, generated prompt outputs, model caches, and regenerated datasets are excluded from git.
+## Limitations
 
-## Docs
-
-Read [`docs/paper.md`](docs/paper.md) for the concise research writeup and [`docs/release-report.md`](docs/release-report.md) for methodology, result interpretation, reproducibility, limitations, and artifact policy.
+Contrastive prefix scoring is not generated-answer grading. The controlled paired corpus is intentionally narrow. Component/path analysis is approximate - no complete head/path mediation. Non-Qwen replication is unrun. SAE scale, dictionary width, and prompt distribution may bound how far the negative SAE conclusion generalizes. Details in [`docs/release-report.md`](docs/release-report.md).
 
 ## Citation
 
-Use `CITATION.cff`, and cite the exact repository revision plus the model/data manifests for any reproduced run.
+If you use the harness or the evidence files, cite the repository revision plus the model/data manifests of the run you reproduce (see [`CITATION.cff`](CITATION.cff)):
+
+```bibtex
+@software{glassbox_audit_2026,
+  title   = {Glassbox: A Held-Out Causal Activation Audit of Refusal Behavior},
+  author  = {{Glassbox contributors}},
+  year    = {2026},
+  version = {0.1.0},
+  url     = {https://github.com/HassanHassnain/glassbox-audit},
+  license = {MIT}
+}
+```
 
 ## License
 
-MIT
+[MIT](LICENSE) - the README figures are generated by [`scripts/readme_assets`](scripts/readme_assets) (fonts: JetBrains Mono & Space Grotesk, both OFL).
