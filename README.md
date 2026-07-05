@@ -164,6 +164,7 @@ make model-sweep
 make certify
 make drift
 make leaderboard
+make evidence-explorer
 make report
 make final-report
 make release-check
@@ -352,6 +353,7 @@ Every run produces:
 | `results/certification/*.card.json` / `.html` / `.pdf` | B1 intervention audit cards |
 | `results/drift/*.json` / `.md` | B2 mechanism-drift reports across model versions |
 | `results/leaderboard/leaderboard.json` / `docs/leaderboard/index.html` | B3 static causal-handle leaderboard |
+| `results/evidence_explorer/explorer.json` / `docs/evidence/index.html` | C1 interactive claim-ladder evidence explorer |
 | `failure_analysis.json` | Dead features, stability, controls, negative findings |
 | `component_localization.json` | Optional residual/attention/MLP output localization |
 | `protocol.json` | Machine-readable split and selection discipline |
