@@ -85,6 +85,12 @@ The A4 feature-budget frontier evaluates fixed SAE latent budgets
 weighted rows fit L1-regularized logistic weights on train SAE activations only, then test the
 corresponding decoder-space direction on held-out prompts.
 
+The optional A5 head-path analysis shortlists attention-output head slices on train by projection
+effect along the refusal direction, then verifies the shortlist on held-out records with head-slice
+direction ablation and projection patching. It applies Benjamini-Hochberg correction across the
+verified heads. The generic implementation is attention-output head-slice evidence, not a
+model-specific pre-output attention-head circuit proof.
+
 The important comparison is not only maximum effect. Report the Pareto trade-off between harmful
 behavior change, benign behavior change, and capability cost. Hyperparameter selection must use
 validation data or a pre-registered scale, never the held-out test set.

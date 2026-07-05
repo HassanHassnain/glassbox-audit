@@ -189,6 +189,18 @@ def build_parser() -> argparse.ArgumentParser:
     path_component.add_argument("--max-records", type=int, default=None)
     path_component.add_argument("--output-name", default="path_component_analysis.json")
 
+    head_path = subparsers.add_parser(
+        "head-path",
+        help="Run A5 attention head-slice shortlisting and held-out verification",
+    )
+    head_path.add_argument("--artifacts", required=True)
+    head_path.add_argument("--layers", default=None, help="Optional comma-separated layer list")
+    head_path.add_argument("--top-k", type=int, default=20)
+    head_path.add_argument("--device", default=None)
+    head_path.add_argument("--max-records", type=int, default=None)
+    head_path.add_argument("--output-name", default="head_path_analysis.json")
+    head_path.add_argument("--output-table", default="docs/tables/head_path.md")
+
     repro = subparsers.add_parser(
         "reproducibility-diff", help="Compare Phase 4 and clean-room rerun artifacts"
     )
@@ -503,6 +515,35 @@ def main() -> None:
             for key, value in artifact.items()
             if key not in {"component_outputs", "residual_ablation", "residual_projection_patching"}
         }
+        print(json.dumps(compact, indent=2))
+    elif args.command == "head-path":
+        from .head_path import run_head_path_analysis, write_head_path_table
+
+        artifact = run_head_path_analysis(
+            args.artifacts,
+            layers=(
+                [int(item.strip()) for item in args.layers.split(",") if item.strip()]
+                if args.layers
+                else None
+            ),
+            top_k=args.top_k,
+            device=args.device,
+            max_records=args.max_records,
+            output_name=args.output_name,
+        )
+        table_path = write_head_path_table(artifact, args.output_table)
+        compact = {
+            key: value for key, value in artifact.items() if key != "verified_heads"
+        }
+        compact["verified_heads"] = [
+            {
+                key: value
+                for key, value in row.items()
+                if key not in {"interventions"}
+            }
+            for row in artifact["verified_heads"]
+        ]
+        compact["table"] = str(table_path)
         print(json.dumps(compact, indent=2))
     elif args.command == "reproducibility-diff":
         from .phase5 import write_reproducibility_diff

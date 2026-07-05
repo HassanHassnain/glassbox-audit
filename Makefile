@@ -1,4 +1,4 @@
-.PHONY: install smoke test lint compile toy workbench qwen qwen-full real-audit model-sweep paper reproduce-core reproduce-cleanroom reproduce-external report final-report validate release-check
+.PHONY: install smoke test lint compile toy workbench qwen qwen-full real-audit model-sweep head-path paper reproduce-core reproduce-cleanroom reproduce-external report final-report validate release-check
 
 install:
 	pip install -e ".[dev,ui]"
@@ -32,6 +32,9 @@ real-audit:
 
 model-sweep:
 	bash scripts/sweep_models.sh
+
+head-path:
+	python -m glassbox_audit.cli head-path --artifacts artifacts/qwen-real-audit
 
 paper:
 	python -m glassbox_audit.cli paper --artifacts artifacts/qwen-real-audit --docs docs

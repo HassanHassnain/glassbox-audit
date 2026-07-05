@@ -336,6 +336,7 @@ Every run produces:
 | `results/sae-zoo/league_table.json` / `.md` | Optional A1 public-SAE comparison table |
 | `results/model-sweep/a2_summary.json` | A2 cross-model sweep aggregate, including unrun cells |
 | `results/model-sweep/<model_slug>.json` | A2 per-model evidence snapshot or unrun stub |
+| `head_path_analysis.json` / `results/head-path/*.json` | Optional A5 attention head-slice verification |
 | `failure_analysis.json` | Dead features, stability, controls, negative findings |
 | `component_localization.json` | Optional residual/attention/MLP output localization |
 | `protocol.json` | Machine-readable split and selection discipline |
