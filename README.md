@@ -327,6 +327,7 @@ Every run produces:
 | `interventions.json` | All sweeps, causal tests, controls, prompt outputs, CIs |
 | `method_comparisons.json` | Direct paired SAE-vs-baseline comparisons |
 | `equivalence_analysis.json` | A6 TOST, inferiority, and paired-power tests |
+| `feature_budget_frontier.json` | A4 SAE top-k and L1-weighted feature-budget frontier |
 | `failure_analysis.json` | Dead features, stability, controls, negative findings |
 | `component_localization.json` | Optional residual/attention/MLP output localization |
 | `protocol.json` | Machine-readable split and selection discipline |

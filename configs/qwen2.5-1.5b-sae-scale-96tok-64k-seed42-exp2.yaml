@@ -4,7 +4,7 @@ behavior: refusal
 evidence_class: empirical_sae_scale_preregistered_config
 dataset_path: data/refusal_controlled_v2_1000.jsonl
 preregistration_path: docs/preregistration_next_phase.frozen.json
-preregistration_hash: ec7662f2fc2aeb9526807be279f3552d0106345967b18f595aaf9b37446e0268
+preregistration_hash: aace0006d8ed430bba3db5dd13ff80394934de80d7840c996d6c1f3def7f30e3
 target_layer: null
 
 model:

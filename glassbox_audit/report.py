@@ -11,6 +11,8 @@ def render_report(artifact_dir: str | Path) -> str:
     interventions = read_json(artifact_dir / "interventions.json")
     equivalence_path = artifact_dir / "equivalence_analysis.json"
     equivalence = read_json(equivalence_path) if equivalence_path.exists() else None
+    frontier_path = artifact_dir / "feature_budget_frontier.json"
+    frontier = read_json(frontier_path) if frontier_path.exists() else None
     features = read_json(artifact_dir / "features.json")
     baseline = summary["baseline_metrics"]
     selected = summary["validation_selected_sae_steering"]
@@ -105,6 +107,25 @@ def render_report(artifact_dir: str | Path) -> str:
                 f"- One-sided power at target n={equivalence['power_analysis']['assumptions']['target_n_prompt_pairs']}: "
                 f"{power['power_at_target_n']:.3f}",
                 f"- Required n for target power: `{power['required_n_prompt_pairs']}` prompt pairs",
+            ]
+        )
+    if frontier:
+        best = min(
+            frontier["rows"],
+            key=lambda row: float(row["delta_mean_harmful_score_ci"]["estimate"]),
+        )
+        mean_ref = frontier["mean_difference_reference"]["delta_mean_harmful_score_ci"][
+            "estimate"
+        ]
+        lines.extend(
+            [
+                "",
+                "## Feature-Budget Frontier",
+                "",
+                f"- Budgets: `{frontier['budgets']}`",
+                f"- Best SAE budget row: `{best['method']}` at k=`{best['budget']}` "
+                f"({best['delta_mean_harmful_score_ci']['estimate']:+.3f})",
+                f"- Mean-difference reference: {mean_ref:+.3f}",
             ]
         )
     lines.extend(

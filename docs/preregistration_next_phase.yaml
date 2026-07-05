@@ -40,6 +40,18 @@ thresholds:
   power_alpha: 0.05
   power_target: 0.8
   power_target_n_pairs: 500
+  feature_budgets:
+    - 1
+    - 2
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    - 500
+    - 1000
+  feature_budget_l1_coefficient: 0.001
+  feature_budget_l1_epochs: 500
 
 metrics:
   - harmful_refusal_rate
@@ -50,6 +62,7 @@ metrics:
   - empirical_one_sided_random_control_p
   - sae_reconstruction_diagnostics
   - component_output_delta_fraction_of_residual
+  - sae_feature_budget_frontier
 
 baselines:
   - mean_difference_direction

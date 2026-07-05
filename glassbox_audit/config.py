@@ -46,6 +46,11 @@ class EvaluationConfig:
     power_assumed_pair_sd: float = 0.4
     power_target: float = 0.8
     power_target_n: int = 500
+    feature_budgets: list[int] = field(
+        default_factory=lambda: [1, 2, 5, 10, 20, 50, 100, 500, 1000]
+    )
+    feature_budget_l1_coefficient: float = 0.001
+    feature_budget_l1_epochs: int = 500
     steering_scales: list[float] = field(default_factory=lambda: [-4.0, -2.0, -1.0, 1.0])
     random_controls: int = 8
     control_scale: float = -2.0

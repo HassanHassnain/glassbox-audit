@@ -76,6 +76,11 @@ actual encode-zero-decode feature ablation.
 Selected methods are also compared directly with paired method-vs-method intervals, rather than
 only independently against the unmodified baseline.
 
+The A4 feature-budget frontier evaluates fixed SAE latent budgets
+`{1, 2, 5, 10, 20, 50, 100, 500, 1000}`. Top-k rows use train-only feature-effect ranking. The
+weighted rows fit L1-regularized logistic weights on train SAE activations only, then test the
+corresponding decoder-space direction on held-out prompts.
+
 The important comparison is not only maximum effect. Report the Pareto trade-off between harmful
 behavior change, benign behavior change, and capability cost. Hyperparameter selection must use
 validation data or a pre-registered scale, never the held-out test set.

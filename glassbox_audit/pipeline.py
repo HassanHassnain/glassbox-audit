@@ -20,7 +20,9 @@ from .discovery import (
     layer_scan,
     mean_difference_direction,
     random_directions,
+    train_l1_feature_weights,
     train_probe_direction,
+    weighted_feature_direction,
 )
 from .evaluation import calculate_metrics, comparison, select_threshold
 from .interventions import (
@@ -140,6 +142,24 @@ def _validate_real_audit_config(config: ExperimentConfig, records: list[PromptRe
         (config.evaluation.power_assumed_pair_sd > 0, "power assumed pair SD must be positive"),
         (config.evaluation.power_target >= 0.8, "power target must be at least 0.8"),
         (config.evaluation.power_target_n >= 500, "power target n must be at least 500 pairs"),
+        (
+            bool(config.evaluation.feature_budgets)
+            and all(budget > 0 for budget in config.evaluation.feature_budgets),
+            "feature budgets must be positive",
+        ),
+        (
+            config.evaluation.feature_budgets
+            == sorted(set(config.evaluation.feature_budgets)),
+            "feature budgets must be sorted and unique",
+        ),
+        (
+            config.evaluation.feature_budget_l1_coefficient >= 0,
+            "feature-budget L1 coefficient must be nonnegative",
+        ),
+        (
+            config.evaluation.feature_budget_l1_epochs > 0,
+            "feature-budget L1 epochs must be positive",
+        ),
         (config.sae.tokens_per_prompt > 1, "SAE must train on multiple train-prompt token activations"),
         (
             all(len(split_records(records, split)) >= 20 for split in ["train", "validation", "test"]),
@@ -407,6 +427,102 @@ def run_audit(
     write_json(checkpoint_dir / "causal_tests.json", causal_tests)
     finish_stage("held_out_causal_tests", rows=len(causal_tests))
 
+    start_stage("feature_budget_frontier")
+    positive_ranked_features = [
+        int(row["feature"]) for row in features if float(row["effect_size"]) > 0
+    ]
+    fallback_ranked_features = [int(row["feature"]) for row in features]
+    ranked_features = positive_ranked_features + [
+        feature for feature in fallback_ranked_features if feature not in positive_ranked_features
+    ]
+    budgets = [
+        min(int(budget), len(ranked_features))
+        for budget in config.evaluation.feature_budgets
+        if int(budget) > 0
+    ]
+    budgets = sorted(set(budget for budget in budgets if budget > 0))
+    l1_weights, l1_metrics = train_l1_feature_weights(
+        sae_result.model,
+        target_activations,
+        labels,
+        config.seed + 700,
+        l1_coefficient=config.evaluation.feature_budget_l1_coefficient,
+        epochs=config.evaluation.feature_budget_l1_epochs,
+    )
+    l1_ranked_features = sorted(
+        range(len(l1_weights)),
+        key=lambda index: abs(float(l1_weights[index])),
+        reverse=True,
+    )
+    frontier_rows = []
+    for budget in budgets:
+        selected_budget_features = ranked_features[:budget]
+        topk_result = _run_comparison(
+            config,
+            model,
+            test_records,
+            baseline,
+            target_layer,
+            AblateSAEFeatures(sae_result.model, selected_budget_features),
+        )
+        topk_result.update(
+            {
+                "method": "sae_topk_feature_ablation",
+                "budget": budget,
+                "requested_budget": budget,
+                "selected_features": selected_budget_features,
+                "selection_policy": "train feature effect-size rank; positive effects first",
+            }
+        )
+        frontier_rows.append(topk_result)
+
+        selected_l1_features = l1_ranked_features[:budget]
+        l1_direction = _orient(
+            weighted_feature_direction(sae_result.model, l1_weights, selected_l1_features),
+            target_activations,
+            labels,
+        )
+        l1_result = _run_comparison(
+            config,
+            model,
+            test_records,
+            baseline,
+            target_layer,
+            AblateDirection(l1_direction),
+        )
+        l1_result.update(
+            {
+                "method": "sae_l1_weighted_direction_ablation",
+                "budget": budget,
+                "requested_budget": budget,
+                "selected_features": selected_l1_features,
+                "selection_policy": "train L1 logistic weights ranked by absolute value",
+            }
+        )
+        frontier_rows.append(l1_result)
+    feature_budget_frontier = {
+        "schema_version": "1.0",
+        "artifact_notice": (
+            "A4 feature-budget frontier. Feature ranking and L1 weights are train-only; "
+            "all rows are held-out test evaluations."
+        ),
+        "budgets": budgets,
+        "configured_budgets": config.evaluation.feature_budgets,
+        "target_layer": target_layer,
+        "l1_weight_metrics": l1_metrics,
+        "mean_difference_reference": {
+            key: value
+            for key, value in causal_tests["mean_difference_direction_ablation"].items()
+            if key != "outputs"
+        },
+        "rows": frontier_rows,
+    }
+    write_json(
+        output_dir / "feature_budget_frontier.json",
+        _stamp_preregistration(feature_budget_frontier, preregistration),
+    )
+    finish_stage("feature_budget_frontier", rows=len(frontier_rows), budgets=budgets)
+
     start_stage("random_direction_and_matched_sae_controls")
     random_control_rows = []
     random_sae, random_sae_controls = _random_sae_controls(
@@ -594,6 +710,10 @@ def run_audit(
         if layerwise_controls
         else None
     )
+    best_feature_budget_row = min(
+        frontier_rows,
+        key=lambda row: float(row["delta_mean_harmful_score_ci"]["estimate"]),
+    )
     summary = {
         "evidence_class": config.evidence_class,
         "model": model.name,
@@ -624,6 +744,9 @@ def run_audit(
             if strongest_layer_control
             else None
         ),
+        "best_feature_budget_frontier": {
+            key: value for key, value in best_feature_budget_row.items() if key != "outputs"
+        },
         "sae_outperforms_simple_baselines": failure_analysis["baseline_comparison"][
             "sae_outperforms_simple_baselines"
         ],
@@ -755,6 +878,10 @@ def run_audit(
     write_json(
         output_dir / "equivalence_analysis.json",
         _stamp_preregistration(equivalence_analysis, preregistration),
+    )
+    write_json(
+        output_dir / "feature_budget_frontier.json",
+        _stamp_preregistration(feature_budget_frontier, preregistration),
     )
     write_json(
         output_dir / "failure_analysis.json",

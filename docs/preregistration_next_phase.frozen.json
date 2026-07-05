@@ -21,7 +21,8 @@
       "specificity_capability_utility",
       "empirical_one_sided_random_control_p",
       "sae_reconstruction_diagnostics",
-      "component_output_delta_fraction_of_residual"
+      "component_output_delta_fraction_of_residual",
+      "sae_feature_budget_frontier"
     ],
     "name": "next_phase_refusal_audit",
     "questions": {
@@ -76,6 +77,19 @@
     "thresholds": {
       "bootstrap_confidence": 0.95,
       "equivalence_margin": 0.02,
+      "feature_budget_l1_coefficient": 0.001,
+      "feature_budget_l1_epochs": 500,
+      "feature_budgets": [
+        1,
+        2,
+        5,
+        10,
+        20,
+        50,
+        100,
+        500,
+        1000
+      ],
       "inferiority_margin": 0.02,
       "power_alpha": 0.05,
       "power_target": 0.8,
@@ -83,7 +97,7 @@
       "random_control_alpha": 0.05
     }
   },
-  "preregistration_hash": "ec7662f2fc2aeb9526807be279f3552d0106345967b18f595aaf9b37446e0268",
+  "preregistration_hash": "aace0006d8ed430bba3db5dd13ff80394934de80d7840c996d6c1f3def7f30e3",
   "schema_version": "1.0",
   "source": "docs/preregistration_next_phase.yaml"
 }

@@ -37,6 +37,7 @@ def _generate_figures(artifact_dir: Path, figures_dir: Path) -> None:
     failure = read_json(artifact_dir / "failure_analysis.json")
     sae = read_json(artifact_dir / "sae_metrics.json")
     summary = read_json(artifact_dir / "summary.json")
+    feature_budget_path = artifact_dir / "feature_budget_frontier.json"
 
     plt.style.use("dark_background")
     colors = {"sae_features": "#7dd3fc", "mean_difference": "#fbbf24", "linear_probe": "#c084fc"}
@@ -159,6 +160,43 @@ def _generate_figures(artifact_dir: Path, figures_dir: Path) -> None:
     fig.savefig(figures_dir / "category_effects.png", dpi=180, bbox_inches="tight")
     plt.close(fig)
 
+    if feature_budget_path.exists():
+        frontier = read_json(feature_budget_path)
+        fig, ax = plt.subplots(figsize=(9, 5))
+        colors = {
+            "sae_topk_feature_ablation": "#7dd3fc",
+            "sae_l1_weighted_direction_ablation": "#34d399",
+        }
+        for method, color in colors.items():
+            rows = sorted(
+                [row for row in frontier["rows"] if row["method"] == method],
+                key=lambda row: row["budget"],
+            )
+            if not rows:
+                continue
+            ax.plot(
+                [row["budget"] for row in rows],
+                [row["delta_mean_harmful_score_ci"]["estimate"] for row in rows],
+                marker="o",
+                color=color,
+                label=method.replace("_", " "),
+            )
+        mean_ref = frontier["mean_difference_reference"]["delta_mean_harmful_score_ci"][
+            "estimate"
+        ]
+        ax.axhline(mean_ref, color="#fbbf24", linestyle="--", label="mean difference")
+        ax.axhline(0, color="white", linewidth=0.6)
+        ax.set_xscale("log")
+        ax.set(
+            title="SAE feature-budget frontier",
+            xlabel="Latent budget",
+            ylabel="Harmful refusal-score delta",
+        )
+        ax.legend(frameon=False)
+        fig.tight_layout()
+        fig.savefig(figures_dir / "feature_budget_frontier.png", dpi=180, bbox_inches="tight")
+        plt.close(fig)
+
     baseline = summary["baseline_metrics"]
     fig = plt.figure(figsize=(13, 7), facecolor="#07111f")
     fig.text(0.05, 0.92, "GLASSBOX · REFUSAL AUDIT WORKBENCH", color="#e2e8f0", fontsize=20, weight="bold")
@@ -220,6 +258,11 @@ def generate_publication_bundle(artifact_dir: str | Path, docs_dir: str | Path) 
     equivalence_artifact = (
         read_json(artifact_dir / "equivalence_analysis.json")
         if (artifact_dir / "equivalence_analysis.json").exists()
+        else None
+    )
+    feature_budget_artifact = (
+        read_json(artifact_dir / "feature_budget_frontier.json")
+        if (artifact_dir / "feature_budget_frontier.json").exists()
         else None
     )
     _generate_figures(artifact_dir, figures_dir)
@@ -334,6 +377,42 @@ matched pairs is `{one_sided_power['power_at_target_n']:.3f}`. See
 [equivalence table](tables/equivalence_analysis.md).
 """
         equivalence_results_link = ", and [equivalence analysis](tables/equivalence_analysis.md)"
+
+    feature_budget_section = ""
+    feature_budget_results_link = ""
+    if feature_budget_artifact is not None:
+        frontier_table = [
+            "# Feature-Budget Frontier",
+            "",
+            "| Method | Budget | Harmful score delta | Benign score delta | Capability NLL delta |",
+            "|---|---:|---:|---:|---:|",
+        ]
+        for row in sorted(
+            feature_budget_artifact["rows"],
+            key=lambda item: (item["method"], item["budget"]),
+        ):
+            frontier_table.append(
+                f"| {row['method']} | {row['budget']} | "
+                f"{_ci(row, 'delta_mean_harmful_score_ci')} | "
+                f"{_ci(row, 'delta_mean_benign_score_ci')} | "
+                f"{_ci(row, 'delta_capability_nll_ci')} |"
+            )
+        _write(tables_dir / "feature_budget_frontier.md", "\n".join(frontier_table))
+        best_frontier = min(
+            feature_budget_artifact["rows"],
+            key=lambda row: float(row["delta_mean_harmful_score_ci"]["estimate"]),
+        )
+        feature_budget_section = f"""
+## Feature-Budget Frontier
+
+The A4 frontier evaluates fixed latent budgets `{feature_budget_artifact['budgets']}` with train-only
+feature ranking and train-only L1 weights. The strongest SAE budget row is
+`{best_frontier['method']}` at k=`{best_frontier['budget']}` with harmful-score delta
+`{best_frontier['delta_mean_harmful_score_ci']['estimate']:+.3f}`.
+
+![Feature-budget frontier](figures/feature_budget_frontier.png)
+"""
+        feature_budget_results_link = ", and [feature-budget frontier](tables/feature_budget_frontier.md)"
 
     category_table = [
         "# Category-Level Failure Analysis",
@@ -462,7 +541,7 @@ after layer/feature discovery on train and threshold/scale selection on validati
 - Random-SAE control protocol: `{random_sae_protocol['status'] if random_sae_protocol else 'native_untrained_preprocessing'}`
 
 See [Negative Results](NEGATIVE_RESULTS.md), [causal results](tables/causal_results.md),
-and [direct paired comparisons](tables/method_comparisons.md){equivalence_results_link}.
+and [direct paired comparisons](tables/method_comparisons.md){equivalence_results_link}{feature_budget_results_link}.
 """
     _write(docs_dir / "RESULTS_REAL_AUDIT.md", results_text)
 
@@ -548,6 +627,8 @@ p-value is `{failure['random_ablation_control_comparison']['empirical_one_sided_
 {component_section}
 
 {equivalence_section}
+
+{feature_budget_section}
 
 ## Failure Analysis
 
