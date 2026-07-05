@@ -488,6 +488,11 @@ def build_failure_analysis(
 def refresh_failure_analysis(artifact_dir: str | Path) -> dict[str, object]:
     artifact_dir = Path(artifact_dir)
     interventions = read_json(artifact_dir / "interventions.json")
+    existing_failure = (
+        read_json(artifact_dir / "failure_analysis.json")
+        if (artifact_dir / "failure_analysis.json").exists()
+        else {}
+    )
     records = [
         PromptRecord.from_dict(row)
         for row in read_json(artifact_dir / "records.json")
@@ -504,6 +509,9 @@ def refresh_failure_analysis(artifact_dir: str | Path) -> dict[str, object]:
         interventions["random_controls"],
         records,
     )
+    if "preregistration" in existing_failure:
+        failure["preregistration"] = existing_failure["preregistration"]
+        failure["preregistration_hash"] = existing_failure.get("preregistration_hash")
     write_json(artifact_dir / "failure_analysis.json", failure)
     summary = read_json(artifact_dir / "summary.json")
     summary["sae_outperforms_simple_baselines"] = failure["baseline_comparison"][

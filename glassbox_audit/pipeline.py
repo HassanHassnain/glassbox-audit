@@ -31,6 +31,7 @@ from .interventions import (
     normalized,
 )
 from .modeling import AuditModel, load_model
+from .preregistration import preregistration_metadata
 from .report import write_report
 from .sae import TopKSparseAutoencoder, sae_state_dict, train_sae
 from .types import ModelOutput, PromptRecord
@@ -50,6 +51,19 @@ def _orient(direction: torch.Tensor, activations: torch.Tensor, labels: torch.Te
 
 def _serialize_outputs(outputs: list[ModelOutput]) -> list[dict[str, object]]:
     return [output.to_dict() for output in outputs]
+
+
+def _stamp_preregistration(
+    artifact: dict[str, object],
+    preregistration: dict[str, object] | None,
+) -> dict[str, object]:
+    if preregistration is None:
+        return artifact
+    return {
+        **artifact,
+        "preregistration": preregistration,
+        "preregistration_hash": preregistration["hash"],
+    }
 
 
 def _run_comparison(
@@ -145,6 +159,10 @@ def run_audit(
 ) -> dict[str, object]:
     if not isinstance(config, ExperimentConfig):
         config = load_config(config)
+    preregistration = preregistration_metadata(
+        config.preregistration_path,
+        config.preregistration_hash,
+    )
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     checkpoint_dir = output_dir / "checkpoints"
@@ -240,7 +258,10 @@ def run_audit(
     )
     write_json(
         output_dir / "sae_metrics.json",
-        {"metrics": sae_result.metrics, "history": sae_result.history},
+        _stamp_preregistration(
+            {"metrics": sae_result.metrics, "history": sae_result.history},
+            preregistration,
+        ),
     )
     torch.save(sae_state_dict(sae_result.model), output_dir / "sae.pt")
     finish_stage(
@@ -611,6 +632,9 @@ def run_audit(
         ],
         "negative_findings": failure_analysis["negative_findings"],
     }
+    if preregistration is not None:
+        summary["preregistration"] = preregistration
+        summary["preregistration_hash"] = preregistration["hash"]
     protocol = {
         "mode": config.mode,
         "train_records_used_for_discovery_and_sae_only": len(train_records),
@@ -650,6 +674,9 @@ def run_audit(
             "final_summary_written_after_all_expected_artifacts": True,
         },
     }
+    if preregistration is not None:
+        protocol["preregistration"] = preregistration
+        protocol["preregistration_hash"] = preregistration["hash"]
     manifest = {
         "schema_version": "1.0",
         "config": config.to_dict(),
@@ -665,6 +692,9 @@ def run_audit(
             else "Empirical results from the configured model; inspect config and seed before reuse."
         ),
     }
+    if preregistration is not None:
+        manifest["preregistration"] = preregistration
+        manifest["preregistration_hash"] = preregistration["hash"]
     intervention_artifact = {
         "baseline_outputs": _serialize_outputs(baseline),
         "validation_sweeps": validation_sweeps,
@@ -709,12 +739,27 @@ def run_audit(
     write_json(output_dir / "features.json", features)
     write_json(
         output_dir / "sae_metrics.json",
-        {"metrics": sae_result.metrics, "history": sae_result.history},
+        _stamp_preregistration(
+            {"metrics": sae_result.metrics, "history": sae_result.history},
+            preregistration,
+        ),
     )
-    write_json(output_dir / "interventions.json", intervention_artifact)
-    write_json(output_dir / "method_comparisons.json", method_comparisons)
-    write_json(output_dir / "equivalence_analysis.json", equivalence_analysis)
-    write_json(output_dir / "failure_analysis.json", failure_analysis)
+    write_json(
+        output_dir / "interventions.json",
+        _stamp_preregistration(intervention_artifact, preregistration),
+    )
+    write_json(
+        output_dir / "method_comparisons.json",
+        _stamp_preregistration(method_comparisons, preregistration),
+    )
+    write_json(
+        output_dir / "equivalence_analysis.json",
+        _stamp_preregistration(equivalence_analysis, preregistration),
+    )
+    write_json(
+        output_dir / "failure_analysis.json",
+        _stamp_preregistration(failure_analysis, preregistration),
+    )
     write_json(output_dir / "summary.json", summary)
     torch.save(sae_state_dict(sae_result.model), output_dir / "sae.pt")
     torch.save(

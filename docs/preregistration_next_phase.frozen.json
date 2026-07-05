@@ -1,0 +1,89 @@
+{
+  "preregistration": {
+    "baselines": [
+      "mean_difference_direction",
+      "logistic_probe_direction",
+      "random_directions",
+      "matched_random_untrained_sae_latents",
+      "layerwise_residual_ablation_controls"
+    ],
+    "hypotheses": {
+      "H1_residual_replication": "The train-selected residual-stream layer suppresses held-out harmful refusal score under mean-difference direction ablation.",
+      "H2_component_specificity": "A component counts only if it explains a large, specific fraction of the matched residual-stream ablation.",
+      "H3_sae_utility": "SAE methods must beat mean-difference and logistic-probe baselines on utility, direct paired harmful-score comparison, and matched random controls.",
+      "H4_circuit_claim": "Circuit language requires necessity, sufficiency, specificity, and held-out replication evidence."
+    },
+    "metrics": [
+      "harmful_refusal_rate",
+      "benign_overrefusal_rate",
+      "continuous_refusal_score_gap",
+      "pair_clustered_harmful_benign_capability_deltas",
+      "specificity_capability_utility",
+      "empirical_one_sided_random_control_p",
+      "sae_reconstruction_diagnostics",
+      "component_output_delta_fraction_of_residual"
+    ],
+    "name": "next_phase_refusal_audit",
+    "questions": {
+      "primary": "Can the layer-27 residual-stream refusal signal be strengthened into component-level or path-level causal evidence?",
+      "secondary": "Can SAE-based feature methods outperform mean-difference and logistic-probe baselines under held-out evaluation without test retuning?"
+    },
+    "reporting_rules": [
+      "separate_completed_failed_inconclusive_future_work_and_unsupported_claims",
+      "report_negative_results_as_results",
+      "do_not_claim_confirmed_circuit_from_residual_stream_direction_alone"
+    ],
+    "run_order": [
+      "qwen2.5-1.5b-expanded-medium",
+      "layerwise_component_scan",
+      "qwen2.5-1.5b-expanded-full_if_feasible",
+      "qwen2.5-3b_cross_model_if_cached_and_feasible",
+      "fixed_sae_stability_grid_if_feasible"
+    ],
+    "schema_version": "1.0",
+    "stopping_rules": [
+      "stop_after_two_oom_failures_at_same_scale",
+      "stop_on_gpu_conflict",
+      "do_not_change_layers_thresholds_scales_features_prompts_bootstrap_or_success_criteria_after_held_out_results",
+      "document_infeasible_1000_pair_or_3b_runs_as_unrun"
+    ],
+    "success_criteria": {
+      "H1_residual_replication": {
+        "abs_benign_delta_lte": 0.03,
+        "harmful_ci_high_lt": 0.0,
+        "harmful_delta_lt": -0.05
+      },
+      "H2_component_specificity": {
+        "abs_benign_delta_lte": 0.03,
+        "capability_nll_delta_lte": 0.05,
+        "harmful_ci_high_lt": 0.0,
+        "min_fraction_of_residual": 0.5
+      },
+      "H3_sae_utility": {
+        "random_control_p_lte": 0.05,
+        "require_direct_paired_harmful_superiority": true,
+        "require_utility_beats_mean_and_probe": true
+      },
+      "H4_circuit_claim": {
+        "requires": [
+          "necessity",
+          "sufficiency",
+          "specificity",
+          "held_out_replication"
+        ]
+      }
+    },
+    "thresholds": {
+      "bootstrap_confidence": 0.95,
+      "equivalence_margin": 0.02,
+      "inferiority_margin": 0.02,
+      "power_alpha": 0.05,
+      "power_target": 0.8,
+      "power_target_n_pairs": 500,
+      "random_control_alpha": 0.05
+    }
+  },
+  "preregistration_hash": "ec7662f2fc2aeb9526807be279f3552d0106345967b18f595aaf9b37446e0268",
+  "schema_version": "1.0",
+  "source": "docs/preregistration_next_phase.yaml"
+}

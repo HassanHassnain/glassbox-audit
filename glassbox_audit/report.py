@@ -30,6 +30,11 @@ def render_report(artifact_dir: str | Path) -> str:
         )
     else:
         evidence_note = "This report contains measurements from the configured open model."
+    preregistration_lines = (
+        [f"- Preregistration hash: `{summary['preregistration_hash']}`"]
+        if summary.get("preregistration_hash")
+        else []
+    )
     lines = [
         "# Glassbox Audit Report",
         "",
@@ -45,6 +50,7 @@ def render_report(artifact_dir: str | Path) -> str:
         f"- Test records: `{summary['test_records']}`",
         f"- Refusal threshold: `{summary['behavior_threshold']:.4f}` "
         f"(source: `{summary['threshold_source']}`)",
+        *preregistration_lines,
         "",
         "## Baseline Behavior",
         "",

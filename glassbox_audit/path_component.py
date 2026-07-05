@@ -251,6 +251,9 @@ def run_path_component_analysis(
             ),
         },
     }
+    if "preregistration" in manifest:
+        artifact["preregistration"] = manifest["preregistration"]
+        artifact["preregistration_hash"] = manifest.get("preregistration_hash")
     write_json(artifact_dir / output_name, artifact)
     snapshot = {
         key: value

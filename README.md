@@ -143,6 +143,9 @@ source .venv/bin/activate
 pip install -e ".[dev,ui,paper]"
 
 glassbox validate-data --data data/refusal_pairs.jsonl
+glassbox prereg freeze \
+  --input docs/preregistration_next_phase.yaml \
+  --output docs/preregistration_next_phase.frozen.json
 glassbox run --config configs/toy.yaml --output artifacts/demo
 glassbox workbench --artifacts artifacts/demo
 pytest
@@ -169,6 +172,9 @@ Run the bounded held-out Qwen audit on a CUDA machine:
 ```bash
 pip install -e ".[dev,ui,paper,accelerate]"
 glassbox build-real-audit-data --output data/refusal_controlled_v1.jsonl
+glassbox prereg freeze \
+  --input docs/preregistration_next_phase.yaml \
+  --output docs/preregistration_next_phase.frozen.json
 CUDA_VISIBLE_DEVICES=0 glassbox run \
   --config configs/qwen2.5-1.5b-real-audit.yaml \
   --output artifacts/qwen-real-audit
@@ -312,6 +318,7 @@ Every run produces:
 | Artifact | Purpose |
 |---|---|
 | `manifest.json` | Full config, runtime, dataset summary, evidence label |
+| `docs/preregistration_next_phase.frozen.json` | Frozen preregistration criteria and SHA-256 hash |
 | `layer_scan.json` | Layer-wise separation statistics |
 | `layerwise_controls.json` | Held-out causal ablation at every scanned layer |
 | `features.json` | Ranked SAE features and activation statistics |
@@ -325,6 +332,10 @@ Every run produces:
 | `protocol.json` | Machine-readable split and selection discipline |
 | `summary.json` | Headline machine-readable result |
 | `REPORT.md` | Human-readable audit report |
+
+When a config sets `preregistration_path` and `preregistration_hash`, `glassbox run` refuses to
+start if the frozen criteria hash differs from the config. New evidence dictionaries embed the
+same hash for auditability.
 
 ## Honest Interpretation
 

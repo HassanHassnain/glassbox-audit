@@ -59,6 +59,8 @@ class ExperimentConfig:
     behavior: str = "refusal"
     evidence_class: str = "unspecified"
     dataset_path: str = "data/refusal_pairs.jsonl"
+    preregistration_path: str | None = None
+    preregistration_hash: str | None = None
     target_layer: int | None = None
     model: ModelConfig = field(default_factory=ModelConfig)
     sae: SAEConfig = field(default_factory=SAEConfig)
@@ -78,6 +80,10 @@ def load_config(path: str | Path) -> ExperimentConfig:
     config = ExperimentConfig(model=model, sae=sae, evaluation=evaluation, **raw)
     if config.dataset_path and not Path(config.dataset_path).is_absolute():
         config.dataset_path = str((path.parent.parent / config.dataset_path).resolve())
+    if config.preregistration_path and not Path(config.preregistration_path).is_absolute():
+        config.preregistration_path = str(
+            (path.parent.parent / config.preregistration_path).resolve()
+        )
     if config.model.cache_dir and not Path(config.model.cache_dir).is_absolute():
         config.model.cache_dir = str((path.parent.parent / config.model.cache_dir).resolve())
     if os.environ.get("GLASSBOX_MODEL_DEVICE"):

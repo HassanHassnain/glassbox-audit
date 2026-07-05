@@ -422,6 +422,11 @@ stable mechanism-level explanation. See `failure_analysis.json` for all machine-
         f"{_ci(row, 'delta_capability_nll_ci')} |"
         for row in selected
     )
+    preregistration_line = (
+        f"- Preregistration hash: `{summary['preregistration_hash']}`\n"
+        if summary.get("preregistration_hash")
+        else ""
+    )
     results_text = f"""# Results: Real-Model Refusal Audit
 
 **Evidence class:** `{summary['evidence_class']}`
@@ -438,6 +443,7 @@ after layer/feature discovery on train and threshold/scale selection on validati
 - Test benign over-refusal: `{baseline['benign_overrefusal_rate']:.1%}`
 - SAE dead features: `{summary['sae_metrics']['dead_feature_fraction']:.1%}`
 - SAE utility flag: `{summary['sae_outperforms_simple_baselines']}`
+{preregistration_line}
 
 ## Frozen Steering Comparison
 
