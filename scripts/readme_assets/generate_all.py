@@ -12,6 +12,7 @@ SCRIPTS = [
     "generate_stability.py",
     "generate_component.py",
     "generate_ladder.py",
+    "generate_dose.py",
     "generate_demo_gif.py",
 ]
 

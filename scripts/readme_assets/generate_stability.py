@@ -106,7 +106,7 @@ d.text((172, 1160), "every cell beats its matched random-SAE control — and los
 RB = (2300, 360, 3240, 1240)
 glass_panel(img, RB, radius=30)
 d = ImageDraw.Draw(img)
-text_tracked(d, (2360, 404), "PREREGISTERED H3", jb(34, "Bold"), TEXT, tracking=3)
+text_tracked(d, (2360, 404), "SAE SUPERIORITY", jb(34, "Bold"), TEXT, tracking=3)
 d.line([2360, 470, 3180, 470], fill=HAIRLINE_SOFT, width=2)
 
 big = sg(300, "Bold")
