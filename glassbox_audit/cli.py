@@ -209,6 +209,21 @@ def build_parser() -> argparse.ArgumentParser:
     head_path.add_argument("--output-name", default="head_path_analysis.json")
     head_path.add_argument("--output-table", default="docs/tables/head_path.md")
 
+    certify = subparsers.add_parser(
+        "certify",
+        help="Run or load a frozen audit and emit an intervention audit card",
+    )
+    certify.add_argument("--artifacts", default=None)
+    certify.add_argument("--config", default=None)
+    certify.add_argument("--output-artifacts", default=None)
+    certify.add_argument("--candidate-intervention", default=None)
+    certify.add_argument("--external-artifacts", nargs="*", default=[])
+    certify.add_argument("--output-json", default="results/certification/audit_card.json")
+    certify.add_argument("--output-html", default="results/certification/audit_card.html")
+    certify.add_argument("--output-pdf", default=None)
+    certify.add_argument("--sign", action="store_true")
+    certify.add_argument("--git-ref", default=None)
+
     repro = subparsers.add_parser(
         "reproducibility-diff", help="Compare Phase 4 and clean-room rerun artifacts"
     )
@@ -566,6 +581,45 @@ def main() -> None:
         ]
         compact["table"] = str(table_path)
         print(json.dumps(compact, indent=2))
+    elif args.command == "certify":
+        from .certification import write_certification_card
+
+        if bool(args.artifacts) == bool(args.config):
+            raise SystemExit("certify requires exactly one of --artifacts or --config")
+        artifact_dir = args.artifacts
+        if args.config:
+            if not args.output_artifacts:
+                raise SystemExit("certify --config requires --output-artifacts")
+            from .config import load_config
+            from .pipeline import run_audit
+
+            run_audit(load_config(args.config), args.output_artifacts)
+            artifact_dir = args.output_artifacts
+
+        card = write_certification_card(
+            artifact_dir,
+            output_json=args.output_json,
+            output_html=args.output_html,
+            output_pdf=args.output_pdf,
+            candidate_intervention=args.candidate_intervention,
+            external_artifacts=args.external_artifacts,
+            sign=args.sign,
+            git_ref=args.git_ref,
+        )
+        print(
+            json.dumps(
+                {
+                    "artifact_dir": artifact_dir,
+                    "output_json": args.output_json,
+                    "output_html": args.output_html,
+                    "output_pdf": args.output_pdf,
+                    "certified_evidence_method": card["certified_evidence_method"],
+                    "overall_passed": card["overall_verdict"]["passed"],
+                    "signature": card.get("signature"),
+                },
+                indent=2,
+            )
+        )
     elif args.command == "reproducibility-diff":
         from .phase5 import write_reproducibility_diff
 

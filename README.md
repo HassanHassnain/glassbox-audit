@@ -161,6 +161,7 @@ make reproduce-core
 make reproduce-cleanroom
 make reproduce-external
 make model-sweep
+make certify
 make report
 make final-report
 make release-check
@@ -190,6 +191,13 @@ CUDA_VISIBLE_DEVICES=0 glassbox component-localize \
   --direction mean_difference \
   --device cuda:0
 glassbox paper --artifacts artifacts/qwen-real-audit --docs docs
+glassbox certify \
+  --artifacts artifacts/qwen-real-audit \
+  --candidate-intervention candidate.json \
+  --output-json results/certification/qwen-real-audit.card.json \
+  --output-html results/certification/qwen-real-audit.card.html \
+  --output-pdf results/certification/qwen-real-audit.card.pdf \
+  --sign
 ```
 
 Use `pip install -e ".[dev,ui,paper,accelerate,sae-zoo]"` for configs with
@@ -339,6 +347,7 @@ Every run produces:
 | `results/model-sweep/<model_slug>.json` | A2 per-model evidence snapshot or unrun stub |
 | `head_path_analysis.json` / `results/head-path/*.json` | Optional A5 attention head-slice verification |
 | `docs/preregistration_sycophancy.frozen.json` | A7 frozen sycophancy behavior-audit preregistration |
+| `results/certification/*.card.json` / `.html` / `.pdf` | B1 intervention audit cards |
 | `failure_analysis.json` | Dead features, stability, controls, negative findings |
 | `component_localization.json` | Optional residual/attention/MLP output localization |
 | `protocol.json` | Machine-readable split and selection discipline |
