@@ -1,4 +1,4 @@
-.PHONY: install smoke test lint compile toy sycophancy-toy workbench qwen qwen-full real-audit model-sweep head-path certify drift paper reproduce-core reproduce-cleanroom reproduce-external report final-report validate release-check
+.PHONY: install smoke test lint compile toy sycophancy-toy workbench qwen qwen-full real-audit model-sweep head-path certify drift leaderboard paper reproduce-core reproduce-cleanroom reproduce-external report final-report validate release-check
 
 install:
 	pip install -e ".[dev,ui]"
@@ -55,6 +55,12 @@ drift:
 		--output-json results/drift/qwen15b_to_qwen3b.json \
 		--output-doc results/drift/qwen15b_to_qwen3b.md
 
+leaderboard:
+	python scripts/build_leaderboard.py \
+		--artifacts-root results \
+		--output-json results/leaderboard/leaderboard.json \
+		--output-html docs/leaderboard/index.html
+
 paper:
 	python -m glassbox_audit.cli paper --artifacts artifacts/qwen-real-audit --docs docs
 
@@ -76,5 +82,5 @@ final-report:
 validate: test lint compile toy
 	python -m glassbox_audit.cli workbench --help
 
-release-check: validate final-report
+release-check: validate final-report leaderboard
 	python -m glassbox_audit.cli workbench --help

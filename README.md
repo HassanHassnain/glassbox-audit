@@ -163,6 +163,7 @@ make reproduce-external
 make model-sweep
 make certify
 make drift
+make leaderboard
 make report
 make final-report
 make release-check
@@ -350,6 +351,7 @@ Every run produces:
 | `docs/preregistration_sycophancy.frozen.json` | A7 frozen sycophancy behavior-audit preregistration |
 | `results/certification/*.card.json` / `.html` / `.pdf` | B1 intervention audit cards |
 | `results/drift/*.json` / `.md` | B2 mechanism-drift reports across model versions |
+| `results/leaderboard/leaderboard.json` / `docs/leaderboard/index.html` | B3 static causal-handle leaderboard |
 | `failure_analysis.json` | Dead features, stability, controls, negative findings |
 | `component_localization.json` | Optional residual/attention/MLP output localization |
 | `protocol.json` | Machine-readable split and selection discipline |
