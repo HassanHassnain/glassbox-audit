@@ -1,0 +1,20 @@
+{
+  "artifact_dir": null,
+  "config": "configs/a2_model_sweep/mistral-7b-instruct-v03.yaml",
+  "family": "mistral",
+  "linear_probe_harmful_delta": null,
+  "mean_difference_harmful_delta": null,
+  "model": "mistralai/Mistral-7B-Instruct-v0.3",
+  "params_b": 7.0,
+  "refusal_direction_effect_size": null,
+  "sae_harmful_delta": null,
+  "sae_minus_mean_gap": null,
+  "sae_minus_probe_gap": null,
+  "schema_version": "1.0",
+  "slug": "mistral-7b-instruct-v03",
+  "status": "unrun",
+  "target_layer": null,
+  "target_layer_depth_fraction": null,
+  "test_pairs": null,
+  "test_records": null
+}

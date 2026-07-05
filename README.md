@@ -159,6 +159,7 @@ make toy
 make reproduce-core
 make reproduce-cleanroom
 make reproduce-external
+make model-sweep
 make report
 make final-report
 make release-check
@@ -333,6 +334,8 @@ Every run produces:
 | `feature_budget_frontier.json` | A4 SAE top-k and L1-weighted feature-budget frontier |
 | `results/sae-zoo/<model>_<release>_<sae_id>.json` | Optional A1 public SAELens SAE evaluation snapshot |
 | `results/sae-zoo/league_table.json` / `.md` | Optional A1 public-SAE comparison table |
+| `results/model-sweep/a2_summary.json` | A2 cross-model sweep aggregate, including unrun cells |
+| `results/model-sweep/<model_slug>.json` | A2 per-model evidence snapshot or unrun stub |
 | `failure_analysis.json` | Dead features, stability, controls, negative findings |
 | `component_localization.json` | Optional residual/attention/MLP output localization |
 | `protocol.json` | Machine-readable split and selection discipline |

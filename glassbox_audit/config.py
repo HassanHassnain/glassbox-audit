@@ -32,6 +32,7 @@ class SAEConfig:
     device: str = "auto"
     tokens_per_prompt: int = 1
     max_activation_samples: int | None = None
+    samples_per_feature: float | None = None
     activation_subsample_seed: int | None = None
     saelens_release: str | None = None
     saelens_sae_id: str | None = None

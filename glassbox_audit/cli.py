@@ -26,6 +26,43 @@ def build_parser() -> argparse.ArgumentParser:
     prereg_freeze.add_argument("--input", required=True, help="Preregistration YAML path")
     prereg_freeze.add_argument("--output", required=True, help="Frozen preregistration JSON path")
 
+    model_sweep = subparsers.add_parser("model-sweep", help="A2 cross-model sweep utilities")
+    model_sweep_subparsers = model_sweep.add_subparsers(
+        dest="model_sweep_command",
+        required=True,
+    )
+    sweep_configs = model_sweep_subparsers.add_parser(
+        "write-configs",
+        help="Write the preregistered A2 model-sweep config grid",
+    )
+    sweep_configs.add_argument("--output-dir", default="configs/a2_model_sweep")
+    sweep_configs.add_argument("--dataset-path", default="data/refusal_controlled_v2_1000.jsonl")
+    sweep_configs.add_argument(
+        "--preregistration-path",
+        default="docs/preregistration_model_sweep.frozen.json",
+    )
+    sweep_configs.add_argument("--preregistration-hash", default=None)
+    sweep_configs.add_argument("--device", default="cuda:0")
+    sweep_configs.add_argument("--sae-device", default=None)
+    sweep_configs.add_argument("--cache-dir", default=None)
+    sweep_configs.add_argument("--seed", type=int, default=17)
+    sweep_configs.add_argument("--tokens-per-prompt", type=int, default=64)
+    sweep_configs.add_argument("--samples-per-feature", type=float, default=8.0)
+    sweep_configs.add_argument("--epochs", type=int, default=220)
+    sweep_configs.add_argument("--bootstrap-samples", type=int, default=2500)
+    sweep_configs.add_argument("--random-controls", type=int, default=24)
+
+    sweep_summary = model_sweep_subparsers.add_parser(
+        "summarize",
+        help="Summarize completed and unrun A2 model-sweep cells",
+    )
+    sweep_summary.add_argument("--configs-dir", default="configs/a2_model_sweep")
+    sweep_summary.add_argument("--artifacts-root", default="artifacts/a2_model_sweep")
+    sweep_summary.add_argument("--artifact-dirs", nargs="*", default=[])
+    sweep_summary.add_argument("--output-json", default="results/model-sweep/a2_summary.json")
+    sweep_summary.add_argument("--output-table", default="docs/tables/model_sweep.md")
+    sweep_summary.add_argument("--output-figure", default="docs/figures/model_sweep.png")
+
     validate = subparsers.add_parser("validate-data", help="Validate and summarize a dataset")
     validate.add_argument("--data", required=True)
 
@@ -234,6 +271,49 @@ def main() -> None:
                 indent=2,
             )
         )
+    elif args.command == "model-sweep":
+        from .model_sweep import summarize_model_sweep, write_model_sweep_configs
+
+        if args.model_sweep_command == "write-configs":
+            result = write_model_sweep_configs(
+                output_dir=args.output_dir,
+                dataset_path=args.dataset_path,
+                preregistration_path=args.preregistration_path,
+                preregistration_hash=args.preregistration_hash,
+                device=args.device,
+                sae_device=args.sae_device,
+                cache_dir=args.cache_dir,
+                seed=args.seed,
+                tokens_per_prompt=args.tokens_per_prompt,
+                samples_per_feature=args.samples_per_feature,
+                epochs=args.epochs,
+                bootstrap_samples=args.bootstrap_samples,
+                random_controls=args.random_controls,
+            )
+            print(json.dumps(result, indent=2))
+        elif args.model_sweep_command == "summarize":
+            result = summarize_model_sweep(
+                configs_dir=args.configs_dir,
+                artifacts_root=args.artifacts_root,
+                artifact_dirs=args.artifact_dirs,
+                output_json=args.output_json,
+                output_table=args.output_table,
+                output_figure=args.output_figure,
+            )
+            print(
+                json.dumps(
+                    {
+                        "output": args.output_json,
+                        "models_predeclared": result["models_predeclared"],
+                        "models_completed": result["models_completed"],
+                        "table": result["table"],
+                        "figure": result["figure"],
+                    },
+                    indent=2,
+                )
+            )
+        else:
+            raise ValueError(f"Unsupported model-sweep command: {args.model_sweep_command}")
     elif args.command == "validate-data":
         from .data import dataset_summary, load_records
 

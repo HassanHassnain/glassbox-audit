@@ -410,6 +410,10 @@ def _validate_real_audit_config(config: ExperimentConfig, records: list[PromptRe
             config.evaluation.feature_budget_l1_epochs > 0,
             "feature-budget L1 epochs must be positive",
         ),
+        (
+            config.sae.samples_per_feature is None or config.sae.samples_per_feature > 0,
+            "SAE samples_per_feature must be positive when configured",
+        ),
         (config.sae.tokens_per_prompt > 1, "SAE must train on multiple train-prompt token activations"),
         (
             all(len(split_records(records, split)) >= 20 for split in ["train", "validation", "test"]),
@@ -497,6 +501,13 @@ def run_audit(
     start_stage("model_load")
     model = model or load_model(config.model, config.seed)
     finish_stage("model_load", model=model.name, hidden_size=model.hidden_size)
+    scaled_activation_sample_cap = None
+    if config.sae.source == "trained" and config.sae.samples_per_feature is not None:
+        scaled_activation_sample_cap = int(
+            round(model.hidden_size * config.sae.expansion_factor * config.sae.samples_per_feature)
+        )
+        if scaled_activation_sample_cap <= 0:
+            raise ValueError("samples_per_feature produced a non-positive activation sample cap")
 
     start_stage("layer_scan")
     activations = model.collect(discovery_records, config.model.layers)
@@ -519,9 +530,16 @@ def run_audit(
         train_records, target_layer, config.sae.tokens_per_prompt
     )
     collected_sae_training_samples = len(sae_training_activations)
+    effective_max_activation_samples = config.sae.max_activation_samples
+    if scaled_activation_sample_cap is not None:
+        effective_max_activation_samples = (
+            min(effective_max_activation_samples, scaled_activation_sample_cap)
+            if effective_max_activation_samples is not None
+            else scaled_activation_sample_cap
+        )
     if (
-        config.sae.max_activation_samples is not None
-        and len(sae_training_activations) > config.sae.max_activation_samples
+        effective_max_activation_samples is not None
+        and len(sae_training_activations) > effective_max_activation_samples
     ):
         generator = torch.Generator().manual_seed(
             config.sae.activation_subsample_seed
@@ -529,7 +547,7 @@ def run_audit(
             else config.seed
         )
         indices = torch.randperm(len(sae_training_activations), generator=generator)[
-            : config.sae.max_activation_samples
+            :effective_max_activation_samples
         ]
         sae_training_activations = sae_training_activations[indices]
 
@@ -591,6 +609,8 @@ def run_audit(
         sae_source=config.sae.source,
         collected_activation_samples=collected_sae_training_samples,
         activation_samples=len(sae_training_activations),
+        scaled_activation_sample_cap=scaled_activation_sample_cap,
+        effective_max_activation_samples=effective_max_activation_samples,
     )
 
     start_stage("feature_discovery")
@@ -1119,6 +1139,9 @@ def run_audit(
             "collected_activation_samples": collected_sae_training_samples,
             "activation_samples": len(sae_training_activations),
             "max_activation_samples": config.sae.max_activation_samples,
+            "samples_per_feature": config.sae.samples_per_feature,
+            "scaled_activation_sample_cap": scaled_activation_sample_cap,
+            "effective_max_activation_samples": effective_max_activation_samples,
             "source": sae_source["source"],
         },
         "behavior_threshold_selection": threshold_source,
