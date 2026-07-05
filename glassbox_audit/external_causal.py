@@ -13,7 +13,13 @@ from .evaluation import calculate_metrics, comparison
 from .external_eval import bounded_external_sample, load_external_eval_records
 from .interventions import AblateDirection, AblateSAEFeatures, AddDirection
 from .modeling import load_model
-from .pipeline import _random_sae_controls, _serialize_outputs
+from .pipeline import (
+    _public_sae_controls,
+    _random_sae_control_protocol,
+    _random_sae_controls,
+    _sae_source_details,
+    _serialize_outputs,
+)
 from .sae import load_sae_from_state
 from .types import ModelOutput, PromptRecord
 from .utils import read_json, seed_everything, write_json
@@ -171,7 +177,9 @@ def run_external_causal_transfer(
         for name, tensor in tensors["directions"].items()
         if name in {"sae_features", "mean_difference", "linear_probe"}
     }
-    sae = load_sae_from_state(str(artifact_dir / "sae.pt"))
+    sae_device = "cpu" if config.sae.device == "auto" else config.sae.device
+    sae = load_sae_from_state(str(artifact_dir / "sae.pt"), device=sae_device)
+    sae_source = _sae_source_details(config, sae)
     selected_features = [int(index) for index in summary["selected_features"]]
     selected_scales = source_interventions["validation_selected_scales"]
     baseline = model.evaluate(records)
@@ -242,13 +250,26 @@ def run_external_causal_transfer(
             )
             random_control_rows.append(row)
 
-    random_sae, random_sae_controls = _random_sae_controls(
-        model.hidden_size,
-        config.sae.expansion_factor,
-        min(config.sae.top_k, model.hidden_size * config.sae.expansion_factor),
-        config.evaluation.random_controls,
-        config.seed + 1300,
-        sae.activation_center,
+    if sae_source["source"] == "saelens":
+        random_sae = sae
+        random_sae_controls = _public_sae_controls(
+            sae,
+            config.evaluation.random_controls,
+            config.seed + 1300,
+        )
+    else:
+        random_sae, random_sae_controls = _random_sae_controls(
+            model.hidden_size,
+            config.sae.expansion_factor,
+            min(config.sae.top_k, model.hidden_size * config.sae.expansion_factor),
+            config.evaluation.random_controls,
+            config.seed + 1300,
+            sae.activation_center,
+        )
+    random_sae_protocol = _random_sae_control_protocol(
+        sae_source=sae_source,
+        config=config,
+        hidden_size=model.hidden_size,
     )
     for feature_index, direction in random_sae_controls:
         for intervention_name, intervention, scale in [
@@ -271,6 +292,7 @@ def run_external_causal_transfer(
                     "control_index": feature_index,
                     "intervention": intervention_name,
                     "scale": scale,
+                    "control_protocol": random_sae_protocol["status"],
                 }
             )
             random_control_rows.append(row)
@@ -287,6 +309,7 @@ def run_external_causal_transfer(
         "model": summary["model"],
         "target_layer": target_layer,
         "selected_features": selected_features,
+        "sae_source": sae_source,
         "threshold": config.evaluation.threshold,
         "selected_scales_source": str(artifact_dir / "interventions.json"),
         "normalized_inputs": [str(path) for path in normalized_paths],
@@ -296,13 +319,7 @@ def run_external_causal_transfer(
         "causal_tests": causal_tests,
         "random_controls": random_control_rows,
         "summary": method_summary,
-        "random_sae_control_protocol": {
-            "status": "matched_center_zero_encoder_bias",
-            "activation_center": "trained_sae_activation_center",
-            "encoder_bias": "zeroed",
-            "latent_intervention": "literal_encode_zero_selected_latent_decode",
-            "selection_policy": "frozen controlled-corpus artifact; no external rediscovery",
-        },
+        "random_sae_control_protocol": random_sae_protocol,
     }
     if "preregistration" in manifest:
         artifact["preregistration"] = manifest["preregistration"]

@@ -21,6 +21,7 @@ class ModelConfig:
 
 @dataclass
 class SAEConfig:
+    source: str = "trained"
     expansion_factor: int = 4
     top_k: int = 8
     epochs: int = 300
@@ -32,6 +33,9 @@ class SAEConfig:
     tokens_per_prompt: int = 1
     max_activation_samples: int | None = None
     activation_subsample_seed: int | None = None
+    saelens_release: str | None = None
+    saelens_sae_id: str | None = None
+    saelens_layer: int | None = None
 
 
 @dataclass

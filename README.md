@@ -190,6 +190,9 @@ CUDA_VISIBLE_DEVICES=0 glassbox component-localize \
 glassbox paper --artifacts artifacts/qwen-real-audit --docs docs
 ```
 
+Use `pip install -e ".[dev,ui,paper,accelerate,sae-zoo]"` for configs with
+`sae.source: saelens`.
+
 The controlled corpus is versioned and reproducible, but it is not a replacement for a naturalistic
 safety benchmark. To use another approved paired dataset:
 
@@ -328,6 +331,8 @@ Every run produces:
 | `method_comparisons.json` | Direct paired SAE-vs-baseline comparisons |
 | `equivalence_analysis.json` | A6 TOST, inferiority, and paired-power tests |
 | `feature_budget_frontier.json` | A4 SAE top-k and L1-weighted feature-budget frontier |
+| `results/sae-zoo/<model>_<release>_<sae_id>.json` | Optional A1 public SAELens SAE evaluation snapshot |
+| `results/sae-zoo/league_table.json` / `.md` | Optional A1 public-SAE comparison table |
 | `failure_analysis.json` | Dead features, stability, controls, negative findings |
 | `component_localization.json` | Optional residual/attention/MLP output localization |
 | `protocol.json` | Machine-readable split and selection discipline |

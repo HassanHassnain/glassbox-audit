@@ -36,8 +36,9 @@ a family remain in one split.
 2. Rank layers by separation strength: absolute Cohen's d of the harmful-vs-benign
    mean-difference projection multiplied by the mean-difference norm.
 3. Train a top-k SAE on multiple token activations from train prompts at the selected layer after
-   mean centering. Final prompt-token activations remain the feature-ranking and intervention site.
-4. Rank SAE features by harmful-vs-benign activation effect size.
+   mean centering, or load a predeclared SAELens public SAE at its configured hook layer. Final
+   prompt-token activations remain the feature-ranking and intervention site.
+4. Rank SAE features or public SAE latents by harmful-vs-benign activation effect size on train.
 5. Form an SAE direction from the positively associated top feature decoder vectors.
 6. Fit a linear-probe direction and compute the raw mean-difference direction on the same data.
 
@@ -67,12 +68,15 @@ behavior-specific score.
 - Mean-difference direction
 - Logistic linear-probe direction
 - Isotropic random directions at the same layer and scale
-- Decoder directions from a randomly initialized, architecture-matched SAE
+- Decoder directions from a randomly initialized, architecture-matched SAE for locally trained
+  SAEs, or random latents from the same public dictionary for SAELens SAE-zoo runs
 - Mean-difference direction ablation at every scanned layer
 
-Random directions are tested under steering and direction ablation. Random untrained-SAE decoder
-directions are tested under steering, while their corresponding random latents are tested with
-actual encode-zero-decode feature ablation.
+Random directions are tested under steering and direction ablation. For locally trained SAEs,
+random untrained-SAE decoder directions are tested under steering, while their corresponding
+random latents are tested with actual encode-zero-decode feature ablation. For public SAELens
+SAEs, matched controls draw seeded random latents from the same public dictionary rather than a
+separate untrained SAE.
 Selected methods are also compared directly with paired method-vs-method intervals, rather than
 only independently against the unmodified baseline.
 

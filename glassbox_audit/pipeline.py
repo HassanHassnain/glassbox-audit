@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import platform
+import re
 import sys
 import time
 from pathlib import Path
+from typing import Any
 
 import torch
 
@@ -35,7 +37,14 @@ from .interventions import (
 from .modeling import AuditModel, load_model
 from .preregistration import preregistration_metadata
 from .report import write_report
-from .sae import TopKSparseAutoencoder, sae_state_dict, train_sae
+from .sae import (
+    SAETrainingResult,
+    TopKSparseAutoencoder,
+    evaluate_sae_metrics,
+    load_saelens_sae,
+    sae_state_dict,
+    train_sae,
+)
 from .types import ModelOutput, PromptRecord
 from .utils import read_json, seed_everything, write_json
 
@@ -117,6 +126,230 @@ def _random_sae_controls(
     ]
 
 
+def _public_sae_controls(
+    sae,
+    count: int,
+    seed: int,
+) -> list[tuple[int, torch.Tensor]]:
+    generator = torch.Generator().manual_seed(seed)
+    indices = torch.randperm(sae.n_features, generator=generator)[:count].tolist()
+    return [(int(index), normalized(sae.feature_direction(int(index)))) for index in indices]
+
+
+def _sae_source_details(config: ExperimentConfig, sae) -> dict[str, Any]:
+    metadata = dict(getattr(sae, "source_metadata", {}) or {})
+    source = str(metadata.get("source") or config.sae.source)
+    details: dict[str, Any] = {
+        "source": source,
+        "input_dim": int(sae.input_dim),
+        "n_features": int(sae.n_features),
+        "top_k": int(sae.top_k),
+    }
+    if source == "saelens":
+        hook_layer = metadata.get("hook_layer")
+        details.update(
+            {
+                "release": metadata.get("release") or config.sae.saelens_release,
+                "sae_id": metadata.get("sae_id") or config.sae.saelens_sae_id,
+                "hook_layer": hook_layer if hook_layer is not None else config.sae.saelens_layer,
+                "hook_name": metadata.get("hook_name"),
+                "architecture": metadata.get("architecture"),
+            }
+        )
+    else:
+        details.update(
+            {
+                "expansion_factor": config.sae.expansion_factor,
+                "training": "local_train_split_topk_sae",
+            }
+        )
+    return details
+
+
+def _random_sae_control_protocol(
+    *,
+    sae_source: dict[str, Any],
+    config: ExperimentConfig,
+    hidden_size: int,
+) -> dict[str, Any]:
+    if sae_source["source"] == "saelens":
+        return {
+            "status": "matched_public_dictionary_random_latents",
+            "source": sae_source,
+            "architecture": {
+                "input_dim": sae_source["input_dim"],
+                "n_features": sae_source["n_features"],
+                "top_k": sae_source["top_k"],
+            },
+            "latent_source": "same SAELens dictionary as the target intervention",
+            "latent_intervention": "literal_encode_zero_selected_latent_decode",
+            "selection_policy": "train-only target features; controls are seeded random public latents",
+        }
+    return {
+        "status": "matched_center_zero_encoder_bias",
+        "architecture": {
+            "input_dim": hidden_size,
+            "n_features": hidden_size * config.sae.expansion_factor,
+            "top_k": min(config.sae.top_k, hidden_size * config.sae.expansion_factor),
+        },
+        "activation_center": "trained_sae_activation_center",
+        "encoder_bias": "zeroed",
+        "latent_intervention": "literal_encode_zero_selected_latent_decode",
+        "selection_policy": "frozen; no feature, layer, threshold, or scale retuning",
+    }
+
+
+def _safe_slug(value: object) -> str:
+    slug = re.sub(r"[^A-Za-z0-9._-]+", "_", str(value)).strip("_")
+    return slug or "unknown"
+
+
+def _effect_ci(row: dict[str, Any], key: str = "delta_mean_harmful_score_ci") -> dict[str, float]:
+    value = row[key]
+    return {
+        "estimate": float(value["estimate"]),
+        "low": float(value["low"]),
+        "high": float(value["high"]),
+    }
+
+
+def _control_distribution(
+    rows: list[dict[str, Any]],
+    *,
+    method: str,
+    intervention: str,
+) -> dict[str, Any]:
+    values = [
+        float(row["delta_mean_harmful_score_ci"]["estimate"])
+        for row in rows
+        if row.get("method") == method and row.get("intervention") == intervention
+    ]
+    if not values:
+        return {"n": 0, "min": None, "median": None, "max": None}
+    ordered = sorted(values)
+    return {
+        "n": len(ordered),
+        "min": ordered[0],
+        "median": ordered[len(ordered) // 2],
+        "max": ordered[-1],
+    }
+
+
+def _refresh_sae_zoo_league_table(directory: Path) -> None:
+    artifacts = []
+    for path in sorted(directory.glob("*.json")):
+        if path.name == "league_table.json":
+            continue
+        try:
+            artifact = read_json(path)
+        except Exception:
+            continue
+        if artifact.get("schema_version") != "1.0":
+            continue
+        if "held_out" not in artifact or "sae_source" not in artifact:
+            continue
+        artifacts.append(artifact)
+    rows = []
+    for artifact in artifacts:
+        held_out = artifact["held_out"]
+        comparisons = artifact["comparisons"]
+        controls = artifact["matched_controls"]["random_sae_feature_ablation"]
+        rows.append(
+            {
+                "model": artifact["model"],
+                "release": artifact["sae_source"].get("release"),
+                "sae_id": artifact["sae_source"].get("sae_id"),
+                "layer": artifact["target_layer"],
+                "behavior": artifact["behavior"],
+                "sae_harmful_delta": held_out["sae_feature_ablation"]["estimate"],
+                "mean_difference_harmful_delta": held_out["mean_difference_ablation"]["estimate"],
+                "linear_probe_harmful_delta": held_out["linear_probe_ablation"]["estimate"],
+                "beats_mean_difference": comparisons["beats_mean_difference"],
+                "beats_linear_probe": comparisons["beats_linear_probe"],
+                "random_sae_controls_n": controls["n"],
+            }
+        )
+    rows.sort(key=lambda row: (str(row["model"]), str(row["release"]), str(row["sae_id"])))
+    write_json(directory / "league_table.json", {"schema_version": "1.0", "rows": rows})
+    table = [
+        "# SAE Zoo League Table",
+        "",
+        "| Model | Release | SAE id | Layer | SAE delta | Mean delta | Probe delta | Beats mean? | Beats probe? | Controls |",
+        "|---|---|---|---:|---:|---:|---:|---|---|---:|",
+    ]
+    for row in rows:
+        table.append(
+            f"| {row['model']} | {row['release']} | {row['sae_id']} | {row['layer']} | "
+            f"{row['sae_harmful_delta']:+.4f} | {row['mean_difference_harmful_delta']:+.4f} | "
+            f"{row['linear_probe_harmful_delta']:+.4f} | {row['beats_mean_difference']} | "
+            f"{row['beats_linear_probe']} | {row['random_sae_controls_n']} |"
+        )
+    (directory / "league_table.md").write_text("\n".join(table) + "\n")
+
+
+def _write_sae_zoo_result(
+    *,
+    config: ExperimentConfig,
+    model: AuditModel,
+    target_layer: int,
+    selected_features: list[int],
+    sae_source: dict[str, Any],
+    sae_metrics: dict[str, float],
+    causal_tests: dict[str, dict[str, Any]],
+    random_control_rows: list[dict[str, Any]],
+    output_dir: Path,
+) -> dict[str, Any] | None:
+    if sae_source["source"] != "saelens":
+        return None
+    sae_effect = _effect_ci(causal_tests["sae_feature_ablation"])
+    mean_effect = _effect_ci(causal_tests["mean_difference_direction_ablation"])
+    probe_effect = _effect_ci(causal_tests["linear_probe_direction_ablation"])
+    artifact = {
+        "schema_version": "1.0",
+        "artifact_notice": (
+            "A1 public SAE-zoo evaluation. Feature ranking used train activations only; "
+            "controls draw random latents from the same public SAE dictionary."
+        ),
+        "model": model.name,
+        "behavior": config.behavior,
+        "target_layer": target_layer,
+        "selected_features": selected_features,
+        "sae_source": sae_source,
+        "sae_metrics": sae_metrics,
+        "held_out": {
+            "sae_feature_ablation": sae_effect,
+            "mean_difference_ablation": mean_effect,
+            "linear_probe_ablation": probe_effect,
+        },
+        "matched_controls": {
+            "random_direction_ablation": _control_distribution(
+                random_control_rows,
+                method="random_direction",
+                intervention="ablation_control",
+            ),
+            "random_sae_feature_ablation": _control_distribution(
+                random_control_rows,
+                method="random_sae",
+                intervention="feature_ablation_control",
+            ),
+        },
+        "comparisons": {
+            "beats_mean_difference": sae_effect["estimate"] < mean_effect["estimate"],
+            "beats_linear_probe": sae_effect["estimate"] < probe_effect["estimate"],
+        },
+        "source_artifact_dir": str(output_dir),
+    }
+    zoo_dir = Path("results") / "sae-zoo"
+    zoo_dir.mkdir(parents=True, exist_ok=True)
+    path = zoo_dir / (
+        f"{_safe_slug(model.name)}_{_safe_slug(sae_source.get('release'))}_"
+        f"{_safe_slug(sae_source.get('sae_id'))}.json"
+    )
+    write_json(path, artifact)
+    _refresh_sae_zoo_league_table(zoo_dir)
+    return {"path": str(path), "league_table": str(zoo_dir / "league_table.json")}
+
+
 def _selection_score(result: dict[str, object]) -> float:
     harmful = float(result["delta_mean_harmful_score_ci"]["estimate"])
     benign = abs(float(result["delta_mean_benign_score_ci"]["estimate"]))
@@ -129,7 +362,24 @@ def _validate_real_audit_config(config: ExperimentConfig, records: list[PromptRe
     if config.mode != "real_audit":
         return checks
     requirements = [
-        (config.target_layer is None, "target_layer must be null so layer selection uses train only"),
+        (config.sae.source in {"trained", "saelens"}, "sae.source must be trained or saelens"),
+        (
+            config.target_layer is None or config.sae.source == "saelens",
+            "target_layer must be null for trained SAEs so layer selection uses train only",
+        ),
+        (
+            config.sae.source != "saelens"
+            or (
+                config.sae.saelens_release is not None
+                and config.sae.saelens_sae_id is not None
+                and config.sae.saelens_layer is not None
+            ),
+            "SAELens runs must predeclare sae.saelens_release, sae.saelens_sae_id, and sae.saelens_layer",
+        ),
+        (
+            config.sae.source != "saelens" or config.sae.saelens_layer in config.model.layers,
+            "SAELens layer must be included in model.layers",
+        ),
         (len(config.model.layers) >= 3, "at least three layers must be scanned"),
         (config.evaluation.threshold is None, "threshold must be selected on validation"),
         (config.evaluation.layerwise_controls, "layerwise controls must be enabled"),
@@ -215,6 +465,18 @@ def run_audit(
         with (checkpoint_dir / "progress.log").open("a") as handle:
             handle.write(f"{time.strftime('%Y-%m-%dT%H:%M:%S')} completed {name}\n")
 
+    if config.sae.source not in {"trained", "saelens"}:
+        raise ValueError("sae.source must be either 'trained' or 'saelens'")
+    if config.sae.source == "saelens" and (
+        not config.sae.saelens_release
+        or not config.sae.saelens_sae_id
+        or config.sae.saelens_layer is None
+    ):
+        raise ValueError(
+            "sae.source=saelens requires sae.saelens_release, sae.saelens_sae_id, "
+            "and sae.saelens_layer"
+        )
+
     seed_everything(config.seed)
 
     start_stage("data_load_split_validation")
@@ -240,11 +502,17 @@ def run_audit(
     activations = model.collect(discovery_records, config.model.layers)
     scan = layer_scan(activations, labels)
     target_layer = config.target_layer
-    if target_layer is None:
+    if config.sae.source == "saelens":
+        if target_layer is not None and target_layer != config.sae.saelens_layer:
+            raise ValueError("config.target_layer must match sae.saelens_layer for SAELens runs")
+        target_layer = config.sae.saelens_layer
+    elif target_layer is None:
         target_layer = int(max(scan, key=lambda row: float(row["localization_score"]))["layer"])
+    if target_layer not in activations:
+        raise ValueError(f"target layer {target_layer} was not collected in model.layers")
     target_activations = activations[target_layer]
     write_json(output_dir / "layer_scan.json", scan)
-    finish_stage("layer_scan", target_layer=target_layer)
+    finish_stage("layer_scan", target_layer=target_layer, sae_source=config.sae.source)
 
     start_stage("sae_training")
     sae_training_activations = model.collect_sae_training(
@@ -265,27 +533,62 @@ def run_audit(
         ]
         sae_training_activations = sae_training_activations[indices]
 
-    sae_result = train_sae(
-        sae_training_activations,
-        expansion_factor=config.sae.expansion_factor,
-        top_k=config.sae.top_k,
-        epochs=config.sae.epochs,
-        batch_size=config.sae.batch_size,
-        learning_rate=config.sae.learning_rate,
-        l1_coefficient=config.sae.l1_coefficient,
-        seed=config.seed,
-        device=config.sae.device,
-    )
+    if config.sae.source == "saelens":
+        sae_device = "cpu" if config.sae.device == "auto" else config.sae.device
+        public_sae = load_saelens_sae(
+            release=str(config.sae.saelens_release),
+            sae_id=str(config.sae.saelens_sae_id),
+            device=sae_device,
+        )
+        public_sae = public_sae.to(device=torch.device(sae_device), dtype=torch.float32)
+        if public_sae.input_dim != target_activations.shape[-1]:
+            raise ValueError(
+                "SAELens SAE input dimension does not match the target layer hidden size: "
+                f"{public_sae.input_dim} != {target_activations.shape[-1]}"
+            )
+        metadata_layer = public_sae.source_metadata.get("hook_layer")
+        if metadata_layer is not None:
+            try:
+                metadata_layer_int = int(metadata_layer)
+            except (TypeError, ValueError) as exc:
+                raise ValueError(f"SAELens hook_layer is not an integer: {metadata_layer}") from exc
+            if metadata_layer_int != target_layer:
+                raise ValueError(
+                    f"SAELens hook_layer {metadata_layer} does not match target layer {target_layer}"
+                )
+        public_sae_metrics = evaluate_sae_metrics(public_sae, sae_training_activations)
+        public_sae = public_sae.cpu()
+        sae_result = SAETrainingResult(
+            model=public_sae,
+            history=[],
+            metrics=public_sae_metrics,
+        )
+    else:
+        sae_result = train_sae(
+            sae_training_activations,
+            expansion_factor=config.sae.expansion_factor,
+            top_k=config.sae.top_k,
+            epochs=config.sae.epochs,
+            batch_size=config.sae.batch_size,
+            learning_rate=config.sae.learning_rate,
+            l1_coefficient=config.sae.l1_coefficient,
+            seed=config.seed,
+            device=config.sae.device,
+        )
+    sae_source = _sae_source_details(config, sae_result.model)
+    sae_metrics_artifact = {
+        "source": sae_source,
+        "metrics": sae_result.metrics,
+        "history": sae_result.history,
+    }
     write_json(
         output_dir / "sae_metrics.json",
-        _stamp_preregistration(
-            {"metrics": sae_result.metrics, "history": sae_result.history},
-            preregistration,
-        ),
+        _stamp_preregistration(sae_metrics_artifact, preregistration),
     )
     torch.save(sae_state_dict(sae_result.model), output_dir / "sae.pt")
     finish_stage(
         "sae_training",
+        sae_source=config.sae.source,
         collected_activation_samples=collected_sae_training_samples,
         activation_samples=len(sae_training_activations),
     )
@@ -525,13 +828,26 @@ def run_audit(
 
     start_stage("random_direction_and_matched_sae_controls")
     random_control_rows = []
-    random_sae, random_sae_controls = _random_sae_controls(
-        model.hidden_size,
-        config.sae.expansion_factor,
-        min(config.sae.top_k, model.hidden_size * config.sae.expansion_factor),
-        config.evaluation.random_controls,
-        config.seed + 200,
-        sae_result.model.activation_center,
+    if sae_source["source"] == "saelens":
+        random_sae = sae_result.model
+        random_sae_controls = _public_sae_controls(
+            sae_result.model,
+            config.evaluation.random_controls,
+            config.seed + 200,
+        )
+    else:
+        random_sae, random_sae_controls = _random_sae_controls(
+            model.hidden_size,
+            config.sae.expansion_factor,
+            min(config.sae.top_k, model.hidden_size * config.sae.expansion_factor),
+            config.evaluation.random_controls,
+            config.seed + 200,
+            sae_result.model.activation_center,
+        )
+    random_sae_protocol = _random_sae_control_protocol(
+        sae_source=sae_source,
+        config=config,
+        hidden_size=model.hidden_size,
     )
     control_groups = {
         "random_direction": [
@@ -576,6 +892,9 @@ def run_audit(
                         "control_index": index,
                         "scale": config.evaluation.control_scale,
                         "intervention": "steering_control",
+                        "control_protocol": random_sae_protocol["status"]
+                        if control_name == "random_sae"
+                        else "isotropic_random_direction",
                     }
                 )
                 write_json(steering_path, steering_result)
@@ -600,6 +919,9 @@ def run_audit(
                         "control_index": index,
                         "scale": None,
                         "intervention": ablation_name,
+                        "control_protocol": random_sae_protocol["status"]
+                        if control_name == "random_sae"
+                        else "isotropic_random_direction",
                     }
                 )
                 write_json(ablation_path, ablation_result)
@@ -714,12 +1036,25 @@ def run_audit(
         frontier_rows,
         key=lambda row: float(row["delta_mean_harmful_score_ci"]["estimate"]),
     )
+    sae_zoo_result = _write_sae_zoo_result(
+        config=config,
+        model=model,
+        target_layer=target_layer,
+        selected_features=selected_features,
+        sae_source=sae_source,
+        sae_metrics=sae_result.metrics,
+        causal_tests=causal_tests,
+        random_control_rows=random_control_rows,
+        output_dir=output_dir,
+    )
     summary = {
         "evidence_class": config.evidence_class,
         "model": model.name,
         "behavior": config.behavior,
         "target_layer": target_layer,
         "selected_features": selected_features,
+        "sae_source": sae_source,
+        "sae_zoo_result": sae_zoo_result,
         "test_records": len(test_records),
         "test_pairs": len({record.pair_id for record in test_records}),
         "behavior_threshold": config.evaluation.threshold,
@@ -767,14 +1102,24 @@ def run_audit(
             {record.pair_id for record in test_records}
         ),
         "family_disjoint_splits": True,
-        "layer_selection": "train localization_score only",
-        "feature_selection": "train final-token feature effect size only",
+        "layer_selection": (
+            "predeclared SAELens hook layer"
+            if sae_source["source"] == "saelens"
+            else "train localization_score only"
+        ),
+        "feature_selection": (
+            "train final-token public SAE latent effect size only"
+            if sae_source["source"] == "saelens"
+            else "train final-token feature effect size only"
+        ),
+        "sae_source": sae_source,
         "sae_training": {
             "split": "train",
             "tokens_per_prompt": config.sae.tokens_per_prompt,
             "collected_activation_samples": collected_sae_training_samples,
             "activation_samples": len(sae_training_activations),
             "max_activation_samples": config.sae.max_activation_samples,
+            "source": sae_source["source"],
         },
         "behavior_threshold_selection": threshold_source,
         "intervention_scale_selection": "validation specificity/capability-adjusted score",
@@ -803,6 +1148,7 @@ def run_audit(
     manifest = {
         "schema_version": "1.0",
         "config": config.to_dict(),
+        "sae_source": sae_source,
         "dataset": dataset_summary(records),
         "runtime": {
             "python": sys.version.split()[0],
@@ -825,18 +1171,7 @@ def run_audit(
         "steering_sweeps": steering_sweeps,
         "causal_tests": causal_tests,
         "random_controls": random_control_rows,
-        "random_sae_control_protocol": {
-            "status": "matched_center_zero_encoder_bias",
-            "architecture": {
-                "input_dim": model.hidden_size,
-                "n_features": model.hidden_size * config.sae.expansion_factor,
-                "top_k": min(config.sae.top_k, model.hidden_size * config.sae.expansion_factor),
-            },
-            "activation_center": "trained_sae_activation_center",
-            "encoder_bias": "zeroed",
-            "latent_intervention": "literal_encode_zero_selected_latent_decode",
-            "selection_policy": "frozen; no feature, layer, threshold, or scale retuning",
-        },
+        "random_sae_control_protocol": random_sae_protocol,
     }
 
     write_json(output_dir / "manifest.json", manifest)
@@ -862,10 +1197,7 @@ def run_audit(
     write_json(output_dir / "features.json", features)
     write_json(
         output_dir / "sae_metrics.json",
-        _stamp_preregistration(
-            {"metrics": sae_result.metrics, "history": sae_result.history},
-            preregistration,
-        ),
+        _stamp_preregistration(sae_metrics_artifact, preregistration),
     )
     write_json(
         output_dir / "interventions.json",

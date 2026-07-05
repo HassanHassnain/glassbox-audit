@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "glassbox-audit"
+version = "0.1.0"
+description = "End-to-end mechanistic audit of refusal behavior in a small open model"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Glassbox contributors" }]
+dependencies = [
+    "numpy>=1.26",
+    "pyyaml>=6.0",
+    "torch>=2.2",
+    "transformers>=4.45",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0", "ruff>=0.9"]
+ui = ["pandas>=2.1", "streamlit>=1.40"]
+paper = ["matplotlib>=3.8"]
+accelerate = ["accelerate>=1.0", "bitsandbytes>=0.43"]
+sae-zoo = ["sae-lens"]
+
+[project.scripts]
+glassbox = "glassbox_audit.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["glassbox_audit*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+ignore = ["E501"]
