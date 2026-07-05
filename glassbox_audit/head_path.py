@@ -134,7 +134,7 @@ def run_head_path_analysis(
     train_activations: dict[int, torch.Tensor] = tensors["activations"]
     target_layer = int(summary["target_layer"])
     layers = layers or [target_layer]
-    model = load_model(config.model, config.seed)
+    model = load_model(config.model, config.seed, behavior=config.behavior)
 
     shortlist_candidates = []
     unsupported = []

@@ -99,7 +99,7 @@ def run_path_component_analysis(
     target_layer = int(summary["target_layer"])
     layers = layers or [target_layer]
     components = components or ["residual", "attention", "mlp"]
-    model = load_model(config.model, config.seed)
+    model = load_model(config.model, config.seed, behavior=config.behavior)
 
     residual_projection_patches = []
     residual_ablation_rows = []

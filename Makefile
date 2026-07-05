@@ -1,4 +1,4 @@
-.PHONY: install smoke test lint compile toy workbench qwen qwen-full real-audit model-sweep head-path paper reproduce-core reproduce-cleanroom reproduce-external report final-report validate release-check
+.PHONY: install smoke test lint compile toy sycophancy-toy workbench qwen qwen-full real-audit model-sweep head-path paper reproduce-core reproduce-cleanroom reproduce-external report final-report validate release-check
 
 install:
 	pip install -e ".[dev,ui]"
@@ -17,6 +17,10 @@ compile:
 
 toy:
 	python -m glassbox_audit.cli run --config configs/toy.yaml --output artifacts/demo
+
+sycophancy-toy:
+	python -m glassbox_audit.cli build-sycophancy-data --output data/sycophancy_controlled_v1.jsonl
+	python -m glassbox_audit.cli run --config configs/sycophancy-toy.yaml --output artifacts/sycophancy-toy
 
 workbench:
 	python -m glassbox_audit.cli workbench --artifacts artifacts/demo

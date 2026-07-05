@@ -169,7 +169,7 @@ def run_external_causal_transfer(
     if not any(record.harmful for record in records) or not any(not record.harmful for record in records):
         raise ValueError("External causal transfer requires both harmful and benign records")
 
-    model = load_model(config.model, config.seed)
+    model = load_model(config.model, config.seed, behavior=config.behavior)
     target_layer = int(summary["target_layer"])
     tensors = torch.load(artifact_dir / "discovery_tensors.pt", map_location="cpu")
     directions = {

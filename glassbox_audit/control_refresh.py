@@ -101,7 +101,7 @@ def refresh_random_sae_controls(
         if row["split"] == "test"
     ]
     baseline = _outputs_from_dict(interventions["baseline_outputs"])
-    model = load_model(config.model, config.seed)
+    model = load_model(config.model, config.seed, behavior=config.behavior)
     target_layer = int(summary["target_layer"])
     raw_sae = torch.load(source_dir / "sae.pt", map_location="cpu")
     if raw_sae.get("source") == "saelens":

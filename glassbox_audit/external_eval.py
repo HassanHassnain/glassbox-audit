@@ -137,7 +137,7 @@ def run_external_behavior_eval(
         max_records_per_label=max_records_per_label,
         seed=seed,
     )
-    model = load_model(model_config, seed=seed)
+    model = load_model(model_config, seed=seed, behavior=str(manifest["config"].get("behavior", "refusal")))
     outputs = model.evaluate(records)
     metrics = summarize_external_outputs(records, outputs, threshold)
     artifact = {

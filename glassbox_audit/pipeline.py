@@ -499,7 +499,7 @@ def run_audit(
     )
 
     start_stage("model_load")
-    model = model or load_model(config.model, config.seed)
+    model = model or load_model(config.model, config.seed, behavior=config.behavior)
     finish_stage("model_load", model=model.name, hidden_size=model.hidden_size)
     scaled_activation_sample_cap = None
     if config.sae.source == "trained" and config.sae.samples_per_feature is not None:

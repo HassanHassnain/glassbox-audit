@@ -49,7 +49,7 @@ def run_component_localization(
     if direction_name != "mean_difference" and direction_name not in tensors["directions"]:
         raise ValueError(f"Unknown direction {direction_name!r}; available: {sorted(tensors['directions'])}")
     labels = tensors["labels"].bool()
-    model = load_model(config.model, config.seed)
+    model = load_model(config.model, config.seed, behavior=config.behavior)
     target_layer = int(summary["target_layer"])
     layers = layers or [target_layer]
 

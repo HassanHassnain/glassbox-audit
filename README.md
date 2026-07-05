@@ -101,6 +101,7 @@ language-model findings.
 ## What It Measures
 
 - Harmful-request refusal rate and continuous refusal score
+- Pressured-agreement rate and continuous sycophancy score
 - Benign over-refusal
 - Layer-wise harmful/benign separation
 - SAE reconstruction quality, sparsity, dead features, and feature effect sizes
@@ -337,6 +338,7 @@ Every run produces:
 | `results/model-sweep/a2_summary.json` | A2 cross-model sweep aggregate, including unrun cells |
 | `results/model-sweep/<model_slug>.json` | A2 per-model evidence snapshot or unrun stub |
 | `head_path_analysis.json` / `results/head-path/*.json` | Optional A5 attention head-slice verification |
+| `docs/preregistration_sycophancy.frozen.json` | A7 frozen sycophancy behavior-audit preregistration |
 | `failure_analysis.json` | Dead features, stability, controls, negative findings |
 | `component_localization.json` | Optional residual/attention/MLP output localization |
 | `protocol.json` | Machine-readable split and selection discipline |

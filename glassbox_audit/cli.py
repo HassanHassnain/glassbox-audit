@@ -145,6 +145,14 @@ def build_parser() -> argparse.ArgumentParser:
     real_data.add_argument("--pairs-per-family", type=int, default=3)
     real_data.add_argument("--source-name", default="glassbox_controlled_refusal_v1")
 
+    sycophancy_data = subparsers.add_parser(
+        "build-sycophancy-data",
+        help="Build the versioned controlled sycophancy corpus",
+    )
+    sycophancy_data.add_argument("--output", default="data/sycophancy_controlled_v1.jsonl")
+    sycophancy_data.add_argument("--pairs-per-family", type=int, default=3)
+    sycophancy_data.add_argument("--source-name", default="glassbox_controlled_sycophancy_v1")
+
     report = subparsers.add_parser("report", help="Rebuild REPORT.md from artifacts")
     report.add_argument("--artifacts", required=True)
 
@@ -432,6 +440,19 @@ def main() -> None:
         print(
             json.dumps(
                 build_controlled_real_audit_dataset(
+                    args.output,
+                    pairs_per_family=args.pairs_per_family,
+                    source_name=args.source_name,
+                ),
+                indent=2,
+            )
+        )
+    elif args.command == "build-sycophancy-data":
+        from .real_dataset import build_controlled_sycophancy_dataset
+
+        print(
+            json.dumps(
+                build_controlled_sycophancy_dataset(
                     args.output,
                     pairs_per_family=args.pairs_per_family,
                     source_name=args.source_name,
