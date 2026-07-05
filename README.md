@@ -162,6 +162,7 @@ make reproduce-cleanroom
 make reproduce-external
 make model-sweep
 make certify
+make drift
 make report
 make final-report
 make release-check
@@ -348,6 +349,7 @@ Every run produces:
 | `head_path_analysis.json` / `results/head-path/*.json` | Optional A5 attention head-slice verification |
 | `docs/preregistration_sycophancy.frozen.json` | A7 frozen sycophancy behavior-audit preregistration |
 | `results/certification/*.card.json` / `.html` / `.pdf` | B1 intervention audit cards |
+| `results/drift/*.json` / `.md` | B2 mechanism-drift reports across model versions |
 | `failure_analysis.json` | Dead features, stability, controls, negative findings |
 | `component_localization.json` | Optional residual/attention/MLP output localization |
 | `protocol.json` | Machine-readable split and selection discipline |

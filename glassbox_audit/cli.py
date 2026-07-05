@@ -224,6 +224,21 @@ def build_parser() -> argparse.ArgumentParser:
     certify.add_argument("--sign", action="store_true")
     certify.add_argument("--git-ref", default=None)
 
+    drift = subparsers.add_parser(
+        "drift",
+        help="Monitor whether a frozen intervention mechanism survives a model update",
+    )
+    drift.add_argument("--source-artifacts", required=True)
+    drift.add_argument("--new-artifacts", default=None)
+    drift.add_argument("--new-config", default=None)
+    drift.add_argument("--new-model", default=None)
+    drift.add_argument("--candidate-intervention", default=None)
+    drift.add_argument("--output-json", default="results/drift/drift_report.json")
+    drift.add_argument("--output-doc", default="results/drift/drift_report.md")
+    drift.add_argument("--device", default=None)
+    drift.add_argument("--max-records", type=int, default=None)
+    drift.add_argument("--random-controls", type=int, default=None)
+
     repro = subparsers.add_parser(
         "reproducibility-diff", help="Compare Phase 4 and clean-room rerun artifacts"
     )
@@ -616,6 +631,49 @@ def main() -> None:
                     "certified_evidence_method": card["certified_evidence_method"],
                     "overall_passed": card["overall_verdict"]["passed"],
                     "signature": card.get("signature"),
+                },
+                indent=2,
+            )
+        )
+    elif args.command == "drift":
+        modes = [bool(args.new_artifacts), bool(args.new_config), bool(args.new_model)]
+        if sum(modes) != 1:
+            raise SystemExit(
+                "drift requires exactly one of --new-artifacts, --new-config, or --new-model"
+            )
+        if args.new_artifacts:
+            from .drift import compare_artifact_drift
+
+            report = compare_artifact_drift(
+                source_artifact=args.source_artifacts,
+                new_artifact=args.new_artifacts,
+                output_json=args.output_json,
+                output_doc=args.output_doc,
+                candidate_intervention=args.candidate_intervention,
+            )
+        else:
+            from .drift import run_model_swap_drift
+
+            report = run_model_swap_drift(
+                source_artifact=args.source_artifacts,
+                output_json=args.output_json,
+                new_config=args.new_config,
+                new_model=args.new_model,
+                device=args.device,
+                max_records=args.max_records,
+                random_controls=args.random_controls,
+                candidate_intervention=args.candidate_intervention,
+                output_doc=args.output_doc,
+            )
+        print(
+            json.dumps(
+                {
+                    "output_json": args.output_json,
+                    "output_doc": report.get("output_doc"),
+                    "mode": report["mode"],
+                    "drift_status": report["drift_status"],
+                    "mechanism_survives": report["mechanism_survives"],
+                    "certified_evidence_method": report["certified_evidence_method"],
                 },
                 indent=2,
             )

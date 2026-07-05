@@ -1,4 +1,4 @@
-.PHONY: install smoke test lint compile toy sycophancy-toy workbench qwen qwen-full real-audit model-sweep head-path certify paper reproduce-core reproduce-cleanroom reproduce-external report final-report validate release-check
+.PHONY: install smoke test lint compile toy sycophancy-toy workbench qwen qwen-full real-audit model-sweep head-path certify drift paper reproduce-core reproduce-cleanroom reproduce-external report final-report validate release-check
 
 install:
 	pip install -e ".[dev,ui]"
@@ -47,6 +47,13 @@ certify:
 		--output-html results/certification/qwen-real-audit.card.html \
 		--output-pdf results/certification/qwen-real-audit.card.pdf \
 		--sign
+
+drift:
+	python -m glassbox_audit.cli drift \
+		--source-artifacts artifacts/qwen-real-audit \
+		--new-artifacts artifacts/qwen2.5-3b-replication-preregistered \
+		--output-json results/drift/qwen15b_to_qwen3b.json \
+		--output-doc results/drift/qwen15b_to_qwen3b.md
 
 paper:
 	python -m glassbox_audit.cli paper --artifacts artifacts/qwen-real-audit --docs docs
