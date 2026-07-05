@@ -490,9 +490,9 @@ def render_certification_pdf(card: dict[str, Any]) -> bytes:
         body.extend(b"\nendobj\n")
     xref_at = len(body)
     body.extend(f"xref\n0 {len(objects) + 1}\n".encode("ascii"))
-    body.extend(b"0000000000 65535 f \n")
+    body.extend(b"0000000000 65535 f\n")
     for offset in offsets[1:]:
-        body.extend(f"{offset:010d} 00000 n \n".encode("ascii"))
+        body.extend(f"{offset:010d} 00000 n\n".encode("ascii"))
     body.extend(
         (
             f"trailer\n<< /Size {len(objects) + 1} /Root 1 0 R >>\n"

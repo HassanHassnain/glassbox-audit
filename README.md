@@ -162,6 +162,7 @@ make reproduce-cleanroom
 make reproduce-external
 make model-sweep
 make certify
+make audit-card-gallery
 make drift
 make leaderboard
 make evidence-explorer
@@ -205,6 +206,13 @@ glassbox certify \
 
 Use `pip install -e ".[dev,ui,paper,accelerate,sae-zoo]"` for configs with
 `sae.source: saelens`.
+
+## Audit Card Gallery
+
+| Card | Verdict | JSON | PDF | Notes |
+|---|---|---|---|---|
+| [Qwen2.5-1.5B main audit](docs/audit-cards/qwen-real-audit.card.html) | Pass | [JSON](results/certification/qwen-real-audit.card.json) | [PDF](results/certification/qwen-real-audit.card.pdf) | SAE feature ablation passes the required certification rungs. |
+| [Qwen2.5-3B replication](docs/audit-cards/qwen2.5-3b-replication.card.html) | Fail | [JSON](results/certification/qwen2.5-3b-replication.card.json) | [PDF](results/certification/qwen2.5-3b-replication.card.pdf) | Specificity fails, so the harness rejects the card. |
 
 The controlled corpus is versioned and reproducible, but it is not a replacement for a naturalistic
 safety benchmark. To use another approved paired dataset:
@@ -351,6 +359,7 @@ Every run produces:
 | `head_path_analysis.json` / `results/head-path/*.json` | Optional A5 attention head-slice verification |
 | `docs/preregistration_sycophancy.frozen.json` | A7 frozen sycophancy behavior-audit preregistration |
 | `results/certification/*.card.json` / `.html` / `.pdf` | B1 intervention audit cards |
+| `results/certification/gallery.json` / `docs/audit-cards/*.html` | C2 README audit-card gallery |
 | `results/drift/*.json` / `.md` | B2 mechanism-drift reports across model versions |
 | `results/leaderboard/leaderboard.json` / `docs/leaderboard/index.html` | B3 static causal-handle leaderboard |
 | `results/evidence_explorer/explorer.json` / `docs/evidence/index.html` | C1 interactive claim-ladder evidence explorer |
