@@ -6,7 +6,6 @@ import json
 from pathlib import Path
 from typing import Any
 
-
 EXPLORER_SCHEMA_VERSION = "1.0"
 
 

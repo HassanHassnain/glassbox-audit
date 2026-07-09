@@ -7,7 +7,6 @@ from typing import Any
 
 import yaml
 
-
 A2_MODEL_SPECS: list[dict[str, Any]] = [
     {
         "slug": "qwen25-05b-instruct",

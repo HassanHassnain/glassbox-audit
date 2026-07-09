@@ -1,0 +1,39 @@
+:root {
+  --md-primary-fg-color: #0f766e;
+  --md-accent-fg-color: #f97316;
+}
+
+[data-md-color-scheme="slate"] {
+  --md-default-bg-color: #101414;
+  --md-default-fg-color: #e7eceb;
+  --md-code-bg-color: #171d1c;
+  --md-code-fg-color: #d8e4e1;
+  --md-typeset-a-color: #2dd4bf;
+}
+
+.md-header {
+  background-color: #123c38;
+}
+
+.md-tabs {
+  background-color: #123c38;
+}
+
+.md-typeset h1,
+.md-typeset h2 {
+  letter-spacing: 0;
+}
+
+.md-typeset .md-button {
+  border-radius: 4px;
+}
+
+.md-typeset .md-button--primary {
+  background-color: #0f766e;
+  border-color: #0f766e;
+}
+
+.md-typeset .md-button--primary:hover {
+  background-color: #f97316;
+  border-color: #f97316;
+}

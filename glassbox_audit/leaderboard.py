@@ -7,7 +7,6 @@ from pathlib import Path
 from statistics import median
 from typing import Any
 
-
 LEADERBOARD_SCHEMA_VERSION = "1.0"
 
 

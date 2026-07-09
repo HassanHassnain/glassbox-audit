@@ -6,7 +6,6 @@ from typing import Any
 
 from .certification import build_certification_card
 
-
 DRIFT_SCHEMA_VERSION = "1.0"
 
 

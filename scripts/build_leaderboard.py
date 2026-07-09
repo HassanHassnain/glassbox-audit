@@ -6,12 +6,11 @@ import json
 import sys
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from glassbox_audit.leaderboard import build_leaderboard
+from glassbox_audit.leaderboard import build_leaderboard  # noqa: E402
 
 
 def main() -> None:

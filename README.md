@@ -167,6 +167,7 @@ make certify-demo
 make drift
 make leaderboard
 make evidence-explorer
+make docs-build
 make report
 make final-report
 make release-check
@@ -220,6 +221,12 @@ Use `pip install -e ".[dev,ui,paper,accelerate,sae-zoo]"` for configs with
 C3 adds a captioned 90-second `glassbox certify` demo built from the committed toy audit artifacts:
 [MP4](docs/demo/certify-demo.mp4), [transcript](docs/demo/certify-demo-transcript.md), and
 [demo card](docs/demo/certify-demo.card.html). Rebuild it with `make certify-demo`.
+
+## Documentation Site
+
+The MkDocs site includes a practical
+[30-minute behavior-audit tutorial](docs/tutorials/behavior-audit-30-minutes.md). Install the docs
+extra with `pip install -e ".[docs]"`, then run `make docs-build` or `make docs-serve`.
 
 The controlled corpus is versioned and reproducible, but it is not a replacement for a naturalistic
 safety benchmark. To use another approved paired dataset:

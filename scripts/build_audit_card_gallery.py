@@ -5,13 +5,11 @@ import json
 import sys
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from glassbox_audit.certification import write_certification_card
-
+from glassbox_audit.certification import write_certification_card  # noqa: E402
 
 CARDS = [
     {
