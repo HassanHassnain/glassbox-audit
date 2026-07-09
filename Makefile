@@ -1,4 +1,4 @@
-.PHONY: install smoke test lint compile toy sycophancy-toy workbench qwen qwen-full real-audit model-sweep head-path certify audit-card-gallery certify-demo drift leaderboard evidence-explorer docs-build docs-serve paper reproduce-core reproduce-cleanroom reproduce-external report final-report validate release-check
+.PHONY: install smoke test lint compile toy sycophancy-toy workbench qwen qwen-full real-audit model-sweep developmental-pythia developmental-olmo developmental-summary head-path certify audit-card-gallery certify-demo drift leaderboard evidence-explorer docs-build docs-serve paper reproduce-core reproduce-cleanroom reproduce-external report final-report validate release-check
 
 install:
 	pip install -e ".[dev,ui]"
@@ -36,6 +36,23 @@ real-audit:
 
 model-sweep:
 	bash scripts/sweep_models.sh
+
+developmental-pythia:
+	python -m glassbox_audit.cli developmental-audit run \
+		--manifest configs/developmental_audit.yaml \
+		--family pythia-410m \
+		--output-root artifacts/developmental
+
+developmental-olmo:
+	python -m glassbox_audit.cli developmental-audit run \
+		--manifest configs/developmental_audit.yaml \
+		--family olmo-7b-0724 \
+		--output-root artifacts/developmental
+
+developmental-summary:
+	python -m glassbox_audit.cli developmental-audit summarize \
+		--manifest configs/developmental_audit.yaml \
+		--artifacts-root artifacts/developmental
 
 head-path:
 	python -m glassbox_audit.cli head-path --artifacts artifacts/qwen-real-audit

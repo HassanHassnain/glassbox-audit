@@ -12,6 +12,7 @@ import yaml
 class ModelConfig:
     backend: str = "toy"
     name: str = "glassbox-toy-refusal"
+    revision: str | None = None
     layers: list[int] = field(default_factory=lambda: [0, 1, 2, 3])
     dtype: str = "float16"
     device: str = "auto"

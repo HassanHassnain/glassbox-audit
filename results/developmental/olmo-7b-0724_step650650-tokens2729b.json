@@ -1,0 +1,23 @@
+{
+  "claim_scope": "final_instruct_causal_transfer",
+  "experiment": "A3_developmental_checkpoint_transfer",
+  "family": "olmo-7b-0724",
+  "layer": null,
+  "preregistration_hash": "da00ddc2b666f58ca0f150183bd9d4d9baa1b75ab05a88b3fd5f47baa58b4d9a",
+  "random_control_empirical_p": null,
+  "schema_version": "1.0",
+  "source_model": "allenai/OLMo-7B-0724-hf",
+  "source_revision": "step650650-tokens2729B",
+  "source_separation_passed": null,
+  "source_validation_effect_size": null,
+  "status": "unrun",
+  "target_direction_cosine": null,
+  "target_harmful_ci_high": null,
+  "target_harmful_ci_low": null,
+  "target_harmful_delta": null,
+  "target_kind": "instruct",
+  "target_model": "allenai/OLMo-7B-0724-Instruct-hf",
+  "target_revision": "main",
+  "training_tokens_b": 2729,
+  "transfer_passed": null
+}

@@ -161,6 +161,7 @@ make reproduce-core
 make reproduce-cleanroom
 make reproduce-external
 make model-sweep
+make developmental-summary
 make certify
 make audit-card-gallery
 make certify-demo
@@ -208,6 +209,14 @@ glassbox certify \
 
 Use `pip install -e ".[dev,ui,paper,accelerate,sae-zoo]"` for configs with
 `sae.source: saelens`.
+
+## Developmental Checkpoint Audit
+
+A3 freezes harmful-versus-benign directions at six Pythia-410M and six OLMo-7B pretraining
+checkpoints, then tests each direction at an architecture-matched final endpoint. Pythia results are
+scoped to final-base representation transfer; OLMo results target the official 7B instruct model.
+The grid, evidence contract, and commands are documented in
+[the developmental audit runbook](docs/DEVELOPMENTAL_AUDIT.md).
 
 ## Audit Card Gallery
 
@@ -339,6 +348,7 @@ glassbox_audit/
   analysis.py          # Direct comparisons, stability, negative-result detection
   component_analysis.py # Frozen component-output localization from artifacts
   interventions.py     # Steering, projection patching, feature ablation
+  developmental.py     # Training-checkpoint direction discovery and endpoint transfer
   evaluation.py        # Metrics and pair-clustered paired-bootstrap comparisons
   pipeline.py          # Reproducible artifact-producing experiment runner
   publication.py       # Paper, figures, tables, and static workbench image
@@ -370,6 +380,8 @@ Every run produces:
 | `results/sae-zoo/league_table.json` / `.md` | Optional A1 public-SAE comparison table |
 | `results/model-sweep/a2_summary.json` | A2 cross-model sweep aggregate, including unrun cells |
 | `results/model-sweep/<model_slug>.json` | A2 per-model evidence snapshot or unrun stub |
+| `results/developmental/a3_summary.json` | A3 developmental checkpoint aggregate |
+| `results/developmental/<family>_<revision>.json` | A3 per-checkpoint evidence snapshot or unrun stub |
 | `head_path_analysis.json` / `results/head-path/*.json` | Optional A5 attention head-slice verification |
 | `docs/preregistration_sycophancy.frozen.json` | A7 frozen sycophancy behavior-audit preregistration |
 | `results/certification/*.card.json` / `.html` / `.pdf` | B1 intervention audit cards |

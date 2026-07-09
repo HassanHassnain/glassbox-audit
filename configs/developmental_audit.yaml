@@ -1,0 +1,65 @@
+schema_version: "1.0"
+name: a3_developmental_checkpoint_transfer
+seed: 17
+behavior: refusal
+dataset_path: data/refusal_controlled_v2_1000.jsonl
+preregistration_path: docs/preregistration_developmental.frozen.json
+preregistration_hash: da00ddc2b666f58ca0f150183bd9d4d9baa1b75ab05a88b3fd5f47baa58b4d9a
+
+evaluation:
+  bootstrap_samples: 2500
+  confidence: 0.95
+  random_controls: 24
+
+success_criteria:
+  source_validation_effect_size_gt: 0.5
+  harmful_delta_lt: -0.03
+  harmful_ci_high_lt: 0.0
+  abs_benign_delta_lte: 0.03
+  capability_nll_delta_lte: 0.05
+  random_control_p_lte: 0.05
+
+families:
+  - slug: pythia-410m
+    source_model: EleutherAI/pythia-410m
+    target_model: EleutherAI/pythia-410m
+    target_revision: main
+    target_kind: base
+    dtype: float16
+    trust_remote_code: false
+    layers: [3, 7, 11, 15, 19, 23]
+    checkpoints:
+      - revision: step1000
+        training_tokens_b: 2.1
+      - revision: step10000
+        training_tokens_b: 21.0
+      - revision: step50000
+        training_tokens_b: 104.9
+      - revision: step100000
+        training_tokens_b: 209.7
+      - revision: step128000
+        training_tokens_b: 268.4
+      - revision: step143000
+        training_tokens_b: 299.9
+
+  - slug: olmo-7b-0724
+    source_model: allenai/OLMo-7B-0724-hf
+    target_model: allenai/OLMo-7B-0724-Instruct-hf
+    target_revision: main
+    target_kind: instruct
+    dtype: float16
+    trust_remote_code: false
+    layers: [3, 7, 11, 15, 19, 23, 27, 31]
+    checkpoints:
+      - revision: step1000-tokens4B
+        training_tokens_b: 4
+      - revision: step10000-tokens41B
+        training_tokens_b: 41
+      - revision: step50000-tokens209B
+        training_tokens_b: 209
+      - revision: step100000-tokens419B
+        training_tokens_b: 419
+      - revision: step300000-tokens1258B
+        training_tokens_b: 1258
+      - revision: step650650-tokens2729B
+        training_tokens_b: 2729

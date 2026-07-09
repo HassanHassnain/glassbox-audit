@@ -63,6 +63,56 @@ def build_parser() -> argparse.ArgumentParser:
     sweep_summary.add_argument("--output-table", default="docs/tables/model_sweep.md")
     sweep_summary.add_argument("--output-figure", default="docs/figures/model_sweep.png")
 
+    developmental = subparsers.add_parser(
+        "developmental-audit",
+        help="A3 training-checkpoint separation and frozen-direction transfer",
+    )
+    developmental_subparsers = developmental.add_subparsers(
+        dest="developmental_command",
+        required=True,
+    )
+    developmental_run = developmental_subparsers.add_parser(
+        "run",
+        help="Run one preregistered developmental model family",
+    )
+    developmental_run.add_argument(
+        "--manifest",
+        default="configs/developmental_audit.yaml",
+    )
+    developmental_run.add_argument("--family", required=True)
+    developmental_run.add_argument(
+        "--revision",
+        action="append",
+        default=None,
+        help="Optional checkpoint revision; repeat to run more than one",
+    )
+    developmental_run.add_argument("--output-root", default="artifacts/developmental")
+    developmental_run.add_argument("--source-device", default="cuda:0")
+    developmental_run.add_argument("--target-device", default=None)
+    developmental_run.add_argument("--cache-dir", default=None)
+
+    developmental_summary = developmental_subparsers.add_parser(
+        "summarize",
+        help="Publish completed and unrun A3 checkpoint cells",
+    )
+    developmental_summary.add_argument(
+        "--manifest",
+        default="configs/developmental_audit.yaml",
+    )
+    developmental_summary.add_argument("--artifacts-root", default="artifacts/developmental")
+    developmental_summary.add_argument(
+        "--output-json",
+        default="results/developmental/a3_summary.json",
+    )
+    developmental_summary.add_argument(
+        "--output-table",
+        default="docs/tables/developmental_audit.md",
+    )
+    developmental_summary.add_argument(
+        "--output-figure",
+        default="docs/figures/developmental_audit.png",
+    )
+
     validate = subparsers.add_parser("validate-data", help="Validate and summarize a dataset")
     validate.add_argument("--data", required=True)
 
@@ -364,6 +414,30 @@ def main() -> None:
             )
         else:
             raise ValueError(f"Unsupported model-sweep command: {args.model_sweep_command}")
+    elif args.command == "developmental-audit":
+        from .developmental import run_developmental_family, summarize_developmental_audit
+
+        if args.developmental_command == "run":
+            result = run_developmental_family(
+                manifest_path=args.manifest,
+                family_slug=args.family,
+                output_root=args.output_root,
+                revisions=args.revision,
+                source_device=args.source_device,
+                target_device=args.target_device,
+                cache_dir=args.cache_dir,
+            )
+        elif args.developmental_command == "summarize":
+            result = summarize_developmental_audit(
+                manifest_path=args.manifest,
+                artifacts_root=args.artifacts_root,
+                output_json=args.output_json,
+                output_table=args.output_table,
+                output_figure=args.output_figure,
+            )
+        else:
+            raise ValueError(f"Unsupported developmental command: {args.developmental_command}")
+        print(json.dumps(result, indent=2))
     elif args.command == "validate-data":
         from .data import dataset_summary, load_records
 

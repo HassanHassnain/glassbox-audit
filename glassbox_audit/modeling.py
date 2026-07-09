@@ -196,12 +196,14 @@ class HuggingFaceRefusalModel(AuditModel):
         dtype = getattr(torch, config.dtype)
         self.tokenizer = AutoTokenizer.from_pretrained(
             config.name,
+            revision=config.revision,
             trust_remote_code=config.trust_remote_code,
             cache_dir=config.cache_dir,
         )
         device_map = config.device if config.device == "auto" else {"": config.device}
         self.model = AutoModelForCausalLM.from_pretrained(
             config.name,
+            revision=config.revision,
             torch_dtype=dtype,
             device_map=device_map,
             trust_remote_code=config.trust_remote_code,
@@ -262,7 +264,7 @@ class HuggingFaceRefusalModel(AuditModel):
 
     def _prompt_ids(self, prompt: str) -> torch.Tensor:
         messages = [{"role": "user", "content": prompt}]
-        if hasattr(self.tokenizer, "apply_chat_template"):
+        if getattr(self.tokenizer, "chat_template", None):
             ids = self.tokenizer.apply_chat_template(
                 messages,
                 add_generation_prompt=True,
