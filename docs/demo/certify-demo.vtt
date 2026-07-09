@@ -1,0 +1,19 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:12.000
+The demo starts from frozen toy audit artifacts and asks Glassbox to render a signed Intervention Audit Card.
+
+00:00:12.000 --> 00:00:27.000
+The certifier reads the model identity, corpus hash, protocol counts, and frozen evidence before it scores any rung.
+
+00:00:27.000 --> 00:00:42.000
+The command prints the artifact directory, certified method, output paths, verdict, and card signature.
+
+00:00:42.000 --> 00:01:00.000
+The demo card fails because the SAE feature ablation does not pass held-out causal effect or matched controls.
+
+00:01:00.000 --> 00:01:15.000
+Glassbox writes a JSON contract for tooling, an HTML card for review, a PDF snapshot, and a digest tied to the demo ref.
+
+00:01:15.000 --> 00:01:30.000
+The useful part is the discipline: every acceptance or rejection is linked back to frozen files and hashes.
