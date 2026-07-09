@@ -8,6 +8,7 @@ artifacts/*
 !artifacts/demo/
 !artifacts/demo/**
 data/*_large.jsonl
+data/adversarial_robustness*.jsonl
 *.egg-info/
 dist/
 build/

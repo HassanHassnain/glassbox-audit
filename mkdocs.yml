@@ -34,6 +34,7 @@ nav:
   - Experiments:
       - Model sweep: MODEL_SWEEP.md
       - Developmental checkpoints: DEVELOPMENTAL_AUDIT.md
+      - Adversarial mediation robustness: ROBUSTNESS_AUDIT.md
       - Sycophancy audit: SYCOPHANCY_AUDIT.md
       - Head-path analysis: HEAD_PATH_ANALYSIS.md
   - Infrastructure:

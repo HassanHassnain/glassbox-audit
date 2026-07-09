@@ -113,6 +113,47 @@ def build_parser() -> argparse.ArgumentParser:
         default="docs/figures/developmental_audit.png",
     )
 
+    robustness = subparsers.add_parser(
+        "robustness-audit",
+        help="A8 aggregate-only mediation robustness under distribution shift",
+    )
+    robustness_subparsers = robustness.add_subparsers(
+        dest="robustness_command",
+        required=True,
+    )
+    robustness_run = robustness_subparsers.add_parser(
+        "run",
+        help="Evaluate a frozen direction on an approved shifted corpus",
+    )
+    robustness_run.add_argument(
+        "--config",
+        default="configs/adversarial_robustness.yaml",
+    )
+    robustness_run.add_argument("--output-dir", default="results/robustness")
+    robustness_run.add_argument("--device", default=None)
+
+    robustness_summary = robustness_subparsers.add_parser(
+        "summarize",
+        help="Publish aggregate completed and unrun A8 cells",
+    )
+    robustness_summary.add_argument(
+        "--config",
+        default="configs/adversarial_robustness.yaml",
+    )
+    robustness_summary.add_argument("--evidence-dir", default="results/robustness")
+    robustness_summary.add_argument(
+        "--output-json",
+        default="results/robustness/a8_public_summary.json",
+    )
+    robustness_summary.add_argument(
+        "--output-table",
+        default="docs/tables/robustness_audit.md",
+    )
+    robustness_summary.add_argument(
+        "--output-figure",
+        default="docs/figures/robustness_audit.png",
+    )
+
     validate = subparsers.add_parser("validate-data", help="Validate and summarize a dataset")
     validate.add_argument("--data", required=True)
 
@@ -437,6 +478,26 @@ def main() -> None:
             )
         else:
             raise ValueError(f"Unsupported developmental command: {args.developmental_command}")
+        print(json.dumps(result, indent=2))
+    elif args.command == "robustness-audit":
+        from .robustness import run_robustness_audit, summarize_robustness_audit
+
+        if args.robustness_command == "run":
+            result = run_robustness_audit(
+                config_path=args.config,
+                output_dir=args.output_dir,
+                device=args.device,
+            )
+        elif args.robustness_command == "summarize":
+            result = summarize_robustness_audit(
+                config_path=args.config,
+                evidence_dir=args.evidence_dir,
+                output_json=args.output_json,
+                output_table=args.output_table,
+                output_figure=args.output_figure,
+            )
+        else:
+            raise ValueError(f"Unsupported robustness command: {args.robustness_command}")
         print(json.dumps(result, indent=2))
     elif args.command == "validate-data":
         from .data import dataset_summary, load_records

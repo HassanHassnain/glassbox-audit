@@ -1,4 +1,4 @@
-.PHONY: install smoke test lint compile toy sycophancy-toy workbench qwen qwen-full real-audit model-sweep developmental-pythia developmental-olmo developmental-summary head-path certify audit-card-gallery certify-demo drift leaderboard evidence-explorer docs-build docs-serve paper reproduce-core reproduce-cleanroom reproduce-external report final-report validate release-check
+.PHONY: install smoke test lint compile toy sycophancy-toy workbench qwen qwen-full real-audit model-sweep developmental-pythia developmental-olmo developmental-summary robustness-audit robustness-summary head-path certify audit-card-gallery certify-demo drift leaderboard evidence-explorer docs-build docs-serve paper reproduce-core reproduce-cleanroom reproduce-external report final-report validate release-check
 
 install:
 	pip install -e ".[dev,ui]"
@@ -53,6 +53,16 @@ developmental-summary:
 	python -m glassbox_audit.cli developmental-audit summarize \
 		--manifest configs/developmental_audit.yaml \
 		--artifacts-root artifacts/developmental
+
+robustness-audit:
+	python -m glassbox_audit.cli robustness-audit run \
+		--config configs/adversarial_robustness.yaml \
+		--output-dir results/robustness
+
+robustness-summary:
+	python -m glassbox_audit.cli robustness-audit summarize \
+		--config configs/adversarial_robustness.yaml \
+		--evidence-dir results/robustness
 
 head-path:
 	python -m glassbox_audit.cli head-path --artifacts artifacts/qwen-real-audit
@@ -117,5 +127,5 @@ final-report:
 validate: test lint compile toy
 	python -m glassbox_audit.cli workbench --help
 
-release-check: validate final-report audit-card-gallery certify-demo leaderboard evidence-explorer docs-build
+release-check: validate final-report audit-card-gallery certify-demo leaderboard evidence-explorer robustness-summary docs-build
 	python -m glassbox_audit.cli workbench --help

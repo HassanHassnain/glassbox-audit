@@ -162,6 +162,7 @@ make reproduce-cleanroom
 make reproduce-external
 make model-sweep
 make developmental-summary
+make robustness-summary
 make certify
 make audit-card-gallery
 make certify-demo
@@ -217,6 +218,13 @@ checkpoints, then tests each direction at an architecture-matched final endpoint
 scoped to final-base representation transfer; OLMo results target the official 7B instruct model.
 The grid, evidence contract, and commands are documented in
 [the developmental audit runbook](docs/DEVELOPMENTAL_AUDIT.md).
+
+## Adversarial Mediation Robustness
+
+A8 evaluates whether the frozen mean direction retains aggregate mediation under approved
+paraphrase, persona, multilingual, and jailbreak-format shifts. The shifted corpus stays local and
+ignored; committed evidence contains aggregate metrics, hashes, counts, and matched-control ranges
+only. See [the robustness audit runbook](docs/ROBUSTNESS_AUDIT.md).
 
 ## Audit Card Gallery
 
@@ -349,6 +357,7 @@ glassbox_audit/
   component_analysis.py # Frozen component-output localization from artifacts
   interventions.py     # Steering, projection patching, feature ablation
   developmental.py     # Training-checkpoint direction discovery and endpoint transfer
+  robustness.py        # Aggregate-only frozen-mechanism distribution-shift audit
   evaluation.py        # Metrics and pair-clustered paired-bootstrap comparisons
   pipeline.py          # Reproducible artifact-producing experiment runner
   publication.py       # Paper, figures, tables, and static workbench image
@@ -382,6 +391,8 @@ Every run produces:
 | `results/model-sweep/<model_slug>.json` | A2 per-model evidence snapshot or unrun stub |
 | `results/developmental/a3_summary.json` | A3 developmental checkpoint aggregate |
 | `results/developmental/<family>_<revision>.json` | A3 per-checkpoint evidence snapshot or unrun stub |
+| `results/robustness/a8_public_summary.json` | A8 aggregate-only shift-family summary |
+| `results/robustness/<shift_family>.json` | A8 aggregate shift-family evidence or unrun stub |
 | `head_path_analysis.json` / `results/head-path/*.json` | Optional A5 attention head-slice verification |
 | `docs/preregistration_sycophancy.frozen.json` | A7 frozen sycophancy behavior-audit preregistration |
 | `results/certification/*.card.json` / `.html` / `.pdf` | B1 intervention audit cards |

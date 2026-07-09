@@ -1,0 +1,16 @@
+{
+  "aggregate_only": true,
+  "experiment": "A8_adversarial_mediation_robustness",
+  "harmful_ci_high": null,
+  "harmful_ci_low": null,
+  "harmful_delta": null,
+  "n_pairs": null,
+  "n_records": null,
+  "preregistration_hash": "22ccfb37db4e094540995275deef54a7119d31c3372e7cfcd9d98fb58b8eae5e",
+  "random_control_empirical_p": null,
+  "robustness_passed": null,
+  "schema_version": "1.0",
+  "shift_family": "multilingual",
+  "source_effect_retention": null,
+  "status": "unrun"
+}
