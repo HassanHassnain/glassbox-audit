@@ -11,9 +11,15 @@ from glassbox_audit.modeling import (
     NNsightRefusalModel,
     ToyRefusalModel,
     TransformerLensRefusalModel,
+    huggingface_device_map,
 )
 
 ROOT = Path(__file__).parents[1]
+
+
+def test_huggingface_device_map_preserves_accelerate_sharding_modes():
+    assert huggingface_device_map("cuda:0") == {"": "cuda:0"}
+    assert huggingface_device_map("balanced_low_0") == "balanced_low_0"
 
 
 def test_toy_planted_direction_is_causal():

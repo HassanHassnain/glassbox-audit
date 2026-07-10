@@ -14,6 +14,11 @@ from .config import ModelConfig
 from .types import ModelOutput, PromptRecord
 
 Intervention = Callable[[torch.Tensor], torch.Tensor]
+HF_DEVICE_MAP_MODES = {"auto", "balanced", "balanced_low_0", "sequential"}
+
+
+def huggingface_device_map(device: str) -> str | dict[str, str]:
+    return device if device in HF_DEVICE_MAP_MODES else {"": device}
 
 
 class AuditModel(ABC):
@@ -214,7 +219,7 @@ class HuggingFaceRefusalModel(AuditModel):
             trust_remote_code=config.trust_remote_code,
             cache_dir=cache_dir,
         )
-        device_map = device if device == "auto" else {"": device}
+        device_map = huggingface_device_map(device)
         self.model = AutoModelForCausalLM.from_pretrained(
             config.name,
             revision=config.revision,
