@@ -49,3 +49,20 @@ The JSON report includes:
 If the new model has a different hidden size than the frozen directions or SAE, model-swap mode
 fails closed with an explicit compatibility error. Use completed-artifact comparison for
 architecture-changing upgrades.
+
+## LoRA Demonstration
+
+The model-update demonstration trains and merges a small adapter without writing training prompts
+into its manifest:
+
+```bash
+python scripts/train_lora_drift_demo.py
+python -m glassbox_audit.cli drift \
+  --source-artifacts artifacts/qwen-real-audit \
+  --new-config configs/drift/qwen25-15b-lora.yaml \
+  --output-json results/drift/qwen15b_lora_model_swap.json \
+  --output-doc results/drift/qwen15b_lora_model_swap.md
+```
+
+Install the training dependency with `pip install -e ".[drift]"`. The merged checkpoint remains a
+local artifact; the committed report records its training-data hash and frozen-handle evaluation.

@@ -26,6 +26,7 @@ accelerate = ["accelerate>=1.0", "bitsandbytes>=0.43"]
 sae-zoo = ["sae-lens"]
 docs = ["mkdocs-material>=9.6"]
 backends = ["nnsight>=0.5,<0.6", "transformer-lens>=3.5,<4"]
+drift = ["peft>=0.19,<0.20"]
 release = ["build>=1.2,<2", "twine>=6,<7"]
 
 [project.scripts]
