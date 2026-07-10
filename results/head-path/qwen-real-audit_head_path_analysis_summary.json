@@ -1,0 +1,169 @@
+{
+  "claim_status": {
+    "confirmed_head_path": true,
+    "reason": "A confirmed circuit claim still requires architecture-specific path patching, necessity, sufficiency, specificity, and replication. This artifact settles the generic attention-output head-slice test for the configured artifact.",
+    "significant_heads": [
+      {
+        "head": 10,
+        "layer": 27
+      },
+      {
+        "head": 3,
+        "layer": 27
+      },
+      {
+        "head": 9,
+        "layer": 27
+      },
+      {
+        "head": 11,
+        "layer": 27
+      },
+      {
+        "head": 8,
+        "layer": 27
+      }
+    ]
+  },
+  "evidence_scope": "attention-output head-slice shortlist and held-out verification; generic fallback, not architecture-specific pre-output path patching",
+  "layers": [
+    27
+  ],
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "multiple_testing": {
+    "alpha": 0.05,
+    "family": "verified head_direction_ablation one-sided harmful-score tests",
+    "method": "Benjamini-Hochberg"
+  },
+  "n_test_records_for_verification": 60,
+  "n_train_records_for_shortlist": 120,
+  "records_artifact": "artifacts/qwen-real-audit/head_path_analysis.json",
+  "schema_version": "1.0",
+  "selection_policy": "train-only head shortlist; held-out verification only",
+  "shortlist": [
+    {
+      "direction_norm": 0.31599006056785583,
+      "head": 2,
+      "layer": 27,
+      "projection_effect_size": 3.5231565256963298,
+      "projection_mean_gap": 0.33683836460113525,
+      "score": 1.1132824439448197,
+      "train_benign_projection": -0.15217067742099363,
+      "train_harmful_projection": 0.18466770636538665
+    },
+    {
+      "direction_norm": 0.2838633358478546,
+      "head": 10,
+      "layer": 27,
+      "projection_effect_size": 3.1568117171923893,
+      "projection_mean_gap": 0.4087434709072113,
+      "score": 0.8961031046858259,
+      "train_benign_projection": -0.41398671865463255,
+      "train_harmful_projection": -0.005243228437999885
+    },
+    {
+      "direction_norm": 0.3046324551105499,
+      "head": 0,
+      "layer": 27,
+      "projection_effect_size": 2.549207390635586,
+      "projection_mean_gap": 0.1806105226278305,
+      "score": 0.7765713059952774,
+      "train_benign_projection": -0.16016374460111063,
+      "train_harmful_projection": 0.020446779330571492
+    },
+    {
+      "direction_norm": 0.2885414659976959,
+      "head": 5,
+      "layer": 27,
+      "projection_effect_size": 2.5727127199353905,
+      "projection_mean_gap": 0.2358575165271759,
+      "score": 0.7423342998010772,
+      "train_benign_projection": -0.07816743204991022,
+      "train_harmful_projection": 0.1576900837322076
+    },
+    {
+      "direction_norm": 0.27469733357429504,
+      "head": 6,
+      "layer": 27,
+      "projection_effect_size": 1.9476773869583193,
+      "projection_mean_gap": 0.23850518465042114,
+      "score": 0.5350217848604008,
+      "train_benign_projection": -0.04562144006292025,
+      "train_harmful_projection": 0.19288372701654832
+    },
+    {
+      "direction_norm": 0.27089977264404297,
+      "head": 1,
+      "layer": 27,
+      "projection_effect_size": 1.8877733899174014,
+      "projection_mean_gap": 0.20445112884044647,
+      "score": 0.5113973821320983,
+      "train_benign_projection": -0.007712093616525332,
+      "train_harmful_projection": 0.19673906440536182
+    },
+    {
+      "direction_norm": 0.27251559495925903,
+      "head": 3,
+      "layer": 27,
+      "projection_effect_size": 1.554823793881478,
+      "projection_mean_gap": 0.14176782965660095,
+      "score": 0.4237137312464233,
+      "train_benign_projection": 0.03314232062548399,
+      "train_harmful_projection": 0.17491015121340753
+    },
+    {
+      "direction_norm": 0.3154268264770508,
+      "head": 7,
+      "layer": 27,
+      "projection_effect_size": 1.1922660975480261,
+      "projection_mean_gap": 0.1307583749294281,
+      "score": 0.3760727114657517,
+      "train_benign_projection": -0.24269720055162908,
+      "train_harmful_projection": -0.11193882562220096
+    },
+    {
+      "direction_norm": 0.27266111969947815,
+      "head": 9,
+      "layer": 27,
+      "projection_effect_size": 1.375514752175818,
+      "projection_mean_gap": 0.09956799447536469,
+      "score": 0.37504939249140873,
+      "train_benign_projection": 0.2037325789531072,
+      "train_harmful_projection": 0.30330057019988693
+    },
+    {
+      "direction_norm": 0.2874959707260132,
+      "head": 4,
+      "layer": 27,
+      "projection_effect_size": 1.1650251126127298,
+      "projection_mean_gap": 0.10196496546268463,
+      "score": 0.3349400256707796,
+      "train_benign_projection": -0.22225344143807887,
+      "train_harmful_projection": -0.12028844760109982
+    },
+    {
+      "direction_norm": 0.3013956844806671,
+      "head": 11,
+      "layer": 27,
+      "projection_effect_size": -0.12999511665321378,
+      "projection_mean_gap": -0.01376768946647644,
+      "score": 0.03917996716283954,
+      "train_benign_projection": 0.27355830458303293,
+      "train_harmful_projection": 0.25979062020778654
+    },
+    {
+      "direction_norm": 0.2703205347061157,
+      "head": 8,
+      "layer": 27,
+      "projection_effect_size": 0.07714117094436994,
+      "projection_mean_gap": 0.007228046655654907,
+      "score": 0.02085284257753796,
+      "train_benign_projection": 0.031846721097826956,
+      "train_harmful_projection": 0.0390747602408131
+    }
+  ],
+  "source_artifact": "artifacts/qwen-real-audit",
+  "target_layer": 27,
+  "top_k": 20,
+  "unsupported_layers": []
+}

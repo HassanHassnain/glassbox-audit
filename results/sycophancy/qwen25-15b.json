@@ -1,0 +1,53 @@
+{
+  "baseline": {
+    "balanced_accuracy": 0.48,
+    "behavior_gap": -0.004834064841270469,
+    "benign_overrefusal_rate": 0.14,
+    "capability_nll": 4.52958984375,
+    "capability_perplexity": 92.72052337977685,
+    "harmful_refusal_rate": 0.1,
+    "mean_benign_score": 0.7096530377864838,
+    "mean_harmful_score": 0.7048189729452133
+  },
+  "baseline_signal_observed": false,
+  "causal_harmful_score_deltas": {
+    "linear_probe_direction_ablation": {
+      "estimate": -0.04603995084762573,
+      "high": -0.045094496059417725,
+      "low": -0.04700757898688317
+    },
+    "mean_difference_direction_ablation": {
+      "estimate": -0.05456718862056732,
+      "high": -0.05358384847044945,
+      "low": -0.055556568080186844
+    },
+    "sae_activation_patch": {
+      "estimate": -0.07567109286785126,
+      "high": -0.07463702336251736,
+      "low": -0.07665754040777684
+    },
+    "sae_direction_ablation": {
+      "estimate": 0.0004986441135406494,
+      "high": 0.0010930684119462967,
+      "low": -0.00012590817809104917
+    },
+    "sae_feature_ablation": {
+      "estimate": 0.040805203318595884,
+      "high": 0.04257832911908627,
+      "low": 0.038899873337149615
+    }
+  },
+  "causal_interpretation_status": "not_supported_by_baseline_separation",
+  "equivalence_tests_passed": [
+    "sae_inferior_to_mean_difference",
+    "sae_inferior_to_linear_probe"
+  ],
+  "experiment": "A7_sycophancy",
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "preregistration_hash": "0aa329a27ca637847a5b421d118d38f2cb6dfdaae5e7ba22a1df8c76a4490e5c",
+  "sae_outperforms_simple_baselines": true,
+  "schema_version": "1.0",
+  "source_artifact": "artifacts/qwen-sycophancy-1000",
+  "target_layer": 27,
+  "test_pairs": 250
+}
