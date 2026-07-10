@@ -235,6 +235,10 @@ def _control_distribution(
     }
 
 
+def _format_optional_effect(value: float | None) -> str:
+    return "" if value is None else f"{value:+.4f}"
+
+
 def _refresh_sae_zoo_league_table(directory: Path) -> None:
     artifacts = []
     for path in sorted(directory.glob("*.json")):
@@ -246,16 +250,38 @@ def _refresh_sae_zoo_league_table(directory: Path) -> None:
             continue
         if artifact.get("schema_version") != "1.0":
             continue
-        if "held_out" not in artifact or "sae_source" not in artifact:
+        if "sae_source" not in artifact:
+            continue
+        if "held_out" not in artifact and artifact.get("status") != "failed":
             continue
         artifacts.append(artifact)
     rows = []
     for artifact in artifacts:
+        if artifact.get("status") == "failed":
+            rows.append(
+                {
+                    "status": "failed",
+                    "model": artifact["model"],
+                    "release": artifact["sae_source"].get("release"),
+                    "sae_id": artifact["sae_source"].get("sae_id"),
+                    "layer": artifact["target_layer"],
+                    "behavior": artifact["behavior"],
+                    "sae_harmful_delta": None,
+                    "mean_difference_harmful_delta": None,
+                    "linear_probe_harmful_delta": None,
+                    "beats_mean_difference": None,
+                    "beats_linear_probe": None,
+                    "random_sae_controls_n": None,
+                    "failure": artifact.get("failure"),
+                }
+            )
+            continue
         held_out = artifact["held_out"]
         comparisons = artifact["comparisons"]
         controls = artifact["matched_controls"]["random_sae_feature_ablation"]
         rows.append(
             {
+                "status": "completed",
                 "model": artifact["model"],
                 "release": artifact["sae_source"].get("release"),
                 "sae_id": artifact["sae_source"].get("sae_id"),
@@ -274,15 +300,20 @@ def _refresh_sae_zoo_league_table(directory: Path) -> None:
     table = [
         "# SAE Zoo League Table",
         "",
-        "| Model | Release | SAE id | Layer | SAE delta | Mean delta | Probe delta | Beats mean? | Beats probe? | Controls |",
-        "|---|---|---|---:|---:|---:|---:|---|---|---:|",
+        "| Status | Model | Release | SAE id | Layer | SAE delta | Mean delta | Probe delta | Beats mean? | Beats probe? | Controls | Failure |",
+        "|---|---|---|---|---:|---:|---:|---:|---|---|---:|---|",
     ]
     for row in rows:
+        failure = row.get("failure") or {}
         table.append(
-            f"| {row['model']} | {row['release']} | {row['sae_id']} | {row['layer']} | "
-            f"{row['sae_harmful_delta']:+.4f} | {row['mean_difference_harmful_delta']:+.4f} | "
-            f"{row['linear_probe_harmful_delta']:+.4f} | {row['beats_mean_difference']} | "
-            f"{row['beats_linear_probe']} | {row['random_sae_controls_n']} |"
+            f"| {row['status']} | {row['model']} | {row['release']} | {row['sae_id']} | "
+            f"{row['layer']} | {_format_optional_effect(row['sae_harmful_delta'])} | "
+            f"{_format_optional_effect(row['mean_difference_harmful_delta'])} | "
+            f"{_format_optional_effect(row['linear_probe_harmful_delta'])} | "
+            f"{row['beats_mean_difference'] if row['beats_mean_difference'] is not None else ''} | "
+            f"{row['beats_linear_probe'] if row['beats_linear_probe'] is not None else ''} | "
+            f"{row['random_sae_controls_n'] if row['random_sae_controls_n'] is not None else ''} | "
+            f"{failure.get('error_type', '')} |"
         )
     (directory / "league_table.md").write_text("\n".join(table) + "\n")
 

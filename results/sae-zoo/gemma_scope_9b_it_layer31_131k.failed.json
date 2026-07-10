@@ -1,0 +1,18 @@
+{
+  "behavior": "refusal",
+  "failure": {
+    "error_message": "Hugging Face model access requires approval; no approved credential is available in this environment.",
+    "error_type": "access_denied",
+    "stage": "model_access"
+  },
+  "model": "google/gemma-2-9b-it",
+  "preregistration_hash": "a038b5387eaea02ab7ca20311a8b52ef8ff0fcb4229ceea0795452cd9167e511",
+  "sae_source": {
+    "release": "gemma-scope-9b-it-res-canonical",
+    "sae_id": "layer_31/width_131k/canonical",
+    "source": "saelens"
+  },
+  "schema_version": "1.0",
+  "status": "failed",
+  "target_layer": 31
+}

@@ -1,0 +1,18 @@
+{
+  "behavior": "refusal",
+  "failure": {
+    "error_message": "Hugging Face model access requires approval, and the registered 131k Llama Scope SAE targets the base rather than instruct checkpoint.",
+    "error_type": "access_and_alignment_blocked",
+    "stage": "model_access"
+  },
+  "model": "meta-llama/Llama-3.1-8B",
+  "preregistration_hash": "a038b5387eaea02ab7ca20311a8b52ef8ff0fcb4229ceea0795452cd9167e511",
+  "sae_source": {
+    "release": "llama_scope_lxr_32x",
+    "sae_id": "l31r_32x",
+    "source": "saelens"
+  },
+  "schema_version": "1.0",
+  "status": "failed",
+  "target_layer": 31
+}

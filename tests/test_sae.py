@@ -1,6 +1,9 @@
+import json
+
 import torch
 
 from glassbox_audit.discovery import train_l1_feature_weights, weighted_feature_direction
+from glassbox_audit.pipeline import _refresh_sae_zoo_league_table
 from glassbox_audit.sae import SAELensAdapter, evaluate_sae_metrics, sae_state_dict, train_sae
 
 
@@ -21,6 +24,24 @@ class FakeSAELensSAE(torch.nn.Module):
 
     def decode(self, features):
         return features @ self.W_dec
+
+
+def test_sae_zoo_league_table_preserves_failed_cells(tmp_path):
+    failure = {
+        "schema_version": "1.0",
+        "status": "failed",
+        "model": "gated/model",
+        "behavior": "refusal",
+        "target_layer": 3,
+        "sae_source": {"release": "public-release", "sae_id": "layer_3"},
+        "failure": {"error_type": "access_denied"},
+    }
+    (tmp_path / "failed.json").write_text(json.dumps(failure))
+    _refresh_sae_zoo_league_table(tmp_path)
+
+    league = json.loads((tmp_path / "league_table.json").read_text())
+    assert league["rows"][0]["status"] == "failed"
+    assert league["rows"][0]["failure"]["error_type"] == "access_denied"
 
 
 def test_sae_is_sparse_and_reconstructs():
