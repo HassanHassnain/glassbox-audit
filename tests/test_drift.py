@@ -1,10 +1,18 @@
 import json
 
-from glassbox_audit.drift import compare_artifact_drift
+from glassbox_audit.drift import _local_training_manifest, compare_artifact_drift
 
 
 def _write(path, payload):
     path.write_text(json.dumps(payload))
+
+
+def test_local_training_manifest_is_loaded_from_merged_model_parent(tmp_path):
+    merged = tmp_path / "update" / "merged"
+    merged.mkdir(parents=True)
+    _write(merged.parent / "training_manifest.json", {"dataset_sha256": "abc"})
+
+    assert _local_training_manifest(str(merged)) == {"dataset_sha256": "abc"}
 
 
 def _artifact(root, *, name, harmful_high, benign_estimate=0.01, nll_estimate=0.01, p=0.01):

@@ -22,6 +22,14 @@ def _write_json(path: str | Path, payload: Any) -> None:
         handle.write("\n")
 
 
+def _local_training_manifest(model_name: str) -> dict[str, Any] | None:
+    model_path = Path(model_name)
+    for candidate in [model_path / "training_manifest.json", model_path.parent / "training_manifest.json"]:
+        if candidate.exists():
+            return _read_json(candidate)
+    return None
+
+
 def _estimate(row: dict[str, Any], key: str) -> float:
     return float(row[key]["estimate"])
 
@@ -487,6 +495,7 @@ def run_model_swap_drift(
         "new": {
             "model": model.name,
             "model_config": config.model.__dict__,
+            "training_manifest": _local_training_manifest(config.model.name),
             "behavior": config.behavior,
             "target_layer": target_layer,
             "baseline_metrics": baseline_metrics,
