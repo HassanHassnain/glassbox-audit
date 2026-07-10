@@ -51,6 +51,17 @@ execution is not enabled by the audit runner.
 `huggingface` remains the required backend for A5 component and attention-head analysis. It is also
 the least restrictive choice for architectures not yet represented in TransformerLens or nnsight.
 
+## Real-model validation
+
+All three engines completed the same bounded held-out audit on Qwen2.5-0.5B and 240 controlled
+records. Hugging Face and nnsight were numerically identical. TransformerLens selected the same
+layer; its absolute difference from Hugging Face was `0.00059` for baseline behavior gap,
+`0.00078` for mean-direction harmful-score delta, and `0.01682` for the retrained SAE delta.
+
+- [Comparison table](tables/backend_validation.md)
+- Machine-readable result: `results/backend-validation/qwen25-05b.json`
+- Figure: `docs/figures/backend_validation.png`
+
 ## Package verification
 
 `glassbox installed-smoke --output <dir>` runs a complete toy audit from data embedded in the

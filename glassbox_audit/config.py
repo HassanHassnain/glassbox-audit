@@ -81,8 +81,16 @@ class ExperimentConfig:
         return asdict(self)
 
 
+def _project_root(config_path: Path) -> Path:
+    for candidate in [config_path.parent, *config_path.parents]:
+        if (candidate / "pyproject.toml").is_file():
+            return candidate
+    return config_path.parent.parent
+
+
 def load_config(path: str | Path) -> ExperimentConfig:
     path = Path(path)
+    project_root = _project_root(path.resolve())
     with path.open() as handle:
         raw = yaml.safe_load(handle) or {}
     model = ModelConfig(**raw.pop("model", {}))
@@ -90,13 +98,13 @@ def load_config(path: str | Path) -> ExperimentConfig:
     evaluation = EvaluationConfig(**raw.pop("evaluation", {}))
     config = ExperimentConfig(model=model, sae=sae, evaluation=evaluation, **raw)
     if config.dataset_path and not Path(config.dataset_path).is_absolute():
-        config.dataset_path = str((path.parent.parent / config.dataset_path).resolve())
+        config.dataset_path = str((project_root / config.dataset_path).resolve())
     if config.preregistration_path and not Path(config.preregistration_path).is_absolute():
         config.preregistration_path = str(
-            (path.parent.parent / config.preregistration_path).resolve()
+            (project_root / config.preregistration_path).resolve()
         )
     if config.model.cache_dir and not Path(config.model.cache_dir).is_absolute():
-        config.model.cache_dir = str((path.parent.parent / config.model.cache_dir).resolve())
+        config.model.cache_dir = str((project_root / config.model.cache_dir).resolve())
     if os.environ.get("GLASSBOX_MODEL_DEVICE"):
         config.model.device = os.environ["GLASSBOX_MODEL_DEVICE"]
     if os.environ.get("GLASSBOX_SAE_DEVICE"):

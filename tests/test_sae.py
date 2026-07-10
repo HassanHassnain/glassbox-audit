@@ -1,5 +1,6 @@
 import torch
 
+from glassbox_audit.discovery import train_l1_feature_weights, weighted_feature_direction
 from glassbox_audit.sae import SAELensAdapter, evaluate_sae_metrics, sae_state_dict, train_sae
 
 
@@ -64,3 +65,30 @@ def test_saelens_adapter_exposes_public_dictionary_metadata():
     assert state["source"] == "saelens"
     assert state["release"] == "test-release"
     assert "state_dict" not in state
+
+
+def test_l1_feature_frontier_follows_sae_device_and_returns_cpu_direction():
+    activations = torch.randn(12, 4)
+    labels = torch.tensor([False, True] * 6)
+    result = train_sae(
+        activations,
+        expansion_factor=2,
+        top_k=2,
+        epochs=2,
+        batch_size=12,
+        learning_rate=0.01,
+        l1_coefficient=0.0001,
+        seed=3,
+        device="cpu",
+    )
+    weights, metrics = train_l1_feature_weights(
+        result.model,
+        activations,
+        labels,
+        seed=4,
+        epochs=3,
+    )
+    direction = weighted_feature_direction(result.model, weights, [0, 1])
+    assert weights.device.type == "cpu"
+    assert direction.device.type == "cpu"
+    assert metrics["epochs"] == 3

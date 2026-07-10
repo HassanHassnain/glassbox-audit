@@ -3,13 +3,27 @@ from pathlib import Path
 import pytest
 import torch
 
-from glassbox_audit.config import EvaluationConfig, ExperimentConfig, ModelConfig, SAEConfig
+from glassbox_audit.config import (
+    EvaluationConfig,
+    ExperimentConfig,
+    ModelConfig,
+    SAEConfig,
+    load_config,
+)
 from glassbox_audit.interventions import AblateSAEFeatures
 from glassbox_audit.pipeline import _random_sae_controls, run_audit
 from glassbox_audit.utils import read_json
 from glassbox_audit.workbench import load_artifacts
 
 ROOT = Path(__file__).parents[1]
+
+
+def test_nested_config_paths_resolve_from_project_root():
+    config = load_config(ROOT / "configs/a2_model_sweep/qwen25-05b-instruct.yaml")
+    assert config.dataset_path == str((ROOT / "data/refusal_controlled_v2_1000.jsonl").resolve())
+    assert config.preregistration_path == str(
+        (ROOT / "docs/preregistration_model_sweep.frozen.json").resolve()
+    )
 
 
 def test_toy_pipeline_runs_end_to_end(tmp_path):

@@ -1,0 +1,86 @@
+{
+  "comparisons_to_reference": [
+    {
+      "absolute_differences": {
+        "baseline_behavior_gap": 0.0,
+        "behavior_threshold": 0.0,
+        "mean_difference_harmful_delta": 0.0,
+        "sae_feature_harmful_delta": 0.0
+      },
+      "backend": "nnsight",
+      "same_selected_features": true,
+      "same_target_layer": true
+    },
+    {
+      "absolute_differences": {
+        "baseline_behavior_gap": 0.0005918959776560762,
+        "behavior_threshold": 0.0005790889263153076,
+        "mean_difference_harmful_delta": 0.0007806936899820982,
+        "sae_feature_harmful_delta": 0.01682113806406657
+      },
+      "backend": "transformer-lens",
+      "same_selected_features": false,
+      "same_target_layer": true
+    }
+  ],
+  "evidence_class": "empirical_backend_validation",
+  "model": "Qwen/Qwen2.5-0.5B-Instruct",
+  "reference_backend": "huggingface",
+  "rows": [
+    {
+      "artifact_dir": "artifacts/backend-validation/qwen25-05b-huggingface",
+      "backend": "huggingface",
+      "baseline_behavior_gap": 0.10151899059613545,
+      "behavior_threshold": 0.7642374038696289,
+      "interventions_sha256": "051b21d344af04d9966e335c847a0cb5e7080c035cb3078aa9f0a1a0922cf4b9",
+      "mean_difference_harmful_delta": -0.10100035071372986,
+      "sae_feature_harmful_delta": -0.08085379600524903,
+      "selected_features": [
+        623,
+        624,
+        564,
+        186,
+        1545
+      ],
+      "summary_sha256": "f74ed07e2a4baeaa9979b99edf2fad0ffbd29d7ce437430ee4d3ee050562a9c3",
+      "target_layer": 21
+    },
+    {
+      "artifact_dir": "artifacts/backend-validation/qwen25-05b-nnsight",
+      "backend": "nnsight",
+      "baseline_behavior_gap": 0.10151899059613545,
+      "behavior_threshold": 0.7642374038696289,
+      "interventions_sha256": "051b21d344af04d9966e335c847a0cb5e7080c035cb3078aa9f0a1a0922cf4b9",
+      "mean_difference_harmful_delta": -0.10100035071372986,
+      "sae_feature_harmful_delta": -0.08085379600524903,
+      "selected_features": [
+        623,
+        624,
+        564,
+        186,
+        1545
+      ],
+      "summary_sha256": "f74ed07e2a4baeaa9979b99edf2fad0ffbd29d7ce437430ee4d3ee050562a9c3",
+      "target_layer": 21
+    },
+    {
+      "artifact_dir": "artifacts/backend-validation/qwen25-05b-transformer-lens",
+      "backend": "transformer-lens",
+      "baseline_behavior_gap": 0.10211088657379153,
+      "behavior_threshold": 0.7636583149433136,
+      "interventions_sha256": "34c43941213d29b7e6f8746a9ccc5d5da7f3190e5f88baf65ae5f5451ae4ac5d",
+      "mean_difference_harmful_delta": -0.10178104440371195,
+      "sae_feature_harmful_delta": -0.06403265794118246,
+      "selected_features": [
+        623,
+        624,
+        564,
+        263,
+        1151
+      ],
+      "summary_sha256": "80ac5ecb80fb959c4d0526aba715ef55057795ff55c288555109100299b9b079",
+      "target_layer": 21
+    }
+  ],
+  "schema_version": "1.0"
+}

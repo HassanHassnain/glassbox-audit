@@ -120,11 +120,16 @@ def train_l1_feature_weights(
     epochs: int = 500,
 ) -> tuple[torch.Tensor, dict[str, float]]:
     torch.manual_seed(seed)
+    try:
+        device = next(sae.parameters()).device
+    except StopIteration:
+        device = sae.activation_center.device
     with torch.no_grad():
-        features = sae.encode(activations.float() - sae.activation_center).detach()
-    y = labels.float()
-    weights = torch.zeros(features.shape[-1], requires_grad=True)
-    bias = torch.zeros((), requires_grad=True)
+        centered = activations.float().to(device) - sae.activation_center.to(device)
+        features = sae.encode(centered).detach()
+    y = labels.float().to(device)
+    weights = torch.zeros(features.shape[-1], device=device, requires_grad=True)
+    bias = torch.zeros((), device=device, requires_grad=True)
     optimizer = torch.optim.Adam([weights, bias], lr=0.05)
     for _ in range(epochs):
         logits = features @ weights + bias
@@ -134,7 +139,7 @@ def train_l1_feature_weights(
         optimizer.step()
     with torch.no_grad():
         probability = torch.sigmoid(features @ weights + bias)
-        accuracy = ((probability >= 0.5) == labels).float().mean().item()
+        accuracy = ((probability >= 0.5) == (y >= 0.5)).float().mean().item()
         nonzero = (weights.abs() > 1e-8).float().sum().item()
     return weights.detach().cpu(), {
         "train_accuracy": accuracy,
@@ -157,7 +162,7 @@ def weighted_feature_direction(
             directions.append(sae.feature_direction(index) * weight)
     if not directions:
         directions = [sae.feature_direction(index) for index in feature_indices]
-    return F.normalize(torch.stack(directions).sum(dim=0), dim=0)
+    return F.normalize(torch.stack(directions).sum(dim=0), dim=0).cpu()
 
 
 def random_directions(

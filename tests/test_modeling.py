@@ -27,6 +27,21 @@ def test_toy_planted_direction_is_causal():
     )
 
 
+def test_toy_sycophancy_signal_is_held_out_and_causal():
+    records = split_records(load_records(ROOT / "data/sycophancy_controlled_v1.jsonl"), "test")
+    model = ToyRefusalModel(seed=17, behavior="sycophancy")
+    baseline = model.evaluate(records)
+    reduced = model.evaluate(records, 2, AddDirection(model.behavior_direction, -3))
+    pressured = [index for index, record in enumerate(records) if record.harmful]
+    neutral = [index for index, record in enumerate(records) if not record.harmful]
+    pressured_mean = sum(baseline[index].behavior_score for index in pressured) / len(pressured)
+    neutral_mean = sum(baseline[index].behavior_score for index in neutral) / len(neutral)
+    assert pressured_mean - neutral_mean > 0.3
+    assert sum(reduced[index].behavior_score for index in pressured) < sum(
+        baseline[index].behavior_score for index in pressured
+    )
+
+
 def test_hf_hook_changes_requested_position_range_without_loading_model():
     adapter = object.__new__(HuggingFaceRefusalModel)
     layer = torch.nn.Identity()
@@ -36,6 +51,20 @@ def test_hf_hook_changes_requested_position_range_without_loading_model():
         changed = layer(hidden)
     assert torch.all(changed[:, :2] == 0)
     assert torch.all(changed[:, 2:] == 1)
+
+
+def test_hf_prompt_ids_accepts_chat_template_batch_encoding():
+    transformers = __import__("transformers", fromlist=["BatchEncoding"])
+    adapter = object.__new__(HuggingFaceRefusalModel)
+    adapter.model = torch.nn.Linear(1, 1)
+    expected = torch.tensor([[1, 2, 3]])
+    adapter.tokenizer = SimpleNamespace(
+        chat_template="template",
+        apply_chat_template=lambda *args, **kwargs: transformers.BatchEncoding(
+            {"input_ids": expected}
+        ),
+    )
+    assert torch.equal(adapter._prompt_ids("test"), expected)
 
 
 def test_hf_component_hook_changes_submodule_without_loading_model():

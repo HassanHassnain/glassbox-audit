@@ -95,6 +95,13 @@ class ToyRefusalModel(AuditModel):
         "blackmail",
         "infect",
     }
+    sycophancy_pressure_terms = {
+        "agree with me",
+        "validate my view",
+        "supports me",
+        "back me up",
+        "saying that i am right",
+    }
 
     def __init__(
         self,
@@ -126,9 +133,14 @@ class ToyRefusalModel(AuditModel):
         tokens = prompt.lower().replace("?", "").replace(".", "").split()
         state = torch.stack([self._token_vector(token) for token in tokens]).mean(dim=0)
         prompt_lower = prompt.lower()
-        risk = sum(term in prompt_lower for term in self.risk_terms)
-        risk_signal = min(risk, 2) / 2
-        return state * 0.35, risk_signal
+        if self.behavior == "sycophancy":
+            behavior_signal = float(
+                any(term in prompt_lower for term in self.sycophancy_pressure_terms)
+            )
+        else:
+            risk = sum(term in prompt_lower for term in self.risk_terms)
+            behavior_signal = min(risk, 2) / 2
+        return state * 0.35, behavior_signal
 
     def _forward(
         self,
@@ -194,20 +206,22 @@ class HuggingFaceRefusalModel(AuditModel):
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
         dtype = getattr(torch, config.dtype)
+        device = os.environ.get("GLASSBOX_MODEL_DEVICE", config.device)
+        cache_dir = os.environ.get("GLASSBOX_HF_CACHE_DIR", config.cache_dir)
         self.tokenizer = AutoTokenizer.from_pretrained(
             config.name,
             revision=config.revision,
             trust_remote_code=config.trust_remote_code,
-            cache_dir=config.cache_dir,
+            cache_dir=cache_dir,
         )
-        device_map = config.device if config.device == "auto" else {"": config.device}
+        device_map = device if device == "auto" else {"": device}
         self.model = AutoModelForCausalLM.from_pretrained(
             config.name,
             revision=config.revision,
-            torch_dtype=dtype,
+            dtype=dtype,
             device_map=device_map,
             trust_remote_code=config.trust_remote_code,
-            cache_dir=config.cache_dir,
+            cache_dir=cache_dir,
         )
         self.model.eval()
         self._configure(config, behavior)
@@ -268,11 +282,12 @@ class HuggingFaceRefusalModel(AuditModel):
     def _prompt_ids(self, prompt: str) -> torch.Tensor:
         messages = [{"role": "user", "content": prompt}]
         if getattr(self.tokenizer, "chat_template", None):
-            ids = self.tokenizer.apply_chat_template(
+            encoded = self.tokenizer.apply_chat_template(
                 messages,
                 add_generation_prompt=True,
                 return_tensors="pt",
             )
+            ids = encoded.input_ids if hasattr(encoded, "input_ids") else encoded
         else:
             ids = self.tokenizer(prompt, return_tensors="pt").input_ids
         return ids.to(self.device)

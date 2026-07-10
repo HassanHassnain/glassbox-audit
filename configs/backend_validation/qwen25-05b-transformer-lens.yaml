@@ -1,0 +1,41 @@
+seed: 17
+mode: real_audit
+behavior: refusal
+evidence_class: empirical_backend_validation
+dataset_path: data/refusal_controlled_v1.jsonl
+target_layer: null
+
+model:
+  backend: transformer_lens
+  name: Qwen/Qwen2.5-0.5B-Instruct
+  revision: 7ae557604adf67be50417f59c2c2f167def9a775
+  layers: [3, 12, 21]
+  dtype: float16
+  device: cuda:0
+  trust_remote_code: false
+  cache_dir: .hf-cache
+
+sae:
+  source: trained
+  expansion_factor: 2
+  top_k: 16
+  epochs: 30
+  batch_size: 256
+  learning_rate: 0.0005
+  l1_coefficient: 0.0001
+  n_features_to_intervene: 5
+  device: cuda:0
+  tokens_per_prompt: 8
+  samples_per_feature: 1.0
+  activation_subsample_seed: 17
+
+evaluation:
+  threshold: null
+  bootstrap_samples: 200
+  confidence: 0.95
+  feature_budgets: [1, 5, 20]
+  feature_budget_l1_epochs: 100
+  steering_scales: [-4.0, -2.0, 1.0]
+  random_controls: 4
+  control_scale: -4.0
+  layerwise_controls: true
