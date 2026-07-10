@@ -152,11 +152,31 @@ glassbox workbench --artifacts artifacts/demo
 pytest
 ```
 
+The wheel contains its own toy fixture, so an installation can be checked outside a repository
+checkout:
+
+```bash
+pip install glassbox-audit
+glassbox installed-smoke --output artifacts/installed-smoke
+```
+
+Real-model audits can use raw Hugging Face hooks, nnsight, or TransformerLens:
+
+```bash
+pip install "glassbox-audit[backends,accelerate,sae-zoo]"
+# Set model.backend to huggingface, nnsight, or transformer_lens.
+glassbox run --config audit.yaml --output artifacts/audit
+```
+
+See the [backend guide](docs/BACKENDS.md) for supported operations and the
+[Colab notebook](notebooks/reproduce_headline_colab.ipynb) for a single-GPU bounded reproduction.
+
 Release-quality shortcuts:
 
 ```bash
 make test
 make toy
+make package-check
 make reproduce-core
 make reproduce-cleanroom
 make reproduce-external

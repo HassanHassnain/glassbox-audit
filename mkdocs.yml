@@ -38,6 +38,7 @@ nav:
       - Sycophancy audit: SYCOPHANCY_AUDIT.md
       - Head-path analysis: HEAD_PATH_ANALYSIS.md
   - Infrastructure:
+      - Model backends and packaging: BACKENDS.md
       - Intervention audit cards: CERTIFY.md
       - Audit-card gallery: AUDIT_CARD_GALLERY.md
       - Mechanism drift: MECHANISM_DRIFT.md

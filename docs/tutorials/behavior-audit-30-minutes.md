@@ -162,6 +162,10 @@ Increase held-out pairs and bootstrap draws to the preregistered values, scale t
 declared samples-per-feature rule, and run every predeclared cell. Record GPU selection and model
 revision in the evidence rather than relying on a mutable local cache.
 
+The same residual audit can run through `backend: nnsight` or
+`backend: transformer_lens` after installing the `backends` extra. Component and head analysis
+still requires `backend: huggingface`; see the [backend capability matrix](../BACKENDS.md).
+
 For a new scorer, add the behavior's positive and negative prefixes in `glassbox_audit/modeling.py`,
 add paired-data and scorer tests, and run the same toy-to-real sequence. The discovery, validation,
 held-out evaluation, controls, card generation, and drift checks remain unchanged.

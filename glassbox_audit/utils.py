@@ -1,0 +1,28 @@
+from __future__ import annotations
+
+import json
+import random
+from pathlib import Path
+from typing import Any
+
+import torch
+
+
+def seed_everything(seed: int) -> None:
+    random.seed(seed)
+    torch.manual_seed(seed)
+    if torch.cuda.is_available():
+        torch.cuda.manual_seed_all(seed)
+
+
+def write_json(path: str | Path, data: Any) -> None:
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w") as handle:
+        json.dump(data, handle, indent=2, sort_keys=True, allow_nan=False)
+        handle.write("\n")
+
+
+def read_json(path: str | Path) -> Any:
+    with Path(path).open() as handle:
+        return json.load(handle)

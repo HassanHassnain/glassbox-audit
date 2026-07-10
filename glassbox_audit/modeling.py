@@ -210,6 +210,9 @@ class HuggingFaceRefusalModel(AuditModel):
             cache_dir=config.cache_dir,
         )
         self.model.eval()
+        self._configure(config, behavior)
+
+    def _configure(self, config: ModelConfig, behavior: str) -> None:
         self.name = config.name
         self.behavior = behavior
         try:
@@ -383,6 +386,18 @@ class HuggingFaceRefusalModel(AuditModel):
             handle.remove()
         return torch.stack(captures)
 
+    def _forward_logits(
+        self,
+        input_ids: torch.Tensor,
+        layer: int | None,
+        intervention: Intervention | None,
+        start_position: int,
+    ) -> torch.Tensor:
+        with self._intervention_hook(
+            layer, intervention, start_position=start_position
+        ), torch.inference_mode():
+            return self.model(input_ids).logits
+
     def _continuation_logprob(
         self,
         prompt_ids: torch.Tensor,
@@ -394,10 +409,12 @@ class HuggingFaceRefusalModel(AuditModel):
             continuation, add_special_tokens=False, return_tensors="pt"
         ).input_ids.to(self.device)
         input_ids = torch.cat([prompt_ids, continuation_ids], dim=-1)
-        with self._intervention_hook(
-            layer, intervention, start_position=prompt_ids.shape[-1] - 1
-        ), torch.inference_mode():
-            logits = self.model(input_ids).logits[:, :-1]
+        logits = self._forward_logits(
+            input_ids,
+            layer,
+            intervention,
+            start_position=prompt_ids.shape[-1] - 1,
+        )[:, :-1]
         targets = input_ids[:, 1:]
         token_logprobs = logits.log_softmax(dim=-1).gather(-1, targets.unsqueeze(-1)).squeeze(-1)
         start = prompt_ids.shape[-1] - 1
@@ -431,8 +448,12 @@ class HuggingFaceRefusalModel(AuditModel):
         intervention: Intervention | None,
     ) -> float:
         # Tokenwise intervention gives a general language-model degradation estimate.
-        with self._intervention_hook(layer, intervention, start_position=0), torch.inference_mode():
-            logits = self.model(prompt_ids).logits[:, :-1]
+        logits = self._forward_logits(
+            prompt_ids,
+            layer,
+            intervention,
+            start_position=0,
+        )[:, :-1]
         targets = prompt_ids[:, 1:]
         return F.cross_entropy(logits.reshape(-1, logits.shape[-1]), targets.reshape(-1)).item()
 
@@ -534,9 +555,235 @@ class HuggingFaceRefusalModel(AuditModel):
         )
 
 
+class ResidualStreamBackend:
+    """Capability boundary for ecosystem engines used by the standard audit."""
+
+    name: str
+
+    def evaluate_component(
+        self,
+        records: list[PromptRecord],
+        layer: int,
+        component: str,
+        intervention: Intervention,
+    ) -> list[ModelOutput]:
+        if component != "residual":
+            raise ValueError(
+                f"{self.name} backend supports residual interventions only; "
+                "use backend=huggingface for component and head analysis"
+            )
+        return self.evaluate(records, layer, intervention)
+
+    def collect_attention_head_outputs(
+        self,
+        records: list[PromptRecord],
+        layer: int,
+    ) -> torch.Tensor:
+        raise ValueError(
+            f"{self.name} backend does not expose head outputs; use backend=huggingface"
+        )
+
+    def evaluate_attention_head(
+        self,
+        records: list[PromptRecord],
+        layer: int,
+        head_index: int,
+        intervention: Intervention,
+    ) -> list[ModelOutput]:
+        raise ValueError(
+            f"{self.name} backend does not expose head interventions; use backend=huggingface"
+        )
+
+    def _generate_response(
+        self,
+        prompt_ids: torch.Tensor,
+        layer: int | None,
+        intervention: Intervention | None,
+    ) -> str:
+        if intervention is not None:
+            raise ValueError(
+                f"{self.name} backend does not support intervention-time generation; "
+                "unset GLASSBOX_STORE_GENERATIONS or use backend=huggingface"
+            )
+        return super()._generate_response(prompt_ids, layer, intervention)
+
+
+class TransformerLensRefusalModel(ResidualStreamBackend, HuggingFaceRefusalModel):
+    """Residual-stream adapter backed by TransformerLens' TransformerBridge."""
+
+    def __init__(self, config: ModelConfig, behavior: str = "refusal"):
+        try:
+            from transformer_lens.model_bridge import TransformerBridge
+        except ImportError as exc:
+            raise ImportError(
+                "The TransformerLens backend requires `pip install glassbox-audit[backends]`."
+            ) from exc
+
+        super().__init__(config, behavior=behavior)
+        self.transformer_lens = TransformerBridge.boot_transformers(
+            config.name,
+            tokenizer=self.tokenizer,
+            hf_model=self.model,
+            dtype=getattr(torch, config.dtype),
+            trust_remote_code=config.trust_remote_code,
+            revision=config.revision,
+        )
+
+    @staticmethod
+    def _residual_hook_name(layer: int) -> str:
+        return f"blocks.{layer}.hook_out"
+
+    def _forward_logits(
+        self,
+        input_ids: torch.Tensor,
+        layer: int | None,
+        intervention: Intervention | None,
+        start_position: int,
+    ) -> torch.Tensor:
+        hooks = []
+        if layer is not None and intervention is not None:
+
+            def apply_intervention(hidden: torch.Tensor, hook) -> torch.Tensor:
+                del hook
+                changed = hidden.clone()
+                changed[:, start_position:, :] = intervention(
+                    changed[:, start_position:, :]
+                )
+                return changed
+
+            hooks.append((self._residual_hook_name(layer), apply_intervention))
+        with torch.inference_mode():
+            return self.transformer_lens.run_with_hooks(
+                input_ids,
+                fwd_hooks=hooks,
+                return_type="logits",
+            )
+
+    def _collect_tokens(
+        self,
+        records: list[PromptRecord],
+        layers: list[int],
+        tokens_per_prompt: int,
+    ) -> dict[int, torch.Tensor]:
+        names = [self._residual_hook_name(layer) for layer in layers]
+        captures: dict[int, list[torch.Tensor]] = {layer: [] for layer in layers}
+        with torch.inference_mode():
+            for record in records:
+                _, cache = self.transformer_lens.run_with_cache(
+                    self._prompt_ids(record.prompt),
+                    names_filter=names,
+                    return_type="logits",
+                )
+                for layer, name in zip(layers, names, strict=True):
+                    captures[layer].append(
+                        cache[name][0, -tokens_per_prompt:].detach().float().cpu()
+                    )
+        return {layer: torch.cat(rows, dim=0) for layer, rows in captures.items()}
+
+    def collect(self, records: list[PromptRecord], layers: list[int]) -> dict[int, torch.Tensor]:
+        return self._collect_tokens(records, layers, 1)
+
+    def collect_sae_training(
+        self,
+        records: list[PromptRecord],
+        layer: int,
+        tokens_per_prompt: int,
+    ) -> torch.Tensor:
+        return self._collect_tokens(records, [layer], tokens_per_prompt)[layer]
+
+
+class NNsightRefusalModel(ResidualStreamBackend, HuggingFaceRefusalModel):
+    """Residual-stream adapter backed by nnsight's local tracing engine."""
+
+    def __init__(self, config: ModelConfig, behavior: str = "refusal"):
+        try:
+            from nnsight import LanguageModel
+        except ImportError as exc:
+            raise ImportError(
+                "The nnsight backend requires `pip install glassbox-audit[backends]`."
+            ) from exc
+
+        super().__init__(config, behavior=behavior)
+        self.nnsight = LanguageModel(
+            self.model,
+            tokenizer=self.tokenizer,
+            dispatch=True,
+        )
+
+    def _nnsight_layers(self):
+        candidates = [
+            ("model", "layers"),
+            ("transformer", "h"),
+            ("gpt_neox", "layers"),
+        ]
+        for parent_name, layer_name in candidates:
+            parent = getattr(self.nnsight, parent_name, None)
+            if parent is not None and hasattr(parent, layer_name):
+                return getattr(parent, layer_name)
+        raise ValueError(f"Unsupported nnsight architecture: {type(self.model).__name__}")
+
+    def _forward_logits(
+        self,
+        input_ids: torch.Tensor,
+        layer: int | None,
+        intervention: Intervention | None,
+        start_position: int,
+    ) -> torch.Tensor:
+        traced_layer = self._nnsight_layers()[layer] if layer is not None else None
+        attention_mask = torch.ones_like(input_ids)
+        with self.nnsight.trace(
+            {"input_ids": input_ids, "attention_mask": attention_mask}
+        ):
+            if traced_layer is not None and intervention is not None:
+                hidden = traced_layer.output
+                changed = hidden.clone()
+                changed[:, start_position:, :] = intervention(
+                    changed[:, start_position:, :]
+                )
+                traced_layer.output = changed
+            logits = self.nnsight.lm_head.output.save()
+        return logits
+
+    def _collect_tokens(
+        self,
+        records: list[PromptRecord],
+        layers: list[int],
+        tokens_per_prompt: int,
+    ) -> dict[int, torch.Tensor]:
+        layer_envoys = {layer: self._nnsight_layers()[layer] for layer in layers}
+        captures: dict[int, list[torch.Tensor]] = {layer: [] for layer in layers}
+        for record in records:
+            input_ids = self._prompt_ids(record.prompt)
+            attention_mask = torch.ones_like(input_ids)
+            saved = {}
+            with self.nnsight.trace(
+                {"input_ids": input_ids, "attention_mask": attention_mask}
+            ):
+                for layer, envoy in layer_envoys.items():
+                    saved[layer] = envoy.output[0, -tokens_per_prompt:].float().save()
+            for layer in layers:
+                captures[layer].append(saved[layer].detach().cpu())
+        return {layer: torch.cat(rows, dim=0) for layer, rows in captures.items()}
+
+    def collect(self, records: list[PromptRecord], layers: list[int]) -> dict[int, torch.Tensor]:
+        return self._collect_tokens(records, layers, 1)
+
+    def collect_sae_training(
+        self,
+        records: list[PromptRecord],
+        layer: int,
+        tokens_per_prompt: int,
+    ) -> torch.Tensor:
+        return self._collect_tokens(records, [layer], tokens_per_prompt)[layer]
+
+
 def load_model(config: ModelConfig, seed: int, behavior: str = "refusal") -> AuditModel:
     if config.backend == "toy":
         return ToyRefusalModel(seed=seed, behavior=behavior)
     if config.backend == "huggingface":
         return HuggingFaceRefusalModel(config, behavior=behavior)
+    if config.backend == "transformer_lens":
+        return TransformerLensRefusalModel(config, behavior=behavior)
+    if config.backend == "nnsight":
+        return NNsightRefusalModel(config, behavior=behavior)
     raise ValueError(f"Unknown model backend: {config.backend}")

@@ -1,11 +1,17 @@
 from pathlib import Path
 from types import SimpleNamespace
 
+import pytest
 import torch
 
 from glassbox_audit.data import load_records, split_records
 from glassbox_audit.interventions import AddDirection, HeadSliceIntervention
-from glassbox_audit.modeling import HuggingFaceRefusalModel, ToyRefusalModel
+from glassbox_audit.modeling import (
+    HuggingFaceRefusalModel,
+    NNsightRefusalModel,
+    ToyRefusalModel,
+    TransformerLensRefusalModel,
+)
 
 ROOT = Path(__file__).parents[1]
 
@@ -59,3 +65,79 @@ def test_hf_attention_head_slice_hook_changes_selected_head_only():
     assert torch.all(changed[:, :1] == 0)
     assert torch.all(changed[:, 1:, :2] == 0)
     assert torch.all(changed[:, 1:, 2:] == 5)
+
+
+def _tiny_llama():
+    transformers = __import__("transformers", fromlist=["LlamaConfig", "LlamaForCausalLM"])
+    config = transformers.LlamaConfig(
+        vocab_size=32,
+        hidden_size=16,
+        intermediate_size=32,
+        num_hidden_layers=2,
+        num_attention_heads=2,
+        num_key_value_heads=2,
+    )
+    return transformers.LlamaForCausalLM(config).eval()
+
+
+def test_transformer_lens_backend_runs_native_residual_intervention():
+    pytest.importorskip("transformer_lens")
+    tokenizers = pytest.importorskip("tokenizers")
+    transformers = __import__("transformers", fromlist=["PreTrainedTokenizerFast"])
+    from transformer_lens.model_bridge import TransformerBridge
+
+    tokenizer = tokenizers.Tokenizer(
+        tokenizers.models.WordLevel(
+            {"<pad>": 0, "<bos>": 1, "<eos>": 2, "<unk>": 3, "test": 4},
+            unk_token="<unk>",
+        )
+    )
+    tokenizer.pre_tokenizer = tokenizers.pre_tokenizers.Whitespace()
+    tokenizer = transformers.PreTrainedTokenizerFast(
+        tokenizer_object=tokenizer,
+        pad_token="<pad>",
+        eos_token="<eos>",
+        unk_token="<unk>",
+    )
+    raw = _tiny_llama()
+    adapter = object.__new__(TransformerLensRefusalModel)
+    adapter.transformer_lens = TransformerBridge.boot_transformers(
+        "glassbox-tiny-llama",
+        hf_model=raw,
+        tokenizer=tokenizer,
+        dtype=torch.float32,
+    )
+    input_ids = torch.tensor([[1, 4, 4, 2]])
+    baseline = adapter._forward_logits(input_ids, None, None, 0)
+    changed = adapter._forward_logits(
+        input_ids,
+        0,
+        lambda hidden: torch.zeros_like(hidden),
+        0,
+    )
+    assert baseline.shape == changed.shape == (1, 4, 32)
+    assert not torch.allclose(baseline, changed)
+    adapter._prompt_ids = lambda _prompt: input_ids
+    captures = adapter._collect_tokens([SimpleNamespace(prompt="test")], [0, 1], 2)
+    assert captures[0].shape == captures[1].shape == (2, 16)
+
+
+def test_nnsight_backend_runs_native_residual_intervention():
+    nnsight = pytest.importorskip("nnsight")
+    raw = _tiny_llama()
+    adapter = object.__new__(NNsightRefusalModel)
+    adapter.model = raw
+    adapter.nnsight = nnsight.LanguageModel(raw, tokenizer=None, dispatch=True)
+    input_ids = torch.tensor([[1, 4, 4, 2]])
+    baseline = adapter._forward_logits(input_ids, None, None, 0)
+    changed = adapter._forward_logits(
+        input_ids,
+        0,
+        lambda hidden: torch.zeros_like(hidden),
+        0,
+    )
+    assert baseline.shape == changed.shape == (1, 4, 32)
+    assert not torch.allclose(baseline, changed)
+    adapter._prompt_ids = lambda _prompt: input_ids
+    captures = adapter._collect_tokens([SimpleNamespace(prompt="test")], [0, 1], 2)
+    assert captures[0].shape == captures[1].shape == (2, 16)

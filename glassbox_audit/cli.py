@@ -17,6 +17,12 @@ def build_parser() -> argparse.ArgumentParser:
     run.add_argument("--config", required=True)
     run.add_argument("--output", required=True)
 
+    installed_smoke = subparsers.add_parser(
+        "installed-smoke",
+        help="Run the packaged toy audit without repository-relative files",
+    )
+    installed_smoke.add_argument("--output", required=True)
+
     prereg = subparsers.add_parser("prereg", help="Preregistration utilities")
     prereg_subparsers = prereg.add_subparsers(dest="prereg_command", required=True)
     prereg_freeze = prereg_subparsers.add_parser(
@@ -399,6 +405,10 @@ def main() -> None:
 
         summary = run_audit(load_config(args.config), args.output)
         print(json.dumps(summary, indent=2))
+    elif args.command == "installed-smoke":
+        from .package_smoke import run_installed_smoke
+
+        print(json.dumps(run_installed_smoke(args.output), indent=2))
     elif args.command == "prereg":
         if args.prereg_command != "freeze":
             raise ValueError(f"Unsupported prereg command: {args.prereg_command}")
