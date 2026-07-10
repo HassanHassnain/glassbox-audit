@@ -69,6 +69,16 @@ def build_parser() -> argparse.ArgumentParser:
     sweep_summary.add_argument("--output-table", default="docs/tables/model_sweep.md")
     sweep_summary.add_argument("--output-figure", default="docs/figures/model_sweep.png")
 
+    sweep_failure = model_sweep_subparsers.add_parser(
+        "mark-failed",
+        help="Publish a failed A2 cell without discarding it from the frozen grid",
+    )
+    sweep_failure.add_argument("--config", required=True)
+    sweep_failure.add_argument("--artifact-dir", required=True)
+    sweep_failure.add_argument("--failure-stage", required=True)
+    sweep_failure.add_argument("--error-type", required=True)
+    sweep_failure.add_argument("--error-message", required=True)
+
     developmental = subparsers.add_parser(
         "developmental-audit",
         help="A3 training-checkpoint separation and frozen-direction transfer",
@@ -423,7 +433,11 @@ def main() -> None:
             )
         )
     elif args.command == "model-sweep":
-        from .model_sweep import summarize_model_sweep, write_model_sweep_configs
+        from .model_sweep import (
+            summarize_model_sweep,
+            write_model_sweep_configs,
+            write_model_sweep_failure,
+        )
 
         if args.model_sweep_command == "write-configs":
             result = write_model_sweep_configs(
@@ -457,12 +471,22 @@ def main() -> None:
                         "output": args.output_json,
                         "models_predeclared": result["models_predeclared"],
                         "models_completed": result["models_completed"],
+                        "models_failed": result["models_failed"],
                         "table": result["table"],
                         "figure": result["figure"],
                     },
                     indent=2,
                 )
             )
+        elif args.model_sweep_command == "mark-failed":
+            result = write_model_sweep_failure(
+                config_path=args.config,
+                artifact_dir=args.artifact_dir,
+                failure_stage=args.failure_stage,
+                error_type=args.error_type,
+                error_message=args.error_message,
+            )
+            print(json.dumps(result, indent=2))
         else:
             raise ValueError(f"Unsupported model-sweep command: {args.model_sweep_command}")
     elif args.command == "developmental-audit":

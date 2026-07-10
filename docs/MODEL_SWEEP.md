@@ -54,5 +54,6 @@ written into `protocol.json`.
 ## Reporting Rule
 
 The summary keeps every predeclared model visible. Cells without a completed artifact remain
-`unrun`; failed cells should keep their evidence JSON with the failure reason before any scale-trend
-claim is made.
+`unrun`. The sweep driver continues after a nonzero cell exit and writes a `failure.json` record;
+failures discovered outside the driver can be published with `glassbox model-sweep mark-failed`.
+Failed rows remain in the table and aggregate JSON before any scale-trend claim is made.

@@ -12,9 +12,20 @@ for config in "$CONFIG_DIR"/*.yaml; do
     exit 1
   }
   slug="$(basename "$config" .yaml)"
+  set +e
   python -m glassbox_audit.cli run \
     --config "$config" \
     --output "$OUTPUT_ROOT/$slug"
+  status=$?
+  set -e
+  if [ "$status" -ne 0 ]; then
+    python -m glassbox_audit.cli model-sweep mark-failed \
+      --config "$config" \
+      --artifact-dir "$OUTPUT_ROOT/$slug" \
+      --failure-stage audit_run \
+      --error-type process_exit \
+      --error-message "glassbox run exited with status $status"
+  fi
 done
 
 python -m glassbox_audit.cli model-sweep summarize \

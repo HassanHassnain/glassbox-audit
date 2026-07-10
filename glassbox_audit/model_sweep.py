@@ -276,6 +276,62 @@ def _config_row(path: Path) -> dict[str, Any]:
     }
 
 
+def write_model_sweep_failure(
+    *,
+    config_path: str | Path,
+    artifact_dir: str | Path,
+    failure_stage: str,
+    error_type: str,
+    error_message: str,
+) -> dict[str, Any]:
+    config_path = Path(config_path)
+    row = _config_row(config_path)
+    artifact_dir = Path(artifact_dir)
+    artifact_dir.mkdir(parents=True, exist_ok=True)
+    failure = {
+        "schema_version": "1.0",
+        "status": "failed",
+        "slug": row["slug"],
+        "model": row["model"],
+        "config": str(config_path),
+        "artifact_dir": str(artifact_dir),
+        "failure_stage": failure_stage,
+        "error_type": error_type,
+        "error_message": error_message,
+    }
+    _write_json(artifact_dir / "failure.json", failure)
+    return failure
+
+
+def _failed_row(artifact_dir: Path) -> dict[str, Any]:
+    failure = _read_json(artifact_dir / "failure.json")
+    model_name = str(failure["model"])
+    spec = _spec_by_model().get(model_name, {})
+    return {
+        "schema_version": "1.0",
+        "status": "failed",
+        "slug": str(failure.get("slug") or spec.get("slug") or _slug(model_name)),
+        "model": model_name,
+        "family": spec.get("family"),
+        "params_b": spec.get("params_b"),
+        "config": failure.get("config"),
+        "artifact_dir": str(artifact_dir),
+        "target_layer": None,
+        "target_layer_depth_fraction": None,
+        "refusal_direction_effect_size": None,
+        "sae_harmful_delta": None,
+        "mean_difference_harmful_delta": None,
+        "linear_probe_harmful_delta": None,
+        "sae_minus_mean_gap": None,
+        "sae_minus_probe_gap": None,
+        "test_records": None,
+        "test_pairs": None,
+        "failure_stage": failure.get("failure_stage"),
+        "error_type": failure.get("error_type"),
+        "error_message": failure.get("error_message"),
+    }
+
+
 def _completed_row(artifact_dir: Path) -> dict[str, Any]:
     summary = _read_json(artifact_dir / "summary.json")
     manifest = _read_json(artifact_dir / "manifest.json")
@@ -427,9 +483,12 @@ def summarize_model_sweep(
         candidate_artifacts.extend(Path(path) for path in artifact_dirs)
 
     for artifact_dir in candidate_artifacts:
-        if not (artifact_dir / "summary.json").exists():
+        if (artifact_dir / "summary.json").exists():
+            row = _completed_row(artifact_dir)
+        elif (artifact_dir / "failure.json").exists():
+            row = _failed_row(artifact_dir)
+        else:
             continue
-        row = _completed_row(artifact_dir)
         existing = rows_by_slug.get(row["slug"])
         if existing is not None and existing.get("config"):
             row["config"] = existing["config"]
@@ -472,15 +531,17 @@ def summarize_model_sweep(
     figure_path = _write_figure(Path(output_figure), rows)
     _write_table(Path(output_table), rows)
     completed = [row for row in rows if row["status"] == "completed"]
+    failed = [row for row in rows if row["status"] == "failed"]
     artifact = {
         "schema_version": "1.0",
         "sweep": "A2_cross_model_refusal",
         "artifact_notice": (
             "A2 cross-model sweep summary. Completed rows are read from frozen audit artifacts; "
-            "unrun rows remain explicit so the preregistered grid is visible."
+            "failed and unrun rows remain explicit so the preregistered grid is visible."
         ),
         "models_predeclared": len(A2_MODEL_SPECS),
         "models_completed": len(completed),
+        "models_failed": len(failed),
         "rows": rows,
         "per_model_evidence_dir": str(model_dir),
         "table": str(output_table),
