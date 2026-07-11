@@ -55,6 +55,7 @@ Each rung of the claim ladder was tested separately; the repo climbs exactly as 
 | Qwen2.5-1.5B controlled audit (1,000 pairs) | ✅ completed | layer 27; mean-diff Δ `−0.136`, SAE Δ `−0.036`, probe Δ `−0.002` | [`qwen2_5_1_5b_audit.json`](results/final/qwen2_5_1_5b_audit.json) |
 | SAE stability grid (3 seeds × 2 widths) | ✅ completed | 6/6 cells run; **0/6** SAE-beats-baselines passes | [`stability_grid.json`](results/sae-stability/stability_grid.json) |
 | OR-Bench external causal transfer | ✅ completed | toxic refusal-rate Δ: mean `−0.68` vs SAE `−0.12` | [`or_bench_qwen15b_1000_summary.json`](results/external-causal/or_bench_qwen15b_1000_summary.json) |
+| WikiText-2 capability evaluation | ✅ completed | PPL ratio: mean `1.0025` [1.0015, 1.0035]; SAE `0.9995` [0.9988, 1.0001] | [`wikitext2_qwen15b.json`](results/capability/wikitext2_qwen15b.json) |
 | Component / path analysis | ✅ completed | residual strong; attention/MLP small or non-specific | [`component_path_summary.json`](results/component-path/component_path_summary.json) |
 | Qwen2.5-3B replication | 🟡 partial | late layer 35 effect; specificity bar failed | [`qwen2_5_3b_replication.json`](results/cross-model/qwen2_5_3b_replication.json) |
 | Clean-room rerun | ✅ completed | layer, rates, deltas, and the SAE-superiority failure all reproduce | [`reproducibility.json`](results/final/reproducibility.json) |
@@ -186,6 +187,36 @@ pip install -e ".[dev,accelerate,data]"
 CUDA_VISIBLE_DEVICES=0 make reproduce-cleanroom   # regenerates the 1,000-pair corpus + full audit
 CUDA_VISIBLE_DEVICES=0 make reproduce-external    # OR-Bench transfer from frozen artifacts
 ```
+
+### Unrelated capability evaluation
+
+The prompt-text NLL in the main audit is complemented by standard WikiText-2 perplexity. This
+command reloads the exact frozen layer, mean-difference direction, trained SAE, and selected SAE
+features from an audit artifact, then evaluates baseline, mean ablation, and SAE ablation on the
+same deterministic subset:
+
+```bash
+glassbox capability-evaluate \
+  --artifacts artifacts/qwen-expanded-1000-reference \
+  --output results/capability/wikitext2_qwen15b.json \
+  --max-blocks 128 \
+  --block-size 256 \
+  --bootstrap-samples 3000 \
+  --device cuda:0
+```
+
+The JSON contains token-weighted NLL and perplexity with block-bootstrap 95% CIs, plus paired NLL
+deltas and perplexity ratios for both ablations. It also records the dataset fingerprint, sampled
+block indices, and a SHA-256 hash of the exact model-tokenized subset. Pass that hash back through
+`--expected-subset-sha256` on later runs to make dataset or tokenizer drift a hard error. Install
+the dataset loader with `pip install -e ".[data]"`.
+
+The completed 128-block run scores 32,768 WikiText-2 tokens. Baseline perplexity is **15.280**;
+mean-difference ablation gives **15.318** and a paired perplexity ratio of **1.0025** (95% CI
+[1.0015, 1.0035]), while SAE feature ablation gives **15.272** and a ratio of **0.9995**
+([0.9988, 1.0001]). Thus the mean ablation has a statistically detectable but operationally tiny
+0.25% perplexity cost, and the SAE ablation has no detectable cost on this task. This is a post-hoc
+general-language check, not evidence that every downstream capability is preserved.
 
 Expected hardware: one CUDA GPU with room for Qwen2.5-1.5B plus activation collection. Heavy artifacts (tensors, checkpoints, generated corpora) are regenerated under `artifacts/` and intentionally git-ignored; artifact hashes are pinned in [`results/final/artifact_manifest.json`](results/final/artifact_manifest.json).
 

@@ -5,6 +5,7 @@
     "results/final/statistical_tests.json",
     "results/sae-stability/stability_grid.json",
     "results/external-causal/or_bench_qwen15b_1000_summary.json",
+    "results/capability/wikitext2_qwen15b.json",
     "results/component-path/component_path_summary.json",
     "results/cross-model/qwen2_5_3b_replication.json"
   ],
@@ -15,16 +16,20 @@
     "Completed non-Qwen replication.",
     "Generated-answer refusal judging for the final real-model artifacts."
   ],
-  "final_claim": "Glassbox found a robust late residual-stream refusal-relevant direction in Qwen2.5-1.5B, with partial Qwen2.5-3B replication and OR-Bench external causal transfer. It did not confirm a full circuit. SAE features beat matched random-SAE controls but did not beat mean/probe baselines under held-out preregistered criteria.",
+  "final_claim": "Glassbox found a robust late residual-stream refusal-relevant direction in Qwen2.5-1.5B, with partial Qwen2.5-3B replication and OR-Bench external causal transfer. A post-hoc frozen WikiText-2 evaluation finds a 0.25% perplexity cost for mean ablation and no detectable cost for SAE ablation. It did not confirm a full circuit. SAE features beat matched random-SAE controls but did not beat mean/probe baselines under held-out preregistered criteria.",
   "headline_metrics": {
     "baseline_benign_overrefusal_rate": 0.148,
     "baseline_harmful_refusal_rate": 0.64,
     "cleanroom_reproduced": true,
     "mean_direction_harmful_delta": -0.1355500293970108,
+    "mean_direction_wikitext2_delta_nll": 0.0024811802431941032,
+    "mean_direction_wikitext2_perplexity_ratio": 1.0024842609182703,
     "model": "Qwen/Qwen2.5-1.5B-Instruct",
     "probe_harmful_delta": -0.0024561622142791747,
     "sae_beats_mean_probe_held_out": false,
     "sae_feature_harmful_delta": -0.03633926343917847,
+    "sae_feature_wikitext2_delta_nll": -0.0005243448540568352,
+    "sae_feature_wikitext2_perplexity_ratio": 0.9994757925906823,
     "target_layer": 27
   },
   "schema_version": "1.1",
@@ -32,6 +37,7 @@
     "Late residual-stream refusal-relevant direction in Qwen2.5-1.5B.",
     "Held-out causal effect for the residual direction.",
     "External OR-Bench transfer in behavior-score terms.",
+    "Negligible general-language cost on a frozen post-hoc WikiText-2 subset for mean and SAE ablations.",
     "Partial Qwen2.5-3B family replication.",
     "SAE features outperform matched random-SAE controls in the main audit."
   ]

@@ -52,6 +52,18 @@ class AuditModel(ABC):
     ) -> torch.Tensor:
         return self.collect(records, [layer])[layer]
 
+    def evaluate_lm_token_blocks(
+        self,
+        token_blocks: list[list[int]],
+        layer: int | None = None,
+        intervention: Intervention | None = None,
+        *,
+        batch_size: int = 8,
+    ) -> list[dict[str, float | int]]:
+        """Return summed next-token NLLs for pre-tokenized general-LM blocks."""
+
+        raise NotImplementedError(f"{self.name} does not support general language-model scoring")
+
 
 class ToyRefusalModel(AuditModel):
     """Deterministic nonlinear model with an intentionally planted refusal mechanism."""
@@ -304,6 +316,61 @@ class HuggingFaceRefusalModel(AuditModel):
                 score = torch.sigmoid(torch.tensor(refusal_score - compliance_score)).item()
                 outputs.append(ModelOutput(record.id, score, nll))
         return outputs
+
+    def evaluate_lm_token_blocks(
+        self,
+        token_blocks: list[list[int]],
+        layer: int | None = None,
+        intervention: Intervention | None = None,
+        *,
+        batch_size: int = 8,
+    ) -> list[dict[str, float | int]]:
+        """Score raw (non-chat-templated) token blocks for standard LM perplexity.
+
+        Every block is evaluated independently, so no loss crosses a sampled block boundary.
+        Interventions are applied tokenwise at the same frozen residual-stream layer used by the
+        behavior audit.
+        """
+
+        if not token_blocks:
+            return []
+        if any(len(block) < 2 for block in token_blocks):
+            raise ValueError("Language-model token blocks must contain at least two tokens")
+
+        rows: list[dict[str, float | int]] = []
+        pad_id = self.tokenizer.pad_token_id
+        if pad_id is None:
+            pad_id = self.tokenizer.eos_token_id
+        for start in range(0, len(token_blocks), batch_size):
+            batch = token_blocks[start : start + batch_size]
+            width = max(len(block) for block in batch)
+            input_ids = torch.full(
+                (len(batch), width), int(pad_id), dtype=torch.long, device=self.device
+            )
+            attention_mask = torch.zeros(
+                (len(batch), width), dtype=torch.long, device=self.device
+            )
+            for index, block in enumerate(batch):
+                length = len(block)
+                input_ids[index, :length] = torch.tensor(block, dtype=torch.long, device=self.device)
+                attention_mask[index, :length] = 1
+
+            with self._intervention_hook(
+                layer, intervention, start_position=0
+            ), torch.inference_mode():
+                logits = self.model(input_ids, attention_mask=attention_mask).logits[:, :-1]
+            targets = input_ids[:, 1:]
+            # Accumulate benchmark losses in FP32: intervention deltas are much smaller than the
+            # half-precision quantization step of a full block's summed loss.
+            losses = F.cross_entropy(logits.float().transpose(1, 2), targets, reduction="none")
+            valid = attention_mask[:, 1:].to(losses.dtype)
+            loss_sums = (losses * valid).sum(dim=-1).float().cpu().tolist()
+            token_counts = valid.sum(dim=-1).long().cpu().tolist()
+            rows.extend(
+                {"nll_sum": float(loss_sum), "token_count": int(token_count)}
+                for loss_sum, token_count in zip(loss_sums, token_counts, strict=True)
+            )
+        return rows
 
     def next_token_kl_batched(
         self,

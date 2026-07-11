@@ -1,40 +1,18 @@
 from __future__ import annotations
 
-from dataclasses import fields
 from pathlib import Path
 from typing import Any
 
 import torch
 
 from ..analysis import refresh_failure_analysis
-from ..config import EvaluationConfig, ExperimentConfig, ModelConfig, SAEConfig
+from ..config import config_from_manifest as _config_from_manifest
 from ..evaluation import comparison
 from ..models import load_model
 from ..pipeline import _random_sae_controls, _serialize_outputs
 from ..types import ModelOutput, PromptRecord
 from ..utils import read_json, seed_everything, write_json
 from . import AblateSAEFeatures, AddDirection
-
-
-def _dataclass_subset(cls: type, raw: dict[str, Any]) -> dict[str, Any]:
-    allowed = {field.name for field in fields(cls)}
-    return {key: value for key, value in raw.items() if key in allowed}
-
-
-def _config_from_manifest(raw: dict[str, Any]) -> ExperimentConfig:
-    config = raw["config"]
-    model = ModelConfig(**_dataclass_subset(ModelConfig, config.get("model", {})))
-    sae = SAEConfig(**_dataclass_subset(SAEConfig, config.get("sae", {})))
-    evaluation = EvaluationConfig(**_dataclass_subset(EvaluationConfig, config.get("evaluation", {})))
-    return ExperimentConfig(
-        **_dataclass_subset(
-            ExperimentConfig,
-            {key: value for key, value in config.items() if key not in {"model", "sae", "evaluation"}},
-        ),
-        model=model,
-        sae=sae,
-        evaluation=evaluation,
-    )
 
 
 def _outputs_from_dict(rows: list[dict[str, Any]]) -> list[ModelOutput]:

@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import os
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, fields
 from pathlib import Path
 from typing import Any
 
@@ -88,3 +88,26 @@ def load_config(path: str | Path) -> ExperimentConfig:
     if os.environ.get("GLASSBOX_HF_CACHE_DIR"):
         config.model.cache_dir = os.environ["GLASSBOX_HF_CACHE_DIR"]
     return config
+
+
+def _dataclass_subset(cls: type, raw: dict[str, Any]) -> dict[str, Any]:
+    allowed = {item.name for item in fields(cls)}
+    return {key: value for key, value in raw.items() if key in allowed}
+
+
+def config_from_manifest(raw: dict[str, Any]) -> ExperimentConfig:
+    """Load a config from an artifact manifest while tolerating newer schema fields."""
+
+    config = raw["config"]
+    model = ModelConfig(**_dataclass_subset(ModelConfig, config.get("model", {})))
+    sae = SAEConfig(**_dataclass_subset(SAEConfig, config.get("sae", {})))
+    evaluation = EvaluationConfig(**_dataclass_subset(EvaluationConfig, config.get("evaluation", {})))
+    return ExperimentConfig(
+        **_dataclass_subset(
+            ExperimentConfig,
+            {key: value for key, value in config.items() if key not in {"model", "sae", "evaluation"}},
+        ),
+        model=model,
+        sae=sae,
+        evaluation=evaluation,
+    )

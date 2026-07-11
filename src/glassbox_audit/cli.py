@@ -27,6 +27,7 @@ from .data.external_data import (
     write_external_normalized,
 )
 from .data.real_dataset import build_controlled_real_audit_dataset
+from .evaluation.capability import run_wikitext_capability_eval
 from .evaluation.external_causal import run_external_causal_transfer
 from .evaluation.external_eval import run_external_behavior_eval
 from .interventions.control_refresh import refresh_random_sae_controls
@@ -117,6 +118,25 @@ def build_parser() -> argparse.ArgumentParser:
     external_causal.add_argument("--seed", type=int, default=None)
     external_causal.add_argument("--device", default=None)
     external_causal.add_argument("--random-controls", type=int, default=None)
+
+    capability = subparsers.add_parser(
+        "capability-evaluate",
+        help="Evaluate frozen baseline/mean/SAE conditions on WikiText-2 perplexity",
+    )
+    capability.add_argument("--artifacts", required=True)
+    capability.add_argument("--output", required=True)
+    capability.add_argument("--dataset", default="Salesforce/wikitext")
+    capability.add_argument("--subset", default="wikitext-2-raw-v1")
+    capability.add_argument("--split", default="test")
+    capability.add_argument("--revision", default=None)
+    capability.add_argument("--max-blocks", type=int, default=128)
+    capability.add_argument("--block-size", type=int, default=256)
+    capability.add_argument("--batch-size", type=int, default=4)
+    capability.add_argument("--bootstrap-samples", type=int, default=None)
+    capability.add_argument("--confidence", type=float, default=None)
+    capability.add_argument("--seed", type=int, default=None)
+    capability.add_argument("--device", default=None)
+    capability.add_argument("--expected-subset-sha256", default=None)
 
     real_data = subparsers.add_parser(
         "build-real-audit-data", help="Build the versioned controlled real-audit corpus"
@@ -348,6 +368,33 @@ def main() -> None:
             if key not in {"baseline_outputs", "causal_tests", "random_controls"}
         }
         print(json.dumps(compact, indent=2))
+    elif args.command == "capability-evaluate":
+        artifact = run_wikitext_capability_eval(
+            artifact_dir=args.artifacts,
+            output_path=args.output,
+            dataset_name=args.dataset,
+            dataset_config=args.subset,
+            split=args.split,
+            revision=args.revision,
+            max_blocks=args.max_blocks,
+            block_size=args.block_size,
+            batch_size=args.batch_size,
+            bootstrap_samples=args.bootstrap_samples,
+            confidence=args.confidence,
+            seed=args.seed,
+            device=args.device,
+            expected_subset_sha256=args.expected_subset_sha256,
+        )
+        print(
+            json.dumps(
+                {
+                    key: value
+                    for key, value in artifact.items()
+                    if key != "per_block"
+                },
+                indent=2,
+            )
+        )
     elif args.command == "build-real-audit-data":
         print(
             json.dumps(

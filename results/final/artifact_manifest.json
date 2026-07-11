@@ -146,6 +146,13 @@
       "id": "final__cleanroom_release_summary_json",
       "kind": "committed_summary_hash",
       "sha256": "3f3f6a04de620da1fd75ccb192aa1a2f70efb60ceefc7dd5e70b9ed062a642bc"
+    },
+    {
+      "bytes": 76129,
+      "committed": true,
+      "id": "capability__wikitext2_qwen15b_json",
+      "kind": "committed_benchmark_artifact_hash",
+      "sha256": "191977aef9b52713947d23baa304665260d831a99d7315d9aa7c465d967bea65"
     }
   ],
   "note": "Stable public hash manifest for generated artifacts and compact committed summaries. Generated artifact files are not committed.",
