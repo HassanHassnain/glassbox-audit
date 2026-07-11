@@ -12,13 +12,15 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-3DDC97?style=flat-square&labelColor=0B101E)](LICENSE)
 [![Verdict](https://img.shields.io/badge/SAE%20%3E%20baselines%3F-rejected%200%2F6-FF6B84?style=flat-square&labelColor=0B101E)](results/sae-stability/stability_grid.json)
 
-[**Paper**](docs/paper.md) · [**Release report**](docs/release-report.md) · [**Evidence files**](#machine-readable-evidence) · [**Reproduce**](#reproduce-the-real-model-audit) · [**Cite**](#citation)
+[**Paper**](docs/paper.md) · [**Submission (LaTeX)**](paper/blackboxnlp2026/) · [**Release report**](docs/release-report.md) · [**Evidence files**](#machine-readable-evidence) · [**Reproduce**](#reproduce-the-real-model-audit) · [**Cite**](#citation)
 
 </div>
 
 ---
 
 > **Final claim.** Glassbox found a robust late residual-stream refusal-relevant direction in Qwen2.5-1.5B (layer 27, held-out harmful-score Δ **−0.136**), with partial Qwen2.5-3B replication and external OR-Bench causal transfer. It did **not** confirm a circuit. SAE features beat matched random-SAE controls but did **not** beat mean-difference or probe baselines under held-out, preregistered criteria — in **0 of 6** fixed stability cells.
+>
+> **Hardening extension (2026-07).** The negative SAE result is now an *affirmative* one: a pair-aware sensitivity analysis estimates the mean-vs-SAE suppression gap at **0.099** [0.092, 0.106], rejecting parity within a 0.02 margin (Holm-adjusted p = 4×10⁻⁴). Feature budgets of 1–100 never close the gap — top-5 is optimal and 50/100 *reverse sign* — and a reconstruction-only control shows naive SAE substitution effects are dominated by reconstruction damage (−0.72 harmful **and** −0.69 benign). The preregistered Gemma-2-9B-it public-SAE cell was killed before outcomes (gated weights) and preserved as evidence rather than substituted.
 
 <div align="center">
 <img src="docs/assets/demo.gif" alt="glassbox CLI demo — deterministic CPU toy audit and report" width="82%">
@@ -56,6 +58,8 @@ Each rung of the claim ladder was tested separately; the repo climbs exactly as 
 | Component / path analysis | ✅ completed | residual strong; attention/MLP small or non-specific | [`component_path_summary.json`](results/component-path/component_path_summary.json) |
 | Qwen2.5-3B replication | 🟡 partial | late layer 35 effect; specificity bar failed | [`qwen2_5_3b_replication.json`](results/cross-model/qwen2_5_3b_replication.json) |
 | Clean-room rerun | ✅ completed | layer, rates, deltas, and the SAE-superiority failure all reproduce | [`reproducibility.json`](results/final/reproducibility.json) |
+| Paper-hardening sensitivity (pair-aware inferiority, budgets 1–100, reconstruction control) | ✅ completed | gap 0.099 [0.092, 0.106]; top-5 optimal; 50/100 reverse sign | [`qwen15b.json`](results/extensions/paper-hardening/qwen15b.json) |
+| Public-SAE replication (Gemma-2-9B-it + Gemma Scope IT) | ⛔ killed before outcomes | gated weights unavailable; cell preserved, not substituted | [`gemma2-9b-it.json`](results/extensions/public-sae/gemma2-9b-it.json) |
 
 ## Results
 
@@ -79,6 +83,18 @@ Projecting the direction out of each component's *output* localizes the effect t
 
 <img src="docs/assets/fig_component_path.png" alt="Component ablation by layer: residual stream carries the effect (−0.141 at layer 27), attention and MLP outputs contribute little" width="100%">
 
+### More features don't fix it — and substitution flatters
+
+Two objections could rescue the SAE claim: *"five features is too few"* and *"real SAE interventions swap in the full reconstruction."* The hardening extension tests both on the frozen artifacts. Sweeping budgets of 1–100 train-ranked features never approaches the mean direction — top-5 (−0.036) is the optimum, and at 50/100 features ablation *increases* refusal while benign shift and NLL cost climb:
+
+<img src="docs/figures/hardening_feature_budget.png" alt="Feature-budget frontier: budgets 1–100 never approach the mean-direction reference; top-5 is optimal and 50/100 reverse sign" width="100%">
+
+And full encode–decode substitution turns out to be mostly reconstruction damage: passing activations through the SAE with **no feature removed** already shifts the harmful score by −0.718 — and the benign score by −0.692, with +0.19 NLL cost. The residual-preserving intervention that actually isolates the features is 20× smaller. Studies demonstrating SAE "causal effects" via full substitution without this control are crediting the dictionary for lossy compression:
+
+<img src="docs/figures/hardening_intervention_comparability.png" alt="Intervention comparability: full reconstruction/substitution produce large non-specific shifts; the mean direction achieves specific suppression at comparable perturbation norm" width="100%">
+
+The pair-aware statistics behind these plots rule out mean-vs-SAE parity within a 0.02 margin (gap 0.099 [0.092, 0.106], Holm-adjusted p = 4×10⁻⁴) while confirming the SAE beats the probe and eight same-dictionary random sets — a strict ordering, not a coin flip. Everything in this block is labeled post-hoc sensitivity in [its own frozen protocol](docs/preregistration_hardening.yaml) because the original held-out outcomes had already been inspected.
+
 ## What failed
 
 Kept in the open, because this is the part most write-ups delete:
@@ -86,7 +102,7 @@ Kept in the open, because this is the part most write-ups delete:
 - **SAE superiority** — never beat mean/probe baselines under the held-out preregistered criterion (0/6 cells).
 - **Circuit-level mechanism** — component/path evidence stops at residual localization; no head/path mediation story survived.
 - **Qwen2.5-3B specificity** — a late-layer (L35) effect replicates, but benign behavior moves too much to pass the specificity bar.
-- **Non-Qwen replication** — Gemma / Llama configs ship as [prepared recipes](configs/replication/), unrun by design; no claim is made.
+- **Non-Qwen replication** — Gemma / Llama configs ship as [prepared recipes](configs/replication/), unrun by design; the preregistered Gemma-2-9B-it + Gemma Scope cell was [killed before outcomes](results/extensions/public-sae/gemma2-9b-it.json) when gated weights proved unavailable, and was *not* replaced with a mismatched base-model SAE.
 - **Generated-answer judging** — final artifacts score refusal via contrastive log-probabilities, not a generation judge.
 
 <details>
@@ -118,6 +134,10 @@ Kept in the open, because this is the part most write-ups delete:
 
 **Is Qwen2.5-3B a replication?** Partial. A late-layer (35/36) effect exists, but specificity fails (benign score +0.39) at n=60 with an under-trained SAE — reported as-is, claimed as nothing more.
 
+**Wouldn't more SAE features close the gap?** No — tested. Budgets of 1, 2, 5, 10, 20, 50, and 100 train-ranked features were evaluated against eight same-dictionary random sets each. Top-5 is the optimum; 50 and 100 features flip the sign of the effect and add benign/NLL cost. A validation-selected weighted 20-latent combination also fails (+0.0002).
+
+**Isn't full SAE substitution the "real" intervention?** It's the flattering one. Reconstruction alone — no feature removed — already moves the harmful score −0.718 *and* the benign score −0.692 with +0.19 NLL cost. The dramatic substitution numbers are mostly autoencoder damage, which is why the audit's preregistered intervention is residual-preserving.
+
 ## Where to look in the code
 
 | Entry point | What it shows |
@@ -127,11 +147,13 @@ Kept in the open, because this is the part most write-ups delete:
 | [`src/glassbox_audit/interventions/`](src/glassbox_audit/interventions/) | ablation / steering / patching + matched random-SAE controls |
 | [`src/glassbox_audit/evaluation/`](src/glassbox_audit/evaluation/) | contrastive scorer, bootstrap CIs, external transfer |
 | [`src/glassbox_audit/analysis/release_hardening.py`](src/glassbox_audit/analysis/release_hardening.py) | leakage audit, dose–response, scorer robustness, repro diff |
+| [`src/glassbox_audit/analysis/hardening.py`](src/glassbox_audit/analysis/hardening.py) | pair-aware inferiority, budget frontier, reconstruction control |
+| [`paper/blackboxnlp2026/`](paper/blackboxnlp2026/) | anonymized ACL-format submission (`tectonic main.tex`) |
 | [`tests/`](tests/) | unit + CPU toy-pipeline checks (what CI runs) |
 
 ## Roadmap
 
-Generation-based refusal judging for the real-model artifacts; running the released Gemma-2-2B / Llama-3.2-1B recipes; wider dictionaries and larger feature-intervention budgets to probe where (if anywhere) the SAE verdict flips; head/path-level mediation to upgrade or retire the circuit question. Contributions along these axes are welcome — the preregistration discipline in [`docs/release-report.md`](docs/release-report.md) applies.
+Generation-based refusal judging for the real-model artifacts; the killed Gemma-2-9B-it + Gemma Scope cell, rerun exactly as preregistered once authenticated weights are available; the released Gemma-2-2B / Llama-3.2-1B recipes; head/path-level mediation to upgrade or retire the circuit question; and substantially different dictionaries (JumpReLU, Matryoshka, supervised selection) to probe where — if anywhere — the SAE verdict flips. The budget question is now answered for this dictionary: 1–100 features never close the gap. Contributions along these axes are welcome — the preregistration discipline in [`docs/release-report.md`](docs/release-report.md) applies. An anonymized BlackboxNLP 2026 submission draft lives in [`paper/blackboxnlp2026/`](paper/blackboxnlp2026/).
 
 ## Quickstart
 
