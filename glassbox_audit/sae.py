@@ -141,9 +141,52 @@ def load_saelens_sae(
     return SAELensAdapter(inner, metadata)
 
 
+def _batched_sae_metrics(
+    model: TopKSparseAutoencoder | SAELensAdapter,
+    centered_activations: torch.Tensor,
+    batch_size: int,
+) -> dict[str, float]:
+    if batch_size <= 0:
+        raise ValueError("batch_size must be positive")
+    if len(centered_activations) == 0:
+        raise ValueError("SAE metrics require at least one activation")
+
+    squared_error = 0.0
+    nonzero_features = 0
+    active_mask = torch.zeros(
+        model.n_features,
+        dtype=torch.bool,
+        device=centered_activations.device,
+    )
+    with torch.no_grad():
+        for batch in centered_activations.split(batch_size):
+            reconstruction, features = model(batch)
+            squared_error += torch.nn.functional.mse_loss(
+                reconstruction,
+                batch,
+                reduction="sum",
+            ).item()
+            nonzero_features += int(torch.count_nonzero(features).item())
+            active_mask |= torch.any(features != 0, dim=0)
+
+    mse = squared_error / centered_activations.numel()
+    variance = torch.var(centered_activations).item()
+    l0 = nonzero_features / len(centered_activations)
+    active_features = int(active_mask.sum().item())
+    return {
+        "reconstruction_mse": mse,
+        "variance_explained": 1 - mse / max(variance, 1e-12),
+        "mean_l0": l0,
+        "feature_density": l0 / model.n_features,
+        "dead_feature_fraction": 1 - active_features / model.n_features,
+        "active_features": active_features,
+    }
+
+
 def evaluate_sae_metrics(
     model: TopKSparseAutoencoder | SAELensAdapter,
     activations: torch.Tensor,
+    batch_size: int = 256,
 ) -> dict[str, float]:
     try:
         metric_device = next(model.parameters()).device
@@ -153,21 +196,9 @@ def evaluate_sae_metrics(
         x = activations.detach().float().to(metric_device)
         center = model.activation_center.to(metric_device)
         centered = x - center
-        features = model.encode(centered)
-        reconstruction = model.decode(features)
-        mse = torch.mean((reconstruction - centered) ** 2).item()
-        variance = torch.var(centered).item()
-        l0 = (features.abs() > 0).float().sum(dim=-1).mean().item()
-        active_mask = features.abs().sum(dim=0) > 0
-        dead = (~active_mask).float().mean().item()
-        active_features = int(active_mask.sum().item())
+        metrics = _batched_sae_metrics(model, centered, batch_size)
     return {
-        "reconstruction_mse": mse,
-        "variance_explained": 1 - mse / max(variance, 1e-12),
-        "mean_l0": l0,
-        "feature_density": l0 / model.n_features,
-        "dead_feature_fraction": dead,
-        "active_features": active_features,
+        **metrics,
         "n_features": model.n_features,
         "training_samples": len(activations),
         "samples_per_feature": len(activations) / model.n_features,
@@ -223,26 +254,14 @@ def train_sae(
                 }
             )
 
-    with torch.no_grad():
-        reconstruction, features = model(x_centered)
-        mse = torch.mean((reconstruction - x_centered) ** 2).item()
-        variance = torch.var(x_centered).item()
-        l0 = (features > 0).float().sum(dim=-1).mean().item()
-        active_mask = features.sum(dim=0) > 0
-        dead = (~active_mask).float().mean().item()
-        active_features = int(active_mask.sum().item())
+    metrics = _batched_sae_metrics(model, x_centered, batch_size)
     model = model.cpu()
     model.register_buffer("activation_center", center.squeeze(0).cpu())
     return SAETrainingResult(
         model=model,
         history=history,
         metrics={
-            "reconstruction_mse": mse,
-            "variance_explained": 1 - mse / max(variance, 1e-12),
-            "mean_l0": l0,
-            "feature_density": l0 / n_features,
-            "dead_feature_fraction": dead,
-            "active_features": active_features,
+            **metrics,
             "n_features": n_features,
             "training_samples": len(x_centered),
             "samples_per_feature": len(x_centered) / n_features,
