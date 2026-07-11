@@ -1,0 +1,4345 @@
+{
+  "analysis_status": "post_hoc_sensitivity",
+  "git_commit_at_run": "915b6cbab572135b42e758774f3a318e703883ce",
+  "baseline_batch_crosscheck": {
+    "max_abs_behavior_score_difference": 0.0031339526176452637,
+    "max_abs_capability_nll_difference": 0.015625
+  },
+  "dataset_sha256": "1c912d796753c4cd29104d0ed78c05b1c585394d98f67e513d92e3c9166276b6",
+  "feature_budget_frontier": [
+    {
+      "budget": 1,
+      "matched_random_sets": [
+        [
+          226
+        ],
+        [
+          2333
+        ],
+        [
+          2845
+        ],
+        [
+          2568
+        ],
+        [
+          951
+        ],
+        [
+          300
+        ],
+        [
+          1011
+        ],
+        [
+          1634
+        ]
+      ],
+      "matched_random_summaries": [
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.0,
+            "high": 0.0,
+            "low": 0.0
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.000171875,
+            "high": -8.59375e-05,
+            "low": -0.00028125
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.0,
+            "high": 0.0,
+            "low": 0.0
+          },
+          "hidden_cosine_mean": 1.0,
+          "hidden_cosine_min": 0.999999463558197,
+          "hidden_l2_mean": 0.0,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12931049418449403,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.77290625,
+            "capability_perplexity": 118.26244323039923,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.726251746892929,
+            "mean_harmful_score": 0.8555622410774231
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.0,
+            "high": 0.0,
+            "low": 0.0
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 7.03125e-05,
+            "high": 0.0001328125,
+            "low": 2.34375e-05
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.0,
+            "high": 0.0,
+            "low": 0.0
+          },
+          "hidden_cosine_mean": 1.0,
+          "hidden_cosine_min": 0.999999463558197,
+          "hidden_l2_mean": 0.0,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12931049418449403,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.7731484375,
+            "capability_perplexity": 118.29108838447816,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.726251746892929,
+            "mean_harmful_score": 0.8555622410774231
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.0,
+            "high": 0.0,
+            "low": 0.0
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 4.6875e-05,
+            "high": 0.000109375,
+            "low": 0.0
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.0,
+            "high": 0.0,
+            "low": 0.0
+          },
+          "hidden_cosine_mean": 1.0,
+          "hidden_cosine_min": 0.999999463558197,
+          "hidden_l2_mean": 0.0,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12931049418449403,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.773125,
+            "capability_perplexity": 118.28831596958358,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.726251746892929,
+            "mean_harmful_score": 0.8555622410774231
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.0,
+            "high": 0.0,
+            "low": 0.0
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.0002265625,
+            "high": -0.000140625,
+            "low": -0.000328125
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.0,
+            "high": 0.0,
+            "low": 0.0
+          },
+          "hidden_cosine_mean": 1.0,
+          "hidden_cosine_min": 0.999999463558197,
+          "hidden_l2_mean": 0.0,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12931049418449403,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.7728515625,
+            "capability_perplexity": 118.25597592987687,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.726251746892929,
+            "mean_harmful_score": 0.8555622410774231
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": -9.13381576538086e-05,
+            "high": -3.7304055690765415e-05,
+            "low": -0.0001559857428073883
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.002515625,
+            "high": 0.003039257812499997,
+            "low": 0.0019765625
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -5.730295181274414e-05,
+            "high": -1.5967130661010743e-05,
+            "low": -0.0001120924413204193
+          },
+          "hidden_cosine_mean": 0.9999983906745911,
+          "hidden_cosine_min": 0.9998771548271179,
+          "hidden_l2_mean": 0.062166739255189896,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12934452939033503,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.77559375,
+            "capability_perplexity": 118.58070101392195,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.7261604087352753,
+            "mean_harmful_score": 0.8555049381256103
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.0,
+            "high": 0.0,
+            "low": 0.0
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.000515625,
+            "high": -0.000390625,
+            "low": -0.0006484375
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.0,
+            "high": 0.0,
+            "low": 0.0
+          },
+          "hidden_cosine_mean": 1.0,
+          "hidden_cosine_min": 0.999999463558197,
+          "hidden_l2_mean": 0.0,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12931049418449403,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.7725625,
+            "capability_perplexity": 118.22179750192362,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.726251746892929,
+            "mean_harmful_score": 0.8555622410774231
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.0,
+            "high": 0.0,
+            "low": 0.0
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0,
+            "high": 0.0,
+            "low": 0.0
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.0,
+            "high": 0.0,
+            "low": 0.0
+          },
+          "hidden_cosine_mean": 1.0,
+          "hidden_cosine_min": 0.999999463558197,
+          "hidden_l2_mean": 0.0,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12931049418449403,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.773078125,
+            "capability_perplexity": 118.28277133472581,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.726251746892929,
+            "mean_harmful_score": 0.8555622410774231
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.0,
+            "high": 0.0,
+            "low": 0.0
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.0004375,
+            "high": -0.00025,
+            "low": -0.0006640625
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.0,
+            "high": 0.0,
+            "low": 0.0
+          },
+          "hidden_cosine_mean": 1.0,
+          "hidden_cosine_min": 0.999999463558197,
+          "hidden_l2_mean": 0.0,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12931049418449403,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.772640625,
+            "capability_perplexity": 118.23103394064714,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.726251746892929,
+            "mean_harmful_score": 0.8555622410774231
+          }
+        }
+      ],
+      "selected": {
+        "delta_benign_score_ci": {
+          "estimate": -0.0011205965280532838,
+          "high": -0.0008676634818315505,
+          "low": -0.001393593755364418
+        },
+        "delta_capability_nll_ci": {
+          "estimate": -1.5625e-05,
+          "high": 0.0,
+          "low": -3.90625e-05
+        },
+        "delta_harmful_score_ci": {
+          "estimate": 0.00130083966255188,
+          "high": 0.0015641155064105986,
+          "low": 0.0010352322340011597
+        },
+        "hidden_cosine_mean": 0.9991764426231384,
+        "hidden_cosine_min": 0.9921531081199646,
+        "hidden_l2_mean": 4.3600640296936035,
+        "hidden_l2_median": 0.0,
+        "metrics": {
+          "balanced_accuracy": 0.75,
+          "behavior_gap": 0.13173193037509923,
+          "benign_overrefusal_rate": 0.148,
+          "capability_nll": 4.7730625,
+          "capability_perplexity": 118.28092318086249,
+          "harmful_refusal_rate": 0.648,
+          "mean_benign_score": 0.7251311503648757,
+          "mean_harmful_score": 0.856863080739975
+        }
+      },
+      "selected_features": [
+        1120
+      ]
+    },
+    {
+      "budget": 2,
+      "matched_random_sets": [
+        [
+          2961,
+          2054
+        ],
+        [
+          1610,
+          1208
+        ],
+        [
+          844,
+          2837
+        ],
+        [
+          31,
+          2567
+        ],
+        [
+          2105,
+          2272
+        ],
+        [
+          1995,
+          2333
+        ],
+        [
+          1982,
+          1296
+        ],
+        [
+          2299,
+          296
+        ]
+      ],
+      "matched_random_summaries": [
+        {
+          "delta_benign_score_ci": {
+            "estimate": -0.0005399079322814941,
+            "high": -0.0003243419468402863,
+            "low": -0.0007825212240219116
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0010078125,
+            "high": 0.0013203125,
+            "low": 0.0007109375
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -0.0005991871356964111,
+            "high": -0.0003658188104629517,
+            "low": -0.0008556859910488127
+          },
+          "hidden_cosine_mean": 1.0,
+          "hidden_cosine_min": 0.999999463558197,
+          "hidden_l2_mean": 0.0,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.744,
+            "behavior_gap": 0.12925121498107905,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.7740859375,
+            "capability_perplexity": 118.40203827947568,
+            "harmful_refusal_rate": 0.636,
+            "mean_benign_score": 0.7257118389606476,
+            "mean_harmful_score": 0.8549630539417267
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": -0.0010391669273376466,
+            "high": -0.0007137207895517349,
+            "low": -0.0013949597477912901
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0056875,
+            "high": 0.006359375,
+            "low": 0.0049921875
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -0.0005983717441558838,
+            "high": -0.00036265262961387637,
+            "low": -0.0008610007584095001
+          },
+          "hidden_cosine_mean": 0.9999677538871765,
+          "hidden_cosine_min": 0.9987578392028809,
+          "hidden_l2_mean": 0.48602625727653503,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.748,
+            "behavior_gap": 0.12975128936767577,
+            "benign_overrefusal_rate": 0.136,
+            "capability_nll": 4.778765625,
+            "capability_perplexity": 118.95742131395941,
+            "harmful_refusal_rate": 0.632,
+            "mean_benign_score": 0.7252125799655914,
+            "mean_harmful_score": 0.8549638693332672
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": -8.288371562957764e-05,
+            "high": -3.4418112039566055e-05,
+            "low": -0.00013695837557315822
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0009375,
+            "high": 0.0011171875,
+            "low": 0.0007578125
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -0.0007282960414886475,
+            "high": -0.0006441606402397155,
+            "low": -0.0008163128077983856
+          },
+          "hidden_cosine_mean": 0.9999995231628418,
+          "hidden_cosine_min": 0.9997692704200745,
+          "hidden_l2_mean": 0.008974703028798103,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.744,
+            "behavior_gap": 0.128665081858635,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.774015625,
+            "capability_perplexity": 118.3937134288331,
+            "harmful_refusal_rate": 0.636,
+            "mean_benign_score": 0.7261688631772995,
+            "mean_harmful_score": 0.8548339450359345
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.0,
+            "high": 0.0,
+            "low": 0.0
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -3.125e-05,
+            "high": 5.46875e-05,
+            "low": -0.000125
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.0,
+            "high": 0.0,
+            "low": 0.0
+          },
+          "hidden_cosine_mean": 1.0,
+          "hidden_cosine_min": 0.999999463558197,
+          "hidden_l2_mean": 0.0,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12931049418449403,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.773046875,
+            "capability_perplexity": 118.27907505587635,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.726251746892929,
+            "mean_harmful_score": 0.8555622410774231
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": -0.0011177637577056885,
+            "high": -0.0007338216841220855,
+            "low": -0.001548319399356842
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.0002265625,
+            "high": -0.0001328125,
+            "low": -0.0003359375
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -9.143996238708496e-05,
+            "high": 3.285138010978699e-05,
+            "low": -0.0002341147780418396
+          },
+          "hidden_cosine_mean": 0.9989250898361206,
+          "hidden_cosine_min": 0.9834587574005127,
+          "hidden_l2_mean": 3.331925868988037,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.13033681797981267,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.7728515625,
+            "capability_perplexity": 118.25597592987687,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.7251339831352234,
+            "mean_harmful_score": 0.855470801115036
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 2.3607492446899413e-05,
+            "high": 4.803925156593323e-05,
+            "low": 3.078472614288334e-06
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0,
+            "high": 7.8125e-05,
+            "low": -7.03125e-05
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 9.423089027404785e-05,
+            "high": 0.00015130574107170104,
+            "low": 4.629383087158203e-05
+          },
+          "hidden_cosine_mean": 0.9998682141304016,
+          "hidden_cosine_min": 0.9940860867500305,
+          "hidden_l2_mean": 0.7658328413963318,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12938111758232118,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.773078125,
+            "capability_perplexity": 118.28277133472581,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.7262753543853759,
+            "mean_harmful_score": 0.8556564719676971
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": -1.2650012969970703e-05,
+            "high": 4.329919815063477e-06,
+            "low": -3.108584284782409e-05
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.000140625,
+            "high": 0.0001015625,
+            "low": -0.000390625
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -7.76839256286621e-06,
+            "high": 2.090072631835936e-06,
+            "low": -2.003623843193054e-05
+          },
+          "hidden_cosine_mean": 0.9999970197677612,
+          "hidden_cosine_min": 0.9997314214706421,
+          "hidden_l2_mean": 0.06445897370576859,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12931537580490104,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.7729375,
+            "capability_perplexity": 118.26613898949613,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.7262390968799591,
+            "mean_harmful_score": 0.8555544726848602
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.009601336717605592,
+            "high": 0.011422055864334106,
+            "low": 0.007873171767592429
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.011765625,
+            "high": -0.010156054687500004,
+            "low": -0.013398632812499998
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.00038306498527526856,
+            "high": 0.000495048850774765,
+            "low": 0.0002816405653953553
+          },
+          "hidden_cosine_mean": 0.9975690841674805,
+          "hidden_cosine_min": 0.968987226486206,
+          "hidden_l2_mean": 5.004033088684082,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.74,
+            "behavior_gap": 0.12009222245216367,
+            "benign_overrefusal_rate": 0.168,
+            "capability_nll": 4.7613125,
+            "capability_perplexity": 116.89925552728971,
+            "harmful_refusal_rate": 0.648,
+            "mean_benign_score": 0.7358530836105347,
+            "mean_harmful_score": 0.8559453060626984
+          }
+        }
+      ],
+      "selected": {
+        "delta_benign_score_ci": {
+          "estimate": -0.004096457600593567,
+          "high": -0.003652896186709404,
+          "low": -0.004571176618337631
+        },
+        "delta_capability_nll_ci": {
+          "estimate": -1.5625e-05,
+          "high": 0.0,
+          "low": -3.90625e-05
+        },
+        "delta_harmful_score_ci": {
+          "estimate": -0.0008361225128173829,
+          "high": -0.00048328619003295897,
+          "low": -0.0011968499183654783
+        },
+        "hidden_cosine_mean": 0.9979134798049927,
+        "hidden_cosine_min": 0.9809271693229675,
+        "hidden_l2_mean": 7.988081932067871,
+        "hidden_l2_median": 0.0,
+        "metrics": {
+          "balanced_accuracy": 0.752,
+          "behavior_gap": 0.13257082927227015,
+          "benign_overrefusal_rate": 0.136,
+          "capability_nll": 4.7730625,
+          "capability_perplexity": 118.28092318086249,
+          "harmful_refusal_rate": 0.64,
+          "mean_benign_score": 0.7221552892923355,
+          "mean_harmful_score": 0.8547261185646057
+        }
+      },
+      "selected_features": [
+        1120,
+        524
+      ]
+    },
+    {
+      "budget": 5,
+      "matched_random_sets": [
+        [
+          268,
+          519,
+          2139,
+          1675,
+          1980
+        ],
+        [
+          31,
+          1624,
+          2569,
+          2704,
+          2350
+        ],
+        [
+          2550,
+          2484,
+          1322,
+          46,
+          1541
+        ],
+        [
+          2247,
+          583,
+          1218,
+          961,
+          2568
+        ],
+        [
+          1624,
+          2611,
+          555,
+          2508,
+          774
+        ],
+        [
+          2085,
+          1539,
+          2935,
+          2512,
+          2546
+        ],
+        [
+          1265,
+          1834,
+          649,
+          300,
+          2935
+        ],
+        [
+          2801,
+          251,
+          1595,
+          2094,
+          2401
+        ]
+      ],
+      "matched_random_summaries": [
+        {
+          "delta_benign_score_ci": {
+            "estimate": -1.295185089111328e-05,
+            "high": 1.0117703676223752e-05,
+            "low": -3.8813543319702145e-05
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.00184375,
+            "high": -0.001453125,
+            "low": -0.00228125
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -0.00016554594039916993,
+            "high": -5.141788721084608e-06,
+            "low": -0.0003416934251785278
+          },
+          "hidden_cosine_mean": 0.9999982118606567,
+          "hidden_cosine_min": 0.9998154640197754,
+          "hidden_l2_mean": 0.05518009513616562,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12915790009498596,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.771234375,
+            "capability_perplexity": 118.06488839763291,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.7262387950420379,
+            "mean_harmful_score": 0.8553966951370239
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 8.965587615966796e-05,
+            "high": 0.00013255768418312072,
+            "low": 5.0434058904647834e-05
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0002578125,
+            "high": 0.00040625,
+            "low": 0.000109375
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 9.51075553894043e-06,
+            "high": 3.629512190818786e-05,
+            "low": -1.5075796842575048e-05
+          },
+          "hidden_cosine_mean": 0.9999938607215881,
+          "hidden_cosine_min": 0.9998146295547485,
+          "hidden_l2_mean": 0.17800137400627136,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12923034906387332,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.7733359375,
+            "capability_perplexity": 118.31327004301575,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.7263414027690888,
+            "mean_harmful_score": 0.8555717518329621
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": -0.007074002742767334,
+            "high": -0.00589294915497303,
+            "low": -0.008339704635739326
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.0011640625,
+            "high": -0.0008671875,
+            "low": -0.0014765625
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -0.0013956594467163085,
+            "high": -0.000966655170917511,
+            "low": -0.0018456832468509673
+          },
+          "hidden_cosine_mean": 0.9997943639755249,
+          "hidden_cosine_min": 0.9957895278930664,
+          "hidden_l2_mean": 1.681620717048645,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.758,
+            "behavior_gap": 0.13498883748054502,
+            "benign_overrefusal_rate": 0.124,
+            "capability_nll": 4.7719140625,
+            "capability_perplexity": 118.1451629041646,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.7191777441501618,
+            "mean_harmful_score": 0.8541665816307068
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.0002231220006942749,
+            "high": 0.0003384204566478729,
+            "low": 0.00012324882745742797
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.0004140625,
+            "high": -0.0003046875,
+            "low": -0.00053125
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.00023581480979919432,
+            "high": 0.0003882656574249267,
+            "low": 0.0001117478668689728
+          },
+          "hidden_cosine_mean": 0.999981164932251,
+          "hidden_cosine_min": 0.9986890554428101,
+          "hidden_l2_mean": 0.2656042277812958,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.748,
+            "behavior_gap": 0.1293231869935989,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.7726640625,
+            "capability_perplexity": 118.23380501297844,
+            "harmful_refusal_rate": 0.644,
+            "mean_benign_score": 0.7264748688936233,
+            "mean_harmful_score": 0.8557980558872222
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 1.6608238220214844e-06,
+            "high": 7.651198804378508e-05,
+            "low": -6.616514027118682e-05
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.00125,
+            "high": -0.0010703125,
+            "low": -0.0014375
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -2.3772239685058593e-05,
+            "high": -1.7139077186584485e-06,
+            "low": -4.555374383926391e-05
+          },
+          "hidden_cosine_mean": 0.9999936819076538,
+          "hidden_cosine_min": 0.9996693730354309,
+          "hidden_l2_mean": 0.15989956259727478,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.748,
+            "behavior_gap": 0.12928506112098692,
+            "benign_overrefusal_rate": 0.144,
+            "capability_nll": 4.771828125,
+            "capability_perplexity": 118.13501024048107,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.7262534077167511,
+            "mean_harmful_score": 0.855538468837738
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 4.9098730087280274e-05,
+            "high": 7.541284561157226e-05,
+            "low": 2.74230718612671e-05
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0002109375,
+            "high": 0.0003515625,
+            "low": 7.8125e-05
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 4.242348670959473e-05,
+            "high": 6.419748663902283e-05,
+            "low": 2.376886010169983e-05
+          },
+          "hidden_cosine_mean": 0.9999784231185913,
+          "hidden_cosine_min": 0.9991132020950317,
+          "hidden_l2_mean": 0.37644854187965393,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.1293038189411163,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.7732890625,
+            "capability_perplexity": 118.30772423846332,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.7263008456230163,
+            "mean_harmful_score": 0.8556046645641326
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.0,
+            "high": 0.0,
+            "low": 0.0
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.000546875,
+            "high": -0.000421875,
+            "low": -0.0006796875
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -6.181716918945313e-06,
+            "high": 0.0,
+            "low": -1.854515075683594e-05
+          },
+          "hidden_cosine_mean": 1.0,
+          "hidden_cosine_min": 0.999999463558197,
+          "hidden_l2_mean": 0.0,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12930431246757512,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.77253125,
+            "capability_perplexity": 118.21810312847654,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.726251746892929,
+            "mean_harmful_score": 0.8555560593605042
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 5.97691535949707e-06,
+            "high": 1.676607131958008e-05,
+            "low": 0.0
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0006171875,
+            "high": 0.00078125,
+            "low": 0.0004609375
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.00011337065696716309,
+            "high": 0.00021921141743659972,
+            "low": 2.871108055114746e-05
+          },
+          "hidden_cosine_mean": 0.9999979734420776,
+          "hidden_cosine_min": 0.9996567368507385,
+          "hidden_l2_mean": 0.04398518428206444,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12941788792610165,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.7736953125,
+            "capability_perplexity": 118.35579651545532,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.7262577238082886,
+            "mean_harmful_score": 0.8556756117343902
+          }
+        }
+      ],
+      "selected": {
+        "delta_benign_score_ci": {
+          "estimate": -0.035824114084243776,
+          "high": -0.033971662652492525,
+          "low": -0.037657649430632587
+        },
+        "delta_capability_nll_ci": {
+          "estimate": 0.00184375,
+          "high": 0.0024140625,
+          "low": 0.0012734375
+        },
+        "delta_harmful_score_ci": {
+          "estimate": -0.03632081770896912,
+          "high": -0.03397985934913159,
+          "low": -0.038743897086381915
+        },
+        "hidden_cosine_mean": 0.9855348467826843,
+        "hidden_cosine_min": 0.9176038503646851,
+        "hidden_l2_mean": 30.3102970123291,
+        "hidden_l2_median": 22.94997215270996,
+        "metrics": {
+          "balanced_accuracy": 0.718,
+          "behavior_gap": 0.1288137905597686,
+          "benign_overrefusal_rate": 0.068,
+          "capability_nll": 4.774921875,
+          "capability_perplexity": 118.50105636404895,
+          "harmful_refusal_rate": 0.504,
+          "mean_benign_score": 0.6904276328086854,
+          "mean_harmful_score": 0.819241423368454
+        }
+      },
+      "selected_features": [
+        1120,
+        524,
+        1415,
+        500,
+        1470
+      ]
+    },
+    {
+      "budget": 10,
+      "matched_random_sets": [
+        [
+          966,
+          883,
+          2611,
+          2553,
+          967,
+          2530,
+          1447,
+          2902,
+          2615,
+          2905
+        ],
+        [
+          634,
+          1476,
+          2446,
+          525,
+          366,
+          2670,
+          1576,
+          114,
+          1503,
+          1624
+        ],
+        [
+          157,
+          1011,
+          2637,
+          1539,
+          1312,
+          1107,
+          480,
+          1708,
+          2659,
+          1609
+        ],
+        [
+          2873,
+          1414,
+          2483,
+          1665,
+          2826,
+          2215,
+          3,
+          2845,
+          1312,
+          634
+        ],
+        [
+          1734,
+          995,
+          1070,
+          1608,
+          1436,
+          1011,
+          480,
+          1358,
+          2558,
+          469
+        ],
+        [
+          1965,
+          2227,
+          1678,
+          2721,
+          192,
+          1937,
+          995,
+          2322,
+          293,
+          513
+        ],
+        [
+          555,
+          2085,
+          771,
+          1338,
+          3067,
+          865,
+          158,
+          2831,
+          398,
+          220
+        ],
+        [
+          2632,
+          1467,
+          2272,
+          587,
+          535,
+          792,
+          1695,
+          961,
+          2905,
+          476
+        ]
+      ],
+      "matched_random_summaries": [
+        {
+          "delta_benign_score_ci": {
+            "estimate": -3.272294998168945e-05,
+            "high": -7.025718688964844e-06,
+            "low": -6.441226601600647e-05
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.0027734375,
+            "high": -0.00253125,
+            "low": -0.003015625
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 1.9611835479736327e-05,
+            "high": 6.29408240318298e-05,
+            "low": -2.7283370494842497e-05
+          },
+          "hidden_cosine_mean": 0.9999962449073792,
+          "hidden_cosine_min": 0.9997692108154297,
+          "hidden_l2_mean": 0.09304376691579819,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12936282896995543,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.7703046875,
+            "capability_perplexity": 117.95517595374686,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.7262190239429474,
+            "mean_harmful_score": 0.8555818529129028
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": -3.3106088638305664e-05,
+            "high": -1.1451703310012831e-05,
+            "low": -5.755138993263243e-05
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.0014765625,
+            "high": -0.000953125,
+            "low": -0.00203125
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -8.81814956665039e-06,
+            "high": 1.0218775272369381e-05,
+            "low": -2.9777199029922476e-05
+          },
+          "hidden_cosine_mean": 0.9999979734420776,
+          "hidden_cosine_min": 0.9998146295547485,
+          "hidden_l2_mean": 0.05206557735800743,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12933478212356564,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.7716015625,
+            "capability_perplexity": 118.10824830896298,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.7262186408042908,
+            "mean_harmful_score": 0.8555534229278564
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 4.365873336791992e-05,
+            "high": 0.00010911740660667419,
+            "low": -2.2015470266342162e-05
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0033125,
+            "high": 0.003984375,
+            "low": 0.002671875
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 3.556609153747559e-05,
+            "high": 7.474718689918514e-05,
+            "low": 5.06579875946204e-08
+          },
+          "hidden_cosine_mean": 0.9999675750732422,
+          "hidden_cosine_min": 0.9991132020950317,
+          "hidden_l2_mean": 0.6595645546913147,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.748,
+            "behavior_gap": 0.1293024015426636,
+            "benign_overrefusal_rate": 0.144,
+            "capability_nll": 4.776390625,
+            "capability_perplexity": 118.67523266999684,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.726295405626297,
+            "mean_harmful_score": 0.8555978071689606
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.00013796615600585938,
+            "high": 0.0001669948816299438,
+            "low": 0.00010825690627098084
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0037890625,
+            "high": 0.0045859375,
+            "low": 0.0030234375
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 8.06729793548584e-05,
+            "high": 0.00011311261653900145,
+            "low": 5.33097803592682e-05
+          },
+          "hidden_cosine_mean": 0.9999945163726807,
+          "hidden_cosine_min": 0.9994531869888306,
+          "hidden_l2_mean": 0.10558169335126877,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.748,
+            "behavior_gap": 0.129253201007843,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.7768671875,
+            "capability_perplexity": 118.73180231398091,
+            "harmful_refusal_rate": 0.644,
+            "mean_benign_score": 0.726389713048935,
+            "mean_harmful_score": 0.855642914056778
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": -0.0003170255422592163,
+            "high": -9.380651116371162e-05,
+            "low": -0.0005453073829412461
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0211484375,
+            "high": 0.021640625,
+            "low": 0.0206796875
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -6.898212432861328e-05,
+            "high": -1.4228826761245738e-05,
+            "low": -0.00013694991469383237
+          },
+          "hidden_cosine_mean": 0.9999932050704956,
+          "hidden_cosine_min": 0.9997587203979492,
+          "hidden_l2_mean": 0.17725147306919098,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12955853760242464,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.7942265625,
+            "capability_perplexity": 120.81090595378461,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.7259347213506698,
+            "mean_harmful_score": 0.8554932589530945
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.0001577003002166748,
+            "high": 0.00022457332015037536,
+            "low": 9.227745532989503e-05
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0006171875,
+            "high": 0.0011328125,
+            "low": 0.000125
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -0.00014272546768188477,
+            "high": 3.8110691308975206e-05,
+            "low": -0.00033512947559356684
+          },
+          "hidden_cosine_mean": 0.999984622001648,
+          "hidden_cosine_min": 0.9996076226234436,
+          "hidden_l2_mean": 0.3589725196361542,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.12901006841659546,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.7736953125,
+            "capability_perplexity": 118.35579651545532,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.7264094471931457,
+            "mean_harmful_score": 0.8554195156097412
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": -8.406424522399903e-05,
+            "high": 0.0006494957715272896,
+            "low": -0.0007966009646654128
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.00075,
+            "high": -0.0002421875,
+            "low": -0.0012890625000000003
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 5.937409400939941e-05,
+            "high": 0.00037934232354164114,
+            "low": -0.00025123816132545466
+          },
+          "hidden_cosine_mean": 0.9987202882766724,
+          "hidden_cosine_min": 0.9908017516136169,
+          "hidden_l2_mean": 5.655665874481201,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.73,
+            "behavior_gap": 0.1294539325237275,
+            "benign_overrefusal_rate": 0.176,
+            "capability_nll": 4.772328125,
+            "capability_perplexity": 118.194092514939,
+            "harmful_refusal_rate": 0.636,
+            "mean_benign_score": 0.726167682647705,
+            "mean_harmful_score": 0.8556216151714325
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.02953226089477539,
+            "high": 0.03142477760612964,
+            "low": 0.02762936565577984
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.000140625,
+            "high": 0.0001015625,
+            "low": -0.000375
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.012212014436721801,
+            "high": 0.013641458600759507,
+            "low": 0.010855543160438538
+          },
+          "hidden_cosine_mean": 0.9952727556228638,
+          "hidden_cosine_min": 0.9703012704849243,
+          "hidden_l2_mean": 15.57014274597168,
+          "hidden_l2_median": 15.39374828338623,
+          "metrics": {
+            "balanced_accuracy": 0.738,
+            "behavior_gap": 0.1119902477264404,
+            "benign_overrefusal_rate": 0.26,
+            "capability_nll": 4.7729375,
+            "capability_perplexity": 118.26613898949613,
+            "harmful_refusal_rate": 0.736,
+            "mean_benign_score": 0.7557840077877045,
+            "mean_harmful_score": 0.8677742555141449
+          }
+        }
+      ],
+      "selected": {
+        "delta_benign_score_ci": {
+          "estimate": -0.0126218900680542,
+          "high": -0.010363310736417771,
+          "low": -0.014928697723150254
+        },
+        "delta_capability_nll_ci": {
+          "estimate": 0.0015078125,
+          "high": 0.0021328125,
+          "low": 0.0008826171875000018
+        },
+        "delta_harmful_score_ci": {
+          "estimate": -0.01569047474861145,
+          "high": -0.012159494018554689,
+          "low": -0.019433103263378142
+        },
+        "hidden_cosine_mean": 0.97523432970047,
+        "hidden_cosine_min": 0.876267671585083,
+        "hidden_l2_mean": 40.509864807128906,
+        "hidden_l2_median": 31.982887268066406,
+        "metrics": {
+          "balanced_accuracy": 0.728,
+          "behavior_gap": 0.12624190950393677,
+          "benign_overrefusal_rate": 0.14,
+          "capability_nll": 4.7745859375,
+          "capability_perplexity": 118.46125410133729,
+          "harmful_refusal_rate": 0.596,
+          "mean_benign_score": 0.7136298568248749,
+          "mean_harmful_score": 0.8398717663288117
+        }
+      },
+      "selected_features": [
+        1120,
+        524,
+        1415,
+        500,
+        1470,
+        306,
+        1650,
+        424,
+        10,
+        258
+      ]
+    },
+    {
+      "budget": 20,
+      "matched_random_sets": [
+        [
+          2179,
+          768,
+          398,
+          1978,
+          1441,
+          2299,
+          2384,
+          1842,
+          2580,
+          2935,
+          3010,
+          1375,
+          2873,
+          2845,
+          2370,
+          2054,
+          2568,
+          1954,
+          2247,
+          157
+        ],
+        [
+          1088,
+          46,
+          1482,
+          1353,
+          2319,
+          268,
+          2301,
+          2230,
+          1753,
+          1271,
+          1497,
+          2562,
+          2174,
+          364,
+          656,
+          366,
+          3016,
+          2837,
+          2330,
+          112
+        ],
+        [
+          2182,
+          2209,
+          2416,
+          2227,
+          188,
+          29,
+          1998,
+          417,
+          2087,
+          1524,
+          1908,
+          1007,
+          488,
+          750,
+          799,
+          314,
+          2961,
+          768,
+          587,
+          2668
+        ],
+        [
+          1476,
+          1874,
+          2513,
+          961,
+          2070,
+          1209,
+          2987,
+          724,
+          1665,
+          799,
+          1826,
+          1678,
+          812,
+          2704,
+          2213,
+          2247,
+          827,
+          1376,
+          1576,
+          2830
+        ],
+        [
+          516,
+          3067,
+          91,
+          2050,
+          2300,
+          2479,
+          122,
+          2615,
+          2569,
+          1946,
+          355,
+          2413,
+          472,
+          812,
+          1497,
+          2319,
+          2796,
+          1225,
+          2850,
+          2000
+        ],
+        [
+          649,
+          1729,
+          331,
+          1678,
+          1997,
+          1205,
+          2760,
+          1207,
+          1126,
+          2955,
+          2384,
+          2675,
+          1447,
+          1177,
+          2509,
+          2831,
+          1742,
+          1991,
+          525,
+          2711
+        ],
+        [
+          1629,
+          1265,
+          1124,
+          2831,
+          693,
+          2563,
+          706,
+          2001,
+          2283,
+          1373,
+          2737,
+          3067,
+          2659,
+          1688,
+          2910,
+          1687,
+          2808,
+          91,
+          2191,
+          374
+        ],
+        [
+          1165,
+          573,
+          331,
+          1383,
+          755,
+          1688,
+          925,
+          1080,
+          883,
+          375,
+          473,
+          1422,
+          31,
+          2505,
+          1580,
+          1312,
+          2692,
+          87,
+          261,
+          2448
+        ]
+      ],
+      "matched_random_summaries": [
+        {
+          "delta_benign_score_ci": {
+            "estimate": -0.000628271222114563,
+            "high": -0.00033266432583332087,
+            "low": -0.0009465401887893675
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.00534375,
+            "high": -0.004257617187500003,
+            "low": -0.0064296875
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -0.0008098909854888916,
+            "high": -0.0005080210268497468,
+            "low": -0.0011267360866069791
+          },
+          "hidden_cosine_mean": 0.9999908804893494,
+          "hidden_cosine_min": 0.999767541885376,
+          "hidden_l2_mean": 0.27663567662239075,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.744,
+            "behavior_gap": 0.12912887442111964,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.767734375,
+            "capability_perplexity": 117.65238359274834,
+            "harmful_refusal_rate": 0.636,
+            "mean_benign_score": 0.7256234756708145,
+            "mean_harmful_score": 0.8547523500919342
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": -0.014680200934410095,
+            "high": -0.012129520490765572,
+            "low": -0.01712997663319111
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.0224296875,
+            "high": -0.0208984375,
+            "low": -0.02409375
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -0.007644763469696045,
+            "high": -0.006222101467847825,
+            "low": -0.009152740132808685
+          },
+          "hidden_cosine_mean": 0.9972777366638184,
+          "hidden_cosine_min": 0.9717593193054199,
+          "hidden_l2_mean": 10.829103469848633,
+          "hidden_l2_median": 8.4342622756958,
+          "metrics": {
+            "balanced_accuracy": 0.742,
+            "behavior_gap": 0.13634593164920805,
+            "benign_overrefusal_rate": 0.1,
+            "capability_nll": 4.7506484375,
+            "capability_perplexity": 115.65925801686983,
+            "harmful_refusal_rate": 0.584,
+            "mean_benign_score": 0.711571545958519,
+            "mean_harmful_score": 0.8479174776077271
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.018666174292564394,
+            "high": 0.02057706715464592,
+            "low": 0.016852194997668265
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.033875,
+            "high": -0.032546875,
+            "low": -0.0351875
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.004369435548782349,
+            "high": 0.005351121217012405,
+            "low": 0.003426653057336807
+          },
+          "hidden_cosine_mean": 0.9989163875579834,
+          "hidden_cosine_min": 0.9902575016021729,
+          "hidden_l2_mean": 6.549935817718506,
+          "hidden_l2_median": 5.845421314239502,
+          "metrics": {
+            "balanced_accuracy": 0.738,
+            "behavior_gap": 0.1150137554407119,
+            "benign_overrefusal_rate": 0.188,
+            "capability_nll": 4.739203125,
+            "capability_perplexity": 114.34304824946351,
+            "harmful_refusal_rate": 0.664,
+            "mean_benign_score": 0.7449179211854935,
+            "mean_harmful_score": 0.8599316766262054
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": -0.00011172580718994141,
+            "high": 0.00039887422025203695,
+            "low": -0.00059970782995224
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.02553125,
+            "high": 0.0266953125,
+            "low": 0.0243671875
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -0.0013888243436813354,
+            "high": -0.0011551739603281022,
+            "low": -0.0016319464415311814
+          },
+          "hidden_cosine_mean": 0.9980543851852417,
+          "hidden_cosine_min": 0.96717369556427,
+          "hidden_l2_mean": 5.411831855773926,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.744,
+            "behavior_gap": 0.12803339564800265,
+            "benign_overrefusal_rate": 0.148,
+            "capability_nll": 4.798609375,
+            "capability_perplexity": 121.3415595306547,
+            "harmful_refusal_rate": 0.636,
+            "mean_benign_score": 0.7261400210857392,
+            "mean_harmful_score": 0.8541734167337418
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.025094340085983276,
+            "high": 0.029508398720622064,
+            "low": 0.02085434936285019
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.028359375,
+            "high": -0.0275234375,
+            "low": -0.0292109375
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.0030545437335968016,
+            "high": 0.004054427808523177,
+            "low": 0.0021342921018600463
+          },
+          "hidden_cosine_mean": 0.9957055449485779,
+          "hidden_cosine_min": 0.9647399187088013,
+          "hidden_l2_mean": 9.968375205993652,
+          "hidden_l2_median": 2.548088312149048,
+          "metrics": {
+            "balanced_accuracy": 0.742,
+            "behavior_gap": 0.10727069783210752,
+            "benign_overrefusal_rate": 0.164,
+            "capability_nll": 4.74471875,
+            "capability_perplexity": 114.97546410603374,
+            "harmful_refusal_rate": 0.648,
+            "mean_benign_score": 0.7513460869789124,
+            "mean_harmful_score": 0.8586167848110199
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 3.914594650268555e-06,
+            "high": 0.00011987424492835994,
+            "low": -0.00012008337080478665
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0031953125,
+            "high": 0.0046875,
+            "low": 0.00171875
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.00012880563735961914,
+            "high": 0.00022272008657455442,
+            "low": 5.271703004837037e-05
+          },
+          "hidden_cosine_mean": 0.9999573230743408,
+          "hidden_cosine_min": 0.9977580904960632,
+          "hidden_l2_mean": 0.5340323448181152,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.748,
+            "behavior_gap": 0.12943538522720333,
+            "benign_overrefusal_rate": 0.144,
+            "capability_nll": 4.7762734375,
+            "capability_perplexity": 118.66132623101467,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.7262556614875794,
+            "mean_harmful_score": 0.8556910467147827
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": -0.0029118665456771852,
+            "high": -0.0026779815316200256,
+            "low": -0.003166213476657867
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0737421875,
+            "high": 0.0747345703125,
+            "low": 0.072796875
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -0.00039963340759277343,
+            "high": -0.0002958628535270691,
+            "low": -0.0005209231495857238
+          },
+          "hidden_cosine_mean": 0.9999914169311523,
+          "hidden_cosine_min": 0.9997633695602417,
+          "hidden_l2_mean": 0.25275033712387085,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.748,
+            "behavior_gap": 0.13182272732257838,
+            "benign_overrefusal_rate": 0.144,
+            "capability_nll": 4.8468203125,
+            "capability_perplexity": 127.33486039532544,
+            "harmful_refusal_rate": 0.64,
+            "mean_benign_score": 0.7233398803472519,
+            "mean_harmful_score": 0.8551626076698303
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.002589524269104004,
+            "high": 0.003662206915020942,
+            "low": 0.0015854403734207154
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0016640625,
+            "high": 0.00240625,
+            "low": 0.0009453125
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.003924756526947021,
+            "high": 0.005211974716186524,
+            "low": 0.002698374992609024
+          },
+          "hidden_cosine_mean": 0.9975854754447937,
+          "hidden_cosine_min": 0.9584276676177979,
+          "hidden_l2_mean": 5.291706085205078,
+          "hidden_l2_median": 0.0,
+          "metrics": {
+            "balanced_accuracy": 0.766,
+            "behavior_gap": 0.13064572644233696,
+            "benign_overrefusal_rate": 0.144,
+            "capability_nll": 4.7747421875,
+            "capability_perplexity": 118.47976511842616,
+            "harmful_refusal_rate": 0.676,
+            "mean_benign_score": 0.7288412711620331,
+            "mean_harmful_score": 0.8594869976043701
+          }
+        }
+      ],
+      "selected": {
+        "delta_benign_score_ci": {
+          "estimate": 0.004932221412658692,
+          "high": 0.0074536234974861134,
+          "low": 0.00234868720471859
+        },
+        "delta_capability_nll_ci": {
+          "estimate": 0.0265703125,
+          "high": 0.027859375,
+          "low": 0.02528125
+        },
+        "delta_harmful_score_ci": {
+          "estimate": -0.0017751903533935547,
+          "high": 0.001744160765409467,
+          "low": -0.005287421375513077
+        },
+        "hidden_cosine_mean": 0.8778138756752014,
+        "hidden_cosine_min": 0.6237069368362427,
+        "hidden_l2_mean": 88.61115264892578,
+        "hidden_l2_median": 77.45232391357422,
+        "metrics": {
+          "balanced_accuracy": 0.742,
+          "behavior_gap": 0.12260308241844176,
+          "benign_overrefusal_rate": 0.204,
+          "capability_nll": 4.7996484375,
+          "capability_perplexity": 121.46770652080848,
+          "harmful_refusal_rate": 0.688,
+          "mean_benign_score": 0.7311839683055877,
+          "mean_harmful_score": 0.8537870507240295
+        }
+      },
+      "selected_features": [
+        1120,
+        524,
+        1415,
+        500,
+        1470,
+        306,
+        1650,
+        424,
+        10,
+        258,
+        2488,
+        486,
+        958,
+        1151,
+        1799,
+        1129,
+        2142,
+        1643,
+        2651,
+        2224
+      ]
+    },
+    {
+      "budget": 50,
+      "matched_random_sets": [
+        [
+          2632,
+          1961,
+          774,
+          1069,
+          2509,
+          511,
+          2139,
+          2070,
+          2054,
+          651,
+          1995,
+          421,
+          2873,
+          2417,
+          2546,
+          2551,
+          2446,
+          955,
+          1772,
+          551,
+          3011,
+          2667,
+          612,
+          762,
+          187,
+          810,
+          1965,
+          245,
+          2692,
+          2173,
+          1363,
+          2069,
+          635,
+          2826,
+          2368,
+          925,
+          1678,
+          2961,
+          2816,
+          2773,
+          1994,
+          251,
+          513,
+          2370,
+          1497,
+          2333,
+          2988,
+          1394,
+          1753,
+          1991
+        ],
+        [
+          774,
+          300,
+          2000,
+          1943,
+          429,
+          3000,
+          318,
+          2562,
+          799,
+          2032,
+          2083,
+          172,
+          355,
+          2994,
+          1491,
+          1269,
+          1331,
+          2550,
+          2970,
+          1315,
+          2300,
+          612,
+          2921,
+          1687,
+          1995,
+          1771,
+          1735,
+          697,
+          1177,
+          247,
+          2567,
+          2508,
+          2401,
+          550,
+          2855,
+          2659,
+          2416,
+          2174,
+          1651,
+          2286,
+          2182,
+          1908,
+          679,
+          1610,
+          2283,
+          1436,
+          790,
+          823,
+          796,
+          1381
+        ],
+        [
+          417,
+          526,
+          2069,
+          748,
+          995,
+          1167,
+          2315,
+          2949,
+          3050,
+          2512,
+          2580,
+          1949,
+          697,
+          2517,
+          1609,
+          439,
+          2550,
+          1852,
+          635,
+          1008,
+          421,
+          1772,
+          1364,
+          522,
+          355,
+          2564,
+          2563,
+          789,
+          1728,
+          3028,
+          1214,
+          1874,
+          2286,
+          187,
+          1375,
+          1393,
+          1506,
+          2256,
+          2074,
+          1762,
+          1595,
+          2841,
+          608,
+          149,
+          2484,
+          1422,
+          157,
+          1467,
+          2179,
+          1623
+        ],
+        [
+          1325,
+          913,
+          844,
+          1214,
+          1565,
+          2001,
+          2855,
+          1207,
+          261,
+          2673,
+          1963,
+          789,
+          1331,
+          122,
+          95,
+          252,
+          1595,
+          519,
+          635,
+          2921,
+          1208,
+          1839,
+          472,
+          507,
+          1312,
+          2598,
+          762,
+          517,
+          2567,
+          1687,
+          1169,
+          658,
+          128,
+          289,
+          50,
+          2215,
+          1358,
+          577,
+          1378,
+          1609,
+          1436,
+          1303,
+          331,
+          973,
+          1852,
+          1960,
+          724,
+          2247,
+          2182,
+          1355
+        ],
+        [
+          706,
+          2531,
+          217,
+          750,
+          1998,
+          2408,
+          878,
+          391,
+          2484,
+          2016,
+          318,
+          1376,
+          1687,
+          2227,
+          1994,
+          1353,
+          2694,
+          1088,
+          2054,
+          2359,
+          2767,
+          376,
+          2209,
+          1675,
+          2487,
+          2134,
+          1937,
+          1409,
+          1826,
+          1357,
+          2246,
+          1825,
+          2173,
+          1317,
+          1124,
+          91,
+          2948,
+          783,
+          2401,
+          2562,
+          2970,
+          2069,
+          1832,
+          1707,
+          1624,
+          2296,
+          2819,
+          1458,
+          374,
+          1831
+        ],
+        [
+          1317,
+          1283,
+          2694,
+          2826,
+          687,
+          7,
+          587,
+          2796,
+          400,
+          2479,
+          188,
+          797,
+          1263,
+          1404,
+          1458,
+          2370,
+          3067,
+          1839,
+          2908,
+          1979,
+          1411,
+          1171,
+          1205,
+          376,
+          261,
+          2106,
+          2085,
+          783,
+          1675,
+          1869,
+          2227,
+          1961,
+          649,
+          1312,
+          1378,
+          2134,
+          1225,
+          1949,
+          89,
+          967,
+          966,
+          128,
+          2530,
+          2299,
+          612,
+          2341,
+          2961,
+          252,
+          719,
+          1651
+        ],
+        [
+          46,
+          2909,
+          2774,
+          366,
+          1852,
+          1137,
+          2900,
+          2905,
+          1207,
+          2230,
+          2408,
+          473,
+          133,
+          1542,
+          2094,
+          2299,
+          2396,
+          2173,
+          2227,
+          2816,
+          883,
+          2448,
+          1772,
+          2333,
+          1111,
+          472,
+          1303,
+          2539,
+          209,
+          2637,
+          1728,
+          1580,
+          1008,
+          527,
+          2240,
+          796,
+          1414,
+          1678,
+          2980,
+          1908,
+          24,
+          572,
+          2478,
+          2484,
+          2567,
+          651,
+          1610,
+          1279,
+          1422,
+          157
+        ],
+        [
+          2558,
+          2850,
+          1839,
+          2330,
+          1632,
+          2341,
+          1447,
+          1338,
+          2301,
+          1524,
+          1214,
+          1576,
+          2484,
+          139,
+          2001,
+          1303,
+          634,
+          526,
+          1978,
+          2286,
+          774,
+          2546,
+          608,
+          750,
+          2512,
+          875,
+          981,
+          1482,
+          2949,
+          658,
+          2798,
+          1353,
+          1069,
+          1171,
+          1678,
+          2903,
+          1506,
+          2704,
+          2637,
+          1624,
+          1182,
+          2994,
+          698,
+          141,
+          2618,
+          2128,
+          2613,
+          226,
+          2692,
+          2436
+        ]
+      ],
+      "matched_random_summaries": [
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.023912129759788514,
+            "high": 0.025775067263841628,
+            "low": 0.022058884823322297
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.01371875,
+            "high": -0.01165625,
+            "low": -0.01578125
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.01031821608543396,
+            "high": 0.012145367777347565,
+            "low": 0.008512192451953888
+          },
+          "hidden_cosine_mean": 0.992429792881012,
+          "hidden_cosine_min": 0.9715405106544495,
+          "hidden_l2_mean": 21.568696975708008,
+          "hidden_l2_median": 19.32948112487793,
+          "metrics": {
+            "balanced_accuracy": 0.728,
+            "behavior_gap": 0.11571658051013956,
+            "benign_overrefusal_rate": 0.248,
+            "capability_nll": 4.759359375,
+            "capability_perplexity": 116.67115949138281,
+            "harmful_refusal_rate": 0.704,
+            "mean_benign_score": 0.7501638766527176,
+            "mean_harmful_score": 0.8658804571628571
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": -0.007848968625068665,
+            "high": -0.007000298911333085,
+            "low": -0.00872240570485592
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.0118828125,
+            "high": -0.0106875,
+            "low": -0.01303125
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -0.005340683102607727,
+            "high": -0.004776644170284271,
+            "low": -0.005947447419166565
+          },
+          "hidden_cosine_mean": 0.9995130896568298,
+          "hidden_cosine_min": 0.9909417033195496,
+          "hidden_l2_mean": 3.4138453006744385,
+          "hidden_l2_median": 2.1989245414733887,
+          "metrics": {
+            "balanced_accuracy": 0.742,
+            "behavior_gap": 0.131818779706955,
+            "benign_overrefusal_rate": 0.14,
+            "capability_nll": 4.7611953125,
+            "capability_perplexity": 116.88555719843475,
+            "harmful_refusal_rate": 0.624,
+            "mean_benign_score": 0.7184027782678604,
+            "mean_harmful_score": 0.8502215579748154
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.006772514700889587,
+            "high": 0.008402313700318336,
+            "low": 0.005242067101597786
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.019484375,
+            "high": -0.017421875,
+            "low": -0.02159375
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.0013973201513290405,
+            "high": 0.0017475530505180357,
+            "low": 0.0010647600978612901
+          },
+          "hidden_cosine_mean": 0.9991928339004517,
+          "hidden_cosine_min": 0.9836767911911011,
+          "hidden_l2_mean": 3.8801815509796143,
+          "hidden_l2_median": 1.2805626392364502,
+          "metrics": {
+            "balanced_accuracy": 0.74,
+            "behavior_gap": 0.12393529963493355,
+            "benign_overrefusal_rate": 0.172,
+            "capability_nll": 4.75359375,
+            "capability_perplexity": 116.00041283239635,
+            "harmful_refusal_rate": 0.652,
+            "mean_benign_score": 0.7330242615938186,
+            "mean_harmful_score": 0.8569595612287522
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": -0.0021204476356506347,
+            "high": -0.0006039260745048526,
+            "low": -0.00367106206715107
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.00684375,
+            "high": 0.01096875,
+            "low": 0.0027888671875000016
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -0.0024012291431427003,
+            "high": -0.0015194555461406707,
+            "low": -0.0033317404866218567
+          },
+          "hidden_cosine_mean": 0.998031497001648,
+          "hidden_cosine_min": 0.966018795967102,
+          "hidden_l2_mean": 7.756092071533203,
+          "hidden_l2_median": 5.455149173736572,
+          "metrics": {
+            "balanced_accuracy": 0.744,
+            "behavior_gap": 0.12902971267700192,
+            "benign_overrefusal_rate": 0.136,
+            "capability_nll": 4.779921875,
+            "capability_perplexity": 119.0950453809348,
+            "harmful_refusal_rate": 0.624,
+            "mean_benign_score": 0.7241312992572785,
+            "mean_harmful_score": 0.8531610119342804
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.0004672360420227051,
+            "high": 0.0021984421372413625,
+            "low": -0.001274214348196983
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.003796875,
+            "high": -0.002515625,
+            "low": -0.0050390625
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.0035288655757904053,
+            "high": 0.004266019183397293,
+            "low": 0.0027822543561458585
+          },
+          "hidden_cosine_mean": 0.9993159770965576,
+          "hidden_cosine_min": 0.9906124472618103,
+          "hidden_l2_mean": 4.811995983123779,
+          "hidden_l2_median": 3.35128116607666,
+          "metrics": {
+            "balanced_accuracy": 0.75,
+            "behavior_gap": 0.1323721237182618,
+            "benign_overrefusal_rate": 0.176,
+            "capability_nll": 4.76928125,
+            "capability_perplexity": 117.83451795684765,
+            "harmful_refusal_rate": 0.676,
+            "mean_benign_score": 0.7267189829349517,
+            "mean_harmful_score": 0.8590911066532135
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.03611532509326935,
+            "high": 0.03801818300783635,
+            "low": 0.03419920879900455
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.008328125,
+            "high": 0.0098984375,
+            "low": 0.006765625
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.013260236501693726,
+            "high": 0.014377521574497223,
+            "low": 0.01215482279062271
+          },
+          "hidden_cosine_mean": 0.9796749353408813,
+          "hidden_cosine_min": 0.9469911456108093,
+          "hidden_l2_mean": 39.19696044921875,
+          "hidden_l2_median": 37.39968490600586,
+          "metrics": {
+            "balanced_accuracy": 0.716,
+            "behavior_gap": 0.10645540559291833,
+            "benign_overrefusal_rate": 0.3,
+            "capability_nll": 4.78140625,
+            "capability_perplexity": 119.27195835903929,
+            "harmful_refusal_rate": 0.732,
+            "mean_benign_score": 0.7623670719861985,
+            "mean_harmful_score": 0.8688224775791168
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": -0.0025481557846069335,
+            "high": -0.0008476537883281708,
+            "low": -0.004279358446598052
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0116484375,
+            "high": 0.01315625,
+            "low": 0.010078125
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.00343383526802063,
+            "high": 0.004255250120162964,
+            "low": 0.002656700825691223
+          },
+          "hidden_cosine_mean": 0.9977697134017944,
+          "hidden_cosine_min": 0.9815289974212646,
+          "hidden_l2_mean": 8.319591522216797,
+          "hidden_l2_median": 4.263699054718018,
+          "metrics": {
+            "balanced_accuracy": 0.734,
+            "behavior_gap": 0.13529248523712156,
+            "benign_overrefusal_rate": 0.188,
+            "capability_nll": 4.7847265625,
+            "capability_perplexity": 119.66863671690258,
+            "harmful_refusal_rate": 0.656,
+            "mean_benign_score": 0.7237035911083222,
+            "mean_harmful_score": 0.8589960763454437
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.018475425243377686,
+            "high": 0.020177805906534195,
+            "low": 0.016830859047174452
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0167421875,
+            "high": 0.0174376953125,
+            "low": 0.016046875
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.00364746356010437,
+            "high": 0.004594057464599609,
+            "low": 0.0027340985238552096
+          },
+          "hidden_cosine_mean": 0.9988122582435608,
+          "hidden_cosine_min": 0.9890233278274536,
+          "hidden_l2_mean": 7.168604373931885,
+          "hidden_l2_median": 6.214481353759766,
+          "metrics": {
+            "balanced_accuracy": 0.73,
+            "behavior_gap": 0.11448253250122065,
+            "benign_overrefusal_rate": 0.216,
+            "capability_nll": 4.7898203125,
+            "capability_perplexity": 120.27975395303855,
+            "harmful_refusal_rate": 0.676,
+            "mean_benign_score": 0.7447271721363068,
+            "mean_harmful_score": 0.8592097046375274
+          }
+        }
+      ],
+      "selected": {
+        "delta_benign_score_ci": {
+          "estimate": 0.04078962922096253,
+          "high": 0.04288210032582283,
+          "low": 0.038607561558485035
+        },
+        "delta_capability_nll_ci": {
+          "estimate": 0.06959375,
+          "high": 0.071625,
+          "low": 0.06753125
+        },
+        "delta_harmful_score_ci": {
+          "estimate": 0.03521719598770141,
+          "high": 0.03966266713738441,
+          "low": 0.03073815037608147
+        },
+        "hidden_cosine_mean": 0.8389750123023987,
+        "hidden_cosine_min": 0.5743703842163086,
+        "hidden_l2_mean": 100.79615783691406,
+        "hidden_l2_median": 93.61602783203125,
+        "metrics": {
+          "balanced_accuracy": 0.768,
+          "behavior_gap": 0.12373806095123296,
+          "benign_overrefusal_rate": 0.292,
+          "capability_nll": 4.842671875,
+          "capability_perplexity": 126.80771385862984,
+          "harmful_refusal_rate": 0.828,
+          "mean_benign_score": 0.7670413761138916,
+          "mean_harmful_score": 0.8907794370651245
+        }
+      },
+      "selected_features": [
+        1120,
+        524,
+        1415,
+        500,
+        1470,
+        306,
+        1650,
+        424,
+        10,
+        258,
+        2488,
+        486,
+        958,
+        1151,
+        1799,
+        1129,
+        2142,
+        1643,
+        2651,
+        2224,
+        456,
+        695,
+        1746,
+        103,
+        1677,
+        2175,
+        2428,
+        325,
+        832,
+        845,
+        1121,
+        901,
+        2117,
+        1462,
+        2159,
+        1442,
+        1996,
+        206,
+        1417,
+        2619,
+        2461,
+        276,
+        1367,
+        659,
+        1463,
+        1133,
+        88,
+        2481,
+        2023,
+        2698
+      ]
+    },
+    {
+      "budget": 100,
+      "matched_random_sets": [
+        [
+          1482,
+          2837,
+          1595,
+          2032,
+          1869,
+          1237,
+          1839,
+          844,
+          1565,
+          1165,
+          142,
+          771,
+          1456,
+          875,
+          2774,
+          693,
+          2673,
+          1997,
+          2921,
+          188,
+          1182,
+          1874,
+          95,
+          1394,
+          87,
+          122,
+          31,
+          1458,
+          380,
+          606,
+          141,
+          3011,
+          551,
+          2447,
+          1376,
+          1414,
+          1317,
+          1772,
+          750,
+          1310,
+          2272,
+          1467,
+          656,
+          2948,
+          1465,
+          1319,
+          16,
+          883,
+          3000,
+          1655,
+          2772,
+          2750,
+          2370,
+          2333,
+          762,
+          131,
+          1632,
+          2900,
+          1734,
+          612,
+          2227,
+          1441,
+          724,
+          1609,
+          1381,
+          2903,
+          2546,
+          2994,
+          421,
+          577,
+          547,
+          1422,
+          2509,
+          2396,
+          1896,
+          251,
+          934,
+          2613,
+          1110,
+          1279,
+          2213,
+          1569,
+          2094,
+          827,
+          1963,
+          1774,
+          1735,
+          1937,
+          799,
+          472,
+          1358,
+          2816,
+          2801,
+          128,
+          2495,
+          1167,
+          469,
+          1608,
+          2137,
+          961
+        ],
+        [
+          2553,
+          2215,
+          2632,
+          2227,
+          1482,
+          1271,
+          1565,
+          376,
+          973,
+          1434,
+          2826,
+          1363,
+          2069,
+          1699,
+          513,
+          1980,
+          2850,
+          2315,
+          31,
+          89,
+          2137,
+          1169,
+          1706,
+          535,
+          2692,
+          1753,
+          400,
+          1447,
+          1375,
+          2512,
+          912,
+          1111,
+          2359,
+          2447,
+          2401,
+          2408,
+          2272,
+          2300,
+          2737,
+          762,
+          102,
+          1773,
+          2341,
+          792,
+          3,
+          2085,
+          815,
+          937,
+          2505,
+          1422,
+          1765,
+          1874,
+          1171,
+          573,
+          1869,
+          2330,
+          2921,
+          2558,
+          2694,
+          1373,
+          844,
+          179,
+          2417,
+          2135,
+          2495,
+          2519,
+          192,
+          1215,
+          1998,
+          149,
+          2569,
+          550,
+          2333,
+          812,
+          1011,
+          925,
+          1834,
+          2670,
+          268,
+          2384,
+          1167,
+          1978,
+          2767,
+          1908,
+          1209,
+          1703,
+          522,
+          1735,
+          2174,
+          2001,
+          2550,
+          1595,
+          69,
+          1839,
+          2513,
+          252,
+          1322,
+          1854,
+          47,
+          2845
+        ],
+        [
+          2256,
+          1569,
+          2227,
+          421,
+          1503,
+          934,
+          104,
+          2359,
+          2179,
+          2087,
+          955,
+          1729,
+          50,
+          226,
+          1476,
+          1634,
+          692,
+          2495,
+          1734,
+          1908,
+          2247,
+          937,
+          1124,
+          1404,
+          951,
+          522,
+          2225,
+          507,
+          693,
+          380,
+          172,
+          2826,
+          2873,
+          1355,
+          810,
+          1497,
+          364,
+          2530,
+          1279,
+          1235,
+          1826,
+          608,
+          2134,
+          2315,
+          247,
+          790,
+          2299,
+          966,
+          1107,
+          1364,
+          1137,
+          2321,
+          1565,
+          1008,
+          469,
+          2994,
+          1308,
+          2050,
+          2364,
+          1422,
+          698,
+          29,
+          95,
+          1541,
+          939,
+          2106,
+          2483,
+          2137,
+          1960,
+          2384,
+          1946,
+          1315,
+          2909,
+          300,
+          133,
+          513,
+          1393,
+          2085,
+          2341,
+          2396,
+          2246,
+          128,
+          2531,
+          212,
+          1499,
+          187,
+          1623,
+          1306,
+          2830,
+          2847,
+          2659,
+          2767,
+          112,
+          2539,
+          1310,
+          649,
+          2704,
+          2774,
+          3016,
+          1609
+        ],
+        [
+          1576,
+          114,
+          575,
+          2513,
+          2094,
+          1623,
+          16,
+          3010,
+          1458,
+          937,
+          1703,
+          2932,
+          955,
+          1215,
+          1513,
+          2837,
+          1279,
+          473,
+          429,
+          324,
+          517,
+          573,
+          2855,
+          1378,
+          377,
+          1580,
+          551,
+          421,
+          1394,
+          724,
+          535,
+          1167,
+          1436,
+          91,
+          391,
+          1728,
+          2283,
+          2479,
+          1762,
+          1524,
+          2370,
+          2830,
+          2319,
+          1467,
+          2505,
+          2085,
+          525,
+          960,
+          2364,
+          226,
+          2737,
+          1765,
+          2515,
+          1609,
+          2174,
+          2247,
+          2568,
+          555,
+          1977,
+          380,
+          1774,
+          58,
+          1669,
+          261,
+          706,
+          2126,
+          331,
+          1411,
+          865,
+          1165,
+          2563,
+          2970,
+          679,
+          685,
+          2330,
+          373,
+          1310,
+          364,
+          768,
+          1219,
+          1218,
+          572,
+          2819,
+          1033,
+          268,
+          1503,
+          3000,
+          139,
+          2246,
+          392,
+          2508,
+          1541,
+          3028,
+          1409,
+          2447,
+          1634,
+          1241,
+          1832,
+          400,
+          750
+        ],
+        [
+          1137,
+          331,
+          212,
+          573,
+          955,
+          2379,
+          1409,
+          1364,
+          2558,
+          2673,
+          2968,
+          1771,
+          2637,
+          2396,
+          245,
+          2301,
+          1497,
+          1414,
+          641,
+          1465,
+          1436,
+          575,
+          149,
+          2610,
+          272,
+          1165,
+          519,
+          289,
+          967,
+          2330,
+          1632,
+          517,
+          2408,
+          459,
+          2562,
+          1088,
+          2655,
+          2173,
+          16,
+          1580,
+          658,
+          3067,
+          2417,
+          7,
+          623,
+          656,
+          750,
+          651,
+          2513,
+          380,
+          1207,
+          2760,
+          1070,
+          2970,
+          2550,
+          265,
+          3028,
+          128,
+          1651,
+          1353,
+          2567,
+          1742,
+          2174,
+          1404,
+          2980,
+          2126,
+          649,
+          513,
+          1620,
+          908,
+          1753,
+          724,
+          1765,
+          2315,
+          1610,
+          792,
+          2137,
+          1218,
+          925,
+          139,
+          159,
+          2179,
+          2384,
+          2319,
+          2667,
+          844,
+          970,
+          1322,
+          2903,
+          2902,
+          1979,
+          551,
+          1706,
+          324,
+          1965,
+          318,
+          2213,
+          1431,
+          2050,
+          3010
+        ],
+        [
+          1651,
+          1688,
+          812,
+          2637,
+          1669,
+          1539,
+          2191,
+          3063,
+          375,
+          141,
+          2083,
+          2970,
+          635,
+          1542,
+          459,
+          878,
+          2670,
+          1132,
+          2675,
+          960,
+          2137,
+          2513,
+          3010,
+          2837,
+          170,
+          547,
+          212,
+          2692,
+          1765,
+          2315,
+          2074,
+          698,
+          3067,
+          2186,
+          2213,
+          967,
+          1734,
+          2135,
+          102,
+          2530,
+          2694,
+          1831,
+          1769,
+          1381,
+          1609,
+          783,
+          2416,
+          1832,
+          2841,
+          2632,
+          2988,
+          2278,
+          1199,
+          2484,
+          527,
+          1436,
+          2980,
+          2948,
+          2995,
+          1997,
+          1331,
+          883,
+          1207,
+          2322,
+          1995,
+          2826,
+          1447,
+          2850,
+          1107,
+          2801,
+          149,
+          3011,
+          1620,
+          2512,
+          2968,
+          1404,
+          2257,
+          697,
+          2457,
+          981,
+          511,
+          2932,
+          649,
+          1569,
+          2517,
+          1791,
+          2567,
+          535,
+          2483,
+          2054,
+          2900,
+          1963,
+          925,
+          1208,
+          1629,
+          324,
+          122,
+          448,
+          1169,
+          3003
+        ],
+        [
+          1832,
+          1834,
+          2808,
+          1441,
+          1199,
+          1772,
+          1205,
+          1137,
+          1215,
+          748,
+          2932,
+          2487,
+          1503,
+          2333,
+          398,
+          1765,
+          1110,
+          2359,
+          3000,
+          2401,
+          226,
+          2287,
+          1960,
+          1476,
+          1762,
+          1651,
+          410,
+          937,
+          2396,
+          575,
+          995,
+          2667,
+          551,
+          1458,
+          1013,
+          1774,
+          2240,
+          2994,
+          1629,
+          2655,
+          783,
+          212,
+          628,
+          3026,
+          797,
+          1312,
+          2694,
+          480,
+          768,
+          1675,
+          1306,
+          1195,
+          1980,
+          578,
+          1447,
+          2215,
+          2230,
+          513,
+          2512,
+          1164,
+          912,
+          2568,
+          679,
+          1769,
+          525,
+          112,
+          1207,
+          293,
+          1373,
+          3003,
+          550,
+          1539,
+          2416,
+          3011,
+          2855,
+          1263,
+          2379,
+          1620,
+          265,
+          1214,
+          47,
+          133,
+          2447,
+          2558,
+          774,
+          1431,
+          268,
+          2831,
+          1708,
+          485,
+          392,
+          1874,
+          2670,
+          1707,
+          1687,
+          1634,
+          87,
+          1734,
+          141,
+          587
+        ],
+        [
+          2134,
+          1802,
+          159,
+          1513,
+          2772,
+          1070,
+          2341,
+          812,
+          2515,
+          149,
+          2479,
+          517,
+          1353,
+          1411,
+          1235,
+          1832,
+          355,
+          128,
+          1269,
+          2215,
+          1769,
+          1271,
+          2225,
+          364,
+          2350,
+          2655,
+          2416,
+          2837,
+          2256,
+          2032,
+          1310,
+          1283,
+          762,
+          1296,
+          2694,
+          2139,
+          748,
+          1080,
+          2408,
+          2819,
+          1279,
+          2319,
+          1765,
+          410,
+          119,
+          220,
+          2417,
+          1378,
+          2370,
+          192,
+          2659,
+          141,
+          1476,
+          1434,
+          1994,
+          651,
+          2903,
+          2508,
+          217,
+          2478,
+          2632,
+          1632,
+          2902,
+          3063,
+          314,
+          2816,
+          1169,
+          685,
+          687,
+          1322,
+          1742,
+          527,
+          1503,
+          1214,
+          955,
+          2246,
+          2509,
+          706,
+          1937,
+          1735,
+          245,
+          2413,
+          2001,
+          995,
+          1013,
+          331,
+          2128,
+          2798,
+          2318,
+          2841,
+          2987,
+          2505,
+          2191,
+          2396,
+          392,
+          883,
+          1540,
+          1008,
+          960,
+          2609
+        ]
+      ],
+      "matched_random_summaries": [
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.009510303497314453,
+            "high": 0.011185709974169731,
+            "low": 0.007875856864452363
+          },
+          "delta_capability_nll_ci": {
+            "estimate": -0.0125078125,
+            "high": -0.010421679687500005,
+            "low": -0.0145625
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.005719463586807251,
+            "high": 0.00712861664891243,
+            "low": 0.0043762695491313935
+          },
+          "hidden_cosine_mean": 0.9895525574684143,
+          "hidden_cosine_min": 0.9414212107658386,
+          "hidden_l2_mean": 21.180112838745117,
+          "hidden_l2_median": 19.583404541015625,
+          "metrics": {
+            "balanced_accuracy": 0.724,
+            "behavior_gap": 0.1255196542739868,
+            "benign_overrefusal_rate": 0.24,
+            "capability_nll": 4.7605703125,
+            "capability_perplexity": 116.81252654964074,
+            "harmful_refusal_rate": 0.688,
+            "mean_benign_score": 0.7357620503902436,
+            "mean_harmful_score": 0.8612817046642304
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.02437670314311981,
+            "high": 0.02709654936492443,
+            "low": 0.02163876573443413
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.01196875,
+            "high": 0.013859570312499998,
+            "low": 0.0100232421875
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.010348588705062866,
+            "high": 0.01195073613524437,
+            "low": 0.008797821164131164
+          },
+          "hidden_cosine_mean": 0.9929726719856262,
+          "hidden_cosine_min": 0.9660465121269226,
+          "hidden_l2_mean": 20.785137176513672,
+          "hidden_l2_median": 20.05323028564453,
+          "metrics": {
+            "balanced_accuracy": 0.746,
+            "behavior_gap": 0.11528237974643707,
+            "benign_overrefusal_rate": 0.24,
+            "capability_nll": 4.785046875,
+            "capability_perplexity": 119.70697421676333,
+            "harmful_refusal_rate": 0.732,
+            "mean_benign_score": 0.7506284500360489,
+            "mean_harmful_score": 0.865910829782486
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.05109388279914856,
+            "high": 0.058072487047314644,
+            "low": 0.04416285902857781
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0171875,
+            "high": 0.019797070312499995,
+            "low": 0.014578125
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.01909005069732666,
+            "high": 0.02655376434922218,
+            "low": 0.012310226911306385
+          },
+          "hidden_cosine_mean": 0.9885917901992798,
+          "hidden_cosine_min": 0.9438428282737732,
+          "hidden_l2_mean": 21.98760414123535,
+          "hidden_l2_median": 15.719014167785645,
+          "metrics": {
+            "balanced_accuracy": 0.718,
+            "behavior_gap": 0.09730666208267214,
+            "benign_overrefusal_rate": 0.184,
+            "capability_nll": 4.790265625,
+            "capability_perplexity": 120.33332795867264,
+            "harmful_refusal_rate": 0.62,
+            "mean_benign_score": 0.7773456296920777,
+            "mean_harmful_score": 0.8746522917747498
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.0119685617685318,
+            "high": 0.01590794017314911,
+            "low": 0.008369706040620803
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.08371875,
+            "high": 0.0850546875,
+            "low": 0.08239042968749999
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.00420553708076477,
+            "high": 0.00565708190202713,
+            "low": 0.002900681644678116
+          },
+          "hidden_cosine_mean": 0.9967377185821533,
+          "hidden_cosine_min": 0.9603046178817749,
+          "hidden_l2_mean": 11.754552841186523,
+          "hidden_l2_median": 9.315144538879395,
+          "metrics": {
+            "balanced_accuracy": 0.75,
+            "behavior_gap": 0.12154746949672701,
+            "benign_overrefusal_rate": 0.16,
+            "capability_nll": 4.856796875,
+            "capability_perplexity": 128.61158264864477,
+            "harmful_refusal_rate": 0.66,
+            "mean_benign_score": 0.7382203086614608,
+            "mean_harmful_score": 0.8597677781581878
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.0009337401390075683,
+            "high": 0.004045133480429649,
+            "low": -0.002064334541559219
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0245546875,
+            "high": 0.0267109375,
+            "low": 0.0224296875
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.0010732789039611817,
+            "high": 0.001921972620487213,
+            "low": 0.0001961260914802552
+          },
+          "hidden_cosine_mean": 0.9935460686683655,
+          "hidden_cosine_min": 0.9384012222290039,
+          "hidden_l2_mean": 15.750656127929688,
+          "hidden_l2_median": 10.676118850708008,
+          "metrics": {
+            "balanced_accuracy": 0.732,
+            "behavior_gap": 0.12945003294944768,
+            "benign_overrefusal_rate": 0.184,
+            "capability_nll": 4.7976328125,
+            "capability_perplexity": 121.22311975525987,
+            "harmful_refusal_rate": 0.648,
+            "mean_benign_score": 0.7271854870319366,
+            "mean_harmful_score": 0.8566355199813843
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.034899646282196044,
+            "high": 0.03759487767219543,
+            "low": 0.03223391381204128
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0037734375,
+            "high": 0.006515625,
+            "low": 0.0009919921875000018
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.011654741525650025,
+            "high": 0.01373852452635765,
+            "low": 0.009737323331832887
+          },
+          "hidden_cosine_mean": 0.9921091794967651,
+          "hidden_cosine_min": 0.9642350673675537,
+          "hidden_l2_mean": 21.790714263916016,
+          "hidden_l2_median": 21.30562973022461,
+          "metrics": {
+            "balanced_accuracy": 0.72,
+            "behavior_gap": 0.10606558942794797,
+            "benign_overrefusal_rate": 0.272,
+            "capability_nll": 4.7768515625,
+            "capability_perplexity": 118.72994714406335,
+            "harmful_refusal_rate": 0.712,
+            "mean_benign_score": 0.7611513931751251,
+            "mean_harmful_score": 0.8672169826030731
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.010045248746871948,
+            "high": 0.012146166172623634,
+            "low": 0.00796365823149681
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.0217734375,
+            "high": 0.025390820312499996,
+            "low": 0.0182890625
+          },
+          "delta_harmful_score_ci": {
+            "estimate": -0.0015200879573822022,
+            "high": 0.0008551591873168921,
+            "low": -0.0039405269920825955
+          },
+          "hidden_cosine_mean": 0.9915904402732849,
+          "hidden_cosine_min": 0.9482311606407166,
+          "hidden_l2_mean": 18.087181091308594,
+          "hidden_l2_median": 9.885626792907715,
+          "metrics": {
+            "balanced_accuracy": 0.736,
+            "behavior_gap": 0.11774515748023995,
+            "benign_overrefusal_rate": 0.152,
+            "capability_nll": 4.7948515625,
+            "capability_perplexity": 120.88643637080241,
+            "harmful_refusal_rate": 0.624,
+            "mean_benign_score": 0.736296995639801,
+            "mean_harmful_score": 0.854042153120041
+          }
+        },
+        {
+          "delta_benign_score_ci": {
+            "estimate": 0.079253324508667,
+            "high": 0.08347091431617736,
+            "low": 0.0752238003373146
+          },
+          "delta_capability_nll_ci": {
+            "estimate": 0.006015625,
+            "high": 0.0078046875,
+            "low": 0.0041953125
+          },
+          "delta_harmful_score_ci": {
+            "estimate": 0.028845320224761963,
+            "high": 0.031919906997680665,
+            "low": 0.02587761432528496
+          },
+          "hidden_cosine_mean": 0.9706552028656006,
+          "hidden_cosine_min": 0.9345887303352356,
+          "hidden_l2_mean": 46.46477508544922,
+          "hidden_l2_median": 47.3955192565918,
+          "metrics": {
+            "balanced_accuracy": 0.6960000000000001,
+            "behavior_gap": 0.0789024899005889,
+            "benign_overrefusal_rate": 0.408,
+            "capability_nll": 4.77909375,
+            "capability_perplexity": 118.99646062236435,
+            "harmful_refusal_rate": 0.8,
+            "mean_benign_score": 0.8055050714015961,
+            "mean_harmful_score": 0.884407561302185
+          }
+        }
+      ],
+      "selected": {
+        "delta_benign_score_ci": {
+          "estimate": 0.039561869621276856,
+          "high": 0.04165681565105915,
+          "low": 0.037478538951277736
+        },
+        "delta_capability_nll_ci": {
+          "estimate": 0.0719921875,
+          "high": 0.074203125,
+          "low": 0.0697498046875
+        },
+        "delta_harmful_score_ci": {
+          "estimate": 0.03449305105209351,
+          "high": 0.03898570221066475,
+          "low": 0.029948637890815734
+        },
+        "hidden_cosine_mean": 0.8354663252830505,
+        "hidden_cosine_min": 0.5606091618537903,
+        "hidden_l2_mean": 101.5492172241211,
+        "hidden_l2_median": 94.05848693847656,
+        "metrics": {
+          "balanced_accuracy": 0.764,
+          "behavior_gap": 0.12424167561531063,
+          "benign_overrefusal_rate": 0.288,
+          "capability_nll": 4.8450703125,
+          "capability_perplexity": 127.11221925744908,
+          "harmful_refusal_rate": 0.816,
+          "mean_benign_score": 0.765813616514206,
+          "mean_harmful_score": 0.8900552921295166
+        }
+      },
+      "selected_features": [
+        1120,
+        524,
+        1415,
+        500,
+        1470,
+        306,
+        1650,
+        424,
+        10,
+        258,
+        2488,
+        486,
+        958,
+        1151,
+        1799,
+        1129,
+        2142,
+        1643,
+        2651,
+        2224,
+        456,
+        695,
+        1746,
+        103,
+        1677,
+        2175,
+        2428,
+        325,
+        832,
+        845,
+        1121,
+        901,
+        2117,
+        1462,
+        2159,
+        1442,
+        1996,
+        206,
+        1417,
+        2619,
+        2461,
+        276,
+        1367,
+        659,
+        1463,
+        1133,
+        88,
+        2481,
+        2023,
+        2698,
+        1649,
+        930,
+        601,
+        3001,
+        2013,
+        919,
+        1684,
+        168,
+        2617,
+        2984,
+        1144,
+        493,
+        902,
+        372,
+        2754,
+        2959,
+        1752,
+        2857,
+        1607,
+        2795,
+        2865,
+        2974,
+        361,
+        1531,
+        2745,
+        945,
+        590,
+        2979,
+        399,
+        1662,
+        284,
+        1598,
+        1551,
+        2925,
+        358,
+        2791,
+        1264,
+        1450,
+        2316,
+        1923,
+        1349,
+        1516,
+        1071,
+        2115,
+        2235,
+        203,
+        2937,
+        1868,
+        545,
+        3021
+      ]
+    }
+  ],
+  "input_hashes": {
+    "dataset": "1c912d796753c4cd29104d0ed78c05b1c585394d98f67e513d92e3c9166276b6",
+    "discovery_tensors.pt": "ed4876efdfd74c3f14e56475dbdb999a31f36144cfa209e4c403372fda072e56",
+    "features.json": "b10a59aabe1123737b69adbb378a528702dfd8fb863b53492e3af4c7452f7a34",
+    "interventions.json": "01fc50128e791deb84fce272eaa6e6e199aeab2df15b1fdb6fe041f347b847c2",
+    "sae.pt": "fd578f73751771e8bb13f2fc706006b4ca94d953bbf6ebdbeac487e565ba1844"
+  },
+  "intervention_comparability": {
+    "linear_probe_ablation": {
+      "delta_benign_score_ci": {
+        "estimate": -0.006839760422706604,
+        "high": -0.005769124892354012,
+        "low": -0.007911809834837913
+      },
+      "delta_capability_nll_ci": {
+        "estimate": -0.00796875,
+        "high": -0.0068046875,
+        "low": -0.009125
+      },
+      "delta_harmful_score_ci": {
+        "estimate": -0.0024234473705291746,
+        "high": -0.0017189108192920684,
+        "low": -0.0031049887239933014
+      },
+      "harmful_suppression_per_hidden_l2": 0.00012205922135326779,
+      "harmful_suppression_per_positive_capability_cost": null,
+      "hidden_cosine_mean": 0.9935641288757324,
+      "hidden_cosine_min": 0.9767153859138489,
+      "hidden_l2_mean": 19.854684829711914,
+      "hidden_l2_median": 18.335466384887695,
+      "metrics": {
+        "balanced_accuracy": 0.752,
+        "behavior_gap": 0.13372680723667152,
+        "benign_overrefusal_rate": 0.128,
+        "capability_nll": 4.765109375,
+        "capability_perplexity": 117.34395108059726,
+        "harmful_refusal_rate": 0.632,
+        "mean_benign_score": 0.7194119864702224,
+        "mean_harmful_score": 0.8531387937068939
+      },
+      "next_token_kl_mean": 0.10228887199443125
+    },
+    "matched_random_sae_residual_ablation": {
+      "delta_benign_score_ci": {
+        "estimate": -1.295185089111328e-05,
+        "high": 1.049886345863342e-05,
+        "low": -3.837153315544128e-05
+      },
+      "delta_capability_nll_ci": {
+        "estimate": -0.00184375,
+        "high": -0.0014453125,
+        "low": -0.0022890625
+      },
+      "delta_harmful_score_ci": {
+        "estimate": -0.00016554594039916993,
+        "high": -1.9203782081604086e-06,
+        "low": -0.0003451328814029693
+      },
+      "harmful_suppression_per_hidden_l2": 0.0030001024824378992,
+      "harmful_suppression_per_positive_capability_cost": null,
+      "hidden_cosine_mean": 0.9999982118606567,
+      "hidden_cosine_min": 0.9998154640197754,
+      "hidden_l2_mean": 0.05518009513616562,
+      "hidden_l2_median": 0.0,
+      "metrics": {
+        "balanced_accuracy": 0.746,
+        "behavior_gap": 0.12915790009498596,
+        "benign_overrefusal_rate": 0.148,
+        "capability_nll": 4.771234375,
+        "capability_perplexity": 118.06488839763291,
+        "harmful_refusal_rate": 0.64,
+        "mean_benign_score": 0.7262387950420379,
+        "mean_harmful_score": 0.8553966951370239
+      },
+      "next_token_kl_mean": 3.243972430936992e-06
+    },
+    "mean_direction_ablation": {
+      "delta_benign_score_ci": {
+        "estimate": -0.014458548903465271,
+        "high": -0.012088610512018207,
+        "low": -0.016841863152384756
+      },
+      "delta_capability_nll_ci": {
+        "estimate": -0.0167734375,
+        "high": -0.0151015625,
+        "low": -0.0184453125
+      },
+      "delta_harmful_score_ci": {
+        "estimate": -0.13556607627868653,
+        "high": -0.12767796355485916,
+        "low": -0.14338467790782453
+      },
+      "harmful_suppression_per_hidden_l2": 0.004193755466729478,
+      "harmful_suppression_per_positive_capability_cost": null,
+      "hidden_cosine_mean": 0.9741541743278503,
+      "hidden_cosine_min": 0.8662128448486328,
+      "hidden_l2_mean": 32.32569885253906,
+      "hidden_l2_median": 19.803462982177734,
+      "metrics": {
+        "balanced_accuracy": 0.524,
+        "behavior_gap": 0.008202966809272794,
+        "benign_overrefusal_rate": 0.14,
+        "capability_nll": 4.7563046875,
+        "capability_perplexity": 116.31530934108353,
+        "harmful_refusal_rate": 0.188,
+        "mean_benign_score": 0.7117931979894638,
+        "mean_harmful_score": 0.7199961647987366
+      },
+      "next_token_kl_mean": 0.743790840072099
+    },
+    "sae_reconstruction_only": {
+      "delta_benign_score_ci": {
+        "estimate": -0.692349059721455,
+        "high": -0.6789700861721301,
+        "low": -0.7059920848793351
+      },
+      "delta_capability_nll_ci": {
+        "estimate": 0.1924375,
+        "high": 0.2164611328125,
+        "low": 0.1697109375
+      },
+      "delta_harmful_score_ci": {
+        "estimate": -0.7178882633298636,
+        "high": -0.7053460564816371,
+        "low": -0.730103329136502
+      },
+      "harmful_suppression_per_hidden_l2": 0.02364519695523099,
+      "harmful_suppression_per_positive_capability_cost": 3.7305008812204665,
+      "hidden_cosine_mean": 0.9855713248252869,
+      "hidden_cosine_min": 0.9477134943008423,
+      "hidden_l2_mean": 30.360849380493164,
+      "hidden_l2_median": 28.211965560913086,
+      "metrics": {
+        "balanced_accuracy": 0.5,
+        "behavior_gap": 0.10377129057608545,
+        "benign_overrefusal_rate": 0.0,
+        "capability_nll": 4.965515625,
+        "capability_perplexity": 143.38246279851393,
+        "harmful_refusal_rate": 0.0,
+        "mean_benign_score": 0.0339026871714741,
+        "mean_harmful_score": 0.13767397774755954
+      },
+      "next_token_kl_mean": 0.3021919288048521
+    },
+    "selected_sae_residual_ablation": {
+      "delta_benign_score_ci": {
+        "estimate": -0.035824114084243776,
+        "high": -0.03398858488798142,
+        "low": -0.037699781093001365
+      },
+      "delta_capability_nll_ci": {
+        "estimate": 0.00184375,
+        "high": 0.0024140625,
+        "low": 0.001265625
+      },
+      "delta_harmful_score_ci": {
+        "estimate": -0.03632081770896912,
+        "high": -0.033955145829916,
+        "low": -0.03874115339815617
+      },
+      "harmful_suppression_per_hidden_l2": 0.0011982996304587567,
+      "harmful_suppression_per_positive_capability_cost": 19.69942655401715,
+      "hidden_cosine_mean": 0.9855348467826843,
+      "hidden_cosine_min": 0.9176038503646851,
+      "hidden_l2_mean": 30.3102970123291,
+      "hidden_l2_median": 22.94997215270996,
+      "metrics": {
+        "balanced_accuracy": 0.718,
+        "behavior_gap": 0.1288137905597686,
+        "benign_overrefusal_rate": 0.068,
+        "capability_nll": 4.774921875,
+        "capability_perplexity": 118.50105636404895,
+        "harmful_refusal_rate": 0.504,
+        "mean_benign_score": 0.6904276328086854,
+        "mean_harmful_score": 0.819241423368454
+      },
+      "next_token_kl_mean": 0.12327910475060344
+    },
+    "selected_sae_substitution": {
+      "delta_benign_score_ci": {
+        "estimate": -0.7069518068991602,
+        "high": -0.6929198185295332,
+        "low": -0.7208449042034336
+      },
+      "delta_capability_nll_ci": {
+        "estimate": 0.1950390625,
+        "high": 0.21895390625,
+        "low": 0.1715076171875
+      },
+      "delta_harmful_score_ci": {
+        "estimate": -0.8049150325953961,
+        "high": -0.792291280006757,
+        "low": -0.8167600993003231
+      },
+      "harmful_suppression_per_hidden_l2": 0.018422719929178308,
+      "harmful_suppression_per_positive_capability_cost": 4.126942686649738,
+      "hidden_cosine_mean": 0.9713245630264282,
+      "hidden_cosine_min": 0.9044541716575623,
+      "hidden_l2_mean": 43.69143295288086,
+      "hidden_l2_median": 37.1392822265625,
+      "metrics": {
+        "balanced_accuracy": 0.5,
+        "behavior_gap": 0.031347268488258126,
+        "benign_overrefusal_rate": 0.0,
+        "capability_nll": 4.9681171875,
+        "capability_perplexity": 143.75596687332524,
+        "harmful_refusal_rate": 0.0,
+        "mean_benign_score": 0.01929993999376893,
+        "mean_harmful_score": 0.050647208482027056
+      },
+      "next_token_kl_mean": 0.376457610970363
+    },
+    "weighted_sparse_sae_ablation": {
+      "delta_benign_score_ci": {
+        "estimate": -0.00025605285167694093,
+        "high": -0.0001925830900669098,
+        "low": -0.00032227342724800107
+      },
+      "delta_capability_nll_ci": {
+        "estimate": -0.00109375,
+        "high": -0.0008515625,
+        "low": -0.0013439453124999981
+      },
+      "delta_harmful_score_ci": {
+        "estimate": 0.00021455979347229003,
+        "high": 0.0003613755345344543,
+        "low": 6.886916756629945e-05
+      },
+      "harmful_suppression_per_hidden_l2": -0.0003507247421726189,
+      "harmful_suppression_per_positive_capability_cost": null,
+      "hidden_cosine_mean": 0.9999849200248718,
+      "hidden_cosine_min": 0.9998829960823059,
+      "hidden_l2_mean": 0.611761212348938,
+      "hidden_l2_median": 0.0,
+      "metrics": {
+        "balanced_accuracy": 0.746,
+        "behavior_gap": 0.12978110682964328,
+        "benign_overrefusal_rate": 0.148,
+        "capability_nll": 4.771984375,
+        "capability_perplexity": 118.153470277984,
+        "harmful_refusal_rate": 0.64,
+        "mean_benign_score": 0.7259956940412521,
+        "mean_harmful_score": 0.8557768008708954
+      },
+      "next_token_kl_mean": 0.00015782937965514067
+    }
+  },
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "model_revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "preregistration_amendment_sha256": "2dcf600e579d40eac432615f4c084042a5b9baeab3e20433d01b0f0e4b9f2fbc",
+  "preregistration_sha256": "c7b196d64460bf0e37c4fce5c4ee4ed9a46cabe0de001f57006cc6416fd7624c",
+  "primary_family_holm": {
+    "mean_vs_original_sae": {
+      "definition": "right harmful score minus left harmful score; positive means left suppresses more",
+      "holm_adjusted_p": 0.00039996000399960006,
+      "inferiority_margin_0_02": {
+        "alternative": "greater",
+        "estimate": 0.09921076595783233,
+        "null_value": 0.02,
+        "p_value": 0.0,
+        "standard_error": 0.0034200456098548594,
+        "z": 23.160733801206206
+      },
+      "pair_bootstrap_ci": {
+        "estimate": 0.09921076595783233,
+        "high": 0.10583876149356365,
+        "low": 0.09244604335725308
+      },
+      "permutation": {
+        "alternative": "greater",
+        "p_value": 9.999000099990002e-05,
+        "samples": 10000,
+        "statistic": 0.09921076595783233
+      }
+    },
+    "mean_vs_weighted_sparse_sae": {
+      "definition": "right harmful score minus left harmful score; positive means left suppresses more",
+      "holm_adjusted_p": 0.00039996000399960006,
+      "inferiority_margin_0_02": {
+        "alternative": "greater",
+        "estimate": 0.1359353767633438,
+        "null_value": 0.02,
+        "p_value": 0.0,
+        "standard_error": 0.004090273578262648,
+        "z": 28.344161960087664
+      },
+      "pair_bootstrap_ci": {
+        "estimate": 0.1359353767633438,
+        "high": 0.14412845659554005,
+        "low": 0.12812750809788703
+      },
+      "permutation": {
+        "alternative": "greater",
+        "p_value": 9.999000099990002e-05,
+        "samples": 10000,
+        "statistic": 0.1359353767633438
+      }
+    },
+    "probe_vs_original_sae": {
+      "definition": "right harmful score minus left harmful score; positive means left suppresses more",
+      "holm_adjusted_p": 1.0,
+      "inferiority_margin_0_02": {
+        "alternative": "greater",
+        "estimate": -0.03388310122489929,
+        "null_value": 0.02,
+        "p_value": 1.0,
+        "standard_error": 0.0011581122335198367,
+        "z": -46.52666612555592
+      },
+      "pair_bootstrap_ci": {
+        "estimate": -0.03388310122489929,
+        "high": -0.03166771820783615,
+        "low": -0.03616629493534564
+      },
+      "permutation": {
+        "alternative": "greater",
+        "p_value": 1.0,
+        "samples": 10000,
+        "statistic": -0.03388310122489929
+      }
+    },
+    "selected_sae_vs_same_dictionary_random": {
+      "definition": "right harmful score minus left harmful score; positive means left suppresses more",
+      "holm_adjusted_p": 0.00039996000399960006,
+      "inferiority_margin_0_02": {
+        "alternative": "greater",
+        "estimate": 0.03617206275463104,
+        "null_value": 0.02,
+        "p_value": 0.0,
+        "standard_error": 0.0012204231706871478,
+        "z": 13.251192818246407
+      },
+      "pair_bootstrap_ci": {
+        "estimate": 0.03617206275463104,
+        "high": 0.03859234981834889,
+        "low": 0.03381224869340658
+      },
+      "permutation": {
+        "alternative": "greater",
+        "p_value": 9.999000099990002e-05,
+        "samples": 10000,
+        "statistic": 0.03617206275463104
+      }
+    }
+  },
+  "schema_version": "2.0",
+  "target_layer": 27,
+  "weighted_sparse_fit": {
+    "candidate_features": [
+      1120,
+      524,
+      1415,
+      500,
+      1470,
+      306,
+      1650,
+      424,
+      10,
+      258,
+      2488,
+      486,
+      958,
+      1151,
+      1799,
+      1129,
+      2142,
+      1643,
+      2651,
+      2224,
+      456,
+      695,
+      1746,
+      103,
+      1677,
+      2175,
+      2428,
+      325,
+      832,
+      845,
+      1121,
+      901,
+      2117,
+      1462,
+      2159,
+      1442,
+      1996,
+      206,
+      1417,
+      2619,
+      2461,
+      276,
+      1367,
+      659,
+      1463,
+      1133,
+      88,
+      2481,
+      2023,
+      2698,
+      1649,
+      930,
+      601,
+      3001,
+      2013,
+      919,
+      1684,
+      168,
+      2617,
+      2984,
+      1144,
+      493,
+      902,
+      372,
+      2754,
+      2959,
+      1752,
+      2857,
+      1607,
+      2795,
+      2865,
+      2974,
+      361,
+      1531,
+      2745,
+      945,
+      590,
+      2979,
+      399,
+      1662,
+      284,
+      1598,
+      1551,
+      2925,
+      358,
+      2791,
+      1264,
+      1450,
+      2316,
+      1923,
+      1349,
+      1516,
+      1071,
+      2115,
+      2235,
+      203,
+      2937,
+      1868,
+      545,
+      3021
+    ],
+    "normalized_weights": [
+      1.0,
+      0.8988987803459167,
+      0.7963356375694275,
+      0.7147903442382812,
+      0.6919881701469421,
+      0.4655742943286896,
+      0.387063205242157,
+      0.27406319975852966,
+      0.27036944031715393,
+      0.2634211480617523,
+      0.26035699248313904,
+      0.20088137686252594,
+      0.183824822306633,
+      0.14964014291763306,
+      0.14909224212169647,
+      0.14104296267032623,
+      0.13830500841140747,
+      0.1356883943080902,
+      0.12394687533378601,
+      0.12247469276189804
+    ],
+    "selected_features": [
+      2974,
+      2865,
+      399,
+      2235,
+      1144,
+      206,
+      168,
+      1752,
+      103,
+      590,
+      1746,
+      1649,
+      1531,
+      2857,
+      203,
+      1417,
+      2481,
+      258,
+      2428,
+      372
+    ],
+    "selected_l1": 0.01,
+    "trials": [
+      {
+        "l1": 0.0,
+        "validation_bce": 0.1839088797569275
+      },
+      {
+        "l1": 0.0001,
+        "validation_bce": 0.18265452980995178
+      },
+      {
+        "l1": 0.001,
+        "validation_bce": 0.17191007733345032
+      },
+      {
+        "l1": 0.01,
+        "validation_bce": 0.09627776592969894
+      }
+    ]
+  }
+}

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import random
+import subprocess
 from pathlib import Path
 from typing import Any
 
@@ -45,6 +46,15 @@ def _sha256(path: Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def _git_commit() -> str | None:
+    try:
+        return subprocess.check_output(
+            ["git", "rev-parse", "HEAD"], text=True, stderr=subprocess.DEVNULL
+        ).strip()
+    except (OSError, subprocess.CalledProcessError):
+        return None
 
 
 def _verify_inputs(artifacts: Path, dataset: Path) -> dict[str, str]:
@@ -436,6 +446,7 @@ def run_paper_hardening(
     result = {
         "schema_version": "2.0",
         "analysis_status": "post_hoc_sensitivity",
+        "git_commit_at_run": _git_commit(),
         "preregistration_sha256": PREREGISTRATION_SHA256,
         "preregistration_amendment_sha256": AMENDMENT_SHA256,
         "input_hashes": hashes,

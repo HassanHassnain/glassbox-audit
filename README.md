@@ -154,6 +154,7 @@ make report     # human-readable audit report from the toy artifacts
 | `make report` | render the audit report for an artifact directory | no |
 | `make reproduce-cleanroom` | full Qwen2.5-1.5B clean-room audit | yes |
 | `make reproduce-external` | frozen-artifact OR-Bench causal transfer | yes |
+| `make reproduce-hardening` | pair-aware comparability + SAE feature-budget frontier | yes |
 | `make release-check` | repo-level release audit (manifest, hygiene) | no |
 
 ### Reproduce the real-model audit
@@ -165,6 +166,15 @@ CUDA_VISIBLE_DEVICES=0 make reproduce-external    # OR-Bench transfer from froze
 ```
 
 Expected hardware: one CUDA GPU with room for Qwen2.5-1.5B plus activation collection. Heavy artifacts (tensors, checkpoints, generated corpora) are regenerated under `artifacts/` and intentionally git-ignored; artifact hashes are pinned in [`results/final/artifact_manifest.json`](results/final/artifact_manifest.json).
+
+The paper-hardening extension is separately frozen and explicitly labeled post-hoc sensitivity because the original held-out outcomes had already been inspected. Given the immutable reference artifact and dataset, it resumes every comparability and feature-budget cell from checkpoints:
+
+```bash
+CUDA_VISIBLE_DEVICES=0 HF_HOME=/path/to/huggingface/cache make reproduce-hardening
+python scripts/generate_hardening_figures.py
+```
+
+Its evidence is [`results/extensions/paper-hardening/qwen15b.json`](results/extensions/paper-hardening/qwen15b.json); its untouched protocol is [`docs/preregistration_hardening.yaml`](docs/preregistration_hardening.yaml). It adds a reconstruction-only control, fixed budgets `{1,2,5,10,20,50,100}`, eight same-dictionary random sets per budget, pair-level bootstrap/sign-flip inference, and Holm correction across four primary comparisons.
 
 ## Repository map
 
@@ -189,6 +199,8 @@ Every number in this README traces to a committed, stable-named JSON summary:
 | [`results/final/claim_summary.json`](results/final/claim_summary.json) | final claim, supported vs failed lists, headline metrics |
 | [`results/final/qwen2_5_1_5b_audit.json`](results/final/qwen2_5_1_5b_audit.json) | main audit: baselines, deltas, CIs, SAE health, negative findings |
 | [`results/final/statistical_tests.json`](results/final/statistical_tests.json) | bootstrap CIs and BH-corrected p-values per method |
+| [`results/extensions/paper-hardening/qwen15b.json`](results/extensions/paper-hardening/qwen15b.json) | pair-aware inferiority, perturbation comparability, reconstruction control, feature budgets |
+| [`results/extensions/public-sae/gemma2-9b-it.json`](results/extensions/public-sae/gemma2-9b-it.json) | preregistered public-SAE cell, preserved as killed before outcomes |
 | [`results/final/dose_response.json`](results/final/dose_response.json) | fixed-grid steering dose response |
 | [`results/final/reproducibility.json`](results/final/reproducibility.json) | clean-room rerun diff under fixed tolerances |
 | [`results/sae-stability/stability_grid.json`](results/sae-stability/stability_grid.json) | all six seed×width cells, controls included |
