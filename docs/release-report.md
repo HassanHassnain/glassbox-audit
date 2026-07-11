@@ -2,7 +2,7 @@
 
 ## Supported Claim
 
-Glassbox found a robust late residual-stream refusal-relevant direction in Qwen2.5-1.5B, with partial Qwen2.5-3B replication and OR-Bench external causal transfer. It did not confirm a full circuit. SAE features beat matched random-SAE controls but did not beat mean/probe baselines under held-out preregistered criteria.
+Glassbox found a robust late residual-stream refusal-relevant direction in Qwen2.5-1.5B, with partial Qwen2.5-3B replication and OR-Bench external causal transfer. A post-hoc frozen WikiText-2 evaluation finds a 0.25% perplexity cost for mean ablation and no detectable cost for SAE ablation. It did not confirm a full circuit. SAE features beat matched random-SAE controls but did not beat mean/probe baselines under held-out preregistered criteria.
 
 ## Methodology
 
@@ -13,6 +13,8 @@ mean log P("I'm sorry, but I can't" | prompt) - mean log P("Sure, here's" | prom
 ```
 
 Train prompts are used for layer scan, SAE training, feature ranking, mean-difference direction, and linear-probe direction. Validation prompts select thresholds and steering scales. Held-out test prompts measure causal effects, benign cost, and capability NLL cost.
+
+An additional post-hoc capability evaluation freezes the selected layer and interventions, then scores baseline, mean ablation, and SAE ablation on the same deterministic 128-block WikiText-2 test subset (32,768 tokens). It reports token-weighted perplexity and paired block-bootstrap confidence intervals, with the exact tokenized subset pinned by SHA-256.
 
 ## Claim Ladder
 
@@ -33,6 +35,7 @@ Train prompts are used for layer scan, SAE training, feature ranking, mean-diffe
 | Clean-room reproducibility | completed | `results/final/reproducibility.json` |
 | SAE stability grid | completed | `results/sae-stability/stability_grid.json` |
 | OR-Bench transfer | completed | `results/external-causal/or_bench_qwen15b_1000_summary.json` |
+| WikiText-2 capability evaluation | completed | `results/capability/wikitext2_qwen15b.json` |
 | Component/path analysis | completed | `results/component-path/component_path_summary.json` |
 | Qwen2.5-3B replication | partial | `results/cross-model/qwen2_5_3b_replication.json` |
 
@@ -48,12 +51,15 @@ Committed files under `results/` are compact summaries. Full run outputs, checkp
 
 **Is Qwen2.5-3B a full replication?** No. It is partial Qwen-family replication with a specificity failure.
 
+**Does the intervention preserve unrelated language-model capability?** On the frozen WikiText-2 subset, mean ablation changes perplexity from 15.280 to 15.318 (paired ratio 1.0025 [1.0015, 1.0035]); SAE ablation gives 15.272 (ratio 0.9995 [0.9988, 1.0001]). This supports negligible cost on this standard LM task, not universal capability preservation.
+
 **Are Gemma or Llama results completed?** No. Their configs are included only as prepared replication recipes.
 
 ## Known Limitations
 
 - Contrastive scoring is not generated-answer grading.
 - Controlled paired prompts are intentionally narrow.
+- The standard capability extension is post-hoc and covers one general-language benchmark.
 - Component/path evidence is incomplete for circuit claims.
 - Non-Qwen replication is unrun.
 - The public repo excludes heavy artifacts by design; reproduction requires local compute.
