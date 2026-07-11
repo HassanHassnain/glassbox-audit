@@ -21,4 +21,14 @@ Evidence cells currently include:
 - external causal-transfer rows;
 - component-localization rows;
 - component/path summaries;
+- A2 cross-model completed and access-failed cells;
+- A3 source-separation and endpoint-transfer cells;
+- A1 SAE-zoo access failures;
+- A7 sycophancy baseline and intervention cells;
+- A8 completed or explicitly unrun robustness cells;
+- B2 mechanism-drift verdicts;
 - explicit failed Level 5 confirmed-circuit status.
+
+Aggregate-only cells never acquire a stronger verdict than their source supports.
+Point-estimate-only A2 intervention rows are informational, absent A8 corpus cells
+are `unrun`, and access failures are distinct from failed empirical criteria.

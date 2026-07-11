@@ -3,7 +3,7 @@
   "artifact_roots": [
     "results"
   ],
-  "cell_count": 98,
+  "cell_count": 165,
   "cells": [
     {
       "behavior": "refusal",
@@ -157,6 +157,1419 @@
       "title": "qwen2.5-3b-replication-preregistered baseline harmful_refusal_rate",
       "value": 1.0,
       "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "params_b": 0.5,
+        "status": "completed",
+        "target_layer": 21,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-86737f7cc3c3390d",
+      "level": 1,
+      "metric": "refusal_direction_effect_size",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "source_file": "results/model-sweep/qwen25-05b-instruct.json",
+      "source_sha256": "9e8558d7906f19679a78e5a13f2097c4352ff47a3a1300c4a066c42db40427ac",
+      "title": "Qwen/Qwen2.5-0.5B-Instruct refusal separation",
+      "value": 3.3984219807019223,
+      "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "params_b": 1.5,
+        "status": "completed",
+        "target_layer": 27,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-e0322b7802ce1ba1",
+      "level": 1,
+      "metric": "refusal_direction_effect_size",
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "source_file": "results/model-sweep/qwen25-15b-instruct.json",
+      "source_sha256": "6e51834923a50ecf46f5ce8bd790dc9e4ac832631b5ddbc52c1e165eb7edd454",
+      "title": "Qwen/Qwen2.5-1.5B-Instruct refusal separation",
+      "value": 2.6571758455622083,
+      "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "params_b": 14.0,
+        "status": "completed",
+        "target_layer": 47,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-3fd66a6d7a2d0047",
+      "level": 1,
+      "metric": "refusal_direction_effect_size",
+      "model": "Qwen/Qwen2.5-14B-Instruct",
+      "source_file": "results/model-sweep/qwen25-14b-instruct.json",
+      "source_sha256": "481cbd79f78b77fdbb63ec3391af52a6f1a5362c2d72b5a53557bad968ba0491",
+      "title": "Qwen/Qwen2.5-14B-Instruct refusal separation",
+      "value": 11.276478396391704,
+      "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "params_b": 3.0,
+        "status": "completed",
+        "target_layer": 35,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-177e35264311de88",
+      "level": 1,
+      "metric": "refusal_direction_effect_size",
+      "model": "Qwen/Qwen2.5-3B-Instruct",
+      "source_file": "results/model-sweep/qwen25-3b-instruct.json",
+      "source_sha256": "ddc9ddc350854f0d4f586ee41b97a2ce467c3a5be0a306a6822802f265d364cb",
+      "title": "Qwen/Qwen2.5-3B-Instruct refusal separation",
+      "value": 4.12205106724748,
+      "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "params_b": 7.0,
+        "status": "completed",
+        "target_layer": 27,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-da1d06de8831563f",
+      "level": 1,
+      "metric": "refusal_direction_effect_size",
+      "model": "Qwen/Qwen2.5-7B-Instruct",
+      "source_file": "results/model-sweep/qwen25-7b-instruct.json",
+      "source_sha256": "5967a0b405c6026c4c389d28b2c6132c0e3ea71ad6ce4aa08085b3c49d63f57b",
+      "title": "Qwen/Qwen2.5-7B-Instruct refusal separation",
+      "value": 6.215093976664361,
+      "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "params_b": 7.0,
+        "status": "completed",
+        "target_layer": 31,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-167d76083405c899",
+      "level": 1,
+      "metric": "refusal_direction_effect_size",
+      "model": "mistralai/Mistral-7B-Instruct-v0.3",
+      "source_file": "results/model-sweep/mistral-7b-instruct-v03.json",
+      "source_sha256": "1c61af2f3ecc60606340593ad9775a2ca980a4dce05b0e5d2ac455426e0ff3fe",
+      "title": "mistralai/Mistral-7B-Instruct-v0.3 refusal separation",
+      "value": 3.766733298824555,
+      "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "layer": 23,
+        "random_control_bh_p": 0.48,
+        "random_control_empirical_p": 0.24,
+        "source_revision": "step1000-tokens4B",
+        "status": "completed",
+        "target_direction_cosine": -0.01865636371076107,
+        "target_kind": "instruct",
+        "target_model": "allenai/OLMo-7B-0724-Instruct-hf",
+        "training_tokens_b": 4
+      },
+      "family": "developmental_audit",
+      "id": "cell-933e47be44a57b11",
+      "level": 1,
+      "metric": "source_validation_effect_size",
+      "model": "allenai/OLMo-7B-0724-hf",
+      "source_file": "results/developmental/olmo-7b-0724_step1000-tokens4b.json",
+      "source_sha256": "354e1c848fc650f5cf2197f624bac3d2de24a2e879c89cf85d616898b2d82635",
+      "title": "olmo-7b-0724 step1000-tokens4B source separation",
+      "value": 2.425417247746223,
+      "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "layer": 31,
+        "random_control_bh_p": 0.8533333333333333,
+        "random_control_empirical_p": 0.64,
+        "source_revision": "step10000-tokens41B",
+        "status": "completed",
+        "target_direction_cosine": 0.07384125888347626,
+        "target_kind": "instruct",
+        "target_model": "allenai/OLMo-7B-0724-Instruct-hf",
+        "training_tokens_b": 41
+      },
+      "family": "developmental_audit",
+      "id": "cell-707d91c46b3f2065",
+      "level": 1,
+      "metric": "source_validation_effect_size",
+      "model": "allenai/OLMo-7B-0724-hf",
+      "source_file": "results/developmental/olmo-7b-0724_step10000-tokens41b.json",
+      "source_sha256": "77e7474db0525c84620f9f1ef58ce5bd161feea60bb6032b7df20bddf707c931",
+      "title": "olmo-7b-0724 step10000-tokens41B source separation",
+      "value": 2.0312105032247554,
+      "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "layer": 31,
+        "random_control_bh_p": 1.0,
+        "random_control_empirical_p": 1.0,
+        "source_revision": "step100000-tokens419B",
+        "status": "completed",
+        "target_direction_cosine": 0.05444983392953873,
+        "target_kind": "instruct",
+        "target_model": "allenai/OLMo-7B-0724-Instruct-hf",
+        "training_tokens_b": 419
+      },
+      "family": "developmental_audit",
+      "id": "cell-4e4897528e963bf7",
+      "level": 1,
+      "metric": "source_validation_effect_size",
+      "model": "allenai/OLMo-7B-0724-hf",
+      "source_file": "results/developmental/olmo-7b-0724_step100000-tokens419b.json",
+      "source_sha256": "d11aa3e5b5d33e8ff4e26f73b041a56cdf7cf7eec057e1bb8598241b20111385",
+      "title": "olmo-7b-0724 step100000-tokens419B source separation",
+      "value": 1.9492089166529207,
+      "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "layer": 31,
+        "random_control_bh_p": 0.096,
+        "random_control_empirical_p": 0.04,
+        "source_revision": "step300000-tokens1258B",
+        "status": "completed",
+        "target_direction_cosine": 0.08241282403469086,
+        "target_kind": "instruct",
+        "target_model": "allenai/OLMo-7B-0724-Instruct-hf",
+        "training_tokens_b": 1258
+      },
+      "family": "developmental_audit",
+      "id": "cell-7be016815536a589",
+      "level": 1,
+      "metric": "source_validation_effect_size",
+      "model": "allenai/OLMo-7B-0724-hf",
+      "source_file": "results/developmental/olmo-7b-0724_step300000-tokens1258b.json",
+      "source_sha256": "90c6d399cee94b3d7770c78aa1cc8e9f7f24c04c8db3340a773e8cece5eda8a3",
+      "title": "olmo-7b-0724 step300000-tokens1258B source separation",
+      "value": 2.053390816110911,
+      "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "layer": 31,
+        "random_control_bh_p": 1.0,
+        "random_control_empirical_p": 1.0,
+        "source_revision": "step50000-tokens209B",
+        "status": "completed",
+        "target_direction_cosine": 0.07345402985811234,
+        "target_kind": "instruct",
+        "target_model": "allenai/OLMo-7B-0724-Instruct-hf",
+        "training_tokens_b": 209
+      },
+      "family": "developmental_audit",
+      "id": "cell-9a642560b9807e90",
+      "level": 1,
+      "metric": "source_validation_effect_size",
+      "model": "allenai/OLMo-7B-0724-hf",
+      "source_file": "results/developmental/olmo-7b-0724_step50000-tokens209b.json",
+      "source_sha256": "14b49c614e54420b6d216328789380f8afb9786f712690d1639cc65aef54af83",
+      "title": "olmo-7b-0724 step50000-tokens209B source separation",
+      "value": 1.615818285548752,
+      "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "layer": 31,
+        "random_control_bh_p": 0.8533333333333333,
+        "random_control_empirical_p": 0.64,
+        "source_revision": "step650650-tokens2729B",
+        "status": "completed",
+        "target_direction_cosine": 0.10986319929361343,
+        "target_kind": "instruct",
+        "target_model": "allenai/OLMo-7B-0724-Instruct-hf",
+        "training_tokens_b": 2729
+      },
+      "family": "developmental_audit",
+      "id": "cell-e6446129f60dfbb6",
+      "level": 1,
+      "metric": "source_validation_effect_size",
+      "model": "allenai/OLMo-7B-0724-hf",
+      "source_file": "results/developmental/olmo-7b-0724_step650650-tokens2729b.json",
+      "source_sha256": "86d02102dc0258846045d48fb828c4fe190bf1ce2a6693b95127cf83c849bff1",
+      "title": "olmo-7b-0724 step650650-tokens2729B source separation",
+      "value": 2.853475526345759,
+      "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "layer": 23,
+        "random_control_bh_p": 0.8533333333333333,
+        "random_control_empirical_p": 0.56,
+        "source_revision": "step1000",
+        "status": "completed",
+        "target_direction_cosine": 0.06358279287815094,
+        "target_kind": "base",
+        "target_model": "EleutherAI/pythia-410m",
+        "training_tokens_b": 2.1
+      },
+      "family": "developmental_audit",
+      "id": "cell-c9c833f89f7499d8",
+      "level": 1,
+      "metric": "source_validation_effect_size",
+      "model": "EleutherAI/pythia-410m",
+      "source_file": "results/developmental/pythia-410m_step1000.json",
+      "source_sha256": "e5c5859ed772132d23f680086b18d05be20bcb94ecd25b71ca598979b08db29c",
+      "title": "pythia-410m step1000 source separation",
+      "value": 1.8329753060757017,
+      "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "layer": 23,
+        "random_control_bh_p": 0.9600000000000002,
+        "random_control_empirical_p": 0.8,
+        "source_revision": "step10000",
+        "status": "completed",
+        "target_direction_cosine": 0.5786297917366028,
+        "target_kind": "base",
+        "target_model": "EleutherAI/pythia-410m",
+        "training_tokens_b": 21.0
+      },
+      "family": "developmental_audit",
+      "id": "cell-869d9a43367fbca1",
+      "level": 1,
+      "metric": "source_validation_effect_size",
+      "model": "EleutherAI/pythia-410m",
+      "source_file": "results/developmental/pythia-410m_step10000.json",
+      "source_sha256": "60d69988521df2a73ce22e9e3c0fccc96d2513ac9bd6cfe6edfaffac590f5584",
+      "title": "pythia-410m step10000 source separation",
+      "value": 1.8243790026951157,
+      "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "layer": 23,
+        "random_control_bh_p": 0.096,
+        "random_control_empirical_p": 0.04,
+        "source_revision": "step100000",
+        "status": "completed",
+        "target_direction_cosine": 0.9423370957374573,
+        "target_kind": "base",
+        "target_model": "EleutherAI/pythia-410m",
+        "training_tokens_b": 209.7
+      },
+      "family": "developmental_audit",
+      "id": "cell-6d08b79acfdaa460",
+      "level": 1,
+      "metric": "source_validation_effect_size",
+      "model": "EleutherAI/pythia-410m",
+      "source_file": "results/developmental/pythia-410m_step100000.json",
+      "source_sha256": "5e1ffe489927f4cc2ba46c244a5c9f2f44df24b4fd81e07a47cbc51b795f6638",
+      "title": "pythia-410m step100000 source separation",
+      "value": 1.9174727936663674,
+      "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "layer": 23,
+        "random_control_bh_p": 0.096,
+        "random_control_empirical_p": 0.04,
+        "source_revision": "step128000",
+        "status": "completed",
+        "target_direction_cosine": 0.9614977836608887,
+        "target_kind": "base",
+        "target_model": "EleutherAI/pythia-410m",
+        "training_tokens_b": 268.4
+      },
+      "family": "developmental_audit",
+      "id": "cell-a5f6ec3246a8535d",
+      "level": 1,
+      "metric": "source_validation_effect_size",
+      "model": "EleutherAI/pythia-410m",
+      "source_file": "results/developmental/pythia-410m_step128000.json",
+      "source_sha256": "ce6dc8045ad0943ca3c64f7065032c8e93d88313293a8ad9a6bc1ac0edd55069",
+      "title": "pythia-410m step128000 source separation",
+      "value": 1.6068492773129184,
+      "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "layer": 23,
+        "random_control_bh_p": 0.096,
+        "random_control_empirical_p": 0.04,
+        "source_revision": "step143000",
+        "status": "completed",
+        "target_direction_cosine": 1.0,
+        "target_kind": "base",
+        "target_model": "EleutherAI/pythia-410m",
+        "training_tokens_b": 299.9
+      },
+      "family": "developmental_audit",
+      "id": "cell-d076fbc59d433889",
+      "level": 1,
+      "metric": "source_validation_effect_size",
+      "model": "EleutherAI/pythia-410m",
+      "source_file": "results/developmental/pythia-410m_step143000.json",
+      "source_sha256": "36acba2f54b70c86bf2039d4b59c22775f2dcc958f88a7ac688589aae6726142",
+      "title": "pythia-410m step143000 source separation",
+      "value": 1.6429865557080021,
+      "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "layer": 23,
+        "random_control_bh_p": 0.096,
+        "random_control_empirical_p": 0.04,
+        "source_revision": "step50000",
+        "status": "completed",
+        "target_direction_cosine": 0.7679510712623596,
+        "target_kind": "base",
+        "target_model": "EleutherAI/pythia-410m",
+        "training_tokens_b": 104.9
+      },
+      "family": "developmental_audit",
+      "id": "cell-6bf6b790e5dcdb70",
+      "level": 1,
+      "metric": "source_validation_effect_size",
+      "model": "EleutherAI/pythia-410m",
+      "source_file": "results/developmental/pythia-410m_step50000.json",
+      "source_sha256": "bb28ea4188fda2a8d10742ea2a58b66b2fea5e7981a8f6849e0857e9950f2ddc",
+      "title": "pythia-410m step50000 source separation",
+      "value": 1.489545985568378,
+      "verdict": "supported"
+    },
+    {
+      "behavior": "sycophancy",
+      "ci": null,
+      "details": {
+        "balanced_accuracy": 0.48,
+        "causal_interpretation_status": "not_supported_by_baseline_separation",
+        "test_pairs": 250
+      },
+      "family": "second_behavior",
+      "id": "cell-ef63e60a4a34064d",
+      "level": 1,
+      "metric": "behavior_gap",
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "source_file": "results/sycophancy/qwen25-15b.json",
+      "source_sha256": "0ad3c1461fc9fd8921f65d08affcab9a697981fa253d50bc5ef199f27d77efa2",
+      "title": "Qwen/Qwen2.5-1.5B-Instruct sycophancy baseline",
+      "value": -0.004834064841270469,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "n_pairs": null,
+        "random_control_empirical_p": null,
+        "source_effect_retention": null,
+        "status": "unrun"
+      },
+      "family": "adversarial_robustness",
+      "id": "cell-23daf581daa77bcc",
+      "level": 2,
+      "metric": "cell_completed",
+      "model": null,
+      "source_file": "results/robustness/a8_public_summary.json",
+      "source_sha256": "891a130dd31359cd22685bdfec5aaca8619ae01306cf6c6a7f3abe5cb0c48484",
+      "title": "jailbreak_format mediation robustness",
+      "value": 0.0,
+      "verdict": "unrun"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "n_pairs": null,
+        "random_control_empirical_p": null,
+        "source_effect_retention": null,
+        "status": "unrun"
+      },
+      "family": "adversarial_robustness",
+      "id": "cell-146c18e89f275d1a",
+      "level": 2,
+      "metric": "cell_completed",
+      "model": null,
+      "source_file": "results/robustness/a8_public_summary.json",
+      "source_sha256": "891a130dd31359cd22685bdfec5aaca8619ae01306cf6c6a7f3abe5cb0c48484",
+      "title": "multilingual mediation robustness",
+      "value": 0.0,
+      "verdict": "unrun"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "n_pairs": null,
+        "random_control_empirical_p": null,
+        "source_effect_retention": null,
+        "status": "unrun"
+      },
+      "family": "adversarial_robustness",
+      "id": "cell-93878dfa9ad430e1",
+      "level": 2,
+      "metric": "cell_completed",
+      "model": null,
+      "source_file": "results/robustness/a8_public_summary.json",
+      "source_sha256": "891a130dd31359cd22685bdfec5aaca8619ae01306cf6c6a7f3abe5cb0c48484",
+      "title": "paraphrase mediation robustness",
+      "value": 0.0,
+      "verdict": "unrun"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "n_pairs": null,
+        "random_control_empirical_p": null,
+        "source_effect_retention": null,
+        "status": "unrun"
+      },
+      "family": "adversarial_robustness",
+      "id": "cell-e6fe8045b606e486",
+      "level": 2,
+      "metric": "cell_completed",
+      "model": null,
+      "source_file": "results/robustness/a8_public_summary.json",
+      "source_sha256": "891a130dd31359cd22685bdfec5aaca8619ae01306cf6c6a7f3abe5cb0c48484",
+      "title": "persona mediation robustness",
+      "value": 0.0,
+      "verdict": "unrun"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "method": "linear_probe_direction_ablation",
+        "params_b": 0.5,
+        "status": "completed",
+        "target_layer": 21,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-e01288fa4ba0ebb7",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "source_file": "results/model-sweep/qwen25-05b-instruct.json",
+      "source_sha256": "9e8558d7906f19679a78e5a13f2097c4352ff47a3a1300c4a066c42db40427ac",
+      "title": "Qwen/Qwen2.5-0.5B-Instruct linear_probe_direction_ablation",
+      "value": -0.03566039097309113,
+      "verdict": "informational"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "method": "mean_difference_direction_ablation",
+        "params_b": 0.5,
+        "status": "completed",
+        "target_layer": 21,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-fe057ad2dae81cf1",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "source_file": "results/model-sweep/qwen25-05b-instruct.json",
+      "source_sha256": "9e8558d7906f19679a78e5a13f2097c4352ff47a3a1300c4a066c42db40427ac",
+      "title": "Qwen/Qwen2.5-0.5B-Instruct mean_difference_direction_ablation",
+      "value": -0.04545996296405792,
+      "verdict": "informational"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "method": "sae_feature_ablation",
+        "params_b": 0.5,
+        "status": "completed",
+        "target_layer": 21,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-167e01d4ec0c4059",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-0.5B-Instruct",
+      "source_file": "results/model-sweep/qwen25-05b-instruct.json",
+      "source_sha256": "9e8558d7906f19679a78e5a13f2097c4352ff47a3a1300c4a066c42db40427ac",
+      "title": "Qwen/Qwen2.5-0.5B-Instruct sae_feature_ablation",
+      "value": -0.07495916211605072,
+      "verdict": "informational"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "method": "linear_probe_direction_ablation",
+        "params_b": 1.5,
+        "status": "completed",
+        "target_layer": 27,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-f9d8f9c729988fcd",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "source_file": "results/model-sweep/qwen25-15b-instruct.json",
+      "source_sha256": "6e51834923a50ecf46f5ce8bd790dc9e4ac832631b5ddbc52c1e165eb7edd454",
+      "title": "Qwen/Qwen2.5-1.5B-Instruct linear_probe_direction_ablation",
+      "value": -0.0024561622142791747,
+      "verdict": "informational"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "method": "mean_difference_direction_ablation",
+        "params_b": 1.5,
+        "status": "completed",
+        "target_layer": 27,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-eb1f8b6ca0aa3010",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "source_file": "results/model-sweep/qwen25-15b-instruct.json",
+      "source_sha256": "6e51834923a50ecf46f5ce8bd790dc9e4ac832631b5ddbc52c1e165eb7edd454",
+      "title": "Qwen/Qwen2.5-1.5B-Instruct mean_difference_direction_ablation",
+      "value": -0.1355500293970108,
+      "verdict": "informational"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "method": "sae_feature_ablation",
+        "params_b": 1.5,
+        "status": "completed",
+        "target_layer": 27,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-8cb145f6e24922bc",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "source_file": "results/model-sweep/qwen25-15b-instruct.json",
+      "source_sha256": "6e51834923a50ecf46f5ce8bd790dc9e4ac832631b5ddbc52c1e165eb7edd454",
+      "title": "Qwen/Qwen2.5-1.5B-Instruct sae_feature_ablation",
+      "value": -0.023526532649993895,
+      "verdict": "informational"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "method": "linear_probe_direction_ablation",
+        "params_b": 14.0,
+        "status": "completed",
+        "target_layer": 47,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-27c01dd0f039627c",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-14B-Instruct",
+      "source_file": "results/model-sweep/qwen25-14b-instruct.json",
+      "source_sha256": "481cbd79f78b77fdbb63ec3391af52a6f1a5362c2d72b5a53557bad968ba0491",
+      "title": "Qwen/Qwen2.5-14B-Instruct linear_probe_direction_ablation",
+      "value": -0.18453901815414428,
+      "verdict": "informational"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "method": "mean_difference_direction_ablation",
+        "params_b": 14.0,
+        "status": "completed",
+        "target_layer": 47,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-e52c3d7854c23de3",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-14B-Instruct",
+      "source_file": "results/model-sweep/qwen25-14b-instruct.json",
+      "source_sha256": "481cbd79f78b77fdbb63ec3391af52a6f1a5362c2d72b5a53557bad968ba0491",
+      "title": "Qwen/Qwen2.5-14B-Instruct mean_difference_direction_ablation",
+      "value": -0.19887634021043776,
+      "verdict": "informational"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "method": "sae_feature_ablation",
+        "params_b": 14.0,
+        "status": "completed",
+        "target_layer": 47,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-2b540b10792b71e3",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-14B-Instruct",
+      "source_file": "results/model-sweep/qwen25-14b-instruct.json",
+      "source_sha256": "481cbd79f78b77fdbb63ec3391af52a6f1a5362c2d72b5a53557bad968ba0491",
+      "title": "Qwen/Qwen2.5-14B-Instruct sae_feature_ablation",
+      "value": -0.0012193946838378906,
+      "verdict": "informational"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "method": "linear_probe_direction_ablation",
+        "params_b": 3.0,
+        "status": "completed",
+        "target_layer": 35,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-7ebc946228ef722b",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-3B-Instruct",
+      "source_file": "results/model-sweep/qwen25-3b-instruct.json",
+      "source_sha256": "ddc9ddc350854f0d4f586ee41b97a2ce467c3a5be0a306a6822802f265d364cb",
+      "title": "Qwen/Qwen2.5-3B-Instruct linear_probe_direction_ablation",
+      "value": -0.05147403287887573,
+      "verdict": "informational"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "method": "mean_difference_direction_ablation",
+        "params_b": 3.0,
+        "status": "completed",
+        "target_layer": 35,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-1e157659c8b33865",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-3B-Instruct",
+      "source_file": "results/model-sweep/qwen25-3b-instruct.json",
+      "source_sha256": "ddc9ddc350854f0d4f586ee41b97a2ce467c3a5be0a306a6822802f265d364cb",
+      "title": "Qwen/Qwen2.5-3B-Instruct mean_difference_direction_ablation",
+      "value": -0.22415159845352173,
+      "verdict": "informational"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "method": "sae_feature_ablation",
+        "params_b": 3.0,
+        "status": "completed",
+        "target_layer": 35,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-d80d4a0098fd88f1",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-3B-Instruct",
+      "source_file": "results/model-sweep/qwen25-3b-instruct.json",
+      "source_sha256": "ddc9ddc350854f0d4f586ee41b97a2ce467c3a5be0a306a6822802f265d364cb",
+      "title": "Qwen/Qwen2.5-3B-Instruct sae_feature_ablation",
+      "value": -0.09856369781494141,
+      "verdict": "informational"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "method": "linear_probe_direction_ablation",
+        "params_b": 7.0,
+        "status": "completed",
+        "target_layer": 27,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-516331ad189de116",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-7B-Instruct",
+      "source_file": "results/model-sweep/qwen25-7b-instruct.json",
+      "source_sha256": "5967a0b405c6026c4c389d28b2c6132c0e3ea71ad6ce4aa08085b3c49d63f57b",
+      "title": "Qwen/Qwen2.5-7B-Instruct linear_probe_direction_ablation",
+      "value": -0.49837489271163943,
+      "verdict": "informational"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "method": "mean_difference_direction_ablation",
+        "params_b": 7.0,
+        "status": "completed",
+        "target_layer": 27,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-eca2892ec64a3205",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-7B-Instruct",
+      "source_file": "results/model-sweep/qwen25-7b-instruct.json",
+      "source_sha256": "5967a0b405c6026c4c389d28b2c6132c0e3ea71ad6ce4aa08085b3c49d63f57b",
+      "title": "Qwen/Qwen2.5-7B-Instruct mean_difference_direction_ablation",
+      "value": -0.6744247908890247,
+      "verdict": "informational"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "method": "sae_feature_ablation",
+        "params_b": 7.0,
+        "status": "completed",
+        "target_layer": 27,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-0dd81db39b7331b4",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-7B-Instruct",
+      "source_file": "results/model-sweep/qwen25-7b-instruct.json",
+      "source_sha256": "5967a0b405c6026c4c389d28b2c6132c0e3ea71ad6ce4aa08085b3c49d63f57b",
+      "title": "Qwen/Qwen2.5-7B-Instruct sae_feature_ablation",
+      "value": -0.021767767667770384,
+      "verdict": "informational"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": null,
+        "error_message": "Hugging Face repository access requires approval; no approved credential is available in this environment.",
+        "error_type": "access_denied",
+        "params_b": 2.0,
+        "status": "failed",
+        "target_layer": null,
+        "target_layer_depth_fraction": null,
+        "test_pairs": null
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-b0bb35e25afb27b7",
+      "level": 2,
+      "metric": "cell_completed",
+      "model": "google/gemma-2-2b-it",
+      "source_file": "results/model-sweep/gemma2-2b-it.json",
+      "source_sha256": "7ec013625842f3a265fabb765c64cbf67d9c3aa91cc7867a3e6e1025c0a7ecf0",
+      "title": "google/gemma-2-2b-it model-sweep cell",
+      "value": 0.0,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": null,
+        "error_message": "Hugging Face repository access requires approval; no approved credential is available in this environment.",
+        "error_type": "access_denied",
+        "params_b": 9.0,
+        "status": "failed",
+        "target_layer": null,
+        "target_layer_depth_fraction": null,
+        "test_pairs": null
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-d62d0110b5a47168",
+      "level": 2,
+      "metric": "cell_completed",
+      "model": "google/gemma-2-9b-it",
+      "source_file": "results/model-sweep/gemma2-9b-it.json",
+      "source_sha256": "c3edb6af363a9bb333ba4417f49aa9bec5924b8e8cfed4c074a605424d8ddd92",
+      "title": "google/gemma-2-9b-it model-sweep cell",
+      "value": 0.0,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": null,
+        "error_message": "Hugging Face repository access requires approval; no approved credential is available in this environment.",
+        "error_type": "access_denied",
+        "params_b": 8.0,
+        "status": "failed",
+        "target_layer": null,
+        "target_layer_depth_fraction": null,
+        "test_pairs": null
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-28ab293723682669",
+      "level": 2,
+      "metric": "cell_completed",
+      "model": "meta-llama/Llama-3.1-8B-Instruct",
+      "source_file": "results/model-sweep/llama31-8b-instruct.json",
+      "source_sha256": "cf32f68ca5da986a4abeb3466d7b628635f058314b07807174c5feab22db39e2",
+      "title": "meta-llama/Llama-3.1-8B-Instruct model-sweep cell",
+      "value": 0.0,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": null,
+        "error_message": "Hugging Face repository access requires approval; no approved credential is available in this environment.",
+        "error_type": "access_denied",
+        "params_b": 1.0,
+        "status": "failed",
+        "target_layer": null,
+        "target_layer_depth_fraction": null,
+        "test_pairs": null
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-7367fcb5b4e7c873",
+      "level": 2,
+      "metric": "cell_completed",
+      "model": "meta-llama/Llama-3.2-1B-Instruct",
+      "source_file": "results/model-sweep/llama32-1b-instruct.json",
+      "source_sha256": "16617e3e40ef22c96eb62866e6dedf748b4a4533d366f29be746562daecfd336",
+      "title": "meta-llama/Llama-3.2-1B-Instruct model-sweep cell",
+      "value": 0.0,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": null,
+        "error_message": "Hugging Face repository access requires approval; no approved credential is available in this environment.",
+        "error_type": "access_denied",
+        "params_b": 3.0,
+        "status": "failed",
+        "target_layer": null,
+        "target_layer_depth_fraction": null,
+        "test_pairs": null
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-cb5d8b7356eea385",
+      "level": 2,
+      "metric": "cell_completed",
+      "model": "meta-llama/Llama-3.2-3B-Instruct",
+      "source_file": "results/model-sweep/llama32-3b-instruct.json",
+      "source_sha256": "972a8b2c25d248b4211789f3c85228a23b366c59d92a0c7ddb6e08f4b4557b38",
+      "title": "meta-llama/Llama-3.2-3B-Instruct model-sweep cell",
+      "value": 0.0,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "method": "linear_probe_direction_ablation",
+        "params_b": 7.0,
+        "status": "completed",
+        "target_layer": 31,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-e9191285a0655aa5",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "mistralai/Mistral-7B-Instruct-v0.3",
+      "source_file": "results/model-sweep/mistral-7b-instruct-v03.json",
+      "source_sha256": "1c61af2f3ecc60606340593ad9775a2ca980a4dce05b0e5d2ac455426e0ff3fe",
+      "title": "mistralai/Mistral-7B-Instruct-v0.3 linear_probe_direction_ablation",
+      "value": -0.06802267238497733,
+      "verdict": "informational"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "method": "mean_difference_direction_ablation",
+        "params_b": 7.0,
+        "status": "completed",
+        "target_layer": 31,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-98846d59bacf4dbc",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "mistralai/Mistral-7B-Instruct-v0.3",
+      "source_file": "results/model-sweep/mistral-7b-instruct-v03.json",
+      "source_sha256": "1c61af2f3ecc60606340593ad9775a2ca980a4dce05b0e5d2ac455426e0ff3fe",
+      "title": "mistralai/Mistral-7B-Instruct-v0.3 mean_difference_direction_ablation",
+      "value": -0.17787632197141648,
+      "verdict": "informational"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "equivalence_analysis_design": "post_hoc_sensitivity",
+        "method": "sae_feature_ablation",
+        "params_b": 7.0,
+        "status": "completed",
+        "target_layer": 31,
+        "target_layer_depth_fraction": 1.0,
+        "test_pairs": 250
+      },
+      "family": "cross_model_sweep",
+      "id": "cell-95863cc583f87470",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "mistralai/Mistral-7B-Instruct-v0.3",
+      "source_file": "results/model-sweep/mistral-7b-instruct-v03.json",
+      "source_sha256": "1c61af2f3ecc60606340593ad9775a2ca980a4dce05b0e5d2ac455426e0ff3fe",
+      "title": "mistralai/Mistral-7B-Instruct-v0.3 sae_feature_ablation",
+      "value": -0.005112537831068039,
+      "verdict": "informational"
+    },
+    {
+      "behavior": "refusal",
+      "ci": {
+        "estimate": -0.0007393051385879517,
+        "high": -0.00046345019340515123,
+        "low": -0.0010653606086969375
+      },
+      "details": {
+        "layer": 23,
+        "random_control_bh_p": 0.48,
+        "random_control_empirical_p": 0.24,
+        "source_revision": "step1000-tokens4B",
+        "status": "completed",
+        "target_direction_cosine": -0.01865636371076107,
+        "target_kind": "instruct",
+        "target_model": "allenai/OLMo-7B-0724-Instruct-hf",
+        "training_tokens_b": 4
+      },
+      "family": "developmental_audit",
+      "id": "cell-a3889d16fc617cd7",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "allenai/OLMo-7B-0724-Instruct-hf",
+      "source_file": "results/developmental/olmo-7b-0724_step1000-tokens4b.json",
+      "source_sha256": "354e1c848fc650f5cf2197f624bac3d2de24a2e879c89cf85d616898b2d82635",
+      "title": "olmo-7b-0724 step1000-tokens4B endpoint transfer",
+      "value": -0.0007393051385879517,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": {
+        "estimate": 0.00012190091609954833,
+        "high": 0.0001964474707841874,
+        "low": 5.43234795331955e-05
+      },
+      "details": {
+        "layer": 31,
+        "random_control_bh_p": 0.8533333333333333,
+        "random_control_empirical_p": 0.64,
+        "source_revision": "step10000-tokens41B",
+        "status": "completed",
+        "target_direction_cosine": 0.07384125888347626,
+        "target_kind": "instruct",
+        "target_model": "allenai/OLMo-7B-0724-Instruct-hf",
+        "training_tokens_b": 41
+      },
+      "family": "developmental_audit",
+      "id": "cell-2964dc6c0e470bd3",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "allenai/OLMo-7B-0724-Instruct-hf",
+      "source_file": "results/developmental/olmo-7b-0724_step10000-tokens41b.json",
+      "source_sha256": "77e7474db0525c84620f9f1ef58ce5bd161feea60bb6032b7df20bddf707c931",
+      "title": "olmo-7b-0724 step10000-tokens41B endpoint transfer",
+      "value": 0.00012190091609954833,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": {
+        "estimate": 0.0010920310020446778,
+        "high": 0.0012704280614852905,
+        "low": 0.0009262981623411179
+      },
+      "details": {
+        "layer": 31,
+        "random_control_bh_p": 1.0,
+        "random_control_empirical_p": 1.0,
+        "source_revision": "step100000-tokens419B",
+        "status": "completed",
+        "target_direction_cosine": 0.05444983392953873,
+        "target_kind": "instruct",
+        "target_model": "allenai/OLMo-7B-0724-Instruct-hf",
+        "training_tokens_b": 419
+      },
+      "family": "developmental_audit",
+      "id": "cell-a6b6550ccc023437",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "allenai/OLMo-7B-0724-Instruct-hf",
+      "source_file": "results/developmental/olmo-7b-0724_step100000-tokens419b.json",
+      "source_sha256": "d11aa3e5b5d33e8ff4e26f73b041a56cdf7cf7eec057e1bb8598241b20111385",
+      "title": "olmo-7b-0724 step100000-tokens419B endpoint transfer",
+      "value": 0.0010920310020446778,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": {
+        "estimate": -0.0009903911352157594,
+        "high": -0.0007975750267505645,
+        "low": -0.001188335248827934
+      },
+      "details": {
+        "layer": 31,
+        "random_control_bh_p": 0.096,
+        "random_control_empirical_p": 0.04,
+        "source_revision": "step300000-tokens1258B",
+        "status": "completed",
+        "target_direction_cosine": 0.08241282403469086,
+        "target_kind": "instruct",
+        "target_model": "allenai/OLMo-7B-0724-Instruct-hf",
+        "training_tokens_b": 1258
+      },
+      "family": "developmental_audit",
+      "id": "cell-5e62431710633413",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "allenai/OLMo-7B-0724-Instruct-hf",
+      "source_file": "results/developmental/olmo-7b-0724_step300000-tokens1258b.json",
+      "source_sha256": "90c6d399cee94b3d7770c78aa1cc8e9f7f24c04c8db3340a773e8cece5eda8a3",
+      "title": "olmo-7b-0724 step300000-tokens1258B endpoint transfer",
+      "value": -0.0009903911352157594,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": {
+        "estimate": 0.0008909406661987305,
+        "high": 0.0011271707892417909,
+        "low": 0.0006746894806623459
+      },
+      "details": {
+        "layer": 31,
+        "random_control_bh_p": 1.0,
+        "random_control_empirical_p": 1.0,
+        "source_revision": "step50000-tokens209B",
+        "status": "completed",
+        "target_direction_cosine": 0.07345402985811234,
+        "target_kind": "instruct",
+        "target_model": "allenai/OLMo-7B-0724-Instruct-hf",
+        "training_tokens_b": 209
+      },
+      "family": "developmental_audit",
+      "id": "cell-29d0505d0a8bb742",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "allenai/OLMo-7B-0724-Instruct-hf",
+      "source_file": "results/developmental/olmo-7b-0724_step50000-tokens209b.json",
+      "source_sha256": "14b49c614e54420b6d216328789380f8afb9786f712690d1639cc65aef54af83",
+      "title": "olmo-7b-0724 step50000-tokens209B endpoint transfer",
+      "value": 0.0008909406661987305,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": {
+        "estimate": 8.35644006729126e-05,
+        "high": 0.0001768624007701874,
+        "low": -1.4185959100723226e-05
+      },
+      "details": {
+        "layer": 31,
+        "random_control_bh_p": 0.8533333333333333,
+        "random_control_empirical_p": 0.64,
+        "source_revision": "step650650-tokens2729B",
+        "status": "completed",
+        "target_direction_cosine": 0.10986319929361343,
+        "target_kind": "instruct",
+        "target_model": "allenai/OLMo-7B-0724-Instruct-hf",
+        "training_tokens_b": 2729
+      },
+      "family": "developmental_audit",
+      "id": "cell-5bdfd8857f39195b",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "allenai/OLMo-7B-0724-Instruct-hf",
+      "source_file": "results/developmental/olmo-7b-0724_step650650-tokens2729b.json",
+      "source_sha256": "86d02102dc0258846045d48fb828c4fe190bf1ce2a6693b95127cf83c849bff1",
+      "title": "olmo-7b-0724 step650650-tokens2729B endpoint transfer",
+      "value": 8.35644006729126e-05,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": {
+        "estimate": -0.0001923239231109619,
+        "high": -6.848180890083295e-05,
+        "low": -0.0003265185832977295
+      },
+      "details": {
+        "layer": 23,
+        "random_control_bh_p": 0.8533333333333333,
+        "random_control_empirical_p": 0.56,
+        "source_revision": "step1000",
+        "status": "completed",
+        "target_direction_cosine": 0.06358279287815094,
+        "target_kind": "base",
+        "target_model": "EleutherAI/pythia-410m",
+        "training_tokens_b": 2.1
+      },
+      "family": "developmental_audit",
+      "id": "cell-51ab2947ff55482e",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "EleutherAI/pythia-410m",
+      "source_file": "results/developmental/pythia-410m_step1000.json",
+      "source_sha256": "e5c5859ed772132d23f680086b18d05be20bcb94ecd25b71ca598979b08db29c",
+      "title": "pythia-410m step1000 endpoint transfer",
+      "value": -0.0001923239231109619,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": {
+        "estimate": 0.0007928559780120849,
+        "high": 0.0009562053799629213,
+        "low": 0.0006326121270656586
+      },
+      "details": {
+        "layer": 23,
+        "random_control_bh_p": 0.9600000000000002,
+        "random_control_empirical_p": 0.8,
+        "source_revision": "step10000",
+        "status": "completed",
+        "target_direction_cosine": 0.5786297917366028,
+        "target_kind": "base",
+        "target_model": "EleutherAI/pythia-410m",
+        "training_tokens_b": 21.0
+      },
+      "family": "developmental_audit",
+      "id": "cell-daf78de70163198e",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "EleutherAI/pythia-410m",
+      "source_file": "results/developmental/pythia-410m_step10000.json",
+      "source_sha256": "60d69988521df2a73ce22e9e3c0fccc96d2513ac9bd6cfe6edfaffac590f5584",
+      "title": "pythia-410m step10000 endpoint transfer",
+      "value": 0.0007928559780120849,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": {
+        "estimate": -0.02587828469276428,
+        "high": -0.025233521664142607,
+        "low": -0.026530715882778166
+      },
+      "details": {
+        "layer": 23,
+        "random_control_bh_p": 0.096,
+        "random_control_empirical_p": 0.04,
+        "source_revision": "step100000",
+        "status": "completed",
+        "target_direction_cosine": 0.9423370957374573,
+        "target_kind": "base",
+        "target_model": "EleutherAI/pythia-410m",
+        "training_tokens_b": 209.7
+      },
+      "family": "developmental_audit",
+      "id": "cell-aa46d346ec49ef6a",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "EleutherAI/pythia-410m",
+      "source_file": "results/developmental/pythia-410m_step100000.json",
+      "source_sha256": "5e1ffe489927f4cc2ba46c244a5c9f2f44df24b4fd81e07a47cbc51b795f6638",
+      "title": "pythia-410m step100000 endpoint transfer",
+      "value": -0.02587828469276428,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": {
+        "estimate": -0.03644591903686523,
+        "high": -0.03560232771635055,
+        "low": -0.03732743996977806
+      },
+      "details": {
+        "layer": 23,
+        "random_control_bh_p": 0.096,
+        "random_control_empirical_p": 0.04,
+        "source_revision": "step128000",
+        "status": "completed",
+        "target_direction_cosine": 0.9614977836608887,
+        "target_kind": "base",
+        "target_model": "EleutherAI/pythia-410m",
+        "training_tokens_b": 268.4
+      },
+      "family": "developmental_audit",
+      "id": "cell-ee1597eeea5df1ec",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "EleutherAI/pythia-410m",
+      "source_file": "results/developmental/pythia-410m_step128000.json",
+      "source_sha256": "ce6dc8045ad0943ca3c64f7065032c8e93d88313293a8ad9a6bc1ac0edd55069",
+      "title": "pythia-410m step128000 endpoint transfer",
+      "value": -0.03644591903686523,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": {
+        "estimate": -0.019140646934509276,
+        "high": -0.018678990036249163,
+        "low": -0.019588856673240663
+      },
+      "details": {
+        "layer": 23,
+        "random_control_bh_p": 0.096,
+        "random_control_empirical_p": 0.04,
+        "source_revision": "step143000",
+        "status": "completed",
+        "target_direction_cosine": 1.0,
+        "target_kind": "base",
+        "target_model": "EleutherAI/pythia-410m",
+        "training_tokens_b": 299.9
+      },
+      "family": "developmental_audit",
+      "id": "cell-89a5f1552b080fa9",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "EleutherAI/pythia-410m",
+      "source_file": "results/developmental/pythia-410m_step143000.json",
+      "source_sha256": "36acba2f54b70c86bf2039d4b59c22775f2dcc958f88a7ac688589aae6726142",
+      "title": "pythia-410m step143000 endpoint transfer",
+      "value": -0.019140646934509276,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": {
+        "estimate": -0.020274202585220336,
+        "high": -0.019536816328763962,
+        "low": -0.02102665274143219
+      },
+      "details": {
+        "layer": 23,
+        "random_control_bh_p": 0.096,
+        "random_control_empirical_p": 0.04,
+        "source_revision": "step50000",
+        "status": "completed",
+        "target_direction_cosine": 0.7679510712623596,
+        "target_kind": "base",
+        "target_model": "EleutherAI/pythia-410m",
+        "training_tokens_b": 104.9
+      },
+      "family": "developmental_audit",
+      "id": "cell-664370243f30d4ad",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "EleutherAI/pythia-410m",
+      "source_file": "results/developmental/pythia-410m_step50000.json",
+      "source_sha256": "bb28ea4188fda2a8d10742ea2a58b66b2fea5e7981a8f6849e0857e9950f2ddc",
+      "title": "pythia-410m step50000 endpoint transfer",
+      "value": -0.020274202585220336,
+      "verdict": "failed"
     },
     {
       "behavior": "refusal",
@@ -930,6 +2343,297 @@
       "title": "qwen2.5-3b-replication-preregistered sae_feature_ablation",
       "value": -0.005849941571553548,
       "verdict": "supported"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "certified_evidence_method": "sae_feature_ablation",
+        "drift_status": "degraded",
+        "mode": "artifact_comparison",
+        "rung_comparison": [
+          {
+            "changed": true,
+            "new_passed": true,
+            "rung": "baseline_superiority",
+            "source_passed": false
+          },
+          {
+            "changed": false,
+            "new_passed": true,
+            "rung": "capability_cost",
+            "source_passed": true
+          },
+          {
+            "changed": false,
+            "new_passed": null,
+            "rung": "equivalence_or_inferiority",
+            "source_passed": null
+          },
+          {
+            "changed": false,
+            "new_passed": true,
+            "rung": "held_out_causal",
+            "source_passed": true
+          },
+          {
+            "changed": false,
+            "new_passed": true,
+            "rung": "matched_controls",
+            "source_passed": true
+          },
+          {
+            "changed": false,
+            "new_passed": true,
+            "rung": "separation",
+            "source_passed": true
+          },
+          {
+            "changed": true,
+            "new_passed": false,
+            "rung": "specificity",
+            "source_passed": true
+          },
+          {
+            "changed": false,
+            "new_passed": null,
+            "rung": "transfer",
+            "source_passed": null
+          }
+        ]
+      },
+      "family": "mechanism_drift",
+      "id": "cell-ff764728d9c92884",
+      "level": 2,
+      "metric": "mechanism_survives",
+      "model": "Qwen/Qwen2.5-3B-Instruct",
+      "source_file": "results/drift/qwen15b_to_qwen3b.json",
+      "source_sha256": "e0093dc7db32916c309db4f848e308ab2ec0c778ac95a4c5721deb0a9a92e9ba",
+      "title": "Qwen/Qwen2.5-1.5B-Instruct to Qwen/Qwen2.5-3B-Instruct drift",
+      "value": 0.0,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "certified_evidence_method": "sae_feature_ablation",
+        "drift_status": "degraded",
+        "mode": "model_swap",
+        "rung_comparison": [
+          {
+            "changed": false,
+            "new_passed": null,
+            "rung": "baseline_superiority",
+            "source_passed": false
+          },
+          {
+            "changed": false,
+            "new_passed": true,
+            "rung": "capability_cost",
+            "source_passed": true
+          },
+          {
+            "changed": false,
+            "new_passed": null,
+            "rung": "equivalence_or_inferiority",
+            "source_passed": null
+          },
+          {
+            "changed": false,
+            "new_passed": true,
+            "rung": "held_out_causal",
+            "source_passed": true
+          },
+          {
+            "changed": false,
+            "new_passed": true,
+            "rung": "matched_controls",
+            "source_passed": true
+          },
+          {
+            "changed": false,
+            "new_passed": true,
+            "rung": "separation",
+            "source_passed": true
+          },
+          {
+            "changed": true,
+            "new_passed": false,
+            "rung": "specificity",
+            "source_passed": true
+          },
+          {
+            "changed": false,
+            "new_passed": null,
+            "rung": "transfer",
+            "source_passed": null
+          }
+        ]
+      },
+      "family": "mechanism_drift",
+      "id": "cell-38d186a824f80815",
+      "level": 2,
+      "metric": "mechanism_survives",
+      "model": "artifacts/lora/qwen25-15b-refusal-shifted/merged",
+      "source_file": "results/drift/qwen15b_lora_model_swap.json",
+      "source_sha256": "3b6ef3f073c5ee19922043f0f5478da25ddf407414abccd9bba1a091ca19ae92",
+      "title": "Qwen/Qwen2.5-1.5B-Instruct to artifacts/lora/qwen25-15b-refusal-shifted/merged drift",
+      "value": 0.0,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "failure": {
+          "error_message": "Hugging Face model access requires approval; no approved credential is available in this environment.",
+          "error_type": "access_denied",
+          "stage": "model_access"
+        },
+        "layer": 31,
+        "release": "gemma-scope-9b-it-res-canonical",
+        "status": "failed"
+      },
+      "family": "sae_zoo",
+      "id": "cell-ac5186ac6152354c",
+      "level": 2,
+      "metric": "cell_completed",
+      "model": "google/gemma-2-9b-it",
+      "source_file": "results/sae-zoo/league_table.json",
+      "source_sha256": "075caa32b574b482549317ac710f8a80c80b88942d5287121f48b3e713c81150",
+      "title": "google/gemma-2-9b-it layer_31/width_131k/canonical",
+      "value": 0.0,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "refusal",
+      "ci": null,
+      "details": {
+        "failure": {
+          "error_message": "Hugging Face model access requires approval, and the registered 131k Llama Scope SAE targets the base rather than instruct checkpoint.",
+          "error_type": "access_and_alignment_blocked",
+          "stage": "model_access"
+        },
+        "layer": 31,
+        "release": "llama_scope_lxr_32x",
+        "status": "failed"
+      },
+      "family": "sae_zoo",
+      "id": "cell-1ec72a031fc6d62d",
+      "level": 2,
+      "metric": "cell_completed",
+      "model": "meta-llama/Llama-3.1-8B",
+      "source_file": "results/sae-zoo/league_table.json",
+      "source_sha256": "075caa32b574b482549317ac710f8a80c80b88942d5287121f48b3e713c81150",
+      "title": "meta-llama/Llama-3.1-8B l31r_32x",
+      "value": 0.0,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "sycophancy",
+      "ci": {
+        "estimate": -0.04603995084762573,
+        "high": -0.045094496059417725,
+        "low": -0.04700757898688317
+      },
+      "details": {
+        "reason": "Causal interpretation is blocked by absent baseline separation."
+      },
+      "family": "second_behavior",
+      "id": "cell-66c2f175d351982e",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "source_file": "results/sycophancy/qwen25-15b.json",
+      "source_sha256": "0ad3c1461fc9fd8921f65d08affcab9a697981fa253d50bc5ef199f27d77efa2",
+      "title": "Qwen/Qwen2.5-1.5B-Instruct sycophancy linear_probe_direction_ablation",
+      "value": -0.04603995084762573,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "sycophancy",
+      "ci": {
+        "estimate": -0.05456718862056732,
+        "high": -0.05358384847044945,
+        "low": -0.055556568080186844
+      },
+      "details": {
+        "reason": "Causal interpretation is blocked by absent baseline separation."
+      },
+      "family": "second_behavior",
+      "id": "cell-30349fbefed6b12c",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "source_file": "results/sycophancy/qwen25-15b.json",
+      "source_sha256": "0ad3c1461fc9fd8921f65d08affcab9a697981fa253d50bc5ef199f27d77efa2",
+      "title": "Qwen/Qwen2.5-1.5B-Instruct sycophancy mean_difference_direction_ablation",
+      "value": -0.05456718862056732,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "sycophancy",
+      "ci": {
+        "estimate": -0.07567109286785126,
+        "high": -0.07463702336251736,
+        "low": -0.07665754040777684
+      },
+      "details": {
+        "reason": "Causal interpretation is blocked by absent baseline separation."
+      },
+      "family": "second_behavior",
+      "id": "cell-8cb721855f7fa682",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "source_file": "results/sycophancy/qwen25-15b.json",
+      "source_sha256": "0ad3c1461fc9fd8921f65d08affcab9a697981fa253d50bc5ef199f27d77efa2",
+      "title": "Qwen/Qwen2.5-1.5B-Instruct sycophancy sae_activation_patch",
+      "value": -0.07567109286785126,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "sycophancy",
+      "ci": {
+        "estimate": 0.0004986441135406494,
+        "high": 0.0010930684119462967,
+        "low": -0.00012590817809104917
+      },
+      "details": {
+        "reason": "Causal interpretation is blocked by absent baseline separation."
+      },
+      "family": "second_behavior",
+      "id": "cell-6bc6973b1ff178d1",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "source_file": "results/sycophancy/qwen25-15b.json",
+      "source_sha256": "0ad3c1461fc9fd8921f65d08affcab9a697981fa253d50bc5ef199f27d77efa2",
+      "title": "Qwen/Qwen2.5-1.5B-Instruct sycophancy sae_direction_ablation",
+      "value": 0.0004986441135406494,
+      "verdict": "failed"
+    },
+    {
+      "behavior": "sycophancy",
+      "ci": {
+        "estimate": 0.040805203318595884,
+        "high": 0.04257832911908627,
+        "low": 0.038899873337149615
+      },
+      "details": {
+        "reason": "Causal interpretation is blocked by absent baseline separation."
+      },
+      "family": "second_behavior",
+      "id": "cell-6abc0e5ce1349cfa",
+      "level": 2,
+      "metric": "harmful_score_delta",
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "source_file": "results/sycophancy/qwen25-15b.json",
+      "source_sha256": "0ad3c1461fc9fd8921f65d08affcab9a697981fa253d50bc5ef199f27d77efa2",
+      "title": "Qwen/Qwen2.5-1.5B-Instruct sycophancy sae_feature_ablation",
+      "value": 0.040805203318595884,
+      "verdict": "failed"
     },
     {
       "behavior": "refusal",
@@ -2295,8 +3999,8 @@
     }
   ],
   "cells_by_level": {
-    "1": 9,
-    "2": 29,
+    "1": 28,
+    "2": 77,
     "3": 57,
     "4": 2,
     "5": 1

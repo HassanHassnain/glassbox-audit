@@ -277,6 +277,305 @@ def _component_path_cells(root: Path) -> list[dict[str, Any]]:
     return cells
 
 
+def _model_sweep_cells(root: Path) -> list[dict[str, Any]]:
+    summary_path = root / "model-sweep" / "a2_summary.json"
+    if not summary_path.exists():
+        return []
+    cells = []
+    for row in _read_json(summary_path).get("rows", []):
+        source_path = root / "model-sweep" / f"{row.get('slug')}.json"
+        if not source_path.exists():
+            source_path = summary_path
+        details = {
+            "status": row.get("status"),
+            "params_b": row.get("params_b"),
+            "target_layer": row.get("target_layer"),
+            "target_layer_depth_fraction": row.get("target_layer_depth_fraction"),
+            "test_pairs": row.get("test_pairs"),
+            "equivalence_analysis_design": row.get("equivalence_analysis_design"),
+        }
+        if row.get("status") != "completed":
+            details.update(
+                {
+                    "error_type": row.get("error_type"),
+                    "error_message": row.get("error_message"),
+                }
+            )
+            cells.append(
+                _cell(
+                    level=2,
+                    source_file=source_path,
+                    title=f"{row.get('model')} model-sweep cell",
+                    model=row.get("model"),
+                    behavior="refusal",
+                    family="cross_model_sweep",
+                    metric="cell_completed",
+                    value=0.0,
+                    verdict="failed",
+                    details=details,
+                )
+            )
+            continue
+        cells.append(
+            _cell(
+                level=1,
+                source_file=source_path,
+                title=f"{row.get('model')} refusal separation",
+                model=row.get("model"),
+                behavior="refusal",
+                family="cross_model_sweep",
+                metric="refusal_direction_effect_size",
+                value=float(row["refusal_direction_effect_size"]),
+                verdict="supported",
+                details=details,
+            )
+        )
+        for method, key in [
+            ("sae_feature_ablation", "sae_harmful_delta"),
+            ("mean_difference_direction_ablation", "mean_difference_harmful_delta"),
+            ("linear_probe_direction_ablation", "linear_probe_harmful_delta"),
+        ]:
+            value = row.get(key)
+            if value is None:
+                continue
+            cells.append(
+                _cell(
+                    level=2,
+                    source_file=source_path,
+                    title=f"{row.get('model')} {method}",
+                    model=row.get("model"),
+                    behavior="refusal",
+                    family="cross_model_sweep",
+                    metric="harmful_score_delta",
+                    value=float(value),
+                    verdict="informational",
+                    details={**details, "method": method},
+                )
+            )
+    return cells
+
+
+def _developmental_cells(root: Path) -> list[dict[str, Any]]:
+    summary_path = root / "developmental" / "a3_summary.json"
+    if not summary_path.exists():
+        return []
+    cells = []
+    for row in _read_json(summary_path).get("rows", []):
+        revision = str(row.get("source_revision", "unknown"))
+        source_path = root / "developmental" / f"{row.get('family')}_{revision.lower()}.json"
+        if not source_path.exists():
+            source_path = summary_path
+        details = {
+            "status": row.get("status"),
+            "source_revision": revision,
+            "training_tokens_b": row.get("training_tokens_b"),
+            "target_kind": row.get("target_kind"),
+            "target_model": row.get("target_model"),
+            "layer": row.get("layer"),
+            "target_direction_cosine": row.get("target_direction_cosine"),
+            "random_control_empirical_p": row.get("random_control_empirical_p"),
+            "random_control_bh_p": row.get("random_control_bh_p"),
+        }
+        separation = row.get("source_validation_effect_size")
+        if separation is not None:
+            cells.append(
+                _cell(
+                    level=1,
+                    source_file=source_path,
+                    title=f"{row.get('family')} {revision} source separation",
+                    model=row.get("source_model"),
+                    behavior="refusal",
+                    family="developmental_audit",
+                    metric="source_validation_effect_size",
+                    value=float(separation),
+                    verdict="supported" if row.get("source_separation_passed") else "failed",
+                    details=details,
+                )
+            )
+        estimate = row.get("target_harmful_delta")
+        low = row.get("target_harmful_ci_low")
+        high = row.get("target_harmful_ci_high")
+        if estimate is not None and low is not None and high is not None:
+            cells.append(
+                _cell(
+                    level=2,
+                    source_file=source_path,
+                    title=f"{row.get('family')} {revision} endpoint transfer",
+                    model=row.get("target_model"),
+                    behavior="refusal",
+                    family="developmental_audit",
+                    metric="harmful_score_delta",
+                    value=float(estimate),
+                    ci={"estimate": float(estimate), "low": float(low), "high": float(high)},
+                    verdict="supported" if row.get("transfer_passed") else "failed",
+                    details=details,
+                )
+            )
+    return cells
+
+
+def _sae_zoo_cells(root: Path) -> list[dict[str, Any]]:
+    path = root / "sae-zoo" / "league_table.json"
+    if not path.exists():
+        return []
+    cells = []
+    for row in _read_json(path).get("rows", []):
+        value = row.get("sae_harmful_delta")
+        cells.append(
+            _cell(
+                level=2,
+                source_file=path,
+                title=f"{row.get('model')} {row.get('sae_id')}",
+                model=row.get("model"),
+                behavior=row.get("behavior"),
+                family="sae_zoo",
+                metric="sae_harmful_delta" if value is not None else "cell_completed",
+                value=float(value) if value is not None else 0.0,
+                verdict="informational" if row.get("status") == "completed" else "failed",
+                details={
+                    "status": row.get("status"),
+                    "release": row.get("release"),
+                    "layer": row.get("layer"),
+                    "failure": row.get("failure"),
+                },
+            )
+        )
+    return cells
+
+
+def _sycophancy_cells(root: Path) -> list[dict[str, Any]]:
+    cells = []
+    for path in sorted((root / "sycophancy").glob("*.json")):
+        row = _read_json(path)
+        model = row.get("model")
+        baseline = row.get("baseline", {})
+        cells.append(
+            _cell(
+                level=1,
+                source_file=path,
+                title=f"{model} sycophancy baseline",
+                model=model,
+                behavior="sycophancy",
+                family="second_behavior",
+                metric="behavior_gap",
+                value=float(baseline["behavior_gap"]),
+                verdict="supported" if row.get("baseline_signal_observed") else "failed",
+                details={
+                    "balanced_accuracy": baseline.get("balanced_accuracy"),
+                    "test_pairs": row.get("test_pairs"),
+                    "causal_interpretation_status": row.get("causal_interpretation_status"),
+                },
+            )
+        )
+        for method, ci in sorted(row.get("causal_harmful_score_deltas", {}).items()):
+            cells.append(
+                _cell(
+                    level=2,
+                    source_file=path,
+                    title=f"{model} sycophancy {method}",
+                    model=model,
+                    behavior="sycophancy",
+                    family="second_behavior",
+                    metric="harmful_score_delta",
+                    value=float(ci["estimate"]),
+                    ci={
+                        "estimate": float(ci["estimate"]),
+                        "low": float(ci["low"]),
+                        "high": float(ci["high"]),
+                    },
+                    verdict="failed",
+                    details={
+                        "reason": "Causal interpretation is blocked by absent baseline separation."
+                    },
+                )
+            )
+    return cells
+
+
+def _robustness_cells(root: Path) -> list[dict[str, Any]]:
+    path = root / "robustness" / "a8_public_summary.json"
+    if not path.exists():
+        return []
+    cells = []
+    for row in _read_json(path).get("rows", []):
+        estimate = row.get("harmful_delta")
+        ci = None
+        if estimate is not None:
+            ci = {
+                "estimate": float(estimate),
+                "low": float(row["harmful_ci_low"]),
+                "high": float(row["harmful_ci_high"]),
+            }
+        cells.append(
+            _cell(
+                level=2,
+                source_file=path,
+                title=f"{row.get('shift_family')} mediation robustness",
+                model=None,
+                behavior="refusal",
+                family="adversarial_robustness",
+                metric="harmful_score_delta" if estimate is not None else "cell_completed",
+                value=float(estimate) if estimate is not None else 0.0,
+                ci=ci,
+                verdict=(
+                    "supported"
+                    if row.get("robustness_passed")
+                    else "failed"
+                    if row.get("status") == "completed"
+                    else "unrun"
+                ),
+                details={
+                    "status": row.get("status"),
+                    "n_pairs": row.get("n_pairs"),
+                    "source_effect_retention": row.get("source_effect_retention"),
+                    "random_control_empirical_p": row.get("random_control_empirical_p"),
+                },
+            )
+        )
+    return cells
+
+
+def _drift_cells(root: Path) -> list[dict[str, Any]]:
+    cells = []
+    for path in sorted((root / "drift").glob("*.json")):
+        report = _read_json(path)
+        if "drift_status" not in report:
+            continue
+        source = report.get("source", {})
+        new = report.get("new", {})
+        cells.append(
+            _cell(
+                level=2,
+                source_file=path,
+                title=f"{source.get('model')} to {new.get('model')} drift",
+                model=new.get("model"),
+                behavior=new.get("behavior") or source.get("behavior"),
+                family="mechanism_drift",
+                metric="mechanism_survives",
+                value=1.0 if report.get("mechanism_survives") else 0.0,
+                verdict="supported" if report.get("mechanism_survives") else "failed",
+                details={
+                    "mode": report.get("mode"),
+                    "drift_status": report.get("drift_status"),
+                    "certified_evidence_method": report.get("certified_evidence_method"),
+                    "rung_comparison": report.get("rung_comparison"),
+                },
+            )
+        )
+    return cells
+
+
+def _aggregate_cells(root: Path) -> list[dict[str, Any]]:
+    cells = []
+    cells.extend(_model_sweep_cells(root))
+    cells.extend(_developmental_cells(root))
+    cells.extend(_sae_zoo_cells(root))
+    cells.extend(_sycophancy_cells(root))
+    cells.extend(_robustness_cells(root))
+    cells.extend(_drift_cells(root))
+    return cells
+
+
 def build_evidence_explorer(
     *,
     artifact_roots: list[str | Path],
@@ -290,6 +589,7 @@ def build_evidence_explorer(
     for root in [Path(path) for path in artifact_roots if Path(path).exists()]:
         cells.extend(_external_causal_cells(root))
         cells.extend(_component_path_cells(root))
+        cells.extend(_aggregate_cells(root))
     cells.append(
         _cell(
             level=5,
