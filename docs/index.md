@@ -35,7 +35,10 @@ are labeled `synthetic_fixture`; they test the harness, not a language-model cla
 
 ## Current scientific result
 
-The existing Qwen audits support a robust late residual-stream refusal direction. They do not
-support a full circuit claim, and the tested SAE interventions do not beat the simpler mean or probe
-baselines under the frozen held-out criteria. Glassbox keeps those negative results because rejecting
-an intervention is part of the product.
+The main Qwen audit supports a robust late residual-stream refusal direction. Six accessible A2
+models, including Mistral, complete at 250 held-out pairs and all select the final scanned layer;
+five gated cells remain explicit access failures. All twelve developmental cells complete, but none
+passes the frozen endpoint-transfer bundle. The tested sycophancy corpus fails baseline separation,
+and no full circuit is confirmed. Equivalence tests on already examined Qwen outcomes are labeled
+post-hoc sensitivity analyses. Glassbox keeps every negative, failed, and unrun cell because
+rejecting an intervention is part of the product.

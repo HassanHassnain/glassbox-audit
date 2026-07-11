@@ -1,6 +1,6 @@
 # Glassbox
 
-**A held-out causal activation-level audit of refusal behavior in small Qwen instruction models**
+**A held-out, baseline-anchored causal audit protocol for open language models**
 
 Glassbox is a research-engineering project that asks a deliberately uncomfortable question:
 
@@ -14,14 +14,19 @@ It follows the complete causal chain:
 Discovery uses train only, threshold/scale selection uses validation only, and every headline
 result is measured on held-out test prompts. The final hardening phase was preregistered: no layers,
 thresholds, scales, features, prompts, or metrics were retuned after seeing held-out results.
+Equivalence and inferiority tests applied to already examined Qwen outcomes are explicitly labeled
+post-hoc sensitivity analyses. Prospective equivalence labels are reserved for separately frozen,
+previously unseen cells; see [Equivalence Timing](docs/EQUIVALENCE_TIMING.md).
 
 ![Glassbox workbench overview](docs/figures/workbench_overview.png)
 
 ## Honest Headline
 
-Glassbox found a robust late residual-stream refusal-relevant direction with partial Qwen2.5-3B
-replication, but **did not confirm a full circuit**; SAE features beat matched random-SAE controls
-but **did not beat mean/probe baselines under preregistered held-out criteria**.
+Glassbox found a robust late residual-stream refusal-relevant direction and final-layer separation
+across six accessible model-sweep cells, including Mistral, but **did not confirm a full circuit**.
+SAE features are often causally active, yet they do not show a monotone scaling advantage over
+mean/probe baselines. The sycophancy instantiation failed baseline separation, so it supports no
+second-behavior mechanism claim.
 
 | Result family | Status | Main readout |
 |---|---|---|
@@ -37,6 +42,13 @@ but **did not beat mean/probe baselines under preregistered held-out criteria**.
 | Phase 5 dose response | completed | small SAE utility-favorable grid point, but preregistered H3 remains failed |
 | Phase 6 clean-room rerun | completed | `artifacts/phase6-cleanroom/qwen15b-1000`; reproduced Phase 4 within fixed tolerances; no claim update |
 | Phase 6 resume/checkpointing | completed | stage markers, timing logs, and 128/128 random-control checkpoints written |
+| A2 cross-model sweep | 6 completed, 5 access-failed | Qwen 0.5/1.5/3/7/14B + Mistral complete at 250 held-out pairs; every completed cell selected the final scanned layer |
+| A3 developmental audit | 12/12 completed, 0 transfer passes | all source checkpoints separate; Pythia late alignment is suggestive but full-family BH `q=.096`; OLMo endpoint effects remain tiny |
+| A4 feature-budget frontier | completed | fixed 1–1,000 latent grid; no general frontier reversal of the baseline result |
+| A5 head-slice analysis | completed | five layer-27 slices survive BH, but effects are only `-0.000059` to `-0.000364`; no circuit claim |
+| A7 sycophancy audit | completed negative instantiation | behavior gap `-0.00483`, balanced accuracy `0.48`; causal interpretation blocked by absent baseline signal |
+| B2 LoRA mechanism drift | completed | frozen handle retains causal/control rungs but loses specificity; status `degraded`, mechanism does not survive |
+| A1 / A8 blocked cells | explicitly published | SAE-zoo weights require approval; approved shifted corpus is absent; no empirical claims are fabricated |
 
 The negative result is the point: Glassbox is built to adjudicate an interpretability method, not
 decorate it. A residual-stream direction can be causally useful without being a confirmed circuit,
@@ -47,7 +59,9 @@ Read the [final reviewer report](docs/FINAL_REVIEWER_REPORT.md),
 [claim ladder](docs/CLAIM_LADDER.md), [statistical tests](docs/STATISTICAL_TESTS.md),
 [scorer robustness](docs/SCORER_ROBUSTNESS.md), [data leakage audit](docs/DATA_LEAKAGE_AUDIT.md),
 [dose response](docs/DOSE_RESPONSE.md), [external causal validation](docs/EXTERNAL_CAUSAL_VALIDATION.md),
-[path/component analysis](docs/PATH_COMPONENT_ANALYSIS.md), and [negative results](docs/NEGATIVE_RESULTS.md).
+[path/component analysis](docs/PATH_COMPONENT_ANALYSIS.md), [model sweep](docs/MODEL_SWEEP.md),
+[developmental audit](docs/DEVELOPMENTAL_AUDIT.md), [mechanism drift](docs/MECHANISM_DRIFT.md),
+and [negative results](docs/NEGATIVE_RESULTS.md).
 Machine-readable snapshots are committed under `results/`, including
 [`results/final/phase4_outcomes.json`](results/final/phase4_outcomes.json),
 [`results/final/statistical_tests.json`](results/final/statistical_tests.json),
@@ -92,6 +106,8 @@ claim.
 | `empirical_sae_stability_preregistered` | Fixed seed/width SAE stability cell |
 | `external_behavior_validation` | Unpaired external behavior scoring only; no causal/intervention claim |
 | `phase5_release_hardening` | Artifact-level reproducibility, statistics, scorer, leakage, and dose-response checks |
+| `empirical_cross_model_sweep_preregistered` | Frozen A2 model cell with 250 held-out pairs; equivalence timing reported separately |
+| `A3_developmental_checkpoint_transfer` | Frozen source-checkpoint direction tested at an architecture-matched endpoint |
 
 The repository also ships a deterministic toy transformer-like backend. It has a planted refusal
 mechanism and runs the **same pipeline** offline, making the complete causal workflow testable on a
@@ -236,7 +252,10 @@ Use `pip install -e ".[dev,ui,paper,accelerate,sae-zoo]"` for configs with
 A3 freezes harmful-versus-benign directions at six Pythia-410M and six OLMo-7B pretraining
 checkpoints, then tests each direction at an architecture-matched final endpoint. Pythia results are
 scoped to final-base representation transfer; OLMo results target the official 7B instruct model.
-The grid, evidence contract, and commands are documented in
+All twelve cells completed and all source checkpoints separate, but none passes the complete
+transfer bundle. The strongest Pythia target effect is `-0.0364` at step 128000; nominal `p=.04`
+becomes `q=.096` across the full family. OLMo target effects remain within approximately
+`[-0.0010, +0.0011]`. The grid, evidence contract, and commands are documented in
 [the developmental audit runbook](docs/DEVELOPMENTAL_AUDIT.md).
 
 ## Adversarial Mediation Robustness
@@ -245,6 +264,7 @@ A8 evaluates whether the frozen mean direction retains aggregate mediation under
 paraphrase, persona, multilingual, and jailbreak-format shifts. The shifted corpus stays local and
 ignored; committed evidence contains aggregate metrics, hashes, counts, and matched-control ranges
 only. See [the robustness audit runbook](docs/ROBUSTNESS_AUDIT.md).
+The four frozen cells remain `unrun` because no approved local shifted corpus is present.
 
 ## Audit Card Gallery
 
@@ -258,6 +278,14 @@ only. See [the robustness audit runbook](docs/ROBUSTNESS_AUDIT.md).
 C3 adds a captioned 90-second `glassbox certify` demo built from the committed toy audit artifacts:
 [MP4](docs/demo/certify-demo.mp4), [transcript](docs/demo/certify-demo-transcript.md), and
 [demo card](docs/demo/certify-demo.card.html). Rebuild it with `make certify-demo`.
+
+## Mechanism Drift
+
+The full B2 LoRA demonstration trains a 2,179,072-parameter adapter for 100 optimizer steps, embeds
+its training manifest in the report, and applies the source audit's frozen records, threshold, SAE,
+directions, features, and scales without rediscovery. The updated checkpoint retains held-out causal
+effect, matched controls, separation, and capability cost, but loses specificity. See
+[`results/drift/qwen15b_lora_model_swap.json`](results/drift/qwen15b_lora_model_swap.json).
 
 ## Documentation Site
 
@@ -446,6 +474,10 @@ satisfy.
 Phase 6 clean-room reproducibility closes the main release weakness from Phase 5: the full
 1,000-pair Qwen2.5-1.5B audit now completes in a fresh artifact root with checkpointed random
 controls and reproduces the frozen Phase 4 result within fixed tolerances.
+
+The A2 and A6 aggregate equivalence/inferiority calculations are useful sensitivity analyses, but
+they are not retrospective preregistrations. The June 19 freeze is unchanged. Only a cell frozen
+before its first outcome may carry `prospective_preregistered` analysis timing.
 
 ## Portfolio Summary
 

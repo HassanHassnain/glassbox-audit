@@ -66,3 +66,12 @@ python -m glassbox_audit.cli drift \
 
 Install the training dependency with `pip install -e ".[drift]"`. The merged checkpoint remains a
 local artifact; the committed report records its training-data hash and frozen-handle evaluation.
+
+## Demonstration Result
+
+The completed LoRA update uses 2,179,072 trainable parameters for 100 optimizer
+steps. Under frozen source handles, the new checkpoint retains held-out causal
+effect, matched controls, separation, and capability cost, but loses specificity.
+The report therefore records `drift_status: degraded` and
+`mechanism_survives: false` in
+`results/drift/qwen15b_lora_model_swap.json`.

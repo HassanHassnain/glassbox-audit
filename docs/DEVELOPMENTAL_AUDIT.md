@@ -19,6 +19,19 @@ pretraining checkpoints and an official instruct endpoint, so those cells test t
 The grid is in `configs/developmental_audit.yaml`. Criteria were frozen before any real cell in
 `docs/preregistration_developmental.frozen.json`.
 
+## Current Result
+
+All twelve cells completed and every source checkpoint passes representation
+separation. No cell passes the complete endpoint-transfer bundle. Pythia's strongest
+target effect is `-0.0364` at step 128000 with direction cosine `0.961`, but nominal
+control `p=.04` becomes `q=.096` over all twelve cells. OLMo endpoint cosines remain
+between `-0.019` and `0.110`, with harmful-score effects between approximately
+`-0.0010` and `+0.0011`.
+
+The committed aggregate is `results/developmental/a3_summary.json`; the table and
+figure are `docs/tables/developmental_audit.md` and
+`docs/figures/developmental_audit.png`.
+
 ## Protocol
 
 For each checkpoint, Glassbox:
