@@ -30,6 +30,17 @@ def _local_training_manifest(model_name: str) -> dict[str, Any] | None:
     return None
 
 
+def _portable_model_config(config: Any) -> dict[str, Any]:
+    payload = dict(config.__dict__)
+    cache_dir = payload.get("cache_dir")
+    if cache_dir and Path(cache_dir).is_absolute():
+        try:
+            payload["cache_dir"] = Path(cache_dir).relative_to(Path.cwd()).as_posix()
+        except ValueError:
+            payload["cache_dir"] = None
+    return payload
+
+
 def _estimate(row: dict[str, Any], key: str) -> float:
     return float(row[key]["estimate"])
 
@@ -494,7 +505,7 @@ def run_model_swap_drift(
         "source": _compact_card(source_card),
         "new": {
             "model": model.name,
-            "model_config": config.model.__dict__,
+            "model_config": _portable_model_config(config.model),
             "training_manifest": _local_training_manifest(config.model.name),
             "behavior": config.behavior,
             "target_layer": target_layer,
