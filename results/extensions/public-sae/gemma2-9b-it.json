@@ -1,0 +1,31 @@
+{
+  "schema_version": "2.0",
+  "analysis_status": "confirmatory_killed_before_outcomes",
+  "git_commit_at_decision": "915b6cbab572135b42e758774f3a318e703883ce",
+  "preregistration_sha256": "c7b196d64460bf0e37c4fce5c4ee4ed9a46cabe0de001f57006cc6416fd7624c",
+  "cell": {
+    "model_id": "google/gemma-2-9b-it",
+    "sae_release": "google/gemma-scope-9b-it-res",
+    "hook_site": "residual_stream",
+    "candidate_layer": 31,
+    "candidate_sae_ids": [
+      "layer_31/width_16k/canonical",
+      "layer_31/width_131k/canonical"
+    ],
+    "checkpoint_match": "instruction-tuned model and instruction-tuned SAE"
+  },
+  "status": "killed",
+  "kill_condition": "The model or SAE weights cannot be obtained reproducibly.",
+  "evidence": {
+    "model_cache": "Only a refs/main pointer exists; no Gemma-2-9B-it weight blobs are cached.",
+    "sae_cache": "No google/gemma-scope-9b-it-res cache exists.",
+    "authentication": "HF_TOKEN is unset and no cached Hugging Face token is present.",
+    "license_access": "The google/gemma-2-9b-it repository requires authenticated acceptance of the Gemma usage license."
+  },
+  "decision": "Do not replace this cell with a base-model SAE on an instruction-tuned checkpoint and do not report a heterogeneous transfer cell as same-checkpoint replication.",
+  "source_urls": [
+    "https://huggingface.co/google/gemma-2-9b-it",
+    "https://huggingface.co/google/gemma-scope",
+    "https://huggingface.co/google/gemma-scope-9b-it-res/tree/main/layer_31"
+  ]
+}

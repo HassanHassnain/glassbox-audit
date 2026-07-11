@@ -3,6 +3,9 @@ from .core import (
     AblateSAEFeatures,
     AddDirection,
     PatchProjection,
+    ReconstructSAE,
+    SubstituteSAEFeatures,
+    WeightedAblateSAEFeatures,
     normalized,
 )
 
@@ -11,5 +14,8 @@ __all__ = [
     "AblateSAEFeatures",
     "AddDirection",
     "PatchProjection",
+    "ReconstructSAE",
+    "SubstituteSAEFeatures",
+    "WeightedAblateSAEFeatures",
     "normalized",
 ]

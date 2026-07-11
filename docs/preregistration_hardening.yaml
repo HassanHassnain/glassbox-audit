@@ -1,0 +1,80 @@
+schema_version: "2.0"
+date_frozen: "2026-07-11"
+git_commit_before_extension: "34df4066f8c6925abdf75b1d3a06f378111cbd25"
+scope: "paper/v1-hardening"
+
+immutable_inputs:
+  model_id: "Qwen/Qwen2.5-1.5B-Instruct"
+  model_revision: "989aa7980e4cf806f80c7fef2b1adb7bc71aa306"
+  dataset: "data/refusal_controlled_v2_1000.jsonl"
+  dataset_sha256: "1c912d796753c4cd29104d0ed78c05b1c585394d98f67e513d92e3c9166276b6"
+  source_artifact: "artifacts/qwen-expanded-1000-reference"
+  source_artifact_hashes:
+    sae.pt: "fd578f73751771e8bb13f2fc706006b4ca94d953bbf6ebdbeac487e565ba1844"
+    interventions.json: "01fc50128e791deb84fce272eaa6e6e199aeab2df15b1fdb6fe041f347b847c2"
+    discovery_tensors.pt: "ed4876efdfd74c3f14e56475dbdb999a31f36144cfa209e4c403372fda072e56"
+    features.json: "b10a59aabe1123737b69adbb378a528702dfd8fb863b53492e3af4c7452f7a34"
+
+existing_qwen_sensitivity:
+  analysis_status: "post_hoc_sensitivity"
+  reason: "The original held-out Qwen outcomes were inspected before this extension was frozen."
+  resampling_unit: "pair_id"
+  bootstrap_samples: 10000
+  permutation_samples: 10000
+  confidence: 0.95
+  practical_margin: 0.02
+  margin_rationale: "25% of the preregistered H1 minimum meaningful harmful-score effect of 0.08."
+  primary_family:
+    - "mean_difference versus selected SAE feature ablation"
+    - "linear_probe versus selected SAE feature ablation"
+    - "selected SAE versus matched random-SAE controls"
+    - "best validation-selected weighted sparse SAE versus mean_difference"
+  familywise_correction: "Holm"
+
+intervention_comparability:
+  analysis_status: "post_hoc_sensitivity"
+  methods:
+    - "mean_direction_ablation"
+    - "linear_probe_ablation"
+    - "selected_sae_feature_ablation"
+    - "matched_random_sae_feature_ablation"
+    - "sae_reconstruction_only"
+  per_example_metrics:
+    - "hidden_l2"
+    - "hidden_cosine"
+    - "downstream_kl"
+    - "next_token_nll_delta"
+    - "harmful_refusal_suppression"
+    - "suppression_per_hidden_l2"
+    - "suppression_per_capability_cost"
+
+feature_budget_frontier:
+  analysis_status: "post_hoc_sensitivity"
+  budgets: [1, 2, 5, 10, 20, 50, 100]
+  ranking_data: "train only"
+  evaluation_data: "frozen test split"
+  matched_random_sets_per_budget: 8
+  random_seed: 1729
+  weighted_sparse_combination:
+    fit: "train only"
+    select_regularization: "validation only"
+  report:
+    - "harmful_score_effect"
+    - "benign_score_effect"
+    - "capability_nll_cost"
+    - "hidden_l2"
+
+public_sae_replication:
+  analysis_status: "confirmatory"
+  preferred_cell: "Gemma-2-9B-it with an instruction-tuned Gemma Scope residual-stream SAE"
+  fallback: "No fallback cell will be relabeled as same-checkpoint evidence. Base-to-instruct use must be reported as transfer under weight drift."
+  kill_conditions:
+    - "No checkpoint-matched instruction-tuned SAE is available."
+    - "The declared hook layer or activation width is incompatible."
+    - "The model or SAE weights cannot be obtained reproducibly."
+    - "The cell cannot run safely on one 24 GiB GPU with documented loading settings."
+
+reporting_policy:
+  - "Never edit the 2026-06-19 preregistration."
+  - "Do not call an analysis confirmatory when its held-out outcomes were previously inspected."
+  - "Preserve failed, null, and killed cells in the evidence bundle."
