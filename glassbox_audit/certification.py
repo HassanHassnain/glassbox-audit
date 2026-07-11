@@ -289,6 +289,16 @@ def _rung_verdicts(
             "source": "summary.sae_outperforms_simple_baselines",
         },
         "equivalence_or_inferiority": {
+            "analysis_design": (
+                equivalence.get("analysis_design", "post_hoc_sensitivity")
+                if equivalence is not None
+                else None
+            ),
+            "equivalence_preregistration_hash": (
+                equivalence.get("equivalence_preregistration_hash")
+                if equivalence is not None
+                else None
+            ),
             "passed_tests": (
                 [row["test"] for row in equivalence["tests"] if row["passed"]]
                 if equivalence is not None

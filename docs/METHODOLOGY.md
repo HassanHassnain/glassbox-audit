@@ -109,9 +109,12 @@ validation data or a pre-registered scale, never the held-out test set.
 
 Glassbox reports paired non-parametric bootstrap confidence intervals clustered by matched
 `pair_id`, so harmful/benign counterparts are resampled together when a metric spans both sides of
-the pair. A6 also emits `equivalence_analysis.json` with preregistered TOST equivalence tests,
-one-sided SAE-inferiority tests against mean/probe baselines, and a paired-normal power analysis
-for the configured minimum effect size. For a serious claim:
+the pair. A6 also emits `equivalence_analysis.json` with TOST equivalence tests, one-sided
+SAE-inferiority tests against mean/probe baselines, and a paired-normal power analysis. Existing
+Qwen results use these procedures only as post-hoc sensitivity analyses because those outcomes had
+already been examined. A new cell is called prospectively preregistered only when its bounds and
+power assumptions are frozen before any outcome and the artifact records that freeze hash. For a
+serious claim:
 
 - use at least 1,000 held-out matched pairs;
 - bootstrap at the prompt-family level when variants share a source;

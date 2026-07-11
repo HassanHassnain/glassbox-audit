@@ -378,6 +378,9 @@ def _completed_row(artifact_dir: Path) -> dict[str, Any]:
         "preregistration_hash": summary.get("preregistration_hash"),
         "sae_outperforms_simple_baselines": summary.get("sae_outperforms_simple_baselines"),
         "equivalence_tests_passed": summary.get("equivalence_tests_passed"),
+        "equivalence_analysis_design": summary.get(
+            "equivalence_analysis_design", "post_hoc_sensitivity"
+        ),
     }
 
 

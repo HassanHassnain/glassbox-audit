@@ -97,11 +97,19 @@ def render_report(artifact_dir: str | Path) -> str:
     if equivalence:
         passed = [row["test"] for row in equivalence["tests"] if row["passed"]]
         power = equivalence["power_analysis"]["primary_one_sided"]
+        design = equivalence.get("analysis_design", "post_hoc_sensitivity")
+        timing_note = (
+            "Prospectively preregistered before this cell's outcomes."
+            if design == "prospective_preregistered"
+            else "Post-hoc sensitivity analysis; not confirmatory preregistered evidence."
+        )
         lines.extend(
             [
                 "",
                 "## Equivalence And Power",
                 "",
+                f"- Analysis design: `{design}`",
+                f"- Timing: {timing_note}",
                 f"- Pair-level bootstrap unit: `{equivalence['bootstrap_unit']}`",
                 f"- Passed equivalence/inferiority tests: `{passed}`",
                 f"- One-sided power at target n={equivalence['power_analysis']['assumptions']['target_n_prompt_pairs']}: "

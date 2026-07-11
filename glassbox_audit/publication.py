@@ -348,10 +348,22 @@ def generate_publication_bundle(artifact_dir: str | Path, docs_dir: str | Path) 
     equivalence_section = ""
     equivalence_results_link = ""
     if equivalence_artifact is not None:
+        equivalence_design = equivalence_artifact.get(
+            "analysis_design", "post_hoc_sensitivity"
+        )
+        equivalence_timing = (
+            "The bounds were prospectively frozen before this cell's outcomes."
+            if equivalence_design == "prospective_preregistered"
+            else (
+                "These are post-hoc sensitivity analyses because related Qwen results had already "
+                "been examined; they are not confirmatory preregistered tests."
+            )
+        )
         equivalence_table = [
             "# Equivalence And Inferiority Tests",
             "",
             "Positive SAE-minus-baseline deltas mean SAE suppresses less harmful refusal score.",
+            f"Analysis design: `{equivalence_design}`. {equivalence_timing}",
             "",
             "| Test | Comparison | Margin | Estimate | Passed? |",
             "|---|---|---:|---:|---|",
@@ -372,6 +384,7 @@ def generate_publication_bundle(artifact_dir: str | Path, docs_dir: str | Path) 
 ## Equivalence and Power
 
 A6 equivalence/inferiority tests use `{equivalence_artifact['bootstrap_unit']}` bootstrap resampling.
+Analysis design: `{equivalence_design}`. {equivalence_timing}
 The configured one-sided power at n=`{equivalence_artifact['power_analysis']['assumptions']['target_n_prompt_pairs']}`
 matched pairs is `{one_sided_power['power_at_target_n']:.3f}`. See
 [equivalence table](tables/equivalence_analysis.md).

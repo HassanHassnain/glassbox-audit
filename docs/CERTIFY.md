@@ -32,6 +32,7 @@ The card includes:
 - model identity hash, behavior, evidence class, dataset summary, corpus hash, and preregistration hash;
 - train/validation/test protocol counts;
 - rung verdicts for separation, held-out causal effect, specificity, capability cost, matched controls, baseline superiority, equivalence/inferiority tests, and optional transfer;
+- explicit equivalence timing (`post_hoc_sensitivity` or `prospective_preregistered`) and the prospective freeze hash when one exists;
 - hashes for source evidence files and optional external transfer artifacts;
 - candidate intervention metadata and referenced-file hashes;
 - rendered HTML and PDF summaries;

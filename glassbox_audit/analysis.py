@@ -199,7 +199,15 @@ def build_equivalence_analysis(
     power_target: float,
     power_target_n: int,
     seed: int,
+    analysis_design: str = "post_hoc_sensitivity",
+    equivalence_preregistration_hash: str | None = None,
 ) -> dict[str, object]:
+    if analysis_design not in {"post_hoc_sensitivity", "prospective_preregistered"}:
+        raise ValueError(f"Unsupported equivalence analysis design: {analysis_design}")
+    if analysis_design == "prospective_preregistered" and not equivalence_preregistration_hash:
+        raise ValueError(
+            "Prospective equivalence analysis requires an equivalence preregistration hash"
+        )
     sae = causal_rows["sae_feature_ablation"]
     comparators = {
         "mean_difference_direction_ablation": causal_rows["mean_difference_direction_ablation"],
@@ -300,25 +308,39 @@ def build_equivalence_analysis(
         },
     }
 
-    return {
+    interpretation = (
+        "Equivalence and inferiority bounds were frozen before this cell's outcomes under the "
+        f"equivalence preregistration hash {equivalence_preregistration_hash}."
+        if analysis_design == "prospective_preregistered"
+        else (
+            "This is a post-hoc sensitivity analysis. Related Qwen results were examined before "
+            "the equivalence and inferiority procedure was added, so passing tests are not "
+            "confirmatory preregistered evidence."
+        )
+    )
+    artifact = {
         "schema_version": "1.0",
         "analysis": "A6 equivalence tests and paired-power analysis",
+        "analysis_design": analysis_design,
+        "equivalence_preregistration_hash": equivalence_preregistration_hash,
         "bootstrap_unit": "pair_id",
         "test_family": "held_out_causal_ablation",
         "alpha": alpha,
-        "preregistered_bounds": {
+        "bounds": {
             "equivalence_margin": equivalence_margin,
             "inferiority_margin": inferiority_margin,
         },
         "tests": tests,
         "power_analysis": power,
-        "interpretation": (
-            "Equivalence tests use TOST on SAE-minus-baseline harmful scores. Inferiority tests "
-            "ask whether SAE is worse by at least the preregistered margin. Lower harmful scores "
-            "after intervention are stronger suppression, so positive SAE-minus-baseline deltas "
-            "favor the simple baseline."
+        "interpretation": interpretation,
+        "effect_direction": (
+            "Lower harmful scores after intervention are stronger suppression, so positive "
+            "SAE-minus-baseline deltas favor the simple baseline."
         ),
     }
+    if analysis_design == "prospective_preregistered":
+        artifact["preregistered_bounds"] = artifact["bounds"]
+    return artifact
 
 
 def build_failure_analysis(

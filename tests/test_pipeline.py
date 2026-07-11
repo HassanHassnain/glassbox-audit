@@ -70,6 +70,8 @@ def test_toy_pipeline_runs_end_to_end(tmp_path):
     equivalence = read_json(tmp_path / "equivalence_analysis.json")
     assert equivalence["bootstrap_unit"] == "pair_id"
     assert "power_analysis" in equivalence
+    assert equivalence["analysis_design"] == "post_hoc_sensitivity"
+    assert "preregistered_bounds" not in equivalence
 
 
 def test_toy_model_has_measurable_baseline_behavior(tmp_path):

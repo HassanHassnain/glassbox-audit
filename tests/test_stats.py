@@ -1,3 +1,6 @@
+import pytest
+
+from glassbox_audit.analysis import build_equivalence_analysis
 from glassbox_audit.evaluation import select_threshold
 from glassbox_audit.stats import (
     bootstrap_ci,
@@ -41,6 +44,24 @@ def test_tost_equivalence_and_inferiority_are_decidable():
     inferior = one_sample_mean_test([0.07, 0.08, 0.06, 0.09], 0.02, alternative="greater")
     assert equivalent["equivalent"] is True
     assert inferior["p_value"] < 0.05
+
+
+def test_prospective_equivalence_requires_a_freeze_hash():
+    with pytest.raises(ValueError, match="requires an equivalence preregistration hash"):
+        build_equivalence_analysis(
+            [],
+            {},
+            bootstrap_samples=10,
+            equivalence_margin=0.02,
+            inferiority_margin=0.02,
+            alpha=0.05,
+            power_effect_size=0.05,
+            power_assumed_pair_sd=0.4,
+            power_target=0.8,
+            power_target_n=500,
+            seed=17,
+            analysis_design="prospective_preregistered",
+        )
 
 
 def test_power_planning_supports_n500_preregistration():

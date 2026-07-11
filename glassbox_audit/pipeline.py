@@ -418,6 +418,16 @@ def _validate_real_audit_config(config: ExperimentConfig, records: list[PromptRe
         (config.evaluation.bootstrap_samples >= 200, "at least 200 bootstrap samples are required"),
         (config.evaluation.equivalence_margin > 0, "equivalence margin must be positive"),
         (config.evaluation.inferiority_margin > 0, "inferiority margin must be positive"),
+        (
+            config.evaluation.equivalence_analysis_design
+            in {"post_hoc_sensitivity", "prospective_preregistered"},
+            "equivalence analysis design must be post_hoc_sensitivity or prospective_preregistered",
+        ),
+        (
+            config.evaluation.equivalence_analysis_design != "prospective_preregistered"
+            or bool(config.evaluation.equivalence_preregistration_hash),
+            "prospective equivalence analysis requires an equivalence preregistration hash",
+        ),
         (0 < config.evaluation.test_alpha < 0.5, "test alpha must be between 0 and 0.5"),
         (config.evaluation.power_effect_size > 0, "power effect size must be positive"),
         (config.evaluation.power_assumed_pair_sd > 0, "power assumed pair SD must be positive"),
@@ -1063,6 +1073,10 @@ def run_audit(
         power_target=config.evaluation.power_target,
         power_target_n=config.evaluation.power_target_n,
         seed=config.seed + 900,
+        analysis_design=config.evaluation.equivalence_analysis_design,
+        equivalence_preregistration_hash=(
+            config.evaluation.equivalence_preregistration_hash
+        ),
     )
     failure_analysis = build_failure_analysis(
         sae_result.metrics,
@@ -1139,6 +1153,7 @@ def run_audit(
         "equivalence_tests_passed": [
             row["test"] for row in equivalence_analysis["tests"] if row["passed"]
         ],
+        "equivalence_analysis_design": equivalence_analysis["analysis_design"],
         "negative_findings": failure_analysis["negative_findings"],
     }
     if preregistration is not None:
@@ -1187,6 +1202,10 @@ def run_audit(
             "power_assumed_pair_sd": config.evaluation.power_assumed_pair_sd,
             "power_target": config.evaluation.power_target,
             "power_target_n": config.evaluation.power_target_n,
+            "equivalence_analysis_design": config.evaluation.equivalence_analysis_design,
+            "equivalence_preregistration_hash": (
+                config.evaluation.equivalence_preregistration_hash
+            ),
         },
         "real_audit_requirements_passed": real_audit_checks,
         "checkpointing": {

@@ -51,6 +51,9 @@ def main() -> None:
         "causal_harmful_score_deltas": causal,
         "sae_outperforms_simple_baselines": summary["sae_outperforms_simple_baselines"],
         "equivalence_tests_passed": summary["equivalence_tests_passed"],
+        "equivalence_analysis_design": summary.get(
+            "equivalence_analysis_design", "post_hoc_sensitivity"
+        ),
     }
     write_json(Path(args.output_json), result)
 

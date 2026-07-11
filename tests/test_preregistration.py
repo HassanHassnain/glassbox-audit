@@ -1,4 +1,6 @@
+import hashlib
 import json
+from pathlib import Path
 
 import pytest
 import yaml
@@ -8,6 +10,22 @@ from glassbox_audit.preregistration import (
     load_frozen_preregistration,
     preregistration_metadata,
 )
+
+ROOT = Path(__file__).parents[1]
+
+
+def test_june_19_preregistration_records_are_immutable():
+    expected = {
+        "docs/PHASE4_PREREGISTERED_VALIDATION.md": (
+            "29d7d05dceb6a5a297b61535ddfc960c76fb35bdff6c896190736fe431b96b26"
+        ),
+        "results/final/phase4_preregistration.json": (
+            "58e83dab9c503fa264c64d09fae1a75693eadc856e6a02c22de4733783148b2b"
+        ),
+    }
+    for relative_path, expected_hash in expected.items():
+        digest = hashlib.sha256((ROOT / relative_path).read_bytes()).hexdigest()
+        assert digest == expected_hash
 
 
 def _valid_preregistration() -> dict[str, object]:

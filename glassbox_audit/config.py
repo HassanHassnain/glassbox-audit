@@ -52,6 +52,8 @@ class EvaluationConfig:
     power_assumed_pair_sd: float = 0.4
     power_target: float = 0.8
     power_target_n: int = 500
+    equivalence_analysis_design: str = "post_hoc_sensitivity"
+    equivalence_preregistration_hash: str | None = None
     feature_budgets: list[int] = field(
         default_factory=lambda: [1, 2, 5, 10, 20, 50, 100, 500, 1000]
     )

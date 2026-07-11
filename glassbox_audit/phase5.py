@@ -382,7 +382,7 @@ def _paired_stat_tests(
     return rows
 
 
-def _a6_params_from_manifest(artifact_dir: Path) -> dict[str, float | int]:
+def _a6_params_from_manifest(artifact_dir: Path) -> dict[str, Any]:
     evaluation = read_json(artifact_dir / "manifest.json").get("config", {}).get("evaluation", {})
     return {
         "equivalence_margin": float(evaluation.get("equivalence_margin", 0.02)),
@@ -392,6 +392,12 @@ def _a6_params_from_manifest(artifact_dir: Path) -> dict[str, float | int]:
         "power_assumed_pair_sd": float(evaluation.get("power_assumed_pair_sd", 0.4)),
         "power_target": float(evaluation.get("power_target", 0.8)),
         "power_target_n": int(evaluation.get("power_target_n", 500)),
+        "analysis_design": str(
+            evaluation.get("equivalence_analysis_design", "post_hoc_sensitivity")
+        ),
+        "equivalence_preregistration_hash": evaluation.get(
+            "equivalence_preregistration_hash"
+        ),
     }
 
 
@@ -514,7 +520,9 @@ def write_statistical_tests(
         "artifact_notice": (
             "Phase 5 statistical summary. P-values are paired sign-flip permutation tests with "
             "Benjamini-Hochberg correction within each artifact/test family. Internal artifacts "
-            "also include A6 TOST equivalence/inferiority tests and paired power analysis."
+            "also include A6 TOST equivalence/inferiority sensitivity tests and paired power "
+            "analysis. Each equivalence block declares whether its timing was post-hoc or "
+            "prospectively preregistered."
         ),
         "permutation_samples": permutation_samples,
         "bootstrap_samples": bootstrap_samples,
@@ -566,10 +574,12 @@ def write_statistical_tests(
                 "sign-flip permutation tests for headline causal deltas. Benjamini-Hochberg "
                 "correction is applied within each artifact family.",
                 "",
-                "A6 adds affirmative negative-claim tests: internal artifacts now include TOST "
-                "equivalence checks for SAE-vs-mean/probe harmful-score effects, one-sided "
-                "inferiority tests for SAE being worse by a preregistered margin, and paired power "
-                "analysis for the configured minimum effect size.",
+                "A6 adds TOST equivalence checks, one-sided inferiority tests, and paired power "
+                "analysis. For the existing Qwen artifacts these are post-hoc sensitivity "
+                "analyses because their results were examined before A6 was specified; they are "
+                "not confirmatory preregistered evidence. A future cell is labeled prospective "
+                "only when its equivalence bounds and power assumptions were frozen first and "
+                "the resulting artifact carries that preregistration hash.",
                 "",
                 "The statistical tests support the same interpretation as Phase 4: late residual "
                 "mean-difference interventions are robust, while SAE effects do not beat the "

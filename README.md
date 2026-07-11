@@ -403,7 +403,7 @@ Every run produces:
 | `discovery_tensors.pt` | Activations, labels, and candidate directions |
 | `interventions.json` | All sweeps, causal tests, controls, prompt outputs, CIs |
 | `method_comparisons.json` | Direct paired SAE-vs-baseline comparisons |
-| `equivalence_analysis.json` | A6 TOST, inferiority, and paired-power tests |
+| `equivalence_analysis.json` | A6 TOST, inferiority, and paired-power tests with explicit post-hoc/prospective timing |
 | `feature_budget_frontier.json` | A4 SAE top-k and L1-weighted feature-budget frontier |
 | `results/sae-zoo/<model>_<release>_<sae_id>.json` | Optional A1 public SAELens SAE evaluation snapshot |
 | `results/sae-zoo/league_table.json` / `.md` | Optional A1 public-SAE comparison table |

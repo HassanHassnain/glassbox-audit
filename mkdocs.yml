@@ -31,6 +31,7 @@ nav:
       - Your first audit in 30 minutes: tutorials/behavior-audit-30-minutes.md
       - Methodology: METHODOLOGY.md
       - Statistical tests: STATISTICAL_TESTS.md
+      - Equivalence timing: EQUIVALENCE_TIMING.md
   - Experiments:
       - Model sweep: MODEL_SWEEP.md
       - Developmental checkpoints: DEVELOPMENTAL_AUDIT.md
