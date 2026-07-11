@@ -10,6 +10,6 @@ $ python -m glassbox_audit.cli certify --artifacts artifacts/demo --output-json 
   "signature": {
     "scheme": "sha256-card-digest",
     "git_ref": "c3-certify-demo-v1",
-    "digest": "6c2c0e8ee7378909dfdc9ed4d43fc57efb0581257741037f31791adfe76f40fe"
+    "digest": "70c35957cd21d3b77fccb0cd9af56804b9765c86ecc81611464b4c60ee8ec436"
   }
 }

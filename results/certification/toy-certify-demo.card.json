@@ -1,14 +1,14 @@
 {
   "artifact_dir": "artifacts/demo",
   "artifact_hashes": {
-    "equivalence_analysis.json": null,
-    "failure_analysis.json": "f821ad20cb2b02b9803af51e566c39458c7304ed5ad55392add8ea7948880aed",
-    "interventions.json": "a39550ad31b3b2174f465c55cdb049978cc5bcd395b6e8da36f9d2f4c1d3f52f",
-    "manifest.json": "c49be335c4d0570986d5a9ab3a129abf755fe1cd75c79961a9d6b1e3b9fda14a",
-    "method_comparisons.json": "9a556d4cff4309fda741fdeedd63913ef7c26e979f57c1c14a7a3ee6fe0c3901",
-    "protocol.json": "a7aef6d9ca32a52430cec859cbeb6b16c028b30c662c44bcc05bf6a687a0df42",
+    "equivalence_analysis.json": "a40c709eff3c345bfec6965f9f7405c2cf223191c69f16ba388f69529157a298",
+    "failure_analysis.json": "43036195f9c8de448a38310e4fac8c35d2bd994cc8c6e51ffa30d064a9c11087",
+    "interventions.json": "46e78445106b6a27f95ea00d4a4b97ca25a9d3565bf833fb1ba27c8d7eccb303",
+    "manifest.json": "a80ce01627b038ff352cf5c51a5ee10e35c5c4ea6fb05d0b76083edb1dbc6109",
+    "method_comparisons.json": "d2c77036143ef3ca1e92212520610ad94af958917f1cfaa79c033f1be869a424",
+    "protocol.json": "46f1ee622b2cd9dd07714e9a52ce6a69bf253abab7a958e0bf3501f617312af7",
     "records.json": "6abcd7beb29ee8c239e26993348d4e5d307a6db27c914489d6244fda1061d36b",
-    "summary.json": "13eec5d0acb9fd09527cd2f037e86e6c654bbce3faeea3550551a71595f9987b"
+    "summary.json": "a44fc5153351a409a60b3a3d044eed80106f3acc2e9b0585435bf3f5d8c69256"
   },
   "behavior": "refusal",
   "candidate_intervention": null,
@@ -48,7 +48,7 @@
   "model": "glassbox-toy-refusal",
   "model_identity": {
     "backend": "toy",
-    "config_hash": "fbd26bc1d94956bc7950a6d59372a1c2eb1021766fbc68d1fc038e88de07e9a2",
+    "config_hash": "7b33f1c09d41f02f43857908b3d34d6e1c1a342e5c9c613c2c39f3ae9749188d",
     "name": "glassbox-toy-refusal"
   },
   "overall_verdict": {
@@ -65,7 +65,7 @@
   "preregistration_hash": null,
   "protocol": {
     "test_access_policy": "final metrics and paired comparisons only",
-    "test_pairs": null,
+    "test_pairs": 8,
     "test_records": 16,
     "train_records": 16,
     "validation_records": 16
@@ -78,14 +78,19 @@
     "capability_cost": {
       "capability_delta_ci": {
         "estimate": 0.0006893202662467957,
-        "high": 0.011050451546907425,
-        "low": -0.009329658746719358
+        "high": 0.0015465753152966509,
+        "low": 0.0
       },
       "passed": true,
       "threshold_estimate": 0.05
     },
     "equivalence_or_inferiority": {
-      "passed_tests": []
+      "analysis_design": "post_hoc_sensitivity",
+      "equivalence_preregistration_hash": null,
+      "passed_tests": [
+        "sae_inferior_to_mean_difference",
+        "sae_inferior_to_linear_probe"
+      ]
     },
     "held_out_causal": {
       "harmful_delta_ci": {
@@ -124,7 +129,7 @@
   },
   "schema_version": "1.0",
   "signature": {
-    "digest": "6c2c0e8ee7378909dfdc9ed4d43fc57efb0581257741037f31791adfe76f40fe",
+    "digest": "70c35957cd21d3b77fccb0cd9af56804b9765c86ecc81611464b4c60ee8ec436",
     "git_ref": "c3-certify-demo-v1",
     "scheme": "sha256-card-digest"
   }

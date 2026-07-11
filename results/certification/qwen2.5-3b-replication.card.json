@@ -87,6 +87,8 @@
       "threshold_estimate": 0.05
     },
     "equivalence_or_inferiority": {
+      "analysis_design": null,
+      "equivalence_preregistration_hash": null,
       "passed_tests": []
     },
     "held_out_causal": {
@@ -126,7 +128,7 @@
   },
   "schema_version": "1.0",
   "signature": {
-    "digest": "3db81952244a00495d9b4d8e3b8a9d0f65851d4bf38b276041b829be7759d28d",
+    "digest": "d3793a3d175802481dc38777c47492cd503ca43f8dbcbc2c9f63d83414f7043c",
     "git_ref": "audit-card-gallery-v1",
     "scheme": "sha256-card-digest"
   }

@@ -26,7 +26,7 @@
       "end": 42,
       "narration": "The command prints the artifact directory, certified method, output paths, verdict, and card signature.",
       "start": 27,
-      "terminal": "  {\n    \"artifact_dir\": \"artifacts/demo\",\n    \"output_json\": \"results/certification/toy-certify-demo.card.json\",\n    \"output_html\": \"docs/demo/certify-demo.card.html\",\n    \"output_pdf\": \"results/certification/toy-certify-demo.card.pdf\",\n    \"certified_evidence_method\": \"sae_feature_ablation\",\n    \"overall_passed\": false,\n    \"signature\": {\n      \"scheme\": \"sha256-card-digest\",\n      \"git_ref\": \"c3-certify-demo-v1\",\n      \"digest\": \"6c2c0e8ee7378909dfdc9ed4d43fc57efb0581257741037f31791adfe76f40fe\"",
+      "terminal": "  {\n    \"artifact_dir\": \"artifacts/demo\",\n    \"output_json\": \"results/certification/toy-certify-demo.card.json\",\n    \"output_html\": \"docs/demo/certify-demo.card.html\",\n    \"output_pdf\": \"results/certification/toy-certify-demo.card.pdf\",\n    \"certified_evidence_method\": \"sae_feature_ablation\",\n    \"overall_passed\": false,\n    \"signature\": {\n      \"scheme\": \"sha256-card-digest\",\n      \"git_ref\": \"c3-certify-demo-v1\",\n      \"digest\": \"70c35957cd21d3b77fccb0cd9af56804b9765c86ecc81611464b4c60ee8ec436\"",
       "title": "The CLI emits a compact machine-readable verdict"
     },
     {
@@ -40,7 +40,7 @@
       "end": 75,
       "narration": "Glassbox writes a JSON contract for tooling, an HTML card for review, a PDF snapshot, and a digest tied to the demo ref.",
       "start": 60,
-      "terminal": "JSON: results/certification/toy-certify-demo.card.json\nHTML: docs/demo/certify-demo.card.html\nPDF:  results/certification/toy-certify-demo.card.pdf\nstdout: docs/demo/certify-demo.stdout.txt\ndigest: 6c2c0e8ee7378909dfdc9ed4...",
+      "terminal": "JSON: results/certification/toy-certify-demo.card.json\nHTML: docs/demo/certify-demo.card.html\nPDF:  results/certification/toy-certify-demo.card.pdf\nstdout: docs/demo/certify-demo.stdout.txt\ndigest: 70c35957cd21d3b77fccb0cd...",
       "title": "The card is rendered for humans and automation"
     },
     {
