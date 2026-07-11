@@ -38,6 +38,7 @@
     }
   },
   "causal_interpretation_status": "not_supported_by_baseline_separation",
+  "equivalence_analysis_design": "post_hoc_sensitivity",
   "equivalence_tests_passed": [
     "sae_inferior_to_mean_difference",
     "sae_inferior_to_linear_probe"
