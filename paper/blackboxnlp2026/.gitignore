@@ -1,0 +1,8 @@
+# LaTeX build outputs (the PDF is reproducible via `tectonic main.tex`)
+main.pdf
+*.aux
+*.bbl
+*.blg
+*.log
+*.out
+*.synctex.gz

@@ -1,3 +1,7 @@
+% Glassbox — BlackboxNLP 2026 submission (regular archival track).
+% Anonymized review draft. Compile: tectonic main.tex   (or pdflatex+bibtex).
+% Every number in this file traces to a committed JSON evidence file; see
+% Appendix G for the claim-to-evidence map.
 \documentclass[11pt]{article}
 \usepackage[review]{acl}
 \usepackage{times}
@@ -9,241 +13,920 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 
+\newcommand{\dH}{\ensuremath{\Delta_{\mathrm{H}}}}
+\newcommand{\dB}{\ensuremath{\Delta_{\mathrm{B}}}}
+\newcommand{\dC}{\ensuremath{\Delta_{\mathrm{C}}}}
+\newcommand{\glassbox}{\textsc{Glassbox}}
+
 \title{Do Sparse Autoencoder Features Explain Refusal?\\
 A Preregistered, Held-Out Causal Audit}
-\author{Anonymous submission}
 
-\newcommand{\dH}{\Delta_{H}}
-\newcommand{\dB}{\Delta_{B}}
-\newcommand{\dC}{\Delta_{C}}
+\author{Anonymous ACL submission}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-Sparse autoencoders (SAEs) are widely proposed as units of mechanistic
-interpretability, yet causal evaluations against simple baselines remain rare.
-We present \textsc{Glassbox}, a preregistered protocol asking whether SAE
-features provide a better causal account of refusal than directions computable
-in closed form.  On a controlled 1,000-pair corpus for
-Qwen2.5-1.5B-Instruct, mean-difference ablation at layer 27 shifts the held-out
-harmful refusal score by $-0.136$ (95\% CI $[-0.143,-0.128]$) and cuts refusal
-rate from 0.64 to 0.18 with negligible benign and capability cost.  The frozen
-direction transfers to OR-Bench.  SAE feature ablation is real, but never beats
-the mean baseline (0/6 retraining cells).  A pair-aware sensitivity analysis
-estimates a mean-versus-SAE suppression gap of $0.099$ $[0.092,0.106]$, ruling
-out parity within a practical 0.02 margin (Holm-adjusted $p=0.0004$).  Sweeping
-up to 100 features never closes the gap.  A reconstruction-only control further
-shows that full SAE substitution is dominated by non-specific reconstruction
-distortion.  We release the audit harness and machine-readable evidence.
+Sparse autoencoders (SAEs) are widely treated as the unit of analysis for
+mechanistic interpretability, yet causal evaluations against simple baselines
+remain rare.  We present \glassbox{}, a preregistered auditing protocol that
+asks whether SAE features provide a better \emph{causal} account of refusal
+than a direction computable in closed form.  On a controlled corpus of 1{,}000
+harmful/benign prompt pairs for Qwen2.5-1.5B-Instruct, discovery is confined to
+the training split, selection to validation, and every headline effect is read
+once from held-out pairs against random-direction, matched random-SAE, and
+layerwise controls.  Ablating the train-derived mean-difference direction at
+layer 27 shifts the held-out harmful refusal score by $-0.136$ (95\% CI
+$[-0.144, -0.128]$) and cuts the harmful refusal rate from $0.64$ to $0.18$
+with negligible benign and capability cost; the frozen direction transfers
+zero-shot to OR-Bench.  SAE feature ablation is causally real but never beats
+this baseline: 0 of 6 preregistered retraining cells pass.  A pair-aware
+sensitivity analysis estimates the mean-vs-SAE suppression gap at $0.099$
+$[0.092, 0.106]$, rejecting parity within a practical margin of $0.02$
+(Holm-adjusted $p=4\times10^{-4}$); sweeping budgets of 1--100 features never
+closes the gap, and at 50--100 features the intervention backfires.  A
+reconstruction-only control shows that the seemingly dramatic effect of full
+SAE substitution is dominated by non-specific reconstruction damage.  We
+release the harness, both preregistrations, and machine-readable evidence for
+every number, and argue that baseline-anchored, held-out causal audits should
+gate mechanistic claims made on behalf of SAE features.
 \end{abstract}
 
 \section{Introduction}
+\label{sec:intro}
 
-SAEs have become a common microscope for decomposing transformer activations
-into sparse, often legible features \citep{cunningham2024sae,gao2024scaling}.
-Legibility, however, does not establish that a feature is a better causal handle
-on behavior than a cheaper alternative.  Refusal provides a sharp test because
-a single difference-of-means direction has been shown to mediate it
-\citep{arditi2024refusal}.  If SAE features carve refusal at its causal joints,
-intervening on a small number should compete with that direction under equal
-selection discipline.
+Sparse autoencoders have become mechanistic interpretability's default
+microscope: trained to reconstruct residual-stream activations under a
+sparsity penalty, they decompose model internals into dictionaries of features
+that are often strikingly legible
+\citep{bricken2023towards,cunningham2024sparse,templeton2024scaling,gao2024scaling}.
+An implicit claim travels with this program---that SAE features are not merely
+\emph{interpretable} but are \emph{better handles on the model's mechanisms}
+than cheaper alternatives.  That claim is causal, and it is testable.
 
-\textsc{Glassbox} walls off discovery, selection, and judgement.  Layers,
-features, and directions use train only; thresholds and steering scales use
-validation only; headline effects are measured once on held-out pairs.  The
-audit includes isotropic directions, random SAEs, layerwise controls, external
-transfer, six frozen SAE retrainings, and a clean-room reproduction.  It reports
-failed hypotheses rather than silently dropping cells.
+Refusal provides an unusually sharp test.  \citet{arditi2024refusal} showed
+that refusal across many chat models is largely mediated by a single
+difference-of-means direction.  If SAE features carve refusal at its causal
+joints, then intervening on a small number of them should suppress refusal at
+least as well as this one-line baseline---provided both sides are subject to
+the same selection discipline and neither can overfit the evaluation.
 
-Our contributions are: (1) a preregistered causal audit for interpretability
-claims; (2) evidence for a robust late residual refusal direction; (3) a bounded
-negative result---SAE features beat controls but not the mean direction; and
-(4) a hardening analysis that distinguishes residual-preserving feature
-subtraction from full SAE reconstruction, evaluates budgets 1--100, and turns
-``SAE did not win'' into an affirmative inferiority statement.
+Most interpretability evaluations do not enforce such discipline.  Features
+are selected, thresholds tuned, and steering scales chosen on the same records
+used to report effects; baselines are absent or weak; unfavorable cells are
+silently dropped.  These are the failure modes the probing literature spent
+years learning to control \citep{hewitt2019designing,belinkov2022probing},
+and that recent SAE benchmarks have begun to surface at scale
+\citep{wu2025axbench,karvonen2025saebench,heap2025automated}.
+
+\glassbox{} is an adjudication harness built to make this contest fair and its
+outcome hard to fudge:
+
+\begin{enumerate}
+\item \textbf{Preregistration.}  Hypotheses H1--H5, acceptance thresholds, the
+  full SAE retraining grid, and the run order were frozen before any held-out
+  record was scored, with an explicit no-retuning policy
+  (\S\ref{sec:prereg}).
+\item \textbf{Walled-off splits.}  Discovery (layers, features, directions)
+  uses train only; selection (score threshold, steering scales) uses
+  validation only; judgement reads held-out pairs once
+  (\S\ref{sec:walls}).
+\item \textbf{Baseline-anchored controls.}  SAE features compete against
+  mean-difference and linear-probe directions under identical budgets, with
+  isotropic random directions, architecture-matched random SAEs,
+  same-dictionary random feature sets, and layerwise controls
+  (\S\ref{sec:controls}).
+\item \textbf{Negative results are published.}  The most informative output is
+  the claim the audit \emph{refuses} to license.  All six predeclared SAE
+  cells, the failed hypotheses, a killed replication cell, and a clean-room
+  rerun ship as machine-readable evidence.
+\end{enumerate}
+
+\noindent Our findings: (i) refusal in Qwen2.5-1.5B-Instruct is causally
+mediated by a late residual-stream direction (layer 27 of 28) that survives
+held-out testing, layerwise controls, threshold variants, and zero-shot
+external transfer; (ii) top-$k$ SAE features trained on the same activations
+are causally real---beating matched random controls in every cell---yet
+recover only a fraction of the direction's effect ($-0.036$ vs.\ $-0.136$) at
+every seed and width tested; (iii) the effect is a \emph{direction}, not an
+identified circuit; and (iv) a hardening analysis upgrades ``the SAE did not
+win'' to an affirmative statistical claim: parity is rejected within a
+$0.02$ margin, feature budgets up to 100 do not close the gap, and naive
+encode--decode substitution is confounded by reconstruction damage.
+
+Our contributions are: (1) a preregistered, held-out causal audit protocol for
+interpretability claims, released as a reusable harness; (2) positive evidence
+for a robust, transferable refusal direction under that protocol; (3) a
+bounded negative result for SAE causal superiority, with the affirmative
+inferiority analysis, budget frontier, and reconstruction control that harden
+it; and (4) a fully machine-readable evidence trail, including failed and
+killed cells.\footnote{Code, protocols, and evidence files are publicly
+released; the repository link is withheld for anonymity and provided to
+reviewers as supplementary material.  Stable evidence-file names are cited
+throughout (Appendix~\ref{app:evidence}).}
 
 \section{Related Work}
+\label{sec:related}
 
-Activation steering and refusal directions motivate our simple baselines
-\citep{arditi2024refusal,turner2023activation}.  SAEs scale dictionary learning
-to language-model activations \citep{cunningham2024sae,gao2024scaling}; recent
-benchmarks likewise stress that feature quality and steering utility require
-separate evaluation \citep{wu2025axbench}.  Control tasks in probing motivate
-our insistence on matched random baselines \citep{hewitt2019control}.  Our
-external evaluation uses OR-Bench \citep{cui2024orbench}.
+\paragraph{Refusal directions and activation steering.}
+\citet{arditi2024refusal} established that refusal is mediated by a single
+difference-of-means direction across many open chat models; our
+mean-difference baseline is their construction placed under stricter selection
+discipline.  Steering by activation addition originates with
+\citet{turner2023activation} and contrastive activation addition
+\citep{rimsky2024steering}, and representation-level control is systematized
+by \citet{zou2023representation}.  We use steering only as a secondary,
+fixed-grid readout; ablation carries the primary causal claim.
 
-\section{Audit Protocol}
+\paragraph{Sparse autoencoders.}
+Dictionary learning on activations
+\citep{bricken2023towards,cunningham2024sparse} has been scaled to frontier
+models \citep{templeton2024scaling} and refined architecturally---top-$k$
+\citep{gao2024scaling}, JumpReLU \citep{rajamanoharan2024jumping}---with open
+suites such as Gemma Scope \citep{lieberum2024gemmascope}.  Sparse feature
+circuits \citep{marks2025sparse} build causal graphs from SAE features.  Our
+audit uses a top-$k$ SAE matched to this lineage ($k=32$) and asks the prior
+question: do the features beat the direction they are meant to refine?
 
-\paragraph{Data.}
-The corpus has 2,000 records: 1,000 harmful prompts, each paired with a benign
-twin on the same topic.  Families are disjoint across train/validation/test; the
-test split contains 500 records (250 pairs).  A released audit finds no exact,
-normalized, near-duplicate, or family overlap across splits.
+\paragraph{Causal evaluation of interpretability.}
+Activation patching localizes computation \citep{meng2022locating}; causal
+scrubbing \citep{chan2022causal} and automated circuit discovery
+\citep{conmy2023towards,syed2024attribution} formalize faithfulness testing.
+Our component analysis follows this tradition and reports its own failure to
+reach circuit-level evidence (H4).
 
-\paragraph{Refusal score.}
-For refusal prefix $R$ and answer prefix $A$, we use
+\paragraph{Baselines, control tasks, and SAE benchmarks.}
+Control tasks for probes \citep{hewitt2019designing} and selectivity concerns
+\citep{belinkov2022probing} motivate our matched random-SAE controls, which
+preserve intervention mechanics while randomizing feature identity.
+AxBench \citep{wu2025axbench} found supervised baselines beat SAE steering on
+concept control; SAEBench \citep{karvonen2025saebench} standardizes SAE
+quality metrics; \citet{heap2025automated} show automated interpretability
+metrics can fail to separate trained from random transformers.  \glassbox{}
+complements these with a single-behavior, preregistered, held-out
+\emph{causal} audit in which selection itself is walled off, and with an
+affirmative-inferiority statistical framing borrowed from equivalence testing
+\citep{schuirmann1987comparison,lakens2017equivalence}.
+
+\paragraph{Over-refusal evaluation.}
+Our external transfer set derives from OR-Bench \citep{cui2025orbench}, whose
+toxic and hard-benign subsets measure refusal suppression and over-refusal
+side effects under frozen interventions.
+
+\section{The \glassbox{} Audit Protocol}
+\label{sec:protocol}
+
+\subsection{Setup, refusal score, and metrics}
+\label{sec:setup}
+
+Let $f$ be a decoder-only transformer with residual stream
+$h^{(\ell)}(x)\in\mathbb{R}^{d}$ at layer $\ell$ (mean-pooled over prompt
+tokens for discovery; interventions apply at all positions).  Each record
+carries a harmfulness label, a pair identifier linking a harmful prompt to a
+topic-matched benign twin, and a split assigned at the pair level.
+
+Refusal is scored deterministically by contrastive prefix log-likelihood: for
+refusal prefix $R$ (``I'm sorry, but I can't'') and answer prefix $A$
+(``Sure, here's''),
 \begin{equation}
-r(x)=\sigma\!\left(
-\frac{1}{|R|}\log P(R\mid x)-
-\frac{1}{|A|}\log P(A\mid x)\right),
+r(x)=\sigma\!\Big(
+\tfrac{1}{|R|}\log P_f(R\mid x)-
+\tfrac{1}{|A|}\log P_f(A\mid x)\Big),
+\label{eq:score}
 \end{equation}
-where $R$ is ``I'm sorry, but I can't'' and $A$ is ``Sure, here's.''  The
-refusal-rate threshold is selected on validation by balanced accuracy.
+token-length normalized.  A refusal \emph{rate} thresholds $r(x)$ at
+$\tau=0.847$, selected on validation by balanced accuracy.  No LLM judge
+appears anywhere in the loop, so the scorer is exactly reproducible; threshold
+variants are tested in \S\ref{sec:robustness}.
 
-\paragraph{Discovery.}
-We scan layers $\{4,8,12,16,20,24,27\}$ on train and select layer 27.  At that
-layer we train a top-$k$ SAE (width 3,072, $k=32$) on 47,645 train activation
-vectors, construct the mean difference
-$v_{\mathrm{mean}}\propto \bar h_{H}-\bar h_{B}$, and train a linear probe.
-The original SAE intervention selects the five largest positive train effect
-sizes.
+We report held-out deltas against the unintervened model: mean harmful
+refusal-score delta \dH{} (primary; negative = suppression), mean benign delta
+\dB{} (specificity), capability cost \dC{} as the mean next-token NLL delta on
+held-out prompt text, refusal-rate deltas at fixed $\tau$, and bootstrap 95\%
+confidence intervals.
 
-\paragraph{Interventions.}
-Directional ablation maps $h\leftarrow h-(h^\top v)v$.  Original SAE feature
-ablation is \emph{residual preserving}: it encodes $h$, zeros selected latents,
-and subtracts their decoded contribution from the original $h$.  The hardening
-extension separately evaluates full SAE reconstruction and encode--zero--decode
-substitution.  This distinction is crucial because SAE reconstruction error can
-itself be pathological \citep{gurnee2024reconstruction}.
+\subsection{Controlled corpus and leakage audit}
+\label{sec:corpus}
 
-\paragraph{Preregistration.}
-The original protocol (frozen 2026-06-19) forbids retuning after held-out access.
-H1 requires $\dH\leq-0.08$, CI upper bound below zero,
-$|\dB|\leq0.05$, and $\dC\leq0.05$.  H2 requires at least 4/6 SAE retraining
-cells to beat both mean and probe while clearing random-SAE controls.  H3 tests
-external transfer without rediscovery; H4 requires component/path necessity,
-sufficiency, and specificity; H5 attempts cross-model replication only when
-weights are available.
+The corpus contains 2{,}000 records: 1{,}000 harmful prompts, each paired with
+a benign twin on the same topic (same surface domain, one intent flip), drawn
+from 40 topic families with 25 pairs per family.  Splits are assigned at the
+pair level and families are disjoint across splits; the test split holds 250
+pairs (500 records).  A released leakage audit (corpus SHA-256 pinned) finds
+zero exact, normalized, or near-duplicate prompts across splits, zero
+harmful/benign text overlap within pairs, zero family overlap across splits,
+and zero overlap with the external OR-Bench evaluation files.
 
-\section{Main Results}
+\subsection{Discovery, selection, judgement}
+\label{sec:walls}
+
+\textbf{Discovery (train only).}  A localization score computed at layers
+$\ell\in\{4,8,12,16,20,24,27\}$ selects the target layer (27).  There we
+construct three rival explanations from identical train activations:
+(a)~a top-$k$ SAE ($k=32$; width $3{,}072$, i.e.\ $2\times$ expansion of
+$d=1{,}536$; 250 epochs; batch 512; lr $5\times10^{-4}$; $\ell_1$
+$10^{-4}$) trained on 47{,}645 activation vectors (48 tokens per prompt,
+subsampled under a 64k cap, seed 17), from which the five most
+class-separating latents by train effect size form the intervention set;
+(b)~the mean-difference direction
+$v_{\mathrm{mean}}\propto\bar h_{\mathrm{harm}}-\bar h_{\mathrm{benign}}$; and
+(c)~an $\ell_2$-regularized logistic-probe direction.  All directions are
+sign-oriented on train and unit-normalized.
+
+\textbf{Selection (validation only).}  Validation selects exactly two
+quantities: the rate threshold $\tau$ and one steering scale per method from
+the fixed grid $\{\pm1,\pm2,\pm4\}$.  Nothing else is selectable.
+
+\textbf{Judgement (test, once).}  All headline numbers are read once from the
+held-out pairs.
+
+\subsection{Interventions}
+\label{sec:interventions}
+
+For a unit direction $v$: \emph{directional ablation} sets
+$h\leftarrow h-(h^{\top}v)\,v$; \emph{steering} adds $\alpha v$.  Let the SAE
+encode $h$ into activations $a_i(h)$ with decoder atoms $d_i$ and
+reconstruction $\hat h(h)=b+\sum_i a_i(h)\,d_i$.  For a selected latent set
+$S$ we evaluate three distinct SAE interventions:
+\begin{align}
+\text{residual-preserving:} & h\leftarrow h-\textstyle\sum_{i\in S}a_i(h)\,d_i,
+\label{eq:residual}\\
+\text{reconstruction-only:} & h\leftarrow \hat h(h),
+\label{eq:recon}\\
+\text{substitution:} & h\leftarrow \hat h(h)-\textstyle\sum_{i\in S}a_i(h)\,d_i.
+\label{eq:subst}
+\end{align}
+The \emph{preregistered} SAE intervention is
+Eq.~\eqref{eq:residual}: it removes the selected features' decoder
+contribution while retaining the SAE's reconstruction residual, so it isolates
+the features rather than the autoencoder's fidelity.
+Eqs.~\eqref{eq:recon}--\eqref{eq:subst} are evaluated in the hardening
+analysis because reconstruction error is known to be behaviorally
+non-neutral \citep{gurnee2024sae}: Eq.~\eqref{eq:recon} measures exactly that
+confound, with no feature removed.
+
+\subsection{Controls}
+\label{sec:controls}
+
+\emph{Isotropic random directions} (32 draws) bound generic-perturbation
+effects.  \emph{Matched random SAEs} preserve architecture, top-$k$ sparsity,
+activation centering, and the residual-preserving mechanics of
+Eq.~\eqref{eq:residual} while randomizing weights and selected latents
+(32--48 draws per artifact).  The hardening extension adds a stricter
+\emph{same-dictionary} control: at every budget, eight random latent sets
+drawn from the trained SAE's non-dead, train-activated latents (excluding the
+selected set).  \emph{Layerwise controls} apply the identical mean-difference
+construction at every scanned layer.
+
+\subsection{Preregistration and statistics}
+\label{sec:prereg}
+
+The original protocol was frozen on 2026-06-19, before any held-out record was
+scored, with a fixed run order and the policy: \emph{no retuning of layers,
+features, thresholds, scales, prompts, metrics, seeds, widths, or criteria
+after held-out results}.  Table~\ref{tab:prereg} summarizes the acceptance
+criteria (verbatim thresholds in Appendix~\ref{app:prereg}).
 
 \begin{table}[t]
 \centering
 \small
-\begin{tabular}{lrrr}
+\begin{tabular}{@{}p{0.13\columnwidth}p{0.77\columnwidth}@{}}
 \toprule
-Intervention & $\dH$ & $\dB$ & $\dC$\\
-\midrule
-Mean direction & $\mathbf{-0.136}$ & $-0.015$ & $-0.016$\\
-SAE top-5 & $-0.036$ & $-0.036$ & $+0.002$\\
-Linear probe & $-0.002$ & $-0.007$ & $-0.008$\\
+\textbf{H1} & held-out $\dH\le-0.08$ with CI upper bound $<0$;
+              $|\dB|\le0.05$; $\dC\le0.05$ \\
+\textbf{H2} & 6 predeclared SAE cells (seeds $\{17,23,42\}\times$ widths
+              $\{\times2,\times4\}$), no exclusions; $\ge4$ cells beat
+              \emph{both} mean and probe, clearing random-SAE controls at
+              empirical $p\le0.05$ \\
+\textbf{H3} & external transfer with all artifacts frozen; no rediscovery or
+              retuning; $\dC\le0.05$; random-control comparison \\
+\textbf{H4} & component/path necessity, sufficiency, and specificity with
+              controls and held-out replication \\
+\textbf{H5} & cross-model replication attempted only where weights are
+              available; unrun cells reported as unrun \\
 \bottomrule
 \end{tabular}
-\caption{Held-out layer-27 causal effects. Negative $\dH$ means stronger
-refusal suppression; $\dB$ and $\dC$ measure specificity and capability cost.}
-\label{tab:main}
+\caption{Preregistered hypotheses and acceptance criteria (frozen 2026-06-19).}
+\label{tab:prereg}
 \end{table}
 
-\paragraph{H1: supported.}
-Mean ablation satisfies all four frozen criteria.  Harmful refusal rate falls
-from 0.64 to 0.184 while benign over-refusal changes from 0.148 to 0.140.
-Layerwise controls show that earlier large effects carry benign or NLL costs;
-layer 27 uniquely combines the largest suppression with specificity.
+The original audit reports bootstrap 95\% CIs (3{,}000 resamples), paired
+sign-flip permutation tests, and Benjamini--Hochberg correction within
+artifact families \citep{benjamini1995controlling}.  The hardening extension
+(\S\ref{sec:hardening}) was frozen as a \emph{separate} protocol after the
+original outcomes were known: it resamples complete prompt pairs (10{,}000
+draws), uses 10{,}000-draw sign-flip tests, applies Holm correction
+\citep{holm1979simple} across four enumerated primary comparisons, and fixes a
+practical inferiority margin $\delta=0.02$, derived as 25\% of H1's minimum
+meaningful effect.  Because the Qwen held-out outcomes had been inspected,
+every extension result is labeled \emph{post-hoc sensitivity}; its one
+genuinely confirmatory cell is the public-SAE replication
+(\S\ref{sec:killed}).  The original preregistration was never edited.
 
-\paragraph{H2: failed (0/6).}
-All six seed/width cells complete.  Each selected SAE effect clears its random
-SAE control and beats the probe, but none beats the mean direction.  This is a
-negative result about causal superiority, not evidence that selected SAE
-features have no causal effect.
+\subsection{Experimental setup}
+\label{sec:models}
 
-\paragraph{External transfer.}
-With all artifacts frozen, mean ablation shifts OR-Bench toxic refusal score by
-$-0.163$ and refusal rate by $-0.68$; top-5 SAE ablation shifts score by
-$-0.046$ and rate by $-0.12$.  The internal ordering transfers unchanged.
+The main audit uses Qwen/Qwen2.5-1.5B-Instruct \citep{qwen2024qwen25}
+(28 layers, $d=1{,}536$, fp16, pinned revision); H5 additionally uses
+Qwen2.5-3B-Instruct (36 layers, $d=2{,}048$).  The main-audit SAE is healthy:
+variance explained $0.9986$, mean $\ell_0=32.0$, $3.7\%$ dead features,
+feature density $0.0104$.  The negative results below are not attributable to
+a degenerate autoencoder.  All real-model runs fit on a single 24\,GiB-class
+GPU; a deterministic CPU toy audit, unit tests, and lint run in CI.
 
-\paragraph{A direction, not a circuit.}
-Residual-stream ablation is large, while attention and MLP output ablations are
-small or non-specific.  H4 is therefore not met: we claim residual localization,
-not an identified circuit.  A Qwen2.5-3B cell shows a late-layer effect but fails
-specificity, so cross-model evidence is partial.
+\section{Main Results}
+\label{sec:results}
 
-\section{Hardening Sensitivity Analysis}
+\begin{table*}[t]
+\centering
+\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Intervention (layer 27, held-out) & \dH{} [95\% CI] & \dB{} & \dC{} & rate $\Delta$ \\
+\midrule
+Mean-difference ablation & $\mathbf{-0.136}$ $[-0.144,-0.128]$ & $-0.015$ & $-0.016$ & $\mathbf{-0.456}$ $(0.64\!\to\!0.18)$ \\
+SAE feature ablation (top-5, Eq.~\ref{eq:residual}) & $-0.036$ $[-0.039,-0.034]$ & $-0.036$ & $+0.002$ & $-0.136$ $(0.64\!\to\!0.50)$ \\
+Linear-probe ablation & $-0.002$ $[-0.003,-0.002]$ & $-0.007$ & $-0.008$ & $-0.008$ \\
+\addlinespace
+Isotropic random directions (32) & range $[-0.012,+0.009]$ & --- & --- & --- \\
+Matched random SAEs (32) & range $[-0.0014,+0.0005]$ & --- & --- & --- \\
+\bottomrule
+\end{tabular}
+\caption{Held-out causal effects on Qwen2.5-1.5B-Instruct ($n=250$ pairs; NLL
+over 500 records).  Rate deltas use the validation-selected threshold
+$\tau=0.847$; baseline harmful refusal rate $0.64$, benign over-refusal
+$0.148$.  All non-control effects: raw sign-flip $p=2\times10^{-4}$, BH-corrected.
+Control ranges from the clean-room rerun artifact; the SAE clears its matched
+random-SAE controls at empirical $p=0.030$.}
+\label{tab:main}
+\end{table*}
 
-The original test outcomes were known before this extension.  We therefore
-froze a separate protocol and label all results in this section post-hoc
-sensitivity analyses.  We never edit the original preregistration.
+\subsection{H1: a robust held-out refusal direction (supported)}
+\label{sec:h1}
 
-\paragraph{Pair-aware affirmative inferiority.}
-For harmful pair member $i$, define suppression
-$u_{m,i}=-(r^{\mathrm{int}}_{m,i}-r^{\mathrm{base}}_i)$ and
-$d_i=u_{\mathrm{mean},i}-u_{\mathrm{SAE},i}$.  Pair bootstrap gives
-$\bar d=0.0992$ with 95\% CI $[0.0924,0.1058]$.  A sign-flip test remains
-significant under Holm correction ($p=0.0004$).  A one-sided test rejects a gap
-no larger than $\delta=0.02$, derived as 25\% of H1's frozen minimum effect.
-The selected top-5 also beats eight same-dictionary random sets by 0.0362
-$[0.0338,0.0386]$ (Holm $p=0.0004$).
+Table~\ref{tab:main} gives the held-out effects.  Mean-difference ablation
+satisfies all four frozen criteria: $\dH=-0.136\le-0.08$ with CI upper bound
+$-0.128<0$; $|\dB|=0.015\le0.05$; $\dC=-0.016\le0.05$.  The harmful refusal
+rate falls from $0.64$ to $0.184$ while benign over-refusal moves only from
+$0.148$ to $0.140$.
+
+\textbf{Layer 27 is privileged.}  Applying the identical mean-difference
+construction at every scanned layer shows mid-layer ablations suppress with
+collateral damage---e.g.\ layer 16: $\dH=-0.101$ but $\dC=+0.191$; layer 24:
+$\dH=-0.079$ but $\dB=+0.068$---whereas layer 27 combines the largest
+suppression ($-0.161$ in the layer-scan artifact) with near-zero benign shift
+($+0.003$) and negative capability cost ($-0.030$).  Full table in
+Appendix~\ref{app:layerwise}.
+
+\subsection{H2: SAE features never beat the baseline (failed, 0/6)}
+\label{sec:h2}
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Cell & SAE \dH{} [95\% CI] & dead & $p_{\mathrm{rand}}$ \\
+\midrule
+seed17$\times$2 & $-0.035$ $[-0.039,-0.032]$ & $16\%$ & $.020$ \\
+seed23$\times$2 & $-0.061$ $[-0.066,-0.057]$ & $14\%$ & $.020$ \\
+seed42$\times$2 & $-0.045$ $[-0.050,-0.041]$ & $15\%$ & $.020$ \\
+seed17$\times$4 & $-0.016$ $[-0.018,-0.014]$ & $44\%$ & $.020$ \\
+seed23$\times$4 & $-0.033$ $[-0.037,-0.030]$ & $49\%$ & $.020$ \\
+seed42$\times$4 & $-0.031$ $[-0.035,-0.027]$ & $39\%$ & $.020$ \\
+\bottomrule
+\end{tabular}
+\caption{SAE stability grid: all six predeclared retrainings completed, none
+excluded.  Shared frozen references in this configuration: mean $-0.141$,
+probe $-0.009$.  Every cell clears its matched random-SAE control
+($p_{\mathrm{rand}}$, empirical) and beats the probe; \emph{no} cell beats the
+mean direction, so the preregistered pass count is \textbf{0/6} (required:
+$\ge$4/6).}
+\label{tab:grid}
+\end{table}
+
+The predeclared grid retrains the SAE under three seeds and two dictionary
+widths with everything else frozen (Table~\ref{tab:grid}).  Three facts hold
+simultaneously in every cell: the SAE effect is \emph{real} (it clears matched
+random-SAE controls); it beats the probe; and it loses to the mean-difference
+direction by a factor of $2.3$--$8.8\times$.  H2 is a negative result about
+\emph{causal superiority}, not about whether selected SAE features have causal
+effects.  Two auxiliary negatives sharpen it: SAE activation patching does not
+reduce the harmful score, and it incurs material NLL cost.
+
+\subsection{H3: external causal transfer (supported)}
+\label{sec:h3}
+
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Method & \dH{} & toxic $\Delta$ & benign $\Delta$ & \dC{} \\
+\midrule
+Mean-diff.\ & $-0.163$ & $\mathbf{-0.68}$ & $-0.55$ & $-0.021$ \\
+SAE top-5 & $-0.046$ & $-0.12$ & $-0.09$ & $-0.000$ \\
+Probe & $-0.004$ & $0.00$ & $0.00$ & $-0.007$ \\
+\bottomrule
+\end{tabular}
+\caption{Zero-shot OR-Bench transfer with every artifact frozen (100 records
+per label; unpaired).  Baseline toxic refusal rate $0.96$; hard-benign
+over-refusal $0.82$.  ``toxic $\Delta$''/``benign $\Delta$'' are refusal-rate
+deltas on the toxic and hard-benign subsets.  Score CIs:
+mean $[-0.175,-0.151]$, SAE $[-0.053,-0.040]$, probe $[-0.004,-0.003]$;
+random-direction and random-SAE controls span $[-0.003,+0.005]$ and
+$[-0.000,+0.006]$.}
+\label{tab:orbench}
+\end{table}
+
+With directions, features, scales, and threshold all frozen from the internal
+audit, mean-difference ablation cuts OR-Bench toxic refusal by 68 points
+(Table~\ref{tab:orbench}); the internal ordering (mean $\gg$ SAE $\gg$ probe)
+transfers unchanged, and the capability constraint holds.  The transfer also
+replicates SAE inferiority out of distribution.  Because the baseline model
+heavily over-refuses on this distribution, the same frozen direction reduces
+hard-benign over-refusal by 55 points---an off-label but informative effect.
+
+\subsection{H4: a direction, not a circuit (failed)}
+\label{sec:h4}
+
+Projecting the direction out of each component's \emph{output} localizes the
+effect to the residual stream itself: at layer 27 on held-out records,
+residual ablation gives $\dH=-0.136$ while attention-output and MLP-output
+ablations give $-0.002$ and $+0.007$.  The preregistered H4 bundle (necessity
+$+$ sufficiency $+$ specificity at the path level) is therefore \emph{not
+met}; \glassbox{} claims residual-stream localization only, and the release
+records \texttt{confirmed\_circuit: false}.  Component tables for layers
+$\{16,20,24,27\}$ are in Appendix~\ref{app:component}.
+
+\subsection{H5: partial cross-model replication}
+\label{sec:h5}
+
+On Qwen2.5-3B-Instruct ($n=60$ held-out records; baseline harmful refusal rate
+$1.00$), the layer scan again selects a late layer (35 of 36) and
+mean-difference ablation again dominates ($\dH=-0.090$), but specificity fails
+badly: the same intervention shifts the benign score by $+0.390$ with
+$\dC=+0.164$.  The 3B SAE clears its random controls (empirical $p=0.024$)
+but is visibly under-trained (45.7\% dead features vs.\ 3.7\% at 1.5B).  H5 is
+reported as \emph{partial, Qwen-family only}.
+
+\subsection{Robustness}
+\label{sec:robustness}
+
+\textbf{Dose--response.}  On the fixed validation-frozen steering grid the
+response is monotone and ordered (mean slope $\approx4\times$ SAE
+$\approx6\times$ probe) and an order of magnitude smaller than ablation,
+consistent with ablation as the right primary test
+(Appendix~\ref{app:dose}).
+\textbf{Scorer variants.}  The ordering survives rate-threshold variants
+($\tau=0.90$: same ranking; default $\tau$: rate deltas $-0.456$ / $-0.136$ /
+$-0.008$).
+\textbf{Clean-room rerun.}  An independent reproduction from documented
+commands recovers the target layer, baseline rates, all three deltas, and the
+0/6 verdict within pre-stated tolerances.
+
+\section{Hardening Sensitivity Analyses}
+\label{sec:hardening}
+
+The analyses in this section were specified in a second frozen protocol
+\emph{after} the original outcomes were known; we therefore label them
+post-hoc sensitivity analyses, never confirmatory tests, and we never edited
+the original preregistration.  A batched re-scoring of the frozen baseline
+matches the archived per-prompt outputs to within $0.0031$ in refusal score
+(Appendix~\ref{app:infra}), far inside the $0.02$ margin used below.
+
+\subsection{Affirmative inferiority, not just ``did not win''}
+\label{sec:inferiority}
+
+For harmful test prompt $i$, define per-prompt suppression
+$u_{m,i}=-(r^{\mathrm{int}}_{m,i}-r^{\mathrm{base}}_{i})$ for method $m$ and
+the paired gap $d_i=u_{\mathrm{mean},i}-u_{\mathrm{SAE},i}$.
+Table~\ref{tab:holm} reports the four preregistered primary comparisons under
+pair bootstrap and Holm correction.
+
+\begin{table}[t]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+Suppression gap & $\bar d$ [95\% CI] & $p_{\mathrm{Holm}}$ \\
+\midrule
+mean $-$ top-5 & $0.099\,[0.092,0.106]$ & $4{\times}10^{-4}$ \\
+mean $-$ weighted & $0.136\,[0.128,0.144]$ & $4{\times}10^{-4}$ \\
+probe $-$ top-5 & $-0.034\,[-0.036,-0.032]$ & $1.0$ \\
+top-5 $-$ rand. & $0.036\,[0.034,0.039]$ & $4{\times}10^{-4}$ \\
+\bottomrule
+\end{tabular}
+\caption{Pair-aware primary family (10{,}000-draw pair bootstrap; one-sided
+sign-flip tests at the $10^{-4}$ permutation resolution floor; Holm-corrected
+across the four comparisons).  ``top-5'': selected SAE features;
+``weighted'': validation-selected 20-latent combination; ``rand.'':
+same-dictionary random sets.  The mean direction's advantage over the
+selected SAE features rejects the parity margin $\delta=0.02$ (one-sided
+normal-approximation $p<10^{-6}$).}
+\label{tab:holm}
+\end{table}
+
+The mean direction out-suppresses top-5 SAE ablation by $0.099$ refusal-score
+units---five times the practical margin---so parity is not merely unproven but
+rejected.  The result is specifically about the mean direction: SAE features
+in turn beat the probe (row 3 cannot reject) and beat eight same-dictionary
+random sets (row 4), so the audit resolves a strict ordering
+mean $\gg$ SAE top-5 $\gg$ probe on this behavior.
+
+\subsection{Feature budgets do not rescue the claim}
+\label{sec:budget}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\linewidth]{../../docs/figures/hardening_feature_budget.pdf}
-\caption{Feature-budget sensitivity. Error bars are pair-bootstrap CIs; grey is
-the range of eight same-dictionary random sets per budget.}
+\includegraphics[width=\columnwidth]{figures/hardening_feature_budget.pdf}
+\caption{Held-out feature-budget frontier.  Points: train-ranked SAE feature
+ablation at frozen budgets (95\% pair-bootstrap CIs); grey band: range of
+eight same-dictionary random sets per budget; dashed line: mean-direction
+reference ($-0.136$).  The frontier is non-monotonic, peaks at $k=5$, and
+reverses sign at $k\ge50$.}
 \label{fig:budget}
 \end{figure}
 
-\paragraph{Feature budgets do not rescue the result.}
-At budgets $\{1,2,5,10,20,50,100\}$, harmful deltas are respectively
-$+0.0013,-0.0008,-0.0363,-0.0157,-0.0018,+0.0352,+0.0345$.
-Top-5 is optimal among the frozen budgets.  At 50 and 100 features, the effect
-reverses sign while benign shifts reach about $+0.04$ and NLL cost about
-$+0.07$.  A validation-selected weighted 20-feature intervention also fails
-($\dH=+0.0002$).
+If five features are simply too few, more should help.  They do not
+(Figure~\ref{fig:budget}).  At frozen budgets $k\in\{1,2,5,10,20,50,100\}$,
+held-out $\dH$ is $+0.0013$, $-0.0008$, $\mathbf{-0.0363}$, $-0.0157$,
+$-0.0018$, $+0.0352$, $+0.0345$: top-5 is optimal, no budget approaches the
+mean direction, and at $k\in\{50,100\}$ ablation \emph{increases} refusal
+while benign shifts reach $\approx+0.04$ and NLL cost $\approx+0.07$.  A
+validation-selected weighted combination over the top-100 train-ranked
+features (20 latents, $\ell_1$ grid frozen in a preregistration amendment)
+also fails: $\dH=+0.0002$.  Under this dictionary and ranking rule, the gap is
+not a budget artifact.
+
+\subsection{Reconstruction damage masquerades as effect}
+\label{sec:reconstruction}
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=\linewidth]{../../docs/figures/hardening_intervention_comparability.pdf}
-\caption{Suppression versus hidden-state perturbation. Marker area encodes
-positive NLL cost. Full reconstruction/substitution is large but non-specific.}
+\includegraphics[width=\columnwidth]{figures/hardening_intervention_comparability.pdf}
+\caption{Suppression vs.\ mean hidden-state perturbation ($\ell_2$, log
+scale); marker area encodes positive NLL cost.  Full
+reconstruction/substitution produce large but non-specific shifts;
+the mean direction achieves its suppression at perturbation norms comparable
+to residual-preserving SAE ablation and with no NLL cost.}
 \label{fig:comparability}
 \end{figure}
 
-\paragraph{Reconstruction dominates full substitution.}
-Residual-preserving top-5 subtraction yields
-$(\dH,\dB,\dC)=(-0.0363,-0.0358,+0.0018)$.  Reconstruction with no latent
-removed yields $(-0.7179,-0.6924,+0.1924)$; full top-5 substitution yields
-$(-0.8049,-0.7070,+0.1950)$.  Most of the dramatic full-substitution effect is
-present before selected features are removed.  The mean direction gives much
-stronger specific suppression than residual-preserving SAE subtraction at
-similar mean hidden perturbation norm (32.3 versus 30.3) and no positive NLL
-cost.
+\begin{table*}[t]
+\centering
+\small
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Intervention & \dH{} [95\% CI] & \dB{} & \dC{} & $\ell_2$ & KL \\
+\midrule
+Mean-difference ablation & $-0.1356$ $[-0.1434,-0.1277]$ & $-0.0145$ & $-0.0168$ & $32.3$ & $0.744$ \\
+Linear-probe ablation & $-0.0024$ $[-0.0031,-0.0017]$ & $-0.0068$ & $-0.0080$ & $19.9$ & $0.102$ \\
+SAE top-5, residual-preserving (Eq.~\ref{eq:residual}) & $-0.0363$ $[-0.0387,-0.0340]$ & $-0.0358$ & $+0.0018$ & $30.3$ & $0.123$ \\
+SAE reconstruction only (Eq.~\ref{eq:recon}) & $-0.7179$ $[-0.7301,-0.7054]$ & $-0.6924$ & $+0.1924$ & $30.4$ & $0.302$ \\
+SAE top-5 substitution (Eq.~\ref{eq:subst}) & $-0.8049$ $[-0.8168,-0.7923]$ & $-0.7070$ & $+0.1950$ & $43.7$ & $0.376$ \\
+Weighted sparse SAE (20 latents) & $+0.0002$ $[+0.0001,+0.0004]$ & $-0.0003$ & $-0.0011$ & $0.6$ & $0.000$ \\
+Matched random SAE (residual-preserving) & $-0.0002$ $[-0.0004,0.0000]$ & $-0.0000$ & $-0.0018$ & $0.1$ & $0.000$ \\
+\bottomrule
+\end{tabular}
+\caption{Intervention comparability on held-out records ($n=250$ harmful
+pairs; pair-bootstrap CIs).  $\ell_2$: mean hidden-state perturbation norm at
+the intervention site; KL: mean next-token KL to the unintervened
+distribution.  Reconstruction alone (no latent removed) already shifts
+harmful \emph{and} benign scores by $\approx-0.7$ with $+0.19$ NLL cost:
+most of the substitution effect is reconstruction damage, not feature
+removal.}
+\label{tab:comparability}
+\end{table*}
+
+Encode--zero--decode substitution looks spectacular in isolation:
+$\dH=-0.805$.  But the reconstruction-only control---running the activation
+through the SAE with \emph{no} latent removed---already yields $\dH=-0.718$
+with an almost equal benign shift ($-0.692$) and $+0.19$ NLL cost
+(Table~\ref{tab:comparability}, Figure~\ref{fig:comparability}).  The
+apparent effect is therefore dominated by non-specific reconstruction damage,
+consistent with reconstruction errors being behaviorally pathological
+\citep{gurnee2024sae}.  Under the residual-preserving intervention that
+isolates the features themselves, the mean direction delivers $3.5\times$
+more suppression per unit of hidden-state perturbation ($0.136/32.3$ vs.\
+$0.036/30.3$), with better specificity and no capability cost.  Studies that
+demonstrate SAE ``causal effects'' via full substitution without this control
+risk crediting the dictionary for what is actually lossy compression.
+
+\subsection{The preregistered public-SAE cell, killed honestly}
+\label{sec:killed}
+
+The extension protocol's only confirmatory cell paired Gemma-2-9B-it
+\citep{gemmateam2024gemma2} with Google's instruction-tuned Gemma Scope
+residual SAE at layer 31 \citep{lieberum2024gemmascope}---the correct
+checkpoint-matched replication.  A predeclared kill condition (``model or SAE
+weights cannot be obtained reproducibly'') triggered: the model repository
+requires authenticated license acceptance and the compute host had no
+credential or cached weights.  Per the frozen fallback policy we did
+\emph{not} substitute a base-model SAE and relabel it as same-checkpoint
+evidence; the cell is preserved as killed-before-outcomes with its full
+decision record (Appendix~\ref{app:killed}).
 
 \section{Discussion}
+\label{sec:discussion}
 
-If refusal at this site is predominantly a linear class-mean shift, then its
-mean difference is a natural single-shot causal handle.  A sparse dictionary
-can distribute that variance across many latents: selected features remain
-causal, but adding more effect-ranked features need not monotonically recover
-the direction.  The reconstruction control also warns against treating full
-encode--decode substitution as a stronger SAE intervention; it changes benign
-behavior almost as much as harmful behavior.
+\paragraph{Why does the mean beat the dictionary?}
+The mean-difference direction \emph{is} the first moment of the class
+contrast.  If refusal at this site is encoded predominantly as a linear
+class-mean shift, the optimal single-shot causal handle is essentially that
+shift, and any decomposition that scatters the class-relevant variance across
+thousands of sparse latents must reassemble it before intervening.  Zeroing
+the top five features captures only the portion of the shift they span;
+adding more train-ranked features accumulates off-target components faster
+than signal (Figure~\ref{fig:budget}).  On this reading the SAE is not
+\emph{wrong}---its features are causally real, beating matched random latents
+everywhere---it is \emph{inefficient} as a causal handle for a behavior whose
+natural description is one direction.
 
-The claim is bounded.  We test one behavior, one main model family, one SAE
-recipe, and one train-only ranking rule.  Other dictionaries or supervised
-selection objectives could reverse the result.  The methodological conclusion
-is broader: causal privilege for SAE features should be demonstrated against
-strong cheap baselines under equal data access and intervention accounting.
+\paragraph{What this does and does not indict.}
+The result is bounded: one behavior, one model family, one SAE recipe, one
+train-only ranking rule.  SAEs may still win where behavior decomposes into
+genuinely multi-dimensional structure, where description rather than
+intervention strength is the goal, or with different dictionaries and
+selection objectives.  What the result does indict is asserting mechanistic
+privilege for SAE features without running the three-line baseline under
+equal selection discipline.  Every degree of freedom our SAE received, the
+baseline received too.  Our findings agree with steering-benchmark evidence
+that simple representation baselines are hard to beat \citep{wu2025axbench},
+and extend it in three ways: held-out preregistered causal testing, an
+affirmative inferiority bound, and a reconstruction control that disqualifies
+the most flattering SAE intervention.
 
-\section{Limitations and Broader Impact}
+\paragraph{Auditing as a first-class deliverable.}
+The transferable artifact is the protocol: preregister the claim ladder, wall
+off discovery/selection/judgement, match controls to intervention mechanics,
+publish every predeclared cell (including killed ones), and let the release
+claim exactly the rungs the evidence supports.  The harness is
+behavior-agnostic; refusal is simply the behavior with the strongest known
+one-direction baseline, which makes it the right first adversary for any
+claim of SAE causal superiority.
 
-The refusal score is contrastive prefix likelihood rather than generated-answer
-judging.  The controlled corpus is narrow; OR-Bench adds only unpaired external
-breadth.  Component analysis stops above head/path mediation.  The 3B cell is
-small and its SAE under-trained.  The correctly matched Gemma-2-9B-it/Gemma
-Scope replication was killed before outcomes because gated model weights were
-unavailable; we do not replace it with a mismatched base-to-instruct transfer.
-The intervention can reduce refusal in an open model, but introduces no attack
-beyond the already-public mean-direction method.  We release aggregate evidence,
-not generated harmful content or fine-tuned weights.
+\section{Conclusion}
+\label{sec:conclusion}
+
+Under preregistered, held-out, baseline-anchored evaluation, a
+difference-of-means direction remains the best causal account of refusal in
+Qwen2.5-1.5B-Instruct: SAE features are causally real but strictly inferior
+(gap $0.099$ $[0.092,0.106]$; parity within $0.02$ rejected), budgets to 100
+features do not close the gap, and the most dramatic SAE intervention is an
+artifact of reconstruction damage.  We release the full harness, protocols,
+and evidence so that the next claim of SAE causal superiority can be tested,
+rather than assumed.
+
+\section*{Limitations}
+
+The refusal scorer is a contrastive prefix log-likelihood, not
+generated-answer judging; regeneration-based grading is future work.  The
+controlled corpus is topic-matched by construction and deliberately narrow;
+naturalistic breadth enters only through the unpaired OR-Bench transfer.
+Component analysis stops at component outputs---no head- or path-level
+mediation---so ``not a circuit'' means \emph{not established}, not ruled out.
+The 3B replication uses $n=60$ and an under-trained SAE.  Non-Qwen
+replication is unrun: the checkpoint-matched Gemma cell was killed before
+outcomes for weight-access reasons and is preserved as such.  The negative H2
+conclusion is bounded by our SAE recipe (top-$k$, $k=32$, expansions
+$\times2/\times4$, $\sim$48k activation vectors) and by train-effect-size
+ranking; the hardening sweep extends budgets to 100 features without
+reversal, but a substantially different dictionary, training corpus, or
+supervised selection objective could change the verdict.  All hardening
+analyses are post-hoc sensitivity analyses by construction, and the
+stability-grid SAEs are lighter-trained than the main-audit SAE (higher dead
+fractions), which is why the healthy main-audit SAE anchors the claim.
+
+\section*{Ethics Statement}
+
+Directional ablation can partially bypass refusal in open-weight models.
+This capability is already public \citep{arditi2024refusal} and is achievable
+with the mean-difference baseline alone; we introduce no new attack surface
+beyond it.  We release no jailbreak prompts, no generated harmful content,
+and no modified weights: evidence files contain aggregate scores only, and
+the harmful-prompt corpus is regenerated locally from released code with a
+pinned hash rather than redistributed.  The methodological contribution runs
+in the protective direction---a discipline for checking safety-relevant
+mechanistic claims before they are relied upon, and for keeping negative
+results in the record.
+
+\bibliography{references}
+
+\appendix
 
 \section*{Reproducibility Statement}
 
-The repository includes frozen protocols, immutable input hashes, unit tests,
-checkpointed GPU commands, and stable JSON evidence for every table and figure.
-The hardening artifact records model revision, dataset hash, analysis status,
-pair-bootstrap intervals, permutation tests, and Holm-adjusted p-values.  A
-clean-room rerun reproduces the original target layer, baseline rates, mean and
-SAE effects, and negative verdict within fixed tolerances.
+The repository ships both preregistrations (original, frozen 2026-06-19; and
+the hardening protocol with its amendment, frozen before extension outcomes),
+the pinned model revision and corpus SHA-256, unit tests and a deterministic
+CPU toy audit that run in CI, single-GPU reproduction commands for the main
+audit, the OR-Bench transfer, and the checkpointed hardening pipeline, and
+stable-named JSON evidence behind every table and figure
+(Appendix~\ref{app:evidence}).  A clean-room rerun reproduced every headline
+number, including the failures.
 
-\bibliography{references}
+\section{Preregistered Criteria and Run Order}
+\label{app:prereg}
+
+\textbf{Original protocol (frozen 2026-06-19).}  Fixed run order: 1.5B audit
+$\to$ stability cells $\to$ OR-Bench transfer $\to$ component/path $\to$
+cross-model $\to$ final reports.  Policy: ``no retuning of layers, features,
+thresholds, scales, prompts, metrics, seeds, widths, or criteria after
+held-out results.''  H1: $\dH\le-0.08$, CI upper bound $<0$, $|\dB|\le0.05$,
+$\dC\le0.05$.  H2: six planned cells, no exclusions, $\ge4$ passing (beat
+mean \emph{and} probe; random-SAE $p\le0.05$).  H3: no external rediscovery;
+$\dC\le0.05$; random-control comparison required.  H4: necessity,
+sufficiency, specificity, controls, held-out replication.  H5: attempt only
+with available weights; never fabricate.
+
+\textbf{Hardening protocol (frozen before extension outcomes).}  Immutable
+inputs pinned by SHA-256 (dataset; SAE weights; archived intervention
+outputs; discovery tensors) plus the model revision.  Analysis status
+declared in advance: every Qwen re-analysis is post-hoc sensitivity
+(resampling unit: prompt pair; 10{,}000 bootstrap and permutation draws;
+95\% confidence; practical margin $0.02$ = 25\% of H1's minimum effect).
+Primary family (Holm-corrected, enumerated in advance): mean vs.\ selected
+SAE; probe vs.\ selected SAE; selected SAE vs.\ matched random SAE; best
+validation-selected weighted sparse SAE vs.\ mean.  Feature-budget frontier:
+budgets $\{1,2,5,10,20,50,100\}$, train-only ranking, eight same-dictionary
+random sets per budget (seed 1729).  An amendment (also frozen before
+outcomes) fixed the weighted-combination fitting grid: top-100 train-ranked
+candidate features, $\ell_1$ grid $0$, $10^{-4}$, $10^{-3}$, $10^{-2}$; 400
+epochs; lr $0.05$; at most 20 selected latents, fit on train, selected on
+validation (selected $\ell_1=10^{-2}$).  Reporting policy: never edit the
+original preregistration; never call a previously-inspected analysis
+confirmatory; preserve failed, null, and killed cells.
+
+\section{Layerwise Mean-Difference Controls}
+\label{app:layerwise}
+
+\begin{table}[h]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4.5pt}
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+Layer & \dH{} [95\% CI] & \dB{} & \dC{} \\
+\midrule
+4  & $-0.001$ $[-0.001,+0.000]$ & $+0.003$ & $-0.081$ \\
+8  & $-0.003$ $[-0.004,-0.002]$ & $-0.010$ & $+0.112$ \\
+12 & $+0.005$ $[+0.003,+0.006]$ & $+0.024$ & $+0.120$ \\
+16 & $-0.101$ $[-0.116,-0.086]$ & $-0.039$ & $+0.191$ \\
+20 & $-0.108$ $[-0.120,-0.095]$ & $+0.039$ & $+0.073$ \\
+24 & $-0.079$ $[-0.090,-0.068]$ & $+0.068$ & $+0.161$ \\
+\textbf{27} & $\mathbf{-0.161}$ $[-0.180,-0.141]$ & $\mathbf{+0.003}$ & $\mathbf{-0.030}$ \\
+\bottomrule
+\end{tabular}
+\caption{The identical mean-difference construction applied independently at
+every scanned layer (layer-scan artifact).  Only layer 27 combines strong
+suppression with specificity and no capability cost.}
+\label{tab:layerwise}
+\end{table}
+
+\section{Component-Output Ablation}
+\label{app:component}
+
+\begin{table}[h]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}rrrr@{}}
+\toprule
+Layer & Residual & Attn out & MLP out \\
+\midrule
+16 & $-0.071$ & $-0.014$ & $-0.023$ \\
+20 & $-0.101$ & $+0.001$ & $-0.011$ \\
+24 & $-0.058$ & $-0.002$ & $-0.006$ \\
+27 & $-0.141$ & $-0.002$ & $+0.013$ \\
+\midrule
+27 (expanded) & $-0.136$ & $-0.002$ & $+0.007$ \\
+\bottomrule
+\end{tabular}
+\caption{Harmful-score $\Delta$ from projecting the direction out of each
+component's output.  Rows 1--4: reference artifact ($n=260$); final row: the
+expanded held-out artifact ($n=500$).  The effect lives in the residual stream.}
+\label{tab:component}
+\end{table}
+
+\section{Dose--Response on the Fixed Steering Grid}
+\label{app:dose}
+
+\begin{table}[h]
+\centering
+\footnotesize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Method & Scale & \dH{} & \dB{} & \dC{} \\
+\midrule
+SAE features & $-4$ & $-0.0022$ & $-0.0015$ & $+0.0009$ \\
+SAE features & $+4$ & $+0.0023$ & $+0.0015$ & $+0.0004$ \\
+Mean-difference & $-4$ & $-0.0098$ & $-0.0095$ & $-0.0040$ \\
+Mean-difference & $+4$ & $+0.0099$ & $+0.0103$ & $+0.0061$ \\
+Linear probe & $-4$ & $-0.0016$ & $+0.0012$ & $-0.0058$ \\
+Linear probe & $+4$ & $+0.0018$ & $-0.0012$ & $+0.0079$ \\
+\bottomrule
+\end{tabular}
+\caption{End-points of the fixed steering grid (full grid
+$\{\pm1,\pm2,\pm4\}$ in the released evidence; intermediate scales are
+monotone and near-antisymmetric).  Steering responses are an order of
+magnitude smaller than ablation at these scales, supporting ablation as the
+primary causal test.}
+\label{tab:dose}
+\end{table}
+
+\section{Feature-Budget Frontier (Full Table)}
+\label{app:budget}
+
+\begin{table*}[t]
+\centering
+\small
+\begin{tabular}{@{}rrrrr@{}}
+\toprule
+$k$ & \dH{} [95\% CI] & \dB{} & \dC{} & same-dictionary random range \\
+\midrule
+1   & $+0.0013$ $[+0.0010,+0.0016]$ & $-0.0011$ & $-0.0000$ & $[-0.0001,\;0.0000]$ \\
+2   & $-0.0008$ $[-0.0012,-0.0005]$ & $-0.0041$ & $-0.0000$ & $[-0.0007,+0.0004]$ \\
+5   & $-0.0363$ $[-0.0387,-0.0340]$ & $-0.0358$ & $+0.0018$ & $[-0.0014,+0.0002]$ \\
+10  & $-0.0157$ $[-0.0194,-0.0122]$ & $-0.0126$ & $+0.0015$ & $[-0.0001,+0.0122]$ \\
+20  & $-0.0018$ $[-0.0053,+0.0017]$ & $+0.0049$ & $+0.0266$ & $[-0.0076,+0.0044]$ \\
+50  & $+0.0352$ $[+0.0307,+0.0397]$ & $+0.0408$ & $+0.0696$ & $[-0.0053,+0.0133]$ \\
+100 & $+0.0345$ $[+0.0300,+0.0390]$ & $+0.0396$ & $+0.0720$ & $[-0.0015,+0.0289]$ \\
+\bottomrule
+\end{tabular}
+\caption{Held-out effects of ablating the top-$k$ train-ranked SAE features,
+with the range of eight same-dictionary random sets per budget.  The
+mean-direction reference is $-0.136$.}
+\label{tab:budgetfull}
+\end{table*}
+
+\section{The Killed Public-SAE Cell}
+\label{app:killed}
+
+Preregistered confirmatory cell: \texttt{google/gemma-2-9b-it} with SAE
+release \texttt{google/gemma-scope-9b-it-res}, residual-stream hook, layer
+31, candidate SAEs \texttt{layer\_31/width\_16k/canonical} and
+\texttt{layer\_31/width\_131k/canonical} (instruction-tuned model with
+instruction-tuned SAE).  Predeclared kill conditions included: no
+checkpoint-matched instruction-tuned SAE; incompatible hook layer or width;
+weights not obtainable reproducibly; cell cannot run on one 24\,GiB GPU with
+documented settings.  Recorded outcome: \emph{killed before outcomes} under
+the weight-availability condition---the model repository requires
+authenticated license acceptance, and the compute host had neither a
+Hugging Face credential nor cached weight blobs.  Recorded decision: do not
+substitute a base-model SAE on an instruction-tuned checkpoint, and do not
+report a heterogeneous transfer cell as same-checkpoint replication.  The
+full decision record, including cache and authentication evidence and source
+URLs, ships in the evidence bundle.
+
+\section{Infrastructure and Cross-Checks}
+\label{app:infra}
+
+The hardening pipeline evaluates interventions with a batched scorer for
+throughput.  Before any extension cell ran, the batched scorer re-evaluated
+the unintervened baseline against the archived per-prompt outputs of the
+original audit: maximum absolute refusal-score difference $0.0031$ (mean
+$0.0005$) and maximum absolute NLL difference $0.0156$---one fp16
+quantization step---across all 500 held-out records.  All extension deltas
+are computed against the batched baseline, so batching effects cancel within
+comparisons.  Runs are checkpointed per cell and resume idempotently; the
+evidence JSON records the model revision, dataset hash, artifact hashes,
+protocol hashes, and the exact analysis-status label for every block.  All
+GPU work fits on a single 24\,GiB-class device.
+
+\section{Claim-to-Evidence Map}
+\label{app:evidence}
+
+Every number in this paper is transcribed from a committed, stable-named JSON
+file in the released repository:
+
+\begin{table}[h]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}ll@{}}
+\toprule
+Claim & Evidence file \\
+\midrule
+Table~\ref{tab:main}, SAE health & \texttt{qwen2\_5\_1\_5b\_audit.json} \\
+CIs and permutation $p$ & \texttt{statistical\_tests.json} \\
+Table~\ref{tab:grid} & \texttt{stability\_grid.json} \\
+Table~\ref{tab:orbench} & \texttt{or\_bench\ldots summary.json} \\
+Tabs.~\ref{tab:holm}, \ref{tab:comparability}, \ref{tab:budgetfull} & \texttt{paper-hardening/qwen15b.json} \\
+Table~\ref{tab:layerwise} & \texttt{layerwise\_controls.md} \\
+Table~\ref{tab:component} & \texttt{component\_path\_summary.json} \\
+\S\ref{sec:h5} & \texttt{qwen2\_5\_3b\_replication.json} \\
+Table~\ref{tab:dose} & \texttt{dose\_response.json} \\
+Clean-room rerun & \texttt{reproducibility.json} \\
+Leakage audit & \texttt{data\_leakage\_audit.json} \\
+Preregistrations & \texttt{preregistration.json}, \texttt{*.yaml} \\
+Killed cell (App.~\ref{app:killed}) & \texttt{public-sae/gemma2-9b-it.json} \\
+\bottomrule
+\end{tabular}
+\caption{Evidence map (paths abbreviated; full paths in the repository).}
+\label{tab:evidence}
+\end{table}
+
 \end{document}
