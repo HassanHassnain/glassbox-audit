@@ -218,6 +218,8 @@ class HuggingFaceRefusalModel(AuditModel):
                 add_generation_prompt=True,
                 return_tensors="pt",
             )
+            if not isinstance(ids, torch.Tensor):
+                ids = ids["input_ids"]
         else:
             ids = self.tokenizer(prompt, return_tensors="pt").input_ids
         return ids.to(self.device)
