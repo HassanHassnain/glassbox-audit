@@ -222,6 +222,113 @@ class HuggingFaceRefusalModel(AuditModel):
             ids = self.tokenizer(prompt, return_tensors="pt").input_ids
         return ids.to(self.device)
 
+    def _left_padded(self, rows: list[torch.Tensor]) -> tuple[torch.Tensor, torch.Tensor]:
+        pad_id = self.tokenizer.pad_token_id
+        if pad_id is None:
+            pad_id = self.tokenizer.eos_token_id
+        width = max(int(row.shape[-1]) for row in rows)
+        input_ids = torch.full(
+            (len(rows), width), int(pad_id), device=self.device, dtype=rows[0].dtype
+        )
+        attention_mask = torch.zeros((len(rows), width), device=self.device, dtype=torch.long)
+        for index, row in enumerate(rows):
+            length = int(row.shape[-1])
+            input_ids[index, -length:] = row[0]
+            attention_mask[index, -length:] = 1
+        return input_ids, attention_mask
+
+    def _batched_continuation_logprob(
+        self,
+        prompt_rows: list[torch.Tensor],
+        continuation: str,
+        layer: int | None,
+        intervention: Intervention | None,
+    ) -> list[float]:
+        continuation_ids = self.tokenizer(
+            continuation, add_special_tokens=False, return_tensors="pt"
+        ).input_ids.to(self.device)
+        rows = [torch.cat([prompt, continuation_ids], dim=-1) for prompt in prompt_rows]
+        input_ids, attention_mask = self._left_padded(rows)
+        continuation_length = int(continuation_ids.shape[-1])
+        start = input_ids.shape[-1] - continuation_length - 1
+        with self._intervention_hook(
+            layer, intervention, start_position=start
+        ), torch.inference_mode():
+            logits = self.model(input_ids, attention_mask=attention_mask).logits[:, :-1]
+        targets = input_ids[:, 1:]
+        token_logprobs = logits.log_softmax(dim=-1).gather(
+            -1, targets.unsqueeze(-1)
+        ).squeeze(-1)
+        return token_logprobs[:, start:].mean(dim=-1).float().cpu().tolist()
+
+    def _batched_prompt_nll(
+        self,
+        prompt_rows: list[torch.Tensor],
+        layer: int | None,
+        intervention: Intervention | None,
+    ) -> list[float]:
+        input_ids, attention_mask = self._left_padded(prompt_rows)
+        with self._intervention_hook(layer, intervention, start_position=0), torch.inference_mode():
+            logits = self.model(input_ids, attention_mask=attention_mask).logits[:, :-1]
+        targets = input_ids[:, 1:]
+        losses = F.cross_entropy(logits.transpose(1, 2), targets, reduction="none")
+        valid = (attention_mask[:, 1:] * attention_mask[:, :-1]).to(losses.dtype)
+        return ((losses * valid).sum(dim=-1) / valid.sum(dim=-1)).float().cpu().tolist()
+
+    def evaluate_batched(
+        self,
+        records: list[PromptRecord],
+        layer: int | None = None,
+        intervention: Intervention | None = None,
+        *,
+        batch_size: int = 8,
+    ) -> list[ModelOutput]:
+        """Score left-padded batches with the same continuation and prompt-NLL definitions."""
+
+        outputs: list[ModelOutput] = []
+        for start in range(0, len(records), batch_size):
+            batch = records[start : start + batch_size]
+            prompts = [self._prompt_ids(record.prompt) for record in batch]
+            refusal = self._batched_continuation_logprob(
+                prompts, self.refusal_prefix, layer, intervention
+            )
+            compliance = self._batched_continuation_logprob(
+                prompts, self.compliance_prefix, layer, intervention
+            )
+            nlls = self._batched_prompt_nll(prompts, layer, intervention)
+            for record, refusal_score, compliance_score, nll in zip(
+                batch, refusal, compliance, nlls, strict=True
+            ):
+                score = torch.sigmoid(torch.tensor(refusal_score - compliance_score)).item()
+                outputs.append(ModelOutput(record.id, score, nll))
+        return outputs
+
+    def next_token_kl_batched(
+        self,
+        records: list[PromptRecord],
+        layer: int,
+        intervention: Intervention,
+        *,
+        batch_size: int = 8,
+    ) -> list[float]:
+        """Return per-prompt KL(base next-token distribution || intervened)."""
+
+        rows: list[float] = []
+        for start in range(0, len(records), batch_size):
+            prompts = [self._prompt_ids(row.prompt) for row in records[start : start + batch_size]]
+            input_ids, attention_mask = self._left_padded(prompts)
+            with torch.inference_mode():
+                baseline = self.model(input_ids, attention_mask=attention_mask).logits[:, -1].float()
+            with self._intervention_hook(layer, intervention, start_position=-1), torch.inference_mode():
+                changed = self.model(input_ids, attention_mask=attention_mask).logits[:, -1].float()
+            base_logprob = baseline.log_softmax(dim=-1)
+            changed_logprob = changed.log_softmax(dim=-1)
+            probability = base_logprob.exp()
+            rows.extend(
+                (probability * (base_logprob - changed_logprob)).sum(dim=-1).cpu().tolist()
+            )
+        return rows
+
     @contextmanager
     def _intervention_hook(
         self,

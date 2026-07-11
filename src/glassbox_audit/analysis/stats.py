@@ -44,21 +44,120 @@ def bootstrap_ci(
     }
 
 
+def grouped_bootstrap_ci(
+    values: Sequence[float],
+    group_ids: Sequence[str],
+    statistic: Callable[[Sequence[float]], float] = mean,
+    samples: int = 1000,
+    confidence: float = 0.95,
+    seed: int = 0,
+) -> dict[str, float]:
+    """Bootstrap complete groups, preserving linked observations such as prompt pairs."""
+
+    if len(values) != len(group_ids):
+        raise ValueError("Values and group IDs must have equal length")
+    if not values:
+        return {"estimate": float("nan"), "low": float("nan"), "high": float("nan")}
+    grouped: dict[str, list[float]] = {}
+    for value, group_id in zip(values, group_ids, strict=True):
+        grouped.setdefault(str(group_id), []).append(value)
+    keys = list(grouped)
+    rng = random.Random(seed)
+    draws = []
+    for _ in range(samples):
+        sample = [
+            value
+            for _ in keys
+            for value in grouped[keys[rng.randrange(len(keys))]]
+        ]
+        draws.append(statistic(sample))
+    alpha = (1 - confidence) / 2
+    return {
+        "estimate": statistic(values),
+        "low": percentile(draws, alpha),
+        "high": percentile(draws, 1 - alpha),
+    }
+
+
 def paired_delta_ci(
     before: Sequence[float],
     after: Sequence[float],
     samples: int,
     confidence: float,
     seed: int,
+    *,
+    group_ids: Sequence[str] | None = None,
 ) -> dict[str, float]:
     if len(before) != len(after):
         raise ValueError("Paired samples must have equal length")
+    deltas = [right - left for left, right in zip(before, after, strict=True)]
+    if group_ids is not None:
+        return grouped_bootstrap_ci(
+            deltas,
+            group_ids,
+            samples=samples,
+            confidence=confidence,
+            seed=seed,
+        )
     return bootstrap_ci(
-        [right - left for left, right in zip(before, after, strict=True)],
+        deltas,
         samples=samples,
         confidence=confidence,
         seed=seed,
     )
+
+
+def sample_standard_deviation(values: Sequence[float]) -> float:
+    if len(values) < 2:
+        return 0.0
+    center = mean(values)
+    return math.sqrt(sum((value - center) ** 2 for value in values) / (len(values) - 1))
+
+
+def normal_cdf(value: float) -> float:
+    return 0.5 * (1.0 + math.erf(value / math.sqrt(2.0)))
+
+
+def one_sample_mean_test(
+    values: Sequence[float],
+    null_value: float,
+    *,
+    alternative: str = "two-sided",
+) -> dict[str, float | str]:
+    """Normal-approximation test for a mean, used for prespecified inferiority margins."""
+
+    if alternative not in {"two-sided", "less", "greater"}:
+        raise ValueError("alternative must be one of: two-sided, less, greater")
+    estimate = mean(values)
+    standard_error = (
+        sample_standard_deviation(values) / math.sqrt(len(values)) if values else float("nan")
+    )
+    if not values:
+        z = p_value = float("nan")
+    elif standard_error <= 1e-12:
+        z = 0.0 if estimate == null_value else math.copysign(1e12, estimate - null_value)
+        if alternative == "greater":
+            p_value = 0.0 if estimate > null_value else 1.0
+        elif alternative == "less":
+            p_value = 0.0 if estimate < null_value else 1.0
+        else:
+            p_value = 0.0 if estimate != null_value else 1.0
+    else:
+        z = (estimate - null_value) / standard_error
+        if alternative == "greater":
+            p_value = 1 - normal_cdf(z)
+        elif alternative == "less":
+            p_value = normal_cdf(z)
+        else:
+            p_value = 2 * min(normal_cdf(z), 1 - normal_cdf(z))
+    return {
+        "estimate": estimate,
+        "null_value": null_value,
+        "standard_error": standard_error,
+        "z": z,
+        "p_value": p_value,
+        "alternative": alternative,
+    }
 
 
 def paired_permutation_test(
@@ -119,6 +218,19 @@ def benjamini_hochberg(p_values: Sequence[float]) -> list[float]:
     for rank_from_end, (index, p_value) in enumerate(reversed(indexed), start=1):
         rank = n - rank_from_end + 1
         running = min(running, p_value * n / rank)
+        adjusted[index] = min(1.0, running)
+    return adjusted
+
+
+def holm_adjust(p_values: Sequence[float]) -> list[float]:
+    """Return Holm familywise-error adjusted p-values in original order."""
+
+    n = len(p_values)
+    indexed = sorted(enumerate(p_values), key=lambda item: item[1])
+    adjusted = [1.0] * n
+    running = 0.0
+    for rank, (index, p_value) in enumerate(indexed):
+        running = max(running, (n - rank) * p_value)
         adjusted[index] = min(1.0, running)
     return adjusted
 

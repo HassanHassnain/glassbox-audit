@@ -1,0 +1,23 @@
+schema_version: "2.0"
+date_frozen: "2026-07-11"
+amends: "docs/preregistration_hardening.yaml"
+original_preregistration_sha256: "c7b196d64460bf0e37c4fce5c4ee4ed9a46cabe0de001f57006cc6416fd7624c"
+timing: "Frozen before any extension outcome was computed."
+reason: "The initial protocol named a validation-selected weighted sparse combination but omitted its fixed fitting grid."
+
+weighted_sparse_combination:
+  candidate_features: "top 100 positive-effect SAE features ranked on train"
+  l1_grid: [0.0, 0.0001, 0.001, 0.01]
+  epochs: 400
+  learning_rate: 0.05
+  maximum_selected_features: 20
+  fit_split: "train"
+  selection_split: "validation"
+  selection_metric: "binary cross-entropy on SAE latent activations"
+  intervention: "residual-preserving subtraction of normalized positive classifier weights times active latent values"
+
+matched_random_definition:
+  dictionary: "the same trained SAE used by the selected features"
+  eligible_latents: "non-dead train-activated latents excluding the selected set"
+  sets_per_budget: 8
+  matching: "same number of unique latents as each selected budget"

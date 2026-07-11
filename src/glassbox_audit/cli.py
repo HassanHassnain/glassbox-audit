@@ -8,6 +8,7 @@ from pathlib import Path
 
 from .analysis import refresh_failure_analysis
 from .analysis.component_analysis import run_component_localization
+from .analysis.hardening import run_paper_hardening
 from .analysis.path_component import run_path_component_analysis
 from .analysis.release_hardening import (
     write_data_leakage_audit,
@@ -226,6 +227,19 @@ def build_parser() -> argparse.ArgumentParser:
 
     workbench = subparsers.add_parser("workbench", help="Launch the Streamlit feature browser")
     workbench.add_argument("--artifacts", required=True)
+
+    hardening = subparsers.add_parser(
+        "paper-hardening",
+        help="Run pair-aware inference, intervention comparability, and the SAE budget frontier",
+    )
+    hardening.add_argument("--artifacts", required=True)
+    hardening.add_argument("--dataset", required=True)
+    hardening.add_argument("--config", required=True)
+    hardening.add_argument("--output-dir", required=True)
+    hardening.add_argument("--result", required=True)
+    hardening.add_argument("--device", default="cuda:0")
+    hardening.add_argument("--cache-dir", default=None)
+    hardening.add_argument("--batch-size", type=int, default=8)
     return parser
 
 
@@ -234,6 +248,22 @@ def main() -> None:
     if args.command == "run":
         summary = run_audit(load_config(args.config), args.output)
         print(json.dumps(summary, indent=2))
+    elif args.command == "paper-hardening":
+        result = run_paper_hardening(
+            artifacts=args.artifacts,
+            dataset=args.dataset,
+            config_path=args.config,
+            output_dir=args.output_dir,
+            result_path=args.result,
+            device=args.device,
+            cache_dir=args.cache_dir,
+            batch_size=args.batch_size,
+        )
+        print(json.dumps({
+            "result": args.result,
+            "analysis_status": result["analysis_status"],
+            "baseline_batch_crosscheck": result["baseline_batch_crosscheck"],
+        }, indent=2))
     elif args.command == "validate-data":
         print(json.dumps(dataset_summary(load_records(args.data)), indent=2))
     elif args.command == "build-pairs":
