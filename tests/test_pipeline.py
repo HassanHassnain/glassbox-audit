@@ -3,20 +3,34 @@ from pathlib import Path
 import pytest
 import torch
 
-from glassbox_audit.config import EvaluationConfig, ExperimentConfig, ModelConfig, SAEConfig
+from glassbox_audit.config import (
+    EvaluationConfig,
+    ExperimentConfig,
+    ModelConfig,
+    SAEConfig,
+    load_config,
+)
 from glassbox_audit.interventions import AblateSAEFeatures
 from glassbox_audit.pipeline import _random_sae_controls, run_audit
-from glassbox_audit.reporting.workbench import load_artifacts
 from glassbox_audit.utils import read_json
+from glassbox_audit.workbench import load_artifacts
 
 ROOT = Path(__file__).parents[1]
+
+
+def test_nested_config_paths_resolve_from_project_root():
+    config = load_config(ROOT / "configs/a2_model_sweep/qwen25-05b-instruct.yaml")
+    assert config.dataset_path == str((ROOT / "data/refusal_controlled_v2_1000.jsonl").resolve())
+    assert config.preregistration_path == str(
+        (ROOT / "docs/preregistration_model_sweep.frozen.json").resolve()
+    )
 
 
 def test_toy_pipeline_runs_end_to_end(tmp_path):
     config = ExperimentConfig(
         seed=17,
         evidence_class="synthetic_fixture",
-        dataset_path=str(ROOT / "data/fixtures/refusal_pairs_tiny.jsonl"),
+        dataset_path=str(ROOT / "data/refusal_pairs.jsonl"),
         model=ModelConfig(backend="toy", layers=[0, 1, 2, 3], dtype="float32", device="cpu"),
         sae=SAEConfig(
             expansion_factor=2,
@@ -36,6 +50,7 @@ def test_toy_pipeline_runs_end_to_end(tmp_path):
     summary = run_audit(config, tmp_path)
     assert summary["evidence_class"] == "synthetic_fixture"
     assert summary["target_layer"] != 0
+    assert summary["test_pairs"] > 0
     assert (tmp_path / "REPORT.md").exists()
     artifacts = load_artifacts(tmp_path)
     interventions = artifacts["interventions"]
@@ -48,15 +63,21 @@ def test_toy_pipeline_runs_end_to_end(tmp_path):
     assert "mean_difference_direction_ablation" in interventions["causal_tests"]
     assert (tmp_path / "failure_analysis.json").exists()
     assert (tmp_path / "method_comparisons.json").exists()
+    assert (tmp_path / "equivalence_analysis.json").exists()
     assert (tmp_path / "layerwise_controls.json").exists()
     assert (tmp_path / "protocol.json").exists()
     assert read_json(tmp_path / "manifest.json")["schema_version"] == "1.0"
+    equivalence = read_json(tmp_path / "equivalence_analysis.json")
+    assert equivalence["bootstrap_unit"] == "pair_id"
+    assert "power_analysis" in equivalence
+    assert equivalence["analysis_design"] == "post_hoc_sensitivity"
+    assert "preregistered_bounds" not in equivalence
 
 
 def test_toy_model_has_measurable_baseline_behavior(tmp_path):
     config = ExperimentConfig(
         evidence_class="synthetic_fixture",
-        dataset_path=str(ROOT / "data/fixtures/refusal_pairs_tiny.jsonl"),
+        dataset_path=str(ROOT / "data/refusal_pairs.jsonl"),
         model=ModelConfig(backend="toy", layers=[1]),
         sae=SAEConfig(
             expansion_factor=2,
@@ -79,7 +100,7 @@ def test_real_audit_mode_enforces_held_out_protocol(tmp_path):
     config = ExperimentConfig(
         mode="real_audit",
         evidence_class="empirical_bounded_real_audit",
-        dataset_path=str(ROOT / "data/fixtures/refusal_pairs_tiny.jsonl"),
+        dataset_path=str(ROOT / "data/refusal_pairs.jsonl"),
         model=ModelConfig(backend="toy", layers=[0, 1]),
     )
     with pytest.raises(ValueError, match="Invalid real-audit configuration"):

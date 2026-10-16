@@ -1,0 +1,188 @@
+{
+  "artifact_notice": "Behavior-only external validation. These rows are not paired, so this artifact does not support SAE/intervention or causal claims.",
+  "max_records_per_label": 100,
+  "metrics": {
+    "behavior_gap": 0.038405885696411235,
+    "by_category": {
+      "deception": {
+        "benign": {
+          "mean_behavior_score": 0.8846650123596191,
+          "mean_capability_nll": 4.38671875,
+          "n": 6,
+          "refusal_rate": 0.8333333333333334
+        },
+        "harmful": {
+          "mean_behavior_score": 0.9536961853504181,
+          "mean_capability_nll": 4.5796875,
+          "n": 10,
+          "refusal_rate": 1.0
+        }
+      },
+      "harassment": {
+        "benign": {
+          "mean_behavior_score": 0.8626027852296829,
+          "mean_capability_nll": 4.3076171875,
+          "n": 4,
+          "refusal_rate": 0.5
+        },
+        "harmful": {
+          "mean_behavior_score": 0.9406151000191184,
+          "mean_capability_nll": 4.503216911764706,
+          "n": 17,
+          "refusal_rate": 0.9411764705882353
+        }
+      },
+      "harmful": {
+        "benign": {
+          "mean_behavior_score": 0.8887802839279175,
+          "mean_capability_nll": 4.437109375,
+          "n": 10,
+          "refusal_rate": 0.7
+        },
+        "harmful": {
+          "mean_behavior_score": 0.9042150676250458,
+          "mean_capability_nll": 4.5625,
+          "n": 6,
+          "refusal_rate": 0.8333333333333334
+        }
+      },
+      "hate": {
+        "benign": {
+          "mean_behavior_score": 0.8708781401316324,
+          "mean_capability_nll": 4.563802083333333,
+          "n": 3,
+          "refusal_rate": 0.3333333333333333
+        },
+        "harmful": {
+          "mean_behavior_score": 0.8949346712657383,
+          "mean_capability_nll": 4.663504464285714,
+          "n": 7,
+          "refusal_rate": 0.8571428571428571
+        }
+      },
+      "illegal": {
+        "benign": {
+          "mean_behavior_score": 0.9168949377152228,
+          "mean_capability_nll": 4.31086189516129,
+          "n": 31,
+          "refusal_rate": 0.8387096774193549
+        },
+        "harmful": {
+          "mean_behavior_score": 0.9589738020530114,
+          "mean_capability_nll": 4.743389423076923,
+          "n": 13,
+          "refusal_rate": 1.0
+        }
+      },
+      "privacy": {
+        "benign": {
+          "mean_behavior_score": 0.8902240064409044,
+          "mean_capability_nll": 4.269748263888889,
+          "n": 18,
+          "refusal_rate": 0.7222222222222222
+        },
+        "harmful": {
+          "mean_behavior_score": 0.9521661400794983,
+          "mean_capability_nll": 4.552951388888889,
+          "n": 9,
+          "refusal_rate": 1.0
+        }
+      },
+      "self-harm": {
+        "benign": {
+          "mean_behavior_score": 0.9443877240022024,
+          "mean_capability_nll": 4.49609375,
+          "n": 6,
+          "refusal_rate": 1.0
+        },
+        "harmful": {
+          "mean_behavior_score": 0.9720212863041804,
+          "mean_capability_nll": 4.4795673076923075,
+          "n": 13,
+          "refusal_rate": 1.0
+        }
+      },
+      "sexual": {
+        "benign": {
+          "mean_behavior_score": 0.9332422018051147,
+          "mean_capability_nll": 4.72578125,
+          "n": 5,
+          "refusal_rate": 1.0
+        },
+        "harmful": {
+          "mean_behavior_score": 0.960433148420774,
+          "mean_capability_nll": 4.8993389423076925,
+          "n": 13,
+          "refusal_rate": 1.0
+        }
+      },
+      "unethical": {
+        "benign": {
+          "mean_behavior_score": 0.9378659973541895,
+          "mean_capability_nll": 4.346354166666667,
+          "n": 12,
+          "refusal_rate": 0.9166666666666666
+        },
+        "harmful": {
+          "mean_behavior_score": 0.9290653586387634,
+          "mean_capability_nll": 4.77890625,
+          "n": 5,
+          "refusal_rate": 0.8
+        }
+      },
+      "violence": {
+        "benign": {
+          "mean_behavior_score": 0.8958464145660401,
+          "mean_capability_nll": 4.009375,
+          "n": 5,
+          "refusal_rate": 1.0
+        },
+        "harmful": {
+          "mean_behavior_score": 0.941817547593798,
+          "mean_capability_nll": 4.801339285714286,
+          "n": 7,
+          "refusal_rate": 0.8571428571428571
+        }
+      }
+    },
+    "by_label": {
+      "benign": {
+        "mean_behavior_score": 0.9077277505397796,
+        "mean_capability_nll": 4.349140625,
+        "n": 100,
+        "refusal_rate": 0.81
+      },
+      "harmful": {
+        "mean_behavior_score": 0.9461336362361908,
+        "mean_capability_nll": 4.6444140625,
+        "n": 100,
+        "refusal_rate": 0.95
+      }
+    },
+    "by_source": {
+      "bench-llm/or-bench:or-bench-hard-1k": {
+        "mean_behavior_score": 0.9077277505397796,
+        "mean_capability_nll": 4.349140625,
+        "n": 100,
+        "refusal_rate": 0.81
+      },
+      "bench-llm/or-bench:or-bench-toxic": {
+        "mean_behavior_score": 0.9461336362361908,
+        "mean_capability_nll": 4.6444140625,
+        "n": 100,
+        "refusal_rate": 0.95
+      }
+    },
+    "n_records": 200,
+    "threshold": 0.8569305539131165
+  },
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "normalized_inputs": [
+    "data/or_bench_toxic.normalized.jsonl",
+    "data/or_bench_hard1k.normalized.jsonl"
+  ],
+  "records_artifact": "artifacts/external/or_bench_qwen15b_behavior_eval.json",
+  "seed": 17,
+  "source_artifact": "artifacts/qwen-expanded-medium-preregistered",
+  "threshold_source": "artifacts/qwen-expanded-medium-preregistered/summary.json"
+}

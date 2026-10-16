@@ -1,0 +1,30 @@
+{
+  "artifact_notice": "README audit-card gallery generated from frozen B1 certification cards.",
+  "cards": [
+    {
+      "artifact_dir": "artifacts/qwen-real-audit",
+      "expected": "pass",
+      "failed_required_rungs": [],
+      "html": "docs/audit-cards/qwen-real-audit.card.html",
+      "id": "qwen-real-audit",
+      "json": "results/certification/qwen-real-audit.card.json",
+      "passed": true,
+      "pdf": "results/certification/qwen-real-audit.card.pdf",
+      "title": "Qwen2.5-1.5B main audit"
+    },
+    {
+      "artifact_dir": "artifacts/qwen2.5-3b-replication-preregistered",
+      "expected": "fail",
+      "failed_required_rungs": [
+        "specificity"
+      ],
+      "html": "docs/audit-cards/qwen2.5-3b-replication.card.html",
+      "id": "qwen2.5-3b-replication",
+      "json": "results/certification/qwen2.5-3b-replication.card.json",
+      "passed": false,
+      "pdf": "results/certification/qwen2.5-3b-replication.card.pdf",
+      "title": "Qwen2.5-3B replication"
+    }
+  ],
+  "schema_version": "1.0"
+}

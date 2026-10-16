@@ -1,0 +1,36 @@
+seed: 17
+mode: real_audit
+behavior: refusal
+evidence_class: representational_public_sae_zoo_base_model_preregistered
+dataset_path: data/refusal_controlled_v2_1000.jsonl
+preregistration_path: docs/preregistration_sae_zoo_v2.frozen.json
+preregistration_hash: 0053eb4e7c10bbf21bf6d3a975c9057e9f35dfefbb4d142523a2c69d7937851f
+target_layer: 31
+model:
+  backend: huggingface
+  name: meta-llama/Llama-3.1-8B
+  layers: [16, 24, 31]
+  dtype: float16
+  device: cuda:0
+  trust_remote_code: false
+  cache_dir: null
+sae:
+  source: saelens
+  saelens_release: llama_scope_lxr_32x
+  saelens_sae_id: l31r_32x
+  saelens_layer: 31
+  n_features_to_intervene: 5
+  device: cuda:0
+  tokens_per_prompt: 64
+evaluation:
+  threshold: null
+  bootstrap_samples: 2500
+  confidence: 0.95
+  steering_scales: [-4.0, -2.0, -1.0, 1.0, 2.0, 4.0]
+  random_controls: 24
+  control_scale: -4.0
+  layerwise_controls: true
+  equivalence_margin: 0.02
+  inferiority_margin: 0.02
+  equivalence_analysis_design: prospective_preregistered
+  equivalence_preregistration_hash: 0053eb4e7c10bbf21bf6d3a975c9057e9f35dfefbb4d142523a2c69d7937851f

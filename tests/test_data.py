@@ -4,21 +4,21 @@ from pathlib import Path
 import pytest
 
 from glassbox_audit.data import dataset_summary, load_records
-from glassbox_audit.data.dataset_builder import build_paired_dataset
-from glassbox_audit.data.external_data import (
-    external_to_glassbox_pairs,
-    load_external_refusal_records,
+from glassbox_audit.dataset_builder import build_paired_dataset
+from glassbox_audit.external_causal import _attach_transfer_fields, _summarize_methods
+from glassbox_audit.external_data import external_to_glassbox_pairs, load_external_refusal_records
+from glassbox_audit.external_eval import summarize_external_outputs
+from glassbox_audit.real_dataset import (
+    build_controlled_real_audit_dataset,
+    build_controlled_sycophancy_dataset,
 )
-from glassbox_audit.data.real_dataset import build_controlled_real_audit_dataset
-from glassbox_audit.evaluation.external_causal import _attach_transfer_fields, _summarize_methods
-from glassbox_audit.evaluation.external_eval import summarize_external_outputs
 from glassbox_audit.types import ModelOutput, PromptRecord
 
 ROOT = Path(__file__).parents[1]
 
 
 def test_fixture_is_paired_and_balanced():
-    records = load_records(ROOT / "data/fixtures/refusal_pairs_tiny.jsonl")
+    records = load_records(ROOT / "data/refusal_pairs.jsonl")
     summary = dataset_summary(records)
     assert summary["n_records"] == 48
     assert summary["labels"] == {"harmful": 24, "benign": 24}
@@ -89,8 +89,20 @@ def test_expanded_controlled_dataset_scales_without_family_leakage(tmp_path):
     assert summary["family_split_leakage"] is False
 
 
+def test_controlled_sycophancy_dataset_is_family_disjoint(tmp_path):
+    path = tmp_path / "sycophancy.jsonl"
+    counts = build_controlled_sycophancy_dataset(path)
+    records = load_records(path)
+    summary = dataset_summary(records)
+    assert counts == {"train": 120, "validation": 60, "test": 60}
+    assert summary["labels"] == {"harmful": 120, "benign": 120}
+    assert summary["n_pairs"] == 120
+    assert summary["n_families"] == 40
+    assert summary["family_split_leakage"] is False
+
+
 def test_external_loader_normalizes_and_exports_pairs(tmp_path):
-    external = load_external_refusal_records(ROOT / "data/fixtures/external_refusal_fixture.jsonl")
+    external = load_external_refusal_records(ROOT / "data/external_refusal_fixture.jsonl")
     assert len(external) == 12
     assert external[0].prompt
     assert external[0].harmful is True

@@ -2,7 +2,7 @@ seed: 17
 mode: standard
 behavior: refusal
 evidence_class: synthetic_fixture
-dataset_path: data/fixtures/refusal_pairs_tiny.jsonl
+dataset_path: data/refusal_pairs.jsonl
 target_layer: null
 
 model:
@@ -15,7 +15,7 @@ model:
 sae:
   expansion_factor: 4
   top_k: 8
-  epochs: 40
+  epochs: 120
   batch_size: 64
   learning_rate: 0.003
   l1_coefficient: 0.0001
@@ -25,9 +25,9 @@ sae:
 
 evaluation:
   threshold: 0.5
-  bootstrap_samples: 60
+  bootstrap_samples: 250
   confidence: 0.95
   steering_scales: [-4.0, -2.0, -1.0, 1.0]
-  random_controls: 2
+  random_controls: 4
   control_scale: -4.0
   layerwise_controls: true

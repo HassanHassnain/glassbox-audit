@@ -1,0 +1,58 @@
+schema_version: "1.0"
+name: a1_public_sae_zoo
+
+questions:
+  primary: Do 131k-width public residual-stream dictionaries outperform train-selected mean and probe directions on held-out refusal interventions?
+  secondary: Are results robust to same-dictionary random latent controls?
+
+hypotheses:
+  H1_public_sae_causal: Train-selected public SAE latents produce a nonzero held-out harmful-score reduction under ablation.
+  H2_public_sae_superiority: Public SAE latents outperform mean-difference and logistic-probe baselines.
+  H3_same_dictionary_controls: Public SAE effects exceed random latent sets from the same dictionary.
+
+success_criteria:
+  H1_public_sae_causal:
+    harmful_delta_lt: -0.05
+    harmful_ci_high_lt: 0.0
+  H2_public_sae_superiority:
+    require_utility_beats_mean_and_probe: true
+    require_direct_paired_harmful_superiority: true
+  H3_same_dictionary_controls:
+    random_control_p_lte: 0.05
+
+thresholds:
+  bootstrap_confidence: 0.95
+  bootstrap_samples: 2500
+  min_held_out_records: 250
+  random_controls: 24
+  selected_latents: 5
+
+metrics:
+  - held_out_harmful_score_delta
+  - held_out_benign_score_delta
+  - capability_nll_delta
+  - same_dictionary_random_control_p
+  - sae_minus_mean_gap
+  - sae_minus_probe_gap
+
+baselines:
+  - mean_difference_direction
+  - logistic_probe_direction
+  - random_directions
+  - same_dictionary_random_latents
+
+run_order:
+  - gemma_scope_9b_it_layer31_131k
+  - llama_scope_31_8b_base_layer31_131k
+
+stopping_rules:
+  - stop_on_gpu_conflict
+  - stop_after_two_oom_failures_at_same_scale
+  - do_not_change_layers_latent_budget_or_success_criteria_after_held_out_results
+  - publish_access_alignment_and_runtime_failures
+
+reporting_rules:
+  - select_latents_from_train_activations_only
+  - report_instruct_and_base_model_cells_separately
+  - do_not_treat_base_model_representation_results_as_instruct_refusal_results
+  - publish_every_predeclared_cell

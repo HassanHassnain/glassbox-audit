@@ -1,0 +1,135 @@
+{
+  "alpha": 0.05,
+  "analysis": "A6 equivalence tests and paired-power analysis",
+  "analysis_design": "post_hoc_sensitivity",
+  "bootstrap_unit": "pair_id",
+  "bounds": {
+    "equivalence_margin": 0.02,
+    "inferiority_margin": 0.02
+  },
+  "effect_direction": "Lower harmful scores after intervention are stronger suppression, so positive SAE-minus-baseline deltas favor the simple baseline.",
+  "equivalence_preregistration_hash": null,
+  "interpretation": "This is a post-hoc sensitivity analysis. Related Qwen results were examined before the equivalence and inferiority procedure was added, so passing tests are not confirmatory preregistered evidence.",
+  "power_analysis": {
+    "assumptions": {
+      "alpha": 0.05,
+      "assumed_pair_delta_standard_deviation": 0.4,
+      "effect_units": "harmful_behavior_score_delta",
+      "minimum_effect_size": 0.05,
+      "target_n_prompt_pairs": 500,
+      "target_power": 0.8
+    },
+    "primary_one_sided": {
+      "alternative": "greater",
+      "power_at_current_n": 0.09829979467302752,
+      "power_at_target_n": 0.8749757007099784,
+      "required_n_prompt_pairs": 396
+    },
+    "two_sided_sensitivity": {
+      "alternative": "two-sided",
+      "power_at_current_n": 0.06443896743927657,
+      "power_at_target_n": 0.7981761960153302,
+      "required_n_prompt_pairs": 503
+    }
+  },
+  "schema_version": "1.0",
+  "test_family": "held_out_causal_ablation",
+  "tests": [
+    {
+      "comparison": "sae_feature_ablation_minus_mean_difference_direction_ablation",
+      "delta_interpretation": "Positive means SAE leaves a higher harmful refusal score than the comparator after intervention, so SAE suppresses less.",
+      "margin": 0.02,
+      "metric": "harmful_behavior_score",
+      "n_prompt_pairs": 8,
+      "passed": false,
+      "standard_deviation": 0.08877462253979915,
+      "test": "sae_equivalent_to_mean_difference",
+      "tost": {
+        "alpha": 0.05,
+        "ci": {
+          "estimate": 0.3268562853336334,
+          "high": 0.3742699870839714,
+          "low": 0.2859877113252878
+        },
+        "ci_confidence": 0.9,
+        "equivalent": false,
+        "estimate": 0.3268562853336334,
+        "lower_bound": -0.02,
+        "lower_one_sided_p": 0.0,
+        "p_value": 1.0,
+        "upper_bound": 0.02,
+        "upper_one_sided_p": 1.0
+      }
+    },
+    {
+      "ci": {
+        "estimate": 0.3268562853336334,
+        "high": 0.3896339208818972,
+        "low": 0.28585591893643136
+      },
+      "comparison": "sae_feature_ablation_minus_mean_difference_direction_ablation",
+      "delta_interpretation": "Positive means SAE leaves a higher harmful refusal score than the comparator after intervention, so SAE suppresses less.",
+      "margin": 0.02,
+      "metric": "harmful_behavior_score",
+      "n_prompt_pairs": 8,
+      "one_sided_test": {
+        "alternative": "greater",
+        "estimate": 0.3268562853336334,
+        "null_value": 0.02,
+        "p_value": 0.0,
+        "standard_error": 0.03138656879758405,
+        "z": 9.776675090309755
+      },
+      "passed": true,
+      "test": "sae_inferior_to_mean_difference"
+    },
+    {
+      "comparison": "sae_feature_ablation_minus_linear_probe_direction_ablation",
+      "delta_interpretation": "Positive means SAE leaves a higher harmful refusal score than the comparator after intervention, so SAE suppresses less.",
+      "margin": 0.02,
+      "metric": "harmful_behavior_score",
+      "n_prompt_pairs": 8,
+      "passed": false,
+      "standard_deviation": 0.02735289153506187,
+      "test": "sae_equivalent_to_linear_probe",
+      "tost": {
+        "alpha": 0.05,
+        "ci": {
+          "estimate": 0.056320734322071075,
+          "high": 0.07024397701025009,
+          "low": 0.04194228798151016
+        },
+        "ci_confidence": 0.9,
+        "equivalent": false,
+        "estimate": 0.056320734322071075,
+        "lower_bound": -0.02,
+        "lower_one_sided_p": 1.5543122344752192e-15,
+        "p_value": 0.9999135875157774,
+        "upper_bound": 0.02,
+        "upper_one_sided_p": 0.9999135875157774
+      }
+    },
+    {
+      "ci": {
+        "estimate": 0.056320734322071075,
+        "high": 0.07148656211793424,
+        "low": 0.04034180007874966
+      },
+      "comparison": "sae_feature_ablation_minus_linear_probe_direction_ablation",
+      "delta_interpretation": "Positive means SAE leaves a higher harmful refusal score than the comparator after intervention, so SAE suppresses less.",
+      "margin": 0.02,
+      "metric": "harmful_behavior_score",
+      "n_prompt_pairs": 8,
+      "one_sided_test": {
+        "alternative": "greater",
+        "estimate": 0.056320734322071075,
+        "null_value": 0.02,
+        "p_value": 8.641248422258663e-05,
+        "standard_error": 0.00967070754475118,
+        "z": 3.755747359125167
+      },
+      "passed": true,
+      "test": "sae_inferior_to_linear_probe"
+    }
+  ]
+}

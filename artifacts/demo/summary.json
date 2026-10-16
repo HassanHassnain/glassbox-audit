@@ -1,0 +1,285 @@
+{
+  "baseline_metrics": {
+    "balanced_accuracy": 0.875,
+    "behavior_gap": 0.49973714677616954,
+    "benign_overrefusal_rate": 0.25,
+    "capability_nll": 0.7049739696085453,
+    "capability_perplexity": 2.0237940040865494,
+    "harmful_refusal_rate": 1.0,
+    "mean_benign_score": 0.2465192419476807,
+    "mean_harmful_score": 0.7462563887238503
+  },
+  "behavior": "refusal",
+  "behavior_threshold": 0.5,
+  "best_feature_budget_frontier": {
+    "budget": 100,
+    "delta_capability_nll_ci": {
+      "estimate": -0.0011376924812793732,
+      "high": 0.0031289412640035153,
+      "low": -0.006548433285206556
+    },
+    "delta_mean_benign_score_ci": {
+      "estimate": 0.007771656382828951,
+      "high": 0.021424056182149796,
+      "low": -0.01441342559410258
+    },
+    "delta_mean_harmful_score_ci": {
+      "estimate": -0.0552566796541214,
+      "high": -0.038085748255252835,
+      "low": -0.0725327031686902
+    },
+    "method": "sae_l1_weighted_direction_ablation",
+    "metrics": {
+      "balanced_accuracy": 0.875,
+      "behavior_gap": 0.4367088107392192,
+      "benign_overrefusal_rate": 0.25,
+      "capability_nll": 0.7038362771272659,
+      "capability_perplexity": 2.0214928581108853,
+      "harmful_refusal_rate": 1.0,
+      "mean_benign_score": 0.25429089833050966,
+      "mean_harmful_score": 0.6909997090697289
+    },
+    "requested_budget": 100,
+    "selected_features": [
+      100,
+      10,
+      85,
+      121,
+      47,
+      28,
+      127,
+      71,
+      93,
+      1,
+      83,
+      70,
+      97,
+      103,
+      20,
+      7,
+      4,
+      50,
+      84,
+      119,
+      120,
+      15,
+      49,
+      12,
+      8,
+      11,
+      30,
+      13,
+      57,
+      92,
+      86,
+      125,
+      52,
+      22,
+      3,
+      64,
+      79,
+      17,
+      42,
+      27,
+      44,
+      99,
+      9,
+      122,
+      90,
+      101,
+      73,
+      66,
+      0,
+      80,
+      31,
+      45,
+      65,
+      89,
+      19,
+      105,
+      117,
+      67,
+      118,
+      43,
+      40,
+      94,
+      6,
+      2,
+      5,
+      14,
+      16,
+      18,
+      21,
+      23,
+      24,
+      25,
+      26,
+      29,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      41,
+      46,
+      48,
+      51,
+      53,
+      54,
+      55,
+      56,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      68,
+      69,
+      72,
+      74
+    ],
+    "selection_policy": "train L1 logistic weights ranked by absolute value"
+  },
+  "equivalence_analysis_design": "post_hoc_sensitivity",
+  "equivalence_tests_passed": [
+    "sae_inferior_to_mean_difference",
+    "sae_inferior_to_linear_probe"
+  ],
+  "evidence_class": "synthetic_fixture",
+  "model": "glassbox-toy-refusal",
+  "negative_findings": [
+    "SAE dead-feature fraction is high (50.8%).",
+    "SAE steering does not beat the best simple baseline (mean_difference) on specificity-adjusted utility.",
+    "SAE feature-ablation harmful-score interval includes zero.",
+    "SAE feature ablation is weaker than mean_difference direction ablation on harmful-score suppression.",
+    "SAE feature ablation does not clear the configured empirical random-control threshold (one-sided p=0.667).",
+    "SAE has fewer training activation samples than dictionary features."
+  ],
+  "probe_metrics": {
+    "train_accuracy": 0.8125,
+    "train_loss": 0.5477401614189148
+  },
+  "sae_metrics": {
+    "active_features": 63,
+    "dead_feature_fraction": 0.5078125,
+    "feature_density": 0.0625,
+    "mean_l0": 8.0,
+    "n_features": 128,
+    "reconstruction_mse": 0.000270920863840729,
+    "samples_per_feature": 0.125,
+    "training_samples": 16,
+    "variance_explained": 0.9893277039939463
+  },
+  "sae_outperforms_simple_baselines": false,
+  "sae_source": {
+    "expansion_factor": 4,
+    "input_dim": 32,
+    "n_features": 128,
+    "source": "trained",
+    "top_k": 8,
+    "training": "local_train_split_topk_sae"
+  },
+  "sae_zoo_result": null,
+  "selected_features": [
+    79,
+    120,
+    1
+  ],
+  "strongest_causal_ablation": {
+    "delta_capability_nll_ci": {
+      "estimate": -0.000755559653043747,
+      "high": 0.0022640689276158823,
+      "low": -0.005352205131202936
+    },
+    "delta_mean_benign_score_ci": {
+      "estimate": 0.16503610415384173,
+      "high": 0.3538922047941014,
+      "low": -0.09578480799682439
+    },
+    "delta_mean_harmful_score_ci": {
+      "estimate": -0.3270241841673851,
+      "high": -0.2844790376722812,
+      "low": -0.390435047633946
+    },
+    "method": "mean_difference_direction_ablation",
+    "metrics": {
+      "balanced_accuracy": 0.5,
+      "behavior_gap": 0.007676858454942703,
+      "benign_overrefusal_rate": 0.0,
+      "capability_nll": 0.7042184099555016,
+      "capability_perplexity": 2.0222654845075665,
+      "harmful_refusal_rate": 0.0,
+      "mean_benign_score": 0.41155534610152245,
+      "mean_harmful_score": 0.41923220455646515
+    }
+  },
+  "strongest_layerwise_control": {
+    "delta_capability_nll_ci": {
+      "estimate": -0.0007568188011646271,
+      "high": 0.0023629937320947653,
+      "low": -0.004857252631336449
+    },
+    "delta_mean_benign_score_ci": {
+      "estimate": 0.16077665938064456,
+      "high": 0.35122988142538814,
+      "low": -0.10052734231576321
+    },
+    "delta_mean_harmful_score_ci": {
+      "estimate": -0.33145806565880775,
+      "high": -0.2871143948286772,
+      "low": -0.4037772952578962
+    },
+    "is_selected_layer": false,
+    "layer": 3,
+    "method": "mean_difference_direction_ablation",
+    "metrics": {
+      "balanced_accuracy": 0.5,
+      "behavior_gap": 0.007502421736717224,
+      "benign_overrefusal_rate": 0.0,
+      "capability_nll": 0.7042171508073807,
+      "capability_perplexity": 2.0222629381773847,
+      "harmful_refusal_rate": 0.0,
+      "mean_benign_score": 0.40729590132832527,
+      "mean_harmful_score": 0.4147983230650425
+    }
+  },
+  "target_layer": 1,
+  "test_pairs": 8,
+  "test_records": 16,
+  "threshold_source": "config",
+  "validation_selected_sae_steering": {
+    "delta_capability_nll_ci": {
+      "estimate": 0.4808774571865797,
+      "high": 0.8200562708545477,
+      "low": 0.13546163165010514
+    },
+    "delta_mean_benign_score_ci": {
+      "estimate": -0.14086235302966088,
+      "high": -0.03307268909993581,
+      "low": -0.29871854286175215
+    },
+    "delta_mean_harmful_score_ci": {
+      "estimate": -0.5672200359404087,
+      "high": -0.5009516852675006,
+      "low": -0.608824243932031
+    },
+    "intervention": "steering",
+    "method": "sae_features",
+    "metrics": {
+      "balanced_accuracy": 0.5,
+      "behavior_gap": 0.07337946386542171,
+      "benign_overrefusal_rate": 0.125,
+      "capability_nll": 1.185851426795125,
+      "capability_perplexity": 3.2734727577062923,
+      "harmful_refusal_rate": 0.125,
+      "mean_benign_score": 0.10565688891801983,
+      "mean_harmful_score": 0.17903635278344154
+    },
+    "scale": -4.0
+  },
+  "validation_threshold_balanced_accuracy": null
+}

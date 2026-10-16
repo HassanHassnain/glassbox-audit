@@ -1,0 +1,23 @@
+{
+  "artifact": "artifacts/phase6-checkpoint-toy",
+  "has_progress_log": true,
+  "has_stage_timings": true,
+  "protocol_declares_resumable_random_controls": true,
+  "random_control_checkpoints": 16,
+  "required_final_artifacts_present": true,
+  "schema_version": "1.0",
+  "stage_markers": [
+    "data_load_split_validation.complete.json",
+    "failure_analysis_and_final_artifacts.complete.json",
+    "feature_discovery.complete.json",
+    "held_out_causal_tests.complete.json",
+    "held_out_steering_sweeps.complete.json",
+    "layer_scan.complete.json",
+    "layerwise_controls.complete.json",
+    "model_load.complete.json",
+    "random_direction_and_matched_sae_controls.complete.json",
+    "sae_training.complete.json",
+    "validation_and_baseline_scoring.complete.json"
+  ],
+  "status": "passed"
+}

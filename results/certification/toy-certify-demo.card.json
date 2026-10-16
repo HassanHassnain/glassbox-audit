@@ -1,0 +1,136 @@
+{
+  "artifact_dir": "artifacts/demo",
+  "artifact_hashes": {
+    "equivalence_analysis.json": "a40c709eff3c345bfec6965f9f7405c2cf223191c69f16ba388f69529157a298",
+    "failure_analysis.json": "43036195f9c8de448a38310e4fac8c35d2bd994cc8c6e51ffa30d064a9c11087",
+    "interventions.json": "46e78445106b6a27f95ea00d4a4b97ca25a9d3565bf833fb1ba27c8d7eccb303",
+    "manifest.json": "1f2818ba175ef577cda9f20d1dd54235197cf7f0f5e5463d4630968aeb428995",
+    "method_comparisons.json": "d2c77036143ef3ca1e92212520610ad94af958917f1cfaa79c033f1be869a424",
+    "protocol.json": "46f1ee622b2cd9dd07714e9a52ce6a69bf253abab7a958e0bf3501f617312af7",
+    "records.json": "6abcd7beb29ee8c239e26993348d4e5d307a6db27c914489d6244fda1061d36b",
+    "summary.json": "a44fc5153351a409a60b3a3d044eed80106f3acc2e9b0585435bf3f5d8c69256"
+  },
+  "behavior": "refusal",
+  "candidate_intervention": null,
+  "card_type": "glassbox_intervention_audit_card",
+  "certified_evidence_method": "sae_feature_ablation",
+  "corpus_hash": "6abcd7beb29ee8c239e26993348d4e5d307a6db27c914489d6244fda1061d36b",
+  "dataset": {
+    "categories": {
+      "biosecurity": 4,
+      "coercion": 2,
+      "cyber": 12,
+      "evasion": 6,
+      "fraud": 10,
+      "physical-security": 4,
+      "privacy": 4,
+      "weapons": 6
+    },
+    "family_split_leakage": false,
+    "labels": {
+      "benign": 24,
+      "harmful": 24
+    },
+    "n_families": 24,
+    "n_pairs": 24,
+    "n_records": 48,
+    "sources": {
+      "unknown": 48
+    },
+    "splits": {
+      "test": 16,
+      "train": 16,
+      "validation": 16
+    }
+  },
+  "evidence_class": "synthetic_fixture",
+  "external_artifact_hashes": {},
+  "model": "glassbox-toy-refusal",
+  "model_identity": {
+    "backend": "toy",
+    "config_hash": "7b33f1c09d41f02f43857908b3d34d6e1c1a342e5c9c613c2c39f3ae9749188d",
+    "name": "glassbox-toy-refusal"
+  },
+  "overall_verdict": {
+    "passed": false,
+    "required_rungs": [
+      "separation",
+      "held_out_causal",
+      "specificity",
+      "capability_cost",
+      "matched_controls"
+    ]
+  },
+  "preregistration": null,
+  "preregistration_hash": null,
+  "protocol": {
+    "test_access_policy": "final metrics and paired comparisons only",
+    "test_pairs": 8,
+    "test_records": 16,
+    "train_records": 16,
+    "validation_records": 16
+  },
+  "rungs": {
+    "baseline_superiority": {
+      "passed": false,
+      "source": "summary.sae_outperforms_simple_baselines"
+    },
+    "capability_cost": {
+      "capability_delta_ci": {
+        "estimate": 0.0006893202662467957,
+        "high": 0.0015465753152966509,
+        "low": 0.0
+      },
+      "passed": true,
+      "threshold_estimate": 0.05
+    },
+    "equivalence_or_inferiority": {
+      "analysis_design": "post_hoc_sensitivity",
+      "equivalence_preregistration_hash": null,
+      "passed_tests": [
+        "sae_inferior_to_mean_difference",
+        "sae_inferior_to_linear_probe"
+      ]
+    },
+    "held_out_causal": {
+      "harmful_delta_ci": {
+        "estimate": -0.00016789883375167847,
+        "high": 0.001055896282196045,
+        "low": -0.0015595927834510803
+      },
+      "method": "sae_feature_ablation",
+      "passed": false
+    },
+    "matched_controls": {
+      "control_family": "random_sae_feature_ablation",
+      "empirical_one_sided_p": 0.6666666666666666,
+      "n_controls": 8,
+      "passed": false,
+      "source": "failure_analysis.random_ablation_control_comparison"
+    },
+    "separation": {
+      "evidence": "selected_features present in summary.json",
+      "passed": true
+    },
+    "specificity": {
+      "benign_delta_ci": {
+        "estimate": -0.0006207004189491272,
+        "high": 0.0,
+        "low": -0.0018621012568473816
+      },
+      "passed": true,
+      "threshold_abs_estimate": 0.03
+    },
+    "transfer": {
+      "artifacts": [],
+      "evidence": "no external transfer artifacts supplied",
+      "passed": null
+    }
+  },
+  "schema_version": "1.0",
+  "signature": {
+    "digest": "57d982ddd7cf9fd9f97acf82727ced49dcd7496e4830dd568bc5d44234eb3df3",
+    "git_ref": "c3-certify-demo-v1",
+    "scheme": "sha256-card-digest"
+  }
+}

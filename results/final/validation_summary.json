@@ -1,0 +1,23 @@
+{
+  "claim_update": "No supported claim changed in Phase 5.",
+  "cleanroom_qwen_rerun": {
+    "artifact_root": "artifacts/phase5-cleanroom/qwen15b-1000",
+    "reason": "full 1,000-pair rerun was still in random-control evaluation after a long run; interrupted before runner wrote final artifacts",
+    "status": "attempted_incomplete_interrupted_before_artifact_writeout"
+  },
+  "phase": "phase5_final_validation",
+  "schema_version": "1.0",
+  "validation": {
+    "compileall": "passed",
+    "fresh_toy_audit": "artifacts/phase5-toy-smoke completed",
+    "json_sanity": "all results/final/*.json loaded",
+    "pytest": "26 passed",
+    "report_generation": "artifacts/phase5-toy-smoke/REPORT.md regenerated",
+    "ruff": "passed",
+    "workbench_artifact_load": [
+      "artifacts/phase5-toy-smoke",
+      "artifacts/qwen-expanded-1000-phase4"
+    ],
+    "workbench_cli_help": "passed"
+  }
+}

@@ -1,9 +1,9 @@
 {
-  "artifact_notice": "release hardening statistical summary. P-values are paired sign-flip permutation tests with Benjamini-Hochberg correction within each artifact/test family.",
+  "artifact_notice": "Phase 5 statistical summary. P-values are paired sign-flip permutation tests with Benjamini-Hochberg correction within each artifact/test family. Internal artifacts also include A6 TOST equivalence/inferiority sensitivity tests and paired power analysis. Each equivalence block declares whether its timing was post-hoc or prospectively preregistered.",
   "bootstrap_samples": 3000,
   "component_path": [
     {
-      "artifact": "artifacts/qwen-expanded-1000-reference/path_component_reference.json",
+      "artifact": "artifacts/qwen-expanded-1000-phase4/path_component_phase4.json",
       "tests": [
         {
           "alternative": "less",
@@ -35,8 +35,8 @@
           "alternative": "two-sided",
           "bh_adjusted_p": 0.0002181381905437094,
           "ci": [
-            -0.0180392578125,
-            -0.0145701171875
+            -0.0179611328125,
+            -0.0147265625
           ],
           "delta": -0.016359375,
           "method": "residual_direction_ablation",
@@ -74,8 +74,8 @@
           "alternative": "two-sided",
           "bh_adjusted_p": 0.0002181381905437094,
           "ci": [
-            -0.0180705078125,
-            -0.0145859375
+            -0.01796875,
+            -0.01465625
           ],
           "delta": -0.016359375,
           "method": "residual_output_ablation",
@@ -113,8 +113,8 @@
           "alternative": "two-sided",
           "bh_adjusted_p": 0.0002181381905437094,
           "ci": [
-            0.0006875,
-            0.001234375
+            0.000625,
+            0.0012890625
           ],
           "delta": 0.0009609375,
           "method": "attention_output_ablation",
@@ -152,8 +152,8 @@
           "alternative": "two-sided",
           "bh_adjusted_p": 0.0002181381905437094,
           "ci": [
-            0.0032732421875000008,
-            0.004890625
+            0.0031326171875000006,
+            0.0050001953125000005
           ],
           "delta": 0.0040859375,
           "method": "mlp_output_ablation",
@@ -166,7 +166,7 @@
   ],
   "external_causal": [
     {
-      "artifact": "artifacts/external-causal/or_bench_qwen15b_1000_reference.json",
+      "artifact": "artifacts/external-causal/or_bench_qwen15b_1000_phase4.json",
       "tests": [
         {
           "alternative": "less",
@@ -291,7 +291,142 @@
   "headline_interpretation": "The large residual mean-difference effects are statistically robust. SAE feature effects are nonzero versus matched controls in several artifacts but remain smaller than mean-difference/probe baselines under preregistered criteria.",
   "internal": [
     {
-      "artifact": "artifacts/qwen-expanded-1000-reference",
+      "artifact": "artifacts/qwen-expanded-1000-phase4",
+      "equivalence_analysis": {
+        "alpha": 0.05,
+        "analysis": "A6 equivalence tests and paired-power analysis",
+        "analysis_design": "post_hoc_sensitivity",
+        "bootstrap_unit": "pair_id",
+        "bounds": {
+          "equivalence_margin": 0.02,
+          "inferiority_margin": 0.02
+        },
+        "effect_direction": "Lower harmful scores after intervention are stronger suppression, so positive SAE-minus-baseline deltas favor the simple baseline.",
+        "equivalence_preregistration_hash": null,
+        "interpretation": "This is a post-hoc sensitivity analysis. Related Qwen results were examined before the equivalence and inferiority procedure was added, so passing tests are not confirmatory preregistered evidence.",
+        "power_analysis": {
+          "assumptions": {
+            "alpha": 0.05,
+            "assumed_pair_delta_standard_deviation": 0.4,
+            "effect_units": "harmful_behavior_score_delta",
+            "minimum_effect_size": 0.05,
+            "target_n_prompt_pairs": 500,
+            "target_power": 0.8
+          },
+          "primary_one_sided": {
+            "alternative": "greater",
+            "power_at_current_n": 0.6298929790798697,
+            "power_at_target_n": 0.8749757007099784,
+            "required_n_prompt_pairs": 396
+          },
+          "two_sided_sensitivity": {
+            "alternative": "two-sided",
+            "power_at_current_n": 0.5066074732048973,
+            "power_at_target_n": 0.7981761960153302,
+            "required_n_prompt_pairs": 503
+          }
+        },
+        "schema_version": "1.0",
+        "test_family": "held_out_causal_ablation",
+        "tests": [
+          {
+            "comparison": "sae_feature_ablation_minus_mean_difference_direction_ablation",
+            "delta_interpretation": "Positive means SAE leaves a higher harmful refusal score than the comparator after intervention, so SAE suppresses less.",
+            "margin": 0.02,
+            "metric": "harmful_behavior_score",
+            "n_prompt_pairs": 250,
+            "passed": false,
+            "standard_deviation": 0.054075669144004815,
+            "test": "sae_equivalent_to_mean_difference",
+            "tost": {
+              "alpha": 0.05,
+              "ci": {
+                "estimate": 0.09921076595783233,
+                "high": 0.10484531034827231,
+                "low": 0.09362407677173615
+              },
+              "ci_confidence": 0.9,
+              "equivalent": false,
+              "estimate": 0.09921076595783233,
+              "lower_bound": -0.02,
+              "lower_one_sided_p": 0.0,
+              "p_value": 1.0,
+              "upper_bound": 0.02,
+              "upper_one_sided_p": 1.0
+            }
+          },
+          {
+            "ci": {
+              "estimate": 0.09921076595783233,
+              "high": 0.10583996182978153,
+              "low": 0.09264065812528133
+            },
+            "comparison": "sae_feature_ablation_minus_mean_difference_direction_ablation",
+            "delta_interpretation": "Positive means SAE leaves a higher harmful refusal score than the comparator after intervention, so SAE suppresses less.",
+            "margin": 0.02,
+            "metric": "harmful_behavior_score",
+            "n_prompt_pairs": 250,
+            "one_sided_test": {
+              "alternative": "greater",
+              "estimate": 0.09921076595783233,
+              "null_value": 0.02,
+              "p_value": 0.0,
+              "standard_error": 0.0034200456098548594,
+              "z": 23.160733801206206
+            },
+            "passed": true,
+            "test": "sae_inferior_to_mean_difference"
+          },
+          {
+            "comparison": "sae_feature_ablation_minus_linear_probe_direction_ablation",
+            "delta_interpretation": "Positive means SAE leaves a higher harmful refusal score than the comparator after intervention, so SAE suppresses less.",
+            "margin": 0.02,
+            "metric": "harmful_behavior_score",
+            "n_prompt_pairs": 250,
+            "passed": false,
+            "standard_deviation": 0.018311362220137423,
+            "test": "sae_equivalent_to_linear_probe",
+            "tost": {
+              "alpha": 0.05,
+              "ci": {
+                "estimate": -0.03388310122489929,
+                "high": -0.031968146991729736,
+                "low": -0.03573531268239022
+              },
+              "ci_confidence": 0.9,
+              "equivalent": false,
+              "estimate": -0.03388310122489929,
+              "lower_bound": -0.02,
+              "lower_one_sided_p": 1.0,
+              "p_value": 1.0,
+              "upper_bound": 0.02,
+              "upper_one_sided_p": 0.0
+            }
+          },
+          {
+            "ci": {
+              "estimate": -0.03388310122489929,
+              "high": -0.0316799997061491,
+              "low": -0.036122216930985454
+            },
+            "comparison": "sae_feature_ablation_minus_linear_probe_direction_ablation",
+            "delta_interpretation": "Positive means SAE leaves a higher harmful refusal score than the comparator after intervention, so SAE suppresses less.",
+            "margin": 0.02,
+            "metric": "harmful_behavior_score",
+            "n_prompt_pairs": 250,
+            "one_sided_test": {
+              "alternative": "greater",
+              "estimate": -0.03388310122489929,
+              "null_value": 0.02,
+              "p_value": 1.0,
+              "standard_error": 0.0011581122335198367,
+              "z": -46.52666612555592
+            },
+            "passed": false,
+            "test": "sae_inferior_to_linear_probe"
+          }
+        ]
+      },
       "tests": [
         {
           "alternative": "less",
@@ -323,8 +458,8 @@
           "alternative": "two-sided",
           "bh_adjusted_p": 0.0001999600079984003,
           "ci": [
-            0.0015234375,
-            0.0023125
+            0.0013671875,
+            0.0024609375
           ],
           "delta": 0.001921875,
           "method": "sae_feature_ablation",
@@ -362,7 +497,7 @@
           "alternative": "two-sided",
           "bh_adjusted_p": 0.0001999600079984003,
           "ci": [
-            -0.0181484375,
+            -0.0180236328125,
             -0.0146171875
           ],
           "delta": -0.016359375,
@@ -401,130 +536,8 @@
           "alternative": "two-sided",
           "bh_adjusted_p": 0.0001999600079984003,
           "ci": [
-            -0.0088205078125,
-            -0.006640429687499999
-          ],
-          "delta": -0.0077421875,
-          "method": "linear_probe_direction_ablation",
-          "metric": "capability_nll",
-          "n": 500,
-          "permutation_p": 0.0001999600079984003
-        }
-      ]
-    },
-    {
-      "artifact": "artifacts/cleanroom-cleanroom/qwen15b-1000",
-      "tests": [
-        {
-          "alternative": "less",
-          "bh_adjusted_p": 0.0001999600079984003,
-          "ci": [
-            -0.038848302116990086,
-            -0.03410627655386925
-          ],
-          "delta": -0.03633926343917847,
-          "method": "sae_feature_ablation",
-          "metric": "harmful_score",
-          "n": 250,
-          "permutation_p": 0.0001999600079984003
-        },
-        {
-          "alternative": "two-sided",
-          "bh_adjusted_p": 0.0001999600079984003,
-          "ci": [
-            -0.03770821375250816,
-            -0.03388325243890286
-          ],
-          "delta": -0.03579198443889618,
-          "method": "sae_feature_ablation",
-          "metric": "benign_score",
-          "n": 250,
-          "permutation_p": 0.0001999600079984003
-        },
-        {
-          "alternative": "two-sided",
-          "bh_adjusted_p": 0.0001999600079984003,
-          "ci": [
-            0.0015234375,
-            0.0023125
-          ],
-          "delta": 0.001921875,
-          "method": "sae_feature_ablation",
-          "metric": "capability_nll",
-          "n": 500,
-          "permutation_p": 0.0001999600079984003
-        },
-        {
-          "alternative": "less",
-          "bh_adjusted_p": 0.0001999600079984003,
-          "ci": [
-            -0.1435268911421299,
-            -0.12787858484089373
-          ],
-          "delta": -0.1355500293970108,
-          "method": "mean_difference_direction_ablation",
-          "metric": "harmful_score",
-          "n": 250,
-          "permutation_p": 0.0001999600079984003
-        },
-        {
-          "alternative": "two-sided",
-          "bh_adjusted_p": 0.0001999600079984003,
-          "ci": [
-            -0.016932117119431492,
-            -0.012161864954233168
-          ],
-          "delta": -0.014515092015266419,
-          "method": "mean_difference_direction_ablation",
-          "metric": "benign_score",
-          "n": 250,
-          "permutation_p": 0.0001999600079984003
-        },
-        {
-          "alternative": "two-sided",
-          "bh_adjusted_p": 0.0001999600079984003,
-          "ci": [
-            -0.0181484375,
-            -0.0146171875
-          ],
-          "delta": -0.016359375,
-          "method": "mean_difference_direction_ablation",
-          "metric": "capability_nll",
-          "n": 500,
-          "permutation_p": 0.0001999600079984003
-        },
-        {
-          "alternative": "less",
-          "bh_adjusted_p": 0.0001999600079984003,
-          "ci": [
-            -0.003124390357732773,
-            -0.001749275666475296
-          ],
-          "delta": -0.0024561622142791747,
-          "method": "linear_probe_direction_ablation",
-          "metric": "harmful_score",
-          "n": 250,
-          "permutation_p": 0.0001999600079984003
-        },
-        {
-          "alternative": "two-sided",
-          "bh_adjusted_p": 0.0001999600079984003,
-          "ci": [
-            -0.007972392988204955,
-            -0.005764468672871589
-          ],
-          "delta": -0.0068866112232208255,
-          "method": "linear_probe_direction_ablation",
-          "metric": "benign_score",
-          "n": 250,
-          "permutation_p": 0.0001999600079984003
-        },
-        {
-          "alternative": "two-sided",
-          "bh_adjusted_p": 0.0001999600079984003,
-          "ci": [
-            -0.0088205078125,
-            -0.006640429687499999
+            -0.008859570312499999,
+            -0.006616992187499999
           ],
           "delta": -0.0077421875,
           "method": "linear_probe_direction_ablation",
@@ -537,10 +550,10 @@
   ],
   "permutation_samples": 5000,
   "sae_stability": {
-    "artifact_notice": "reference audit full fixed SAE stability grid summary. All six predeclared cells completed; no failed cell excluded.",
+    "artifact_notice": "Phase 4 full fixed SAE stability grid summary. All six predeclared cells completed; no failed cell excluded.",
     "cells": [
       {
-        "artifact": "artifacts/qwen2_5_1_5b_medium_audit",
+        "artifact": "artifacts/qwen-expanded-medium-preregistered",
         "best_simple_method": "linear_probe",
         "best_simple_utility": 0.0015793447311107925,
         "cell": "seed17-exp2",

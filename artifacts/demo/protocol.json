@@ -1,0 +1,51 @@
+{
+  "behavior_threshold_selection": "config",
+  "checkpointing": {
+    "final_summary_written_after_all_expected_artifacts": true,
+    "random_controls_dir": "artifacts/demo/checkpoints/random_controls",
+    "random_controls_resumable": true,
+    "stage_markers_dir": "artifacts/demo/checkpoints"
+  },
+  "family_disjoint_splits": true,
+  "feature_selection": "train final-token feature effect size only",
+  "intervention_scale_selection": "validation specificity/capability-adjusted score",
+  "layer_selection": "train localization_score only",
+  "mode": "standard",
+  "real_audit_requirements_passed": [],
+  "sae_source": {
+    "expansion_factor": 4,
+    "input_dim": 32,
+    "n_features": 128,
+    "source": "trained",
+    "top_k": 8,
+    "training": "local_train_split_topk_sae"
+  },
+  "sae_training": {
+    "activation_samples": 16,
+    "collected_activation_samples": 16,
+    "effective_max_activation_samples": null,
+    "max_activation_samples": null,
+    "samples_per_feature": null,
+    "scaled_activation_sample_cap": null,
+    "source": "trained",
+    "split": "train",
+    "tokens_per_prompt": 1
+  },
+  "statistical_protocol": {
+    "alpha": 0.05,
+    "bootstrap_unit": "pair_id",
+    "equivalence_analysis_design": "post_hoc_sensitivity",
+    "equivalence_margin": 0.02,
+    "equivalence_preregistration_hash": null,
+    "inferiority_margin": 0.02,
+    "power_assumed_pair_sd": 0.4,
+    "power_effect_size": 0.05,
+    "power_target": 0.8,
+    "power_target_n": 500
+  },
+  "test_access_policy": "final metrics and paired comparisons only",
+  "test_pairs_used_for_final_reporting_only": 8,
+  "test_records_used_for_final_reporting_only": 16,
+  "train_records_used_for_discovery_and_sae_only": 16,
+  "validation_records_used_for_threshold_and_scale_selection_only": 16
+}

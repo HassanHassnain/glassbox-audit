@@ -1,0 +1,8 @@
+artifact_dir: artifacts/qwen-real-audit
+direction: mean_difference
+components: [residual, attention, mlp]
+device: cuda:0
+notes:
+  - Uses frozen artifact layer, threshold, and train-derived direction.
+  - Writes component_localization.json beside the source artifact.
+  - This is component-output localization, not full path patching.

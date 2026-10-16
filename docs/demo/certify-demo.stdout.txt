@@ -1,0 +1,15 @@
+$ python -m glassbox_audit.cli certify --artifacts artifacts/demo --output-json results/certification/toy-certify-demo.card.json --output-html docs/demo/certify-demo.card.html --output-pdf results/certification/toy-certify-demo.card.pdf --sign --git-ref c3-certify-demo-v1
+
+{
+  "artifact_dir": "artifacts/demo",
+  "output_json": "results/certification/toy-certify-demo.card.json",
+  "output_html": "docs/demo/certify-demo.card.html",
+  "output_pdf": "results/certification/toy-certify-demo.card.pdf",
+  "certified_evidence_method": "sae_feature_ablation",
+  "overall_passed": false,
+  "signature": {
+    "scheme": "sha256-card-digest",
+    "git_ref": "c3-certify-demo-v1",
+    "digest": "70c35957cd21d3b77fccb0cd9af56804b9765c86ecc81611464b4c60ee8ec436"
+  }
+}

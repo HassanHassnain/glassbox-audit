@@ -1,0 +1,18 @@
+{
+  "budgets": [
+    1,
+    2,
+    5,
+    10,
+    20,
+    50,
+    100,
+    128
+  ],
+  "finished_at": 1783691839.8947778,
+  "rows": 16,
+  "seconds": 0.8411030769348145,
+  "stage": "feature_budget_frontier",
+  "started_at": 1783691839.0536747,
+  "status": "completed"
+}

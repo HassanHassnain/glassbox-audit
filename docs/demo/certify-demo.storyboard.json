@@ -1,0 +1,56 @@
+{
+  "caption_file": "docs/demo/certify-demo.vtt",
+  "card_html": "docs/demo/certify-demo.card.html",
+  "card_json": "results/certification/toy-certify-demo.card.json",
+  "card_pdf": "results/certification/toy-certify-demo.card.pdf",
+  "certified_evidence_method": "sae_feature_ablation",
+  "duration_seconds": 90,
+  "overall_passed": false,
+  "schema_version": "1.0",
+  "segments": [
+    {
+      "end": 12,
+      "narration": "The demo starts from frozen toy audit artifacts and asks Glassbox to render a signed Intervention Audit Card.",
+      "start": 0,
+      "terminal": "$ python -m glassbox_audit.cli certify \\\n    --artifacts artifacts/demo \\\n    --output-json results/certification/toy-certify-demo.card.json \\\n    --output-html docs/demo/certify-demo.card.html \\\n    --output-pdf results/certification/toy-certify-demo.card.pdf \\\n    --sign",
+      "title": "Glassbox certify in 90 seconds"
+    },
+    {
+      "end": 27,
+      "narration": "The certifier reads the model identity, corpus hash, protocol counts, and frozen evidence before it scores any rung.",
+      "start": 12,
+      "terminal": "model: glassbox-toy-refusal\nbehavior: refusal\nevidence class: synthetic_fixture\nrecords: 48\nsplits: train=16, validation=16, test=16\ncorpus hash: 6abcd7beb29ee8c2...",
+      "title": "Inputs are fixed before certification"
+    },
+    {
+      "end": 42,
+      "narration": "The command prints the artifact directory, certified method, output paths, verdict, and card signature.",
+      "start": 27,
+      "terminal": "  {\n    \"artifact_dir\": \"artifacts/demo\",\n    \"output_json\": \"results/certification/toy-certify-demo.card.json\",\n    \"output_html\": \"docs/demo/certify-demo.card.html\",\n    \"output_pdf\": \"results/certification/toy-certify-demo.card.pdf\",\n    \"certified_evidence_method\": \"sae_feature_ablation\",\n    \"overall_passed\": false,\n    \"signature\": {\n      \"scheme\": \"sha256-card-digest\",\n      \"git_ref\": \"c3-certify-demo-v1\",\n      \"digest\": \"70c35957cd21d3b77fccb0cd9af56804b9765c86ecc81611464b4c60ee8ec436\"",
+      "title": "The CLI emits a compact machine-readable verdict"
+    },
+    {
+      "end": 60,
+      "narration": "The demo card fails because the SAE feature ablation does not pass held-out causal effect or matched controls.",
+      "start": 42,
+      "terminal": "certified method: sae_feature_ablation\noverall passed: False\n\n  separation: PASS\n  held-out causal: FAIL\n  specificity: PASS\n  capability cost: PASS\n  matched controls: FAIL",
+      "title": "Each required rung gets an explicit pass or fail"
+    },
+    {
+      "end": 75,
+      "narration": "Glassbox writes a JSON contract for tooling, an HTML card for review, a PDF snapshot, and a digest tied to the demo ref.",
+      "start": 60,
+      "terminal": "JSON: results/certification/toy-certify-demo.card.json\nHTML: docs/demo/certify-demo.card.html\nPDF:  results/certification/toy-certify-demo.card.pdf\nstdout: docs/demo/certify-demo.stdout.txt\ndigest: 70c35957cd21d3b77fccb0cd...",
+      "title": "The card is rendered for humans and automation"
+    },
+    {
+      "end": 90,
+      "narration": "The useful part is the discipline: every acceptance or rejection is linked back to frozen files and hashes.",
+      "start": 75,
+      "terminal": "Certification is not a rubber stamp.\nA weak intervention fails loudly.\nThe artifacts are deterministic and reviewable.\n\nOpen: docs/demo/certify-demo.card.html",
+      "title": "Takeaway"
+    }
+  ],
+  "source_artifacts": "artifacts/demo",
+  "video": "docs/demo/certify-demo.mp4"
+}

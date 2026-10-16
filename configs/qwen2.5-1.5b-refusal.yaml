@@ -1,0 +1,35 @@
+seed: 17
+mode: smoke
+behavior: refusal
+evidence_class: empirical_smoke_fixture
+dataset_path: data/refusal_pairs.jsonl
+target_layer: null
+
+model:
+  backend: huggingface
+  name: Qwen/Qwen2.5-1.5B-Instruct
+  layers: [4, 8, 12, 16, 20, 24, 27]
+  dtype: float16
+  device: auto
+  trust_remote_code: false
+  cache_dir: null
+
+sae:
+  expansion_factor: 8
+  top_k: 32
+  epochs: 1000
+  batch_size: 128
+  learning_rate: 0.0005
+  l1_coefficient: 0.0001
+  n_features_to_intervene: 5
+  device: auto
+  tokens_per_prompt: 16
+
+evaluation:
+  threshold: null
+  bootstrap_samples: 2000
+  confidence: 0.95
+  steering_scales: [-8.0, -4.0, -2.0, -1.0, 1.0, 2.0]
+  random_controls: 20
+  control_scale: -4.0
+  layerwise_controls: true

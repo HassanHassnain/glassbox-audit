@@ -1,0 +1,44 @@
+[
+  {
+    "layer": 4,
+    "localization_score": 6.292213253070384,
+    "mean_difference_norm": 1.8590725660324097,
+    "projection_effect_size": 3.3845979807550393
+  },
+  {
+    "layer": 8,
+    "localization_score": 7.788822317034188,
+    "mean_difference_norm": 2.190035581588745,
+    "projection_effect_size": 3.5564820875576113
+  },
+  {
+    "layer": 12,
+    "localization_score": 8.329654328612833,
+    "mean_difference_norm": 3.5946264266967773,
+    "projection_effect_size": 2.317251736299961
+  },
+  {
+    "layer": 16,
+    "localization_score": 26.935175072871406,
+    "mean_difference_norm": 11.718250274658203,
+    "projection_effect_size": 2.298566291174136
+  },
+  {
+    "layer": 20,
+    "localization_score": 50.46223540772174,
+    "mean_difference_norm": 24.057079315185547,
+    "projection_effect_size": 2.097604399378127
+  },
+  {
+    "layer": 24,
+    "localization_score": 112.44327967152232,
+    "mean_difference_norm": 49.261474609375,
+    "projection_effect_size": 2.2825804660367015
+  },
+  {
+    "layer": 27,
+    "localization_score": 141.17247942147466,
+    "mean_difference_norm": 63.24265670776367,
+    "projection_effect_size": 2.232235120573996
+  }
+]

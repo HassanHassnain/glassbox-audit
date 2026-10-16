@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0",
+  "registered_before_new_expanded_results": true,
+  "primary_question": "Can the layer-27 residual-stream refusal-signal result be strengthened into component-level or path-level causal evidence?",
+  "secondary_question": "Can any SAE-based feature method outperform mean-difference/probe baselines under held-out evaluation without test retuning?",
+  "hypotheses": {
+    "H1_residual_replication": {
+      "success": "harmful_delta < -0.05, 95% CI high < 0, abs(benign_delta) <= 0.03"
+    },
+    "H2_component_specificity": {
+      "success": "component harmful suppression >= 50% of matched residual suppression, CI high < 0, abs(benign_delta) <= 0.03, capability_nll_delta <= 0.05"
+    },
+    "H3_sae_utility": {
+      "success": "SAE beats mean-difference and logistic probe on specificity/capability utility, direct paired harmful comparison, and matched random controls p <= 0.05"
+    },
+    "H4_circuit_claim": {
+      "success": "necessity, sufficiency, specificity, and held-out replication evidence"
+    }
+  },
+  "run_order": [
+    "qwen2.5-1.5b-expanded-medium",
+    "layerwise_component_scan",
+    "qwen2.5-1.5b-expanded-full_if_feasible",
+    "qwen2.5-3b_cross_model_if_cached_and_feasible",
+    "fixed_sae_stability_grid_if_feasible"
+  ],
+  "fixed_baselines": [
+    "mean_difference_direction",
+    "logistic_probe_direction",
+    "random_directions",
+    "matched_random_untrained_sae_latents",
+    "layerwise_residual_ablation_controls"
+  ],
+  "stopping_rules": [
+    "stop after two OOM failures at the same scale",
+    "stop if GPU conflict with another user is detected",
+    "do not alter layers, thresholds, scales, feature counts, prompts, bootstrap settings, or success criteria after held-out results",
+    "document infeasible 1000-pair or 3B runs as unrun"
+  ],
+  "sae_stability_grid": {
+    "seeds": [17, 23, 42],
+    "expansion_factors": [2, 4],
+    "top_k": [32],
+    "tokens_per_prompt": [48],
+    "medium_max_activation_samples": 32000,
+    "full_max_activation_samples": 64000
+  }
+}

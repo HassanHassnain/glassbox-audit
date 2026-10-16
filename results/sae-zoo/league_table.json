@@ -1,0 +1,43 @@
+{
+  "rows": [
+    {
+      "beats_linear_probe": null,
+      "beats_mean_difference": null,
+      "behavior": "refusal",
+      "failure": {
+        "error_message": "Hugging Face model access requires approval; no approved credential is available in this environment.",
+        "error_type": "access_denied",
+        "stage": "model_access"
+      },
+      "layer": 31,
+      "linear_probe_harmful_delta": null,
+      "mean_difference_harmful_delta": null,
+      "model": "google/gemma-2-9b-it",
+      "random_sae_controls_n": null,
+      "release": "gemma-scope-9b-it-res-canonical",
+      "sae_harmful_delta": null,
+      "sae_id": "layer_31/width_131k/canonical",
+      "status": "failed"
+    },
+    {
+      "beats_linear_probe": null,
+      "beats_mean_difference": null,
+      "behavior": "refusal",
+      "failure": {
+        "error_message": "Hugging Face model access requires approval, and the registered 131k Llama Scope SAE targets the base rather than instruct checkpoint.",
+        "error_type": "access_and_alignment_blocked",
+        "stage": "model_access"
+      },
+      "layer": 31,
+      "linear_probe_harmful_delta": null,
+      "mean_difference_harmful_delta": null,
+      "model": "meta-llama/Llama-3.1-8B",
+      "random_sae_controls_n": null,
+      "release": "llama_scope_lxr_32x",
+      "sae_harmful_delta": null,
+      "sae_id": "l31r_32x",
+      "status": "failed"
+    }
+  ],
+  "schema_version": "1.0"
+}

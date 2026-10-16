@@ -1,0 +1,26 @@
+[
+  {
+    "layer": 0,
+    "localization_score": 0.2000623676482604,
+    "mean_difference_norm": 0.11024817824363708,
+    "projection_effect_size": 1.8146546349831127
+  },
+  {
+    "layer": 1,
+    "localization_score": 0.5943465046068664,
+    "mean_difference_norm": 0.6923951506614685,
+    "projection_effect_size": 0.8583920670719127
+  },
+  {
+    "layer": 2,
+    "localization_score": 0.592481702324987,
+    "mean_difference_norm": 0.6668875217437744,
+    "projection_effect_size": 0.8884282326587377
+  },
+  {
+    "layer": 3,
+    "localization_score": 0.5852651006103669,
+    "mean_difference_norm": 0.6504836678504944,
+    "projection_effect_size": 0.8997383478425516
+  }
+]

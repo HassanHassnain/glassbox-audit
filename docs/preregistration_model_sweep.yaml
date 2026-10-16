@@ -1,0 +1,101 @@
+schema_version: "1.0"
+name: a2_cross_model_refusal_sweep
+
+questions:
+  primary: Does the held-out refusal direction persist across open instruct model families and scales?
+  secondary: Does the SAE-minus-mean causal gap shrink, disappear, or reverse as model scale increases?
+
+hypotheses:
+  H1_refusal_direction_scale: The train-selected refusal direction remains causally effective across completed model cells.
+  H2_sae_gap_scale: The SAE feature-ablation effect is compared against mean-difference and logistic-probe ablations at every completed scale.
+  H3_depth_fraction_scale: The selected layer depth fraction is reported for every completed model cell without post-hoc layer retuning.
+
+success_criteria:
+  H1_refusal_direction_scale:
+    report_harmful_delta_and_ci_for_each_completed_cell: true
+    no_single_model_generalization_claim_without_at_least_five_completed_cells: true
+  H2_sae_gap_scale:
+    report_sae_minus_mean_gap_for_each_completed_cell: true
+    report_sae_minus_probe_gap_for_each_completed_cell: true
+    no_test_set_feature_or_scale_retuning: true
+  H3_depth_fraction_scale:
+    report_target_layer_depth_fraction_for_each_completed_cell: true
+    layer_selection_train_only_or_predeclared: true
+
+thresholds:
+  min_held_out_records_per_model: 250
+  bootstrap_confidence: 0.95
+  bootstrap_samples: 2500
+  random_controls: 24
+  samples_per_feature: 8.0
+  sae_expansion_factor: 2
+  sae_top_k: 32
+  sae_epochs: 220
+  tokens_per_prompt: 64
+  feature_budgets:
+    - 1
+    - 2
+    - 5
+    - 10
+    - 20
+    - 50
+    - 100
+    - 500
+    - 1000
+
+model_grid:
+  - Qwen/Qwen2.5-0.5B-Instruct
+  - Qwen/Qwen2.5-1.5B-Instruct
+  - Qwen/Qwen2.5-3B-Instruct
+  - Qwen/Qwen2.5-7B-Instruct
+  - Qwen/Qwen2.5-14B-Instruct
+  - meta-llama/Llama-3.2-1B-Instruct
+  - meta-llama/Llama-3.2-3B-Instruct
+  - meta-llama/Llama-3.1-8B-Instruct
+  - google/gemma-2-2b-it
+  - google/gemma-2-9b-it
+  - mistralai/Mistral-7B-Instruct-v0.3
+
+metrics:
+  - validation_selected_threshold
+  - target_layer_depth_fraction
+  - train_refusal_projection_effect_size
+  - held_out_sae_feature_ablation_delta
+  - held_out_mean_difference_ablation_delta
+  - held_out_linear_probe_ablation_delta
+  - sae_minus_mean_gap
+  - sae_minus_probe_gap
+  - random_control_distribution
+  - capability_nll_delta
+
+baselines:
+  - mean_difference_direction
+  - logistic_probe_direction
+  - random_directions
+  - matched_random_untrained_sae_latents
+  - layerwise_residual_ablation_controls
+
+run_order:
+  - qwen25-05b-instruct
+  - qwen25-15b-instruct
+  - qwen25-3b-instruct
+  - qwen25-7b-instruct
+  - qwen25-14b-instruct
+  - llama32-1b-instruct
+  - llama32-3b-instruct
+  - llama31-8b-instruct
+  - gemma2-2b-it
+  - gemma2-9b-it
+  - mistral-7b-instruct-v03
+
+stopping_rules:
+  - stop_on_gpu_conflict
+  - stop_after_two_oom_failures_for_the_same_model_cell
+  - publish_unrun_or_failed_cells_in_the_summary_with_reason
+  - do_not_change_model_grid_layers_thresholds_scales_features_or_success_criteria_after_any_cell_finishes
+
+reporting_rules:
+  - publish_one_evidence_json_per_model_cell
+  - report_completed_failed_and_unrun_cells_separately
+  - report_scale_plots_only_from_completed_cells
+  - do_not_claim_universal_scale_trend_without_at_least_five_completed_cells

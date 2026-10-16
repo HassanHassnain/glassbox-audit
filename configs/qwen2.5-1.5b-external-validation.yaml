@@ -1,0 +1,35 @@
+seed: 17
+mode: standard
+behavior: refusal
+evidence_class: external_validation_fixture_config
+dataset_path: data/external_refusal_fixture.glassbox.jsonl
+target_layer: 27
+
+model:
+  backend: huggingface
+  name: Qwen/Qwen2.5-1.5B-Instruct
+  layers: [27]
+  dtype: float16
+  device: cuda:0
+  trust_remote_code: false
+  cache_dir: null
+
+sae:
+  expansion_factor: 2
+  top_k: 8
+  epochs: 30
+  batch_size: 32
+  learning_rate: 0.0005
+  l1_coefficient: 0.0001
+  n_features_to_intervene: 2
+  device: cuda:0
+  tokens_per_prompt: 8
+
+evaluation:
+  threshold: 0.5
+  bootstrap_samples: 200
+  confidence: 0.95
+  steering_scales: [-2.0, 2.0]
+  random_controls: 4
+  control_scale: -2.0
+  layerwise_controls: false

@@ -5,7 +5,7 @@
 
 ## Abstract
 
-Sparse autoencoders (SAEs) are widely proposed as the unit of analysis for mechanistic interpretability, yet causal evaluations against simple baselines remain rare. We present **Glassbox**, a preregistered auditing protocol that asks whether SAE features provide a better *causal* account of refusal behavior than directions computable in closed form. On a controlled 1,000-pair harmful/benign corpus for Qwen2.5-1.5B-Instruct, all discovery is confined to train, all selection to validation, and all headline effects are measured once on held-out records against random-direction, matched random-SAE, and layerwise controls. Mean-difference ablation at layer 27 shifts the harmful refusal score by **−0.136** (95% CI [−0.143, −0.128]) and cuts refusal rate from 0.64 to 0.18 with negligible benign cost. A post-hoc frozen WikiText-2 evaluation finds a small 0.25% perplexity increase for mean ablation (ratio **1.0025**, 95% CI [1.0015, 1.0035]) and no detectable change for SAE ablation. The effect transfers zero-shot to OR-Bench (toxic refusal-rate Δ **−0.68**). SAE feature ablation is real, but it never beats the mean-difference baseline (**0/6** retraining cells). A pair-aware sensitivity analysis estimates the main-model mean-versus-SAE suppression gap at **0.099** [0.092, 0.106], ruling out parity within a practical 0.02 margin (Holm-adjusted p=0.0004). A feature-budget sweep to 100 latents never closes the gap, while a reconstruction-only control shows that full SAE substitution is dominated by reconstruction distortion. Component analysis supports residual localization rather than a circuit. A clean-room rerun reproduces all preregistered headline numbers, including the negative ones. We argue that preregistered, held-out, baseline-anchored audits should gate causal claims made on behalf of SAE features.
+Sparse autoencoders (SAEs) are widely proposed as the unit of analysis for mechanistic interpretability, yet causal evaluations against simple baselines remain rare. We present **Glassbox**, a preregistered auditing protocol that asks whether SAE features provide a better *causal* account of refusal behavior than directions computable in closed form. On a controlled 1,000-pair harmful/benign corpus for Qwen2.5-1.5B-Instruct, all discovery is confined to a train split, all selection to a validation split, and all headline effects are measured once on held-out records against random-direction, matched random-SAE, and layerwise controls. We find a robust layer-27 residual-stream direction: mean-difference ablation shifts the held-out harmful refusal score by **−0.136** (95% CI [−0.143, −0.128]) and cuts the harmful refusal rate from 0.64 to 0.18 with negligible benign and capability cost, satisfying our preregistered robustness criterion. The effect transfers zero-shot to OR-Bench (toxic refusal-rate Δ **−0.68**). SAE feature ablation is real — it beats matched random-SAE controls in 6/6 predeclared retraining cells — but it never beats the mean-difference or probe baselines (**0/6** cells; paired difference −0.141 [−0.158, −0.124]), and component-level analysis supports residual localization rather than an attention/MLP circuit. A clean-room rerun reproduces all headline numbers, including the negative ones. Follow-on frozen grids complete six accessible cross-model cells and twelve developmental cells: every completed cross-model cell selects the final scanned layer, all developmental source checkpoints separate, and none of the twelve endpoint-transfer bundles passes. Equivalence and inferiority calculations added after the existing Qwen outcomes were examined are reported only as post-hoc sensitivity analyses. We argue that audits of this form — preregistered, held-out, baseline-anchored — should gate causal claims made on behalf of SAE features, and we release the full harness and machine-readable evidence.
 
 ## 1 Introduction
 
@@ -22,7 +22,7 @@ Most interpretability evaluations do not enforce such rules. Features are select
 3. **A baseline-anchored causal evaluation.** SAE feature interventions compete against mean-difference and linear-probe directions under identical selection budgets, with isotropic random directions, *matched random-SAE latent* controls, and layerwise controls (Section 4.4).
 4. **A negative result, published with its supporting evidence.** SAE features beat their matched random controls in every cell yet lose to the mean-difference direction in every cell. We release all six predeclared retraining cells, the clean-room reproduction, and compact machine-readable summaries for every number in this paper.
 
-Our headline findings: (i) refusal in Qwen2.5-1.5B-Instruct is causally mediated by a late residual-stream direction (layer 27 of 28) that survives held-out testing, layerwise controls, threshold variants, and external transfer; (ii) top-k SAE features trained on the same activations, while causally real, recover only a fraction of that effect (−0.036 vs −0.136) at every seed and dictionary width tested; (iii) the effect is a *direction*, not an identified circuit — attention and MLP output ablations are small or non-specific; and (iv) a partial cross-model replication on Qwen2.5-3B finds a late-layer effect that fails our specificity bar. We take (ii) not as evidence that SAEs are useless, but as evidence that causal superiority over strong cheap baselines must be demonstrated, not assumed.
+Our headline findings: (i) refusal in Qwen2.5-1.5B-Instruct is causally mediated by a late residual-stream direction (layer 27 of 28) that survives held-out testing, layerwise controls, threshold variants, and external transfer; (ii) top-k SAE features trained on the same activations, while causally real, recover only a fraction of that effect (−0.036 vs −0.136) at every seed and dictionary width tested; (iii) the effect is a *direction*, not an identified circuit — attention and MLP output ablations are small or non-specific; and (iv) a larger follow-on sweep finds final-layer separation in Qwen2.5 0.5B–14B and Mistral-7B, but no monotone SAE scaling advantage. We take (ii) not as evidence that SAEs are useless, but as evidence that causal superiority over strong cheap baselines must be demonstrated, not assumed.
 
 ## 2 Related Work
 
@@ -46,9 +46,9 @@ $$r(x) \;=\; \tfrac{1}{|R|}\log P_f(R \mid x) \;-\; \tfrac{1}{|A|}\log P_f(A \mi
 
 with refusal prefix $R$ = "I'm sorry, but I can't" and answer prefix $A$ = "Sure, here's", token-length normalized. A refusal *rate* thresholds $r(x)$ at $\tau$ selected on validation only (balanced-accuracy criterion; $\tau = 0.847$ for the main audit). No LLM judge appears anywhere in the loop, making the scorer exactly reproducible; Section 6.6 tests robustness to threshold variants.
 
-**Interventions.** For a unit direction $v$, *directional ablation* replaces $h \leftarrow h - (h^\top v)\,v$ at the target layer for all positions; *steering* adds $\alpha v$ with scale $\alpha$ chosen on validation; *projection patching* moves the component along $v$ toward the benign class mean. The preregistered SAE *feature ablation* is residual-preserving: it encodes $h$, zeros the selected latents $S$, and subtracts only their decoder-space contribution while retaining the original SAE reconstruction residual. The hardening analysis separately evaluates full encode–decode substitution with no latent removed and with $S$ removed. This distinction is essential because reconstruction alone materially changes behavior (Section 6.7).
+**Interventions.** For a unit direction $v$, *directional ablation* replaces $h \leftarrow h - (h^\top v)\,v$ at the target layer for all positions; *steering* adds $\alpha v$ with scale $\alpha$ chosen on validation; *projection patching* moves the component along $v$ toward the benign class mean. For a set $S$ of SAE latents, *feature ablation* encodes $h$, zeroes the latents in $S$, and decodes — so SAE interventions act through the SAE's own reconstruction pathway.
 
-**Metrics.** We report held-out deltas relative to the unintervened model: mean harmful refusal-score delta $\Delta_H$ (primary; negative = suppression), mean benign score delta $\Delta_B$ (specificity), capability cost as next-token NLL delta $\Delta_C$ on held-out prompt text, refusal-rate deltas at fixed $\tau$, and bootstrap 95% CIs (3,000 resamples). A specificity-adjusted utility combining these is reported for descriptive comparison only. A separate post-hoc capability evaluation measures raw-text WikiText-2 perplexity on 128 frozen non-overlapping 256-token blocks, using paired block-bootstrap intervals for ablation-to-baseline NLL deltas and perplexity ratios.
+**Metrics.** We report held-out deltas relative to the unintervened model: mean harmful refusal-score delta $\Delta_H$ (primary; negative = suppression), mean benign score delta $\Delta_B$ (specificity), capability cost as next-token NLL delta $\Delta_C$ on held-out text, refusal-rate deltas at fixed $\tau$, and bootstrap 95% CIs (3,000 resamples). A specificity-adjusted utility combining these is reported for descriptive comparison only.
 
 ## 4 The Glassbox Audit Protocol
 
@@ -75,7 +75,7 @@ Validation records select exactly two things: the refusal-rate threshold $\tau$ 
 On 500 held-out records we run: SAE feature ablation, SAE steering, SAE-direction projection patching, mean-difference ablation and steering, probe ablation and steering, and the control battery:
 
 - **Isotropic random directions** (32 draws, ablation at the control scale −4) bound generic-perturbation effects.
-- **Matched random-SAE controls** in the original audit preserve architecture, top-k sparsity, activation centering, zero encoder bias, and residual-preserving subtraction while randomizing the SAE weights and selected latent (32–48 draws per artifact). The hardening extension adds a stricter same-dictionary control: eight random latent sets at every feature budget, drawn from non-dead latents in the trained SAE.
+- **Matched random-SAE controls** replicate the SAE intervention *mechanics* exactly — same trained SAE, encoder bias zeroed, literal encode–zero-selected-latent–decode, same activation centering — but zero *random* latent sets instead of the selected ones (32–48 draws per artifact). This isolates feature identity from intervention plumbing, in the spirit of control tasks for probes.
 - **Layerwise controls** apply the mean-difference construction independently at every scanned layer, testing whether layer 27 is privileged or any late layer would do.
 
 ### 4.5 Preregistered hypotheses
@@ -92,13 +92,20 @@ The following criteria were frozen (2026-06-19), with a fixed run order and an e
 
 (For provenance: the per-cell superiority criterion of H2 is recorded as `h3_preregistered_pass` inside the stability-grid summary; the hypothesis numbering above follows the preregistration file.)
 
+**Timing of later equivalence analyses.** The June 19 file and the hypotheses above are unchanged.
+TOST and inferiority analyses were added after the existing Qwen outcomes had been examined, so
+their application to those artifacts is a post-hoc sensitivity analysis, not a retrospective
+preregistration. The same procedure may carry a `prospective_preregistered` label only for a
+separately frozen cell whose outcome has not yet been observed. The repository enforces this with
+an explicit analysis-design field and a one-way historical-artifact migration.
+
 ## 5 Experimental Setup
 
-**Models.** Qwen/Qwen2.5-1.5B-Instruct (28 layers, $d = 1536$, fp16) for the main audit; Qwen/Qwen2.5-3B-Instruct (36 layers, $d = 2048$) for H5. Gemma-2-2B-it and Llama-3.2-1B-Instruct configs are released as unrun replication recipes per H5's no-fabrication clause.
+**Models.** Qwen/Qwen2.5-1.5B-Instruct (28 layers, $d = 1536$, fp16) for the main audit; Qwen/Qwen2.5-3B-Instruct (36 layers, $d = 2048$) for H5. The follow-on A2 grid includes Qwen2.5 0.5B, 1.5B, 3B, 7B, and 14B; Mistral-7B-Instruct-v0.3; Llama-3.2 1B/3B; Llama-3.1-8B; and Gemma-2 2B/9B. The six models available under the local credentials completed; all five gated Llama/Gemma cells are retained as access failures rather than silently excluded.
 
 **SAE quality (main audit).** Variance explained 0.9986; mean ℓ0 = 32.0; 3.7% dead features; feature density 0.0104; 15.5 training samples per feature. The negative result below is not attributable to a degenerate SAE.
 
-**Statistics.** The original audit reports bootstrap 95% CIs (3,000 resamples), Benjamini–Hochberg correction within artifact families [Benjamini & Hochberg, 1995], and empirical one-sided $p$ for SAE-vs-random-control comparisons. The hardening extension resamples complete prompt pairs (10,000 draws), uses paired sign-flip tests, and applies Holm familywise correction to four enumerated primary comparisons. Because the Qwen held-out outcomes had already been inspected, every hardening result is labeled post-hoc sensitivity rather than retroactively preregistered.
+**Statistics.** Bootstrap 95% CIs (3,000 resamples) for all deltas; Benjamini–Hochberg correction across the registered test families [Benjamini & Hochberg, 1995]; empirical one-sided $p$ for SAE-vs-matched-random-control comparisons.
 
 **Compute.** All real-model runs fit on a single consumer-class CUDA GPU; the CI pipeline (unit tests, lint, a deterministic CPU toy audit, and a release audit) requires no GPU.
 
@@ -119,8 +126,6 @@ Table 1 and Figure 1 give the held-out causal effects at layer 27 (n = 500).
 | Matched random-SAE controls | straddle 0 (e.g. [−0.0014, +0.0005], n=32) | — | — | — |
 
 H1 passes all four preregistered conditions: $\Delta_H = -0.136 \le -0.08$; CI upper bound −0.128 < 0; $\lvert\Delta_B\rvert = 0.015 \le 0.05$; $\Delta_C = -0.016 \le 0.05$. All non-control effects survive BH correction (raw $p = 2\times10^{-4}$).
-
-**Unrelated language-model capability check (post-hoc).** We additionally evaluate the frozen baseline, mean-difference ablation, and literal top-5 SAE feature ablation on the same deterministic 128-block subset of WikiText-2 test (32,768 scored tokens; subset token SHA-256 `c31fba93…786788`). Baseline perplexity is 15.280 [14.323, 16.285]. Mean ablation raises NLL by 0.00248 [0.00153, 0.00346], corresponding to perplexity 15.318 and a paired perplexity ratio of **1.0025 [1.0015, 1.0035]**. SAE ablation changes NLL by −0.00052 [−0.00117, +0.00012], with perplexity 15.272 and ratio **0.9995 [0.9988, 1.0001]**. The mean intervention therefore has a statistically detectable but operationally small 0.25% general-LM cost; no cost is detected for SAE ablation on this task. This substantially broadens the original prompt-NLL check, but does not establish preservation of every downstream capability. Per-block losses, dataset fingerprint, sampled indices, and hashes are released in `results/capability/wikitext2_qwen15b.json`.
 
 **Layerwise controls: layer 27 is privileged.** Applying the identical mean-difference construction at every scanned layer (Table 2) shows mid-layers producing sizeable harmful-score shifts *with* specificity or capability damage; only layer 27 combines the largest suppression with near-zero benign shift and negative NLL cost.
 
@@ -210,37 +215,54 @@ On Qwen2.5-3B-Instruct (n = 60 held-out records; baseline harmful refusal rate 1
 
 **Clean-room reproduction.** An independent rerun from documented commands reproduced the target layer, baseline rates (0.64 / 0.148), the mean-difference delta (−0.1356), the SAE delta, and the H2 failure within fixed tolerances declared in advance (`results/final/reproducibility.json`). The final claim is unchanged by reproduction.
 
-### 6.7 Hardening sensitivity: affirmative inferiority, feature budgets, and reconstruction
+### 6.7 Follow-on audit grids and infrastructure results
 
-After inspecting the original outcomes, we froze a separate extension protocol without editing the June 19 preregistration. These results are therefore **post-hoc sensitivity analyses**, not confirmatory tests. The practical inferiority margin $\delta=0.02$ was derived as 25% of H1's preregistered minimum meaningful effect (0.08), and the prompt pair is the bootstrap unit.
+**Cross-model sweep.** Six of eleven frozen A2 cells completed with 250 held-out pairs and 24
+controls each: Qwen2.5 0.5B, 1.5B, 3B, 7B, and 14B plus Mistral-7B. Every completed cell selects
+the final scanned layer. SAE-minus-mean harmful-score gaps are −0.0295, +0.1120, +0.1256,
++0.6527, +0.1728, and +0.1977 in parameter-table order. Qwen-0.5B is the one cell where SAE
+ablation suppresses the harmful score more than the mean direction, but it does not pass the full
+simple-baseline bundle. At Qwen-7B and Qwen-14B a utility flag favors SAE because the mean
+intervention has specificity cost; harmful-score suppression still favors the mean. The result is
+non-monotone and does not support a universal SAE scaling advantage. All equivalence fields on
+these examined outcomes are labeled `post_hoc_sensitivity`.
 
-**Affirmative negative claim.** For harmful prompt $i$, define suppression $u_{m,i}=-(r^{\mathrm{intervened}}_{m,i}-r^{\mathrm{base}}_i)$ and $d_i=u_{\mathrm{mean},i}-u_{\mathrm{SAE},i}$. The mean direction exceeds top-5 SAE feature ablation by **0.0992** refusal-score units (95% pair-bootstrap CI **[0.0924, 0.1058]**). The paired sign-flip test remains significant after Holm correction ($p=0.0004$), and a one-sided inferiority test rejects a gap no larger than 0.02 ($p<10^{-6}$ under the normal approximation). The selected top-5 features also beat the stricter same-dictionary random sets by 0.0362 [0.0338, 0.0386] (Holm $p=0.0004$). The SAE beats the linear probe, so the result is specifically mean-direction superiority—not universal SAE inferiority.
+**Developmental audit.** All twelve A3 cells complete and all source-checkpoint separations pass.
+Pythia-410M directions become more aligned with the final base model late in training; the largest
+target effect is −0.0364 at step 128000 with cosine 0.961. Its nominal random-control $p=.04$
+becomes $q=.096$ over the full twelve-cell family, so no Pythia cell passes the frozen bundle.
+OLMo-7B directions select layer 23 at 4B tokens and layer 31 thereafter, but instruct-endpoint
+cosines remain between −0.019 and 0.110 and harmful-score effects between approximately −0.0010
+and +0.0011. No OLMo cell passes.
 
-**Feature-budget frontier.** Features were ranked on train only and evaluated at fixed budgets $k\in\{1,2,5,10,20,50,100\}$ against eight same-dictionary random sets of equal size. The frontier is non-monotonic: harmful-score deltas are +0.0013, −0.0008, **−0.0363**, −0.0157, −0.0018, +0.0352, and +0.0345. Top-5 is optimal among the frozen budgets; no budget approaches the mean-direction effect (−0.1356). At $k=50$ and 100, the sign reverses while benign-score shifts rise to about +0.04 and NLL cost to about +0.07. More latents do not rescue the SAE claim under this ranking rule.
+**Feature budgets and heads.** The fixed SAE budget frontier (1–1,000 latents) is complete. It
+adds useful exchange-rate information but no general reversal of the baseline result. Generic
+attention-output head-slice analysis finds five BH-significant layer-27 slices, with effects only
+−0.000059 to −0.000364; this is not a practically large or architecture-specific circuit.
 
-![Feature-budget frontier](figures/hardening_feature_budget.png)
+**Second behavior and model drift.** The 1,000-pair Qwen2.5-1.5B sycophancy instantiation has a
+held-out behavior gap of −0.00483 and balanced accuracy 0.48. Intervention movements are retained,
+but absent baseline separation blocks causal interpretation. In the B2 LoRA model-swap run, a
+100-step, 2.18M-trainable-parameter update retains held-out causal effect, matched controls,
+separation, and capability cost under frozen source handles, but loses specificity. Its status is
+`degraded` and the mechanism does not survive the update.
 
-*Figure 5 — Held-out feature-budget sensitivity. Error bars are 95% pair-bootstrap CIs; the grey band is the range across eight same-dictionary random sets per budget.*
-
-**Intervention comparability and reconstruction control.** Residual-preserving top-5 SAE subtraction yields $\Delta_H=-0.0363$, $\Delta_B=-0.0358$, and $\Delta_C=+0.0018$. In contrast, SAE reconstruction with **no feature removed** yields $\Delta_H=-0.7179$, $\Delta_B=-0.6924$, and $\Delta_C=+0.1924$; full substitution after removing the top five yields −0.8049, −0.7070, and +0.1950. Thus most of the dramatic full-substitution effect is already present in reconstruction alone and is non-specific. The mean direction obtains materially stronger specific suppression than residual-preserving SAE ablation at similar mean hidden-state perturbation norm (32.3 versus 30.3) and with no positive NLL cost.
-
-![Intervention comparability](figures/hardening_intervention_comparability.png)
-
-*Figure 6 — Suppression versus hidden-state perturbation. Marker area encodes positive NLL cost; full SAE reconstruction/substitution produces large, non-specific shifts.*
-
-The validation-selected weighted sparse SAE combination (20 latents, L1 selected from a frozen grid) also fails to help ($\Delta_H=+0.0002$). These analyses strengthen the bounded conclusion: under the trained dictionary, train-only feature ranking, and tested sparse budgets, SAE features do not match the causal refusal direction; naive encode–decode substitution is not a fair remedy because reconstruction damage dominates it.
+**Published blockers.** The prospectively frozen Gemma Scope and Llama Scope cells require model
+access approval; the latter also targets the base rather than instruct checkpoint. The four A8
+adversarial-mediation cells remain unrun because no approved local shifted corpus is present. These
+are explicit access/data blockers, not empirical negative results.
 
 ## 7 Discussion
 
 **Why does the mean beat the dictionary?** The mean-difference direction *is* the first moment of the class contrast; if refusal is encoded (at this site, at this scale) as a predominantly linear mean shift, then the optimal single-shot causal handle is essentially that shift. A top-k SAE decomposes the same activation space into thousands of sparse latents, distributing the class-relevant variance across many features; zeroing the top five captures only the portion of the shift those features span. On this reading, the SAE is not *wrong* — its selected features are causally real, beating matched random latents everywhere — it is *inefficient* as a causal handle for a behavior whose natural description is one direction. The failure of SAE activation patching (no suppression, material NLL cost) is consistent with reconstruction-pathway interventions degrading unrelated computation.
 
-**What this does and does not indict.** Our result is a statement about *causal superiority for one behavior, one model family, one training recipe* — not about SAE interpretability at large. SAEs may still win where behaviors decompose into genuinely multi-dimensional structure, where feature-level *description* (not intervention strength) is the goal, or with dictionaries and feature-selection budgets beyond ours. What the result does indict is the practice of asserting mechanistic privilege for SAE features without running the cheap baseline under equal selection discipline. In our audit, every degree of freedom the SAE was allowed, the baseline was allowed too — and the baseline is three lines of NumPy.
+**What this does and does not indict.** Our primary controlled result is a statement about *causal superiority for one behavior and one training recipe*, strengthened but not universalized by the accessible cross-model cells. SAEs may still win where behaviors decompose into genuinely multi-dimensional structure, where feature-level *description* (not intervention strength) is the goal, or with public dictionaries and feature-selection budgets beyond ours. What the result does indict is the practice of asserting mechanistic privilege for SAE features without running the cheap baseline under equal selection discipline. In our audit, every degree of freedom the SAE was allowed, the baseline was allowed too — and the baseline is three lines of NumPy.
 
 **Auditing as a first-class deliverable.** The most transferable artifact here may be the protocol: preregister the claim ladder, wall off discovery/selection/judgement, match controls to intervention mechanics, publish every predeclared cell, and let the repository refuse the claims the evidence cannot carry. Each rung of our ladder — separation, held-out causal direction, external transfer, cross-model replication, SAE superiority, circuit — was tested and reported separately, and the release claims exactly the rungs that passed.
 
 ## 8 Limitations
 
-The refusal scorer is a contrastive prefix log-probability, not generated-answer judging; regeneration-based grading is future work. The controlled corpus is topic-matched by construction and deliberately narrow; naturalistic breadth comes only from the (unpaired) OR-Bench transfer. Component analysis stops at component outputs — no head-level or path-level mediation, so "not a circuit" means *not established*, not *ruled out*. The 3B replication uses n = 60 and an under-trained SAE. Non-Qwen replication is unrun: the correctly matched Gemma-2-9B-it/Gemma Scope cell was killed before outcomes because gated model weights were unavailable on the server. Finally, the negative H2 conclusion is bounded by our SAE recipe — top-k (k=32), expansions ×2/×4, ~48k activation samples, and train-effect-size ranking. The hardening sweep extends the budget to 100 features without reversal, but a substantially different dictionary or supervised selection objective could still change the result.
+The refusal scorer is a contrastive prefix log-probability, not generated-answer judging; regeneration-based grading is future work. The controlled corpus is topic-matched by construction and deliberately narrow; naturalistic breadth comes only from the (unpaired) OR-Bench transfer. Generic head-output slicing does not establish exact pre-output head or path mediation, so "not a circuit" means *not established*, not *ruled out*. The A2 evidence is six completed models and five access failures, not an eleven-model empirical sweep. Public 131k SAE cells remain blocked by gated model weights, the sycophancy corpus fails baseline separation, and A8 lacks its approved local corpus. Finally, the negative H2 conclusion is bounded by our SAE recipe — top-k (k=32), expansions ×2/×4, ~48k activation samples, top-5 feature interventions — and could in principle reverse under substantially different dictionary training or feature-selection budgets; the harness exists to make such a reversal easy to demonstrate.
 
 ## 9 Broader Impact
 
@@ -248,7 +270,7 @@ This work analyzes how refusal is implemented, and directional ablation can part
 
 ## 10 Reproducibility Statement
 
-Everything needed to reproduce this paper ships in the repository. CPU path (no weights): `make validate` runs unit tests, lint, compile checks, and a deterministic toy audit; CI runs it on every commit. GPU paths: `make reproduce-cleanroom` regenerates the controlled corpus (SHA-256 pinned) and the full 1.5B audit; `make reproduce-external` runs the frozen-artifact OR-Bench transfer; `glassbox paper-hardening ...` resumes the comparability and budget extension from immutable source artifacts. Every table and figure is transcribed from stable-named JSON evidence under `results/`; original and extension preregistrations are preserved separately. Original figures regenerate via `python scripts/readme_assets/generate_all.py`; hardening figures via `python scripts/generate_hardening_figures.py`.
+Everything needed to reproduce this paper ships in the repository. CPU path (no weights): `make validate` runs unit tests, lint, compile checks, and a deterministic toy audit; CI runs it on every commit. GPU paths: `make reproduce-cleanroom` regenerates the controlled corpus (SHA-256 pinned) and the full 1.5B audit; `make reproduce-external` runs the frozen-artifact OR-Bench transfer. A2 and A3 aggregate artifacts regenerate with the model-sweep and developmental-summary commands; failed and unrun cells remain in their tables. Every table and figure in this paper is transcribed from committed, stable-named JSON evidence under `results/` (per-file map in the README); generated-artifact hashes are pinned in `results/final/artifact_manifest.json`; the original preregistration freeze, run order, and no-retuning policy are in `results/final/preregistration.json`. Equivalence timing and the prospective SAE-zoo v2 freeze are documented separately, without modifying the June file. Figures regenerate via `python scripts/readme_assets/generate_all.py`.
 
 ## References
 
@@ -322,3 +344,9 @@ Frozen 2026-06-19 with fixed run order (1.5B audit → stability cells → OR-Be
 | Preregistration | `results/final/preregistration.json` |
 | Clean-room reproduction | `results/final/reproducibility.json` |
 | Paired method differences | `docs/tables/method_comparisons.md` |
+| A2 cross-model sweep | `results/model-sweep/a2_summary.json`, `docs/tables/model_sweep.md` |
+| A3 developmental audit | `results/developmental/a3_summary.json`, `docs/tables/developmental_audit.md` |
+| A5 head slices | `results/head-path/qwen-real-audit_head_path_analysis_summary.json` |
+| A7 sycophancy | `results/sycophancy/qwen25-15b.json` |
+| B2 LoRA drift | `results/drift/qwen15b_lora_model_swap.json` |
+| Equivalence timing | `docs/EQUIVALENCE_TIMING.md` |

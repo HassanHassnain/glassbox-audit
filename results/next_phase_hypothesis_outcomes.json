@@ -1,0 +1,74 @@
+{
+  "phase4_supersession": {
+    "artifact": "results/final/phase4_outcomes.json",
+    "component_path_approximation": "completed_in_phase4",
+    "external_causal_transfer": "completed_in_phase4",
+    "qwen2.5-1.5b-expanded-1000-pair": "completed_in_phase4",
+    "sae_stability_grid": "completed_6_of_6_in_phase4"
+  },
+  "preregistration": "docs/PREREGISTERED_NEXT_PHASE_AUDIT.md",
+  "runs": {
+    "or-bench-behavior-only": {
+      "artifact": "artifacts/external/or_bench_qwen15b_behavior_eval.json",
+      "circuit_claim_supported": false,
+      "external_mode": "behavior_only_unpaired",
+      "hard_benign_refusal_rate": 0.81,
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "notes": [
+        "OR-Bench toxic and hard-benign subsets were normalized from Hugging Face.",
+        "Rows are unpaired, so no SAE/intervention or causal claim is supported.",
+        "High hard-benign refusal rate is an over-refusal warning."
+      ],
+      "snapshot": "results/external/or_bench_qwen15b_behavior_eval_summary.json",
+      "toxic_refusal_rate": 0.95
+    },
+    "qwen2.5-1.5b-expanded-medium": {
+      "artifact": "artifacts/qwen-expanded-medium-preregistered",
+      "circuit_claim_supported": false,
+      "dataset_pairs": 520,
+      "h1_residual_replication": "passed",
+      "h2_component_specificity": "failed",
+      "h3_sae_utility": "failed",
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "notes": [
+        "Layer-27 residual mean-difference ablation replicated with harmful delta -0.141 and benign delta -0.013.",
+        "SAE feature ablation improved to -0.035 and beat matched random-SAE controls, but remained weaker than mean-difference ablation."
+      ]
+    },
+    "qwen2.5-3b-replication": {
+      "artifact": "artifacts/qwen2.5-3b-replication-preregistered",
+      "circuit_claim_supported": false,
+      "dataset_pairs": 120,
+      "h1_residual_replication": "failed_specificity",
+      "h2_component_specificity": "failed",
+      "h3_sae_utility": "failed",
+      "model": "Qwen/Qwen2.5-3B-Instruct",
+      "notes": [
+        "Mean-difference ablation reduced harmful score but caused large benign and capability shifts.",
+        "Layer-35 MLP intervention was large but not specific.",
+        "Legacy utility-only SAE diagnostic was true, but preregistered H3 failed because SAE feature ablation did not beat simple baselines on direct harmful-score suppression."
+      ]
+    },
+    "sae-stability-fixed-subset": {
+      "artifact": "results/sae-stability/summary.json",
+      "circuit_claim_supported": false,
+      "completed_cells": 3,
+      "h3_sae_utility": "failed_all_completed_cells",
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "notes": [
+        "Completed seed17-exp2, seed23-exp2, and seed17-exp4 without retuning.",
+        "SAE harmful-score effects ranged from -0.061 to -0.016.",
+        "No completed cell beat mean-difference/probe under preregistered H3.",
+        "The 4x width cell had 44.0% dead features and weaker causal effect."
+      ],
+      "planned_cells": 6
+    }
+  },
+  "schema_version": "1.0",
+  "unrun": {
+    "gemma-2-2b-it": "weights_not_cached",
+    "llama-3.2-1b-instruct": "weights_not_cached_or_gated",
+    "qwen2.5-1.5b-expanded-1000-pair": "completed_in_phase4",
+    "sae_stability_grid": "completed_6_of_6_in_phase4"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "activation_samples": 16,
+  "collected_activation_samples": 16,
+  "effective_max_activation_samples": null,
+  "finished_at": 1783691836.8989701,
+  "sae_source": "trained",
+  "scaled_activation_sample_cap": null,
+  "seconds": 2.4543113708496094,
+  "stage": "sae_training",
+  "started_at": 1783691834.4446588,
+  "status": "completed"
+}

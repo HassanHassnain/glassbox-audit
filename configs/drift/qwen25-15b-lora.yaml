@@ -1,0 +1,32 @@
+seed: 17
+mode: real_audit
+behavior: refusal
+evidence_class: empirical_lora_drift_demo
+dataset_path: data/refusal_controlled_v2_1000.jsonl
+target_layer: 27
+model:
+  backend: huggingface
+  name: artifacts/lora/qwen25-15b-refusal-shifted/merged
+  layers: [4, 8, 12, 16, 20, 24, 27]
+  dtype: float16
+  device: cuda:0
+  trust_remote_code: false
+  cache_dir: null
+sae:
+  source: trained
+  expansion_factor: 2
+  top_k: 32
+  epochs: 220
+  batch_size: 512
+  learning_rate: 0.0005
+  l1_coefficient: 0.0001
+  n_features_to_intervene: 5
+  device: cuda:0
+evaluation:
+  threshold: null
+  bootstrap_samples: 2500
+  confidence: 0.95
+  steering_scales: [-4.0, -2.0, -1.0, 1.0, 2.0, 4.0]
+  random_controls: 24
+  control_scale: -4.0
+  layerwise_controls: true

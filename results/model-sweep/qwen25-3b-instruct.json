@@ -1,0 +1,26 @@
+{
+  "artifact_dir": "artifacts/a2_model_sweep/qwen25-3b-instruct",
+  "config": "configs/a2_model_sweep/qwen25-3b-instruct.yaml",
+  "equivalence_analysis_design": "post_hoc_sensitivity",
+  "equivalence_tests_passed": [
+    "sae_inferior_to_mean_difference"
+  ],
+  "family": "qwen2.5",
+  "linear_probe_harmful_delta": -0.05147403287887573,
+  "mean_difference_harmful_delta": -0.22415159845352173,
+  "model": "Qwen/Qwen2.5-3B-Instruct",
+  "params_b": 3.0,
+  "preregistration_hash": "7c1d0dc4a2792b81d1d3a1a959772af040359f83229e17a3e07f3e7cd59f754c",
+  "refusal_direction_effect_size": 4.12205106724748,
+  "sae_harmful_delta": -0.09856369781494141,
+  "sae_minus_mean_gap": 0.12558790063858033,
+  "sae_minus_probe_gap": -0.04708966493606568,
+  "sae_outperforms_simple_baselines": false,
+  "schema_version": "1.0",
+  "slug": "qwen25-3b-instruct",
+  "status": "completed",
+  "target_layer": 35,
+  "target_layer_depth_fraction": 1.0,
+  "test_pairs": 250,
+  "test_records": 500
+}

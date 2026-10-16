@@ -1,0 +1,29 @@
+{
+  "behavior_threshold_selection": "validation",
+  "family_disjoint_splits": true,
+  "feature_selection": "train final-token feature effect size only",
+  "intervention_scale_selection": "validation specificity/capability-adjusted score",
+  "layer_selection": "train localization_score only",
+  "mode": "real_audit",
+  "real_audit_requirements_passed": [
+    "target_layer must be null so layer selection uses train only",
+    "at least three layers must be scanned",
+    "threshold must be selected on validation",
+    "layerwise controls must be enabled",
+    "at least four random controls are required",
+    "at least 200 bootstrap samples are required",
+    "SAE must train on multiple train-prompt token activations",
+    "each split must contain at least 20 records"
+  ],
+  "sae_training": {
+    "activation_samples": 24628,
+    "collected_activation_samples": 24628,
+    "max_activation_samples": 32000,
+    "split": "train",
+    "tokens_per_prompt": 48
+  },
+  "test_access_policy": "final metrics and paired comparisons only",
+  "test_records_used_for_final_reporting_only": 260,
+  "train_records_used_for_discovery_and_sae_only": 520,
+  "validation_records_used_for_threshold_and_scale_selection_only": 260
+}
