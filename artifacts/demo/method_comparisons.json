@@ -1,0 +1,126 @@
+{
+  "causal_ablation": [
+    {
+      "benign_score_left_minus_right_ci": {
+        "estimate": -0.15025276225060225,
+        "high": 0.06370714772492647,
+        "low": -0.32590718287974596
+      },
+      "capability_nll_left_minus_right_ci": {
+        "estimate": 0.004741299897432327,
+        "high": 0.028341049142181874,
+        "low": -0.016821101680397986
+      },
+      "harmful_score_left_minus_right_ci": {
+        "estimate": 0.27053555101156235,
+        "high": 0.3454172952100635,
+        "low": 0.22764856535941363
+      },
+      "interpretation": "Negative score deltas mean the left method suppresses more.",
+      "left_method": "linear_probe_direction_ablation",
+      "right_method": "mean_difference_direction_ablation"
+    },
+    {
+      "benign_score_left_minus_right_ci": {
+        "estimate": 0.015404042322188616,
+        "high": 0.030200700205750764,
+        "low": -0.00645428252173587
+      },
+      "capability_nll_left_minus_right_ci": {
+        "estimate": 0.0032964199781417847,
+        "high": 0.02531303968280554,
+        "low": -0.01802430367097258
+      },
+      "harmful_score_left_minus_right_ci": {
+        "estimate": -0.056320734322071075,
+        "high": -0.03653624821454286,
+        "low": -0.07520196996629237
+      },
+      "interpretation": "Negative score deltas mean the left method suppresses more.",
+      "left_method": "linear_probe_direction_ablation",
+      "right_method": "sae_feature_ablation"
+    },
+    {
+      "benign_score_left_minus_right_ci": {
+        "estimate": 0.16565680457279086,
+        "high": 0.3529309486155398,
+        "low": -0.09634615791728719
+      },
+      "capability_nll_left_minus_right_ci": {
+        "estimate": -0.0014448799192905426,
+        "high": 0.0018567897379398353,
+        "low": -0.005223426222801208
+      },
+      "harmful_score_left_minus_right_ci": {
+        "estimate": -0.3268562853336334,
+        "high": -0.2863616047427058,
+        "low": -0.3915728881955147
+      },
+      "interpretation": "Negative score deltas mean the left method suppresses more.",
+      "left_method": "mean_difference_direction_ablation",
+      "right_method": "sae_feature_ablation"
+    }
+  ],
+  "selected_steering": [
+    {
+      "benign_score_left_minus_right_ci": {
+        "estimate": 0.06962935012415983,
+        "high": 0.17783567586411664,
+        "low": 0.00996734427553747
+      },
+      "capability_nll_left_minus_right_ci": {
+        "estimate": 0.10304182767868042,
+        "high": 0.2665574915707112,
+        "low": -0.04718574583530423
+      },
+      "harmful_score_left_minus_right_ci": {
+        "estimate": 0.1095721505698748,
+        "high": 0.21036503579525742,
+        "low": 0.057775027886964384
+      },
+      "interpretation": "Negative score deltas mean the left method suppresses more.",
+      "left_method": "linear_probe",
+      "right_method": "mean_difference"
+    },
+    {
+      "benign_score_left_minus_right_ci": {
+        "estimate": -0.03447505668736994,
+        "high": -0.006201884965412318,
+        "low": -0.0726488388958387
+      },
+      "capability_nll_left_minus_right_ci": {
+        "estimate": -0.3900828454643488,
+        "high": -0.1579997163731605,
+        "low": -0.6933290201239287
+      },
+      "harmful_score_left_minus_right_ci": {
+        "estimate": -0.06713414378464222,
+        "high": -0.05025621427921578,
+        "low": -0.09693128925282508
+      },
+      "interpretation": "Negative score deltas mean the left method suppresses more.",
+      "left_method": "linear_probe",
+      "right_method": "sae_features"
+    },
+    {
+      "benign_score_left_minus_right_ci": {
+        "estimate": -0.10410440681152977,
+        "high": -0.016526305539264284,
+        "low": -0.24501978153948584
+      },
+      "capability_nll_left_minus_right_ci": {
+        "estimate": -0.4931246731430292,
+        "high": -0.12000438380055126,
+        "low": -0.8643780348822474
+      },
+      "harmful_score_left_minus_right_ci": {
+        "estimate": -0.176706294354517,
+        "high": -0.10839652377908351,
+        "low": -0.3077279996476136
+      },
+      "interpretation": "Negative score deltas mean the left method suppresses more.",
+      "left_method": "mean_difference",
+      "right_method": "sae_features"
+    }
+  ]
+}

@@ -1,0 +1,247 @@
+{
+  "artifact_notice": "Fixed SAE stability grid summary. Completed subset was selected before seeing held-out stability outcomes; remaining cells are explicitly unrun.",
+  "cells": [
+    {
+      "artifact": "artifacts/qwen-expanded-medium-preregistered",
+      "behavior_threshold": 0.8569305539131165,
+      "best_simple_method": "linear_probe",
+      "best_simple_specificity_adjusted_utility": 0.0015793447311107925,
+      "cell": "seed17-exp2",
+      "dead_feature_fraction": 0.16015625,
+      "evidence_class": "empirical_expanded_medium_preregistered",
+      "feature_density": 0.010416666666666666,
+      "mean_ablation_benign_delta": -0.0128966734959529,
+      "mean_ablation_harmful_ci": [
+        -0.15485879023487753,
+        -0.12756044212442177
+      ],
+      "mean_ablation_harmful_delta": -0.1412294071454268,
+      "mean_ablation_nll_delta": -0.02079326923076923,
+      "mean_l0": 32.0,
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "n_features": 3072,
+      "probe_ablation_benign_delta": 0.018043872943291298,
+      "probe_ablation_harmful_ci": [
+        -0.010631125764204906,
+        -0.007484814398563825
+      ],
+      "probe_ablation_harmful_delta": -0.009069649072793813,
+      "probe_ablation_nll_delta": -0.002178485576923077,
+      "random_sae_control_max": 0.008843955626854529,
+      "random_sae_control_min": -0.011427441468605628,
+      "random_sae_control_n": 48,
+      "random_sae_empirical_p": 0.02040816326530612,
+      "random_sae_protocol": {
+        "activation_center": "trained_sae_activation_center",
+        "architecture": {
+          "input_dim": 1536,
+          "n_features": 3072,
+          "top_k": 32
+        },
+        "encoder_bias": "zeroed",
+        "latent_intervention": "literal_encode_zero_selected_latent_decode",
+        "selection_policy": "frozen; no feature, layer, threshold, or scale retuning",
+        "status": "matched_center_zero_encoder_bias"
+      },
+      "reconstruction_mse": 0.04143047705292702,
+      "role": "expanded-medium anchor reused as first stability cell",
+      "sae_ablation_benign_delta": -0.027364583428089437,
+      "sae_ablation_harmful_ci": [
+        -0.03857819832288302,
+        -0.03225719378544734
+      ],
+      "sae_ablation_harmful_delta": -0.035362673722780666,
+      "sae_ablation_nll_delta": 0.004281850961538462,
+      "sae_outperforms_simple_baselines": false,
+      "sae_specificity_adjusted_utility": -0.00036910703549018265,
+      "samples_per_feature": 8.016927083333334,
+      "seed": 17,
+      "selected_features": [
+        306,
+        1120,
+        1415,
+        1129,
+        2773
+      ],
+      "status": "completed",
+      "target_layer": 27,
+      "test_records": 260,
+      "training_samples": 24628,
+      "variance_explained": 0.9983686153240775,
+      "width": "2x"
+    },
+    {
+      "artifact": "artifacts/sae-stability/qwen15b-medium-seed23-exp2",
+      "behavior_threshold": 0.8569305539131165,
+      "best_simple_method": "linear_probe",
+      "best_simple_specificity_adjusted_utility": 0.0015793447311107925,
+      "cell": "seed23-exp2",
+      "dead_feature_fraction": 0.1399739682674408,
+      "evidence_class": "empirical_sae_stability_preregistered",
+      "feature_density": 0.010416666666666666,
+      "mean_ablation_benign_delta": -0.0128966734959529,
+      "mean_ablation_harmful_ci": [
+        -0.15413569218837297,
+        -0.12785056139414125
+      ],
+      "mean_ablation_harmful_delta": -0.1412294071454268,
+      "mean_ablation_nll_delta": -0.02079326923076923,
+      "mean_l0": 32.0,
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "n_features": 3072,
+      "probe_ablation_benign_delta": 0.018043872943291298,
+      "probe_ablation_harmful_ci": [
+        -0.010599805471988825,
+        -0.007507856946725112
+      ],
+      "probe_ablation_harmful_delta": -0.009069649072793813,
+      "probe_ablation_nll_delta": -0.002178485576923077,
+      "random_sae_control_max": 0.005407299445225642,
+      "random_sae_control_min": -0.003387779455918532,
+      "random_sae_control_n": 48,
+      "random_sae_empirical_p": 0.02040816326530612,
+      "random_sae_protocol": {
+        "activation_center": "trained_sae_activation_center",
+        "architecture": {
+          "input_dim": 1536,
+          "n_features": 3072,
+          "top_k": 32
+        },
+        "encoder_bias": "zeroed",
+        "latent_intervention": "literal_encode_zero_selected_latent_decode",
+        "selection_policy": "frozen; no feature, layer, threshold, or scale retuning",
+        "status": "matched_center_zero_encoder_bias"
+      },
+      "reconstruction_mse": 0.03716946020722389,
+      "role": "seed stability",
+      "sae_ablation_benign_delta": -0.04806147401149456,
+      "sae_ablation_harmful_ci": [
+        -0.06606392869582542,
+        -0.05655270174145698
+      ],
+      "sae_ablation_harmful_delta": -0.061263652031238264,
+      "sae_ablation_nll_delta": -4.507211538461539e-05,
+      "sae_outperforms_simple_baselines": false,
+      "sae_specificity_adjusted_utility": -0.0007877393410756038,
+      "samples_per_feature": 8.016927083333334,
+      "seed": 23,
+      "selected_features": [
+        2530,
+        843,
+        2099,
+        2454,
+        1694
+      ],
+      "status": "completed",
+      "target_layer": 27,
+      "test_records": 260,
+      "training_samples": 24628,
+      "variance_explained": 0.9985363989963979,
+      "width": "2x"
+    },
+    {
+      "artifact": "artifacts/sae-stability/qwen15b-medium-seed17-exp4",
+      "behavior_threshold": 0.8569305539131165,
+      "best_simple_method": "linear_probe",
+      "best_simple_specificity_adjusted_utility": 0.0015793447311107925,
+      "cell": "seed17-exp4",
+      "dead_feature_fraction": 0.4402669370174408,
+      "evidence_class": "empirical_sae_stability_preregistered",
+      "feature_density": 0.005208333333333333,
+      "mean_ablation_benign_delta": -0.0128966734959529,
+      "mean_ablation_harmful_ci": [
+        -0.15485879023487753,
+        -0.12756044212442177
+      ],
+      "mean_ablation_harmful_delta": -0.1412294071454268,
+      "mean_ablation_nll_delta": -0.02079326923076923,
+      "mean_l0": 32.0,
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "n_features": 6144,
+      "probe_ablation_benign_delta": 0.018043872943291298,
+      "probe_ablation_harmful_ci": [
+        -0.010631125764204906,
+        -0.007484814398563825
+      ],
+      "probe_ablation_harmful_delta": -0.009069649072793813,
+      "probe_ablation_nll_delta": -0.002178485576923077,
+      "random_sae_control_max": 0.008843955626854529,
+      "random_sae_control_min": -0.011427441468605628,
+      "random_sae_control_n": 48,
+      "random_sae_empirical_p": 0.02040816326530612,
+      "random_sae_protocol": {
+        "activation_center": "trained_sae_activation_center",
+        "architecture": {
+          "input_dim": 1536,
+          "n_features": 6144,
+          "top_k": 32
+        },
+        "encoder_bias": "zeroed",
+        "latent_intervention": "literal_encode_zero_selected_latent_decode",
+        "selection_policy": "frozen; no feature, layer, threshold, or scale retuning",
+        "status": "matched_center_zero_encoder_bias"
+      },
+      "reconstruction_mse": 0.09359245747327805,
+      "role": "width stability",
+      "sae_ablation_benign_delta": -0.006168390925113972,
+      "sae_ablation_harmful_ci": [
+        -0.018351681668024797,
+        -0.013975341904621855
+      ],
+      "sae_ablation_harmful_delta": -0.01613895113651569,
+      "sae_ablation_nll_delta": -0.0020582932692307693,
+      "sae_outperforms_simple_baselines": false,
+      "sae_specificity_adjusted_utility": -0.000142146532352154,
+      "samples_per_feature": 4.008463541666667,
+      "seed": 17,
+      "selected_features": [
+        2783,
+        3399,
+        4398,
+        499,
+        5033
+      ],
+      "status": "completed",
+      "target_layer": 27,
+      "test_records": 260,
+      "training_samples": 24628,
+      "variance_explained": 0.9963146622543404,
+      "width": "4x"
+    },
+    {
+      "artifact": "artifacts/sae-stability/qwen15b-medium-seed23-exp4",
+      "cell": "seed23-exp4",
+      "role": "remaining full-grid cell",
+      "seed": 23,
+      "status": "unrun",
+      "width": "4x"
+    },
+    {
+      "artifact": "artifacts/sae-stability/qwen15b-medium-seed42-exp2",
+      "cell": "seed42-exp2",
+      "role": "remaining full-grid cell",
+      "seed": 42,
+      "status": "unrun",
+      "width": "2x"
+    },
+    {
+      "artifact": "artifacts/sae-stability/qwen15b-medium-seed42-exp4",
+      "cell": "seed42-exp4",
+      "role": "remaining full-grid cell",
+      "seed": 42,
+      "status": "unrun",
+      "width": "4x"
+    }
+  ],
+  "completed_cells": 3,
+  "effect_stability": {
+    "dead_feature_fraction_max": 0.4402669370174408,
+    "dead_feature_fraction_min": 0.1399739682674408,
+    "sae_harmful_delta_max": -0.01613895113651569,
+    "sae_harmful_delta_min": -0.061263652031238264
+  },
+  "grid_config": "configs/sae_stability_grid.yaml",
+  "h3_sae_beats_mean_or_probe_any_completed_cell": false,
+  "planned_cells": 6,
+  "stopping_rule": "Run fixed feasible subset seed17-exp2, seed23-exp2, seed17-exp4; run remaining cells only if compute remains after hardening."
+}

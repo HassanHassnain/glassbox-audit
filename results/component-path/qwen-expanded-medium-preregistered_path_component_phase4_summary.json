@@ -1,0 +1,25 @@
+{
+  "claim_status": {
+    "confirmed_circuit": false,
+    "reason": "This artifact can support or weaken residual/component localization. It does not establish necessity, sufficiency, specificity, random path controls, and replicated path mediation required for a confirmed circuit claim."
+  },
+  "components": [
+    "residual",
+    "attention",
+    "mlp"
+  ],
+  "evidence_scope": "component-output ablation plus residual projection patching approximation; not head-level or full path-patching evidence",
+  "layers": [
+    16,
+    20,
+    24,
+    27
+  ],
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "n_records": 260,
+  "records_artifact": "artifacts/qwen-expanded-medium-preregistered/path_component_phase4.json",
+  "schema_version": "1.0",
+  "selection_policy": "frozen artifact layers/directions/threshold; no retuning",
+  "source_artifact": "artifacts/qwen-expanded-medium-preregistered",
+  "target_layer": 27
+}

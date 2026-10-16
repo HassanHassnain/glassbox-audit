@@ -14,3 +14,4 @@ data/adversarial_robustness*.jsonl
 dist/
 build/
 site/
+.mpl-cache/

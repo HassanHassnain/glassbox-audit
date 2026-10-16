@@ -1,0 +1,1662 @@
+[
+  {
+    "activation_frequency": 0.3125,
+    "benign_mean": 0.1489780810661614,
+    "decoder_norm": 1.0,
+    "effect_size": -1.2844533345682159,
+    "feature": 66,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [
+      "tr-evasion-b",
+      "tr-stalk-b",
+      "tr-bio-b",
+      "tr-counterfeit-b",
+      "tr-weapon-b"
+    ],
+    "top_activation_values": [
+      0.36337578296661377,
+      0.3566470146179199,
+      0.29774802923202515,
+      0.12479361891746521,
+      0.049260202795267105
+    ]
+  },
+  {
+    "activation_frequency": 0.3125,
+    "benign_mean": 0.24148465879261494,
+    "decoder_norm": 1.0,
+    "effect_size": -1.1078234490109742,
+    "feature": 45,
+    "harmful_mean": 0.009927593171596527,
+    "top_activating_record_ids": [
+      "tr-evasion-b",
+      "tr-stalk-b",
+      "tr-bio-b",
+      "tr-counterfeit-b",
+      "tr-malware-h"
+    ],
+    "top_activation_values": [
+      0.6365923881530762,
+      0.6035168766975403,
+      0.524623453617096,
+      0.1671445518732071,
+      0.07942074537277222
+    ]
+  },
+  {
+    "activation_frequency": 0.3125,
+    "benign_mean": 0.13221514504402876,
+    "decoder_norm": 1.0,
+    "effect_size": -1.0210753013257037,
+    "feature": 65,
+    "harmful_mean": 0.011755089275538921,
+    "top_activating_record_ids": [
+      "tr-evasion-b",
+      "tr-stalk-b",
+      "tr-bio-b",
+      "tr-counterfeit-h",
+      "tr-counterfeit-b"
+    ],
+    "top_activation_values": [
+      0.36927589774131775,
+      0.33224573731422424,
+      0.269660621881485,
+      0.09404071420431137,
+      0.0865389034152031
+    ]
+  },
+  {
+    "activation_frequency": 0.3125,
+    "benign_mean": 0.2851886674761772,
+    "decoder_norm": 1.0,
+    "effect_size": -0.9825595873737792,
+    "feature": 89,
+    "harmful_mean": 0.011263597756624222,
+    "top_activating_record_ids": [
+      "tr-bio-b",
+      "tr-evasion-b",
+      "tr-stalk-b",
+      "tr-evasion-h",
+      "tr-weapon-h"
+    ],
+    "top_activation_values": [
+      0.7703924179077148,
+      0.7643665075302124,
+      0.7467504143714905,
+      0.05792783573269844,
+      0.032180946320295334
+    ]
+  },
+  {
+    "activation_frequency": 0.3125,
+    "benign_mean": 0.09775711596012115,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": -0.8998355049867468,
+    "feature": 0,
+    "harmful_mean": 0.0053998446092009544,
+    "top_activating_record_ids": [
+      "tr-evasion-b",
+      "tr-bio-b",
+      "tr-weapon-b",
+      "tr-malware-b",
+      "tr-weapon-h"
+    ],
+    "top_activation_values": [
+      0.32808780670166016,
+      0.32541191577911377,
+      0.08016011118888855,
+      0.04839709401130676,
+      0.043198756873607635
+    ]
+  },
+  {
+    "activation_frequency": 0.125,
+    "benign_mean": 0.06423604488372803,
+    "decoder_norm": 1.0,
+    "effect_size": -0.762710927765176,
+    "feature": 31,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [
+      "tr-bio-b",
+      "tr-stalk-b"
+    ],
+    "top_activation_values": [
+      0.26863372325897217,
+      0.24525463581085205
+    ]
+  },
+  {
+    "activation_frequency": 0.125,
+    "benign_mean": 0.015569664537906647,
+    "decoder_norm": 1.0,
+    "effect_size": -0.7251530611058218,
+    "feature": 84,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [
+      "tr-weapon-b",
+      "tr-malware-b"
+    ],
+    "top_activation_values": [
+      0.08011158555746078,
+      0.04444573074579239
+    ]
+  },
+  {
+    "activation_frequency": 0.25,
+    "benign_mean": 0.06728746881708503,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": -0.6587377701666608,
+    "feature": 94,
+    "harmful_mean": 0.009960796684026718,
+    "top_activating_record_ids": [
+      "tr-evasion-b",
+      "tr-bio-b",
+      "tr-evasion-h",
+      "tr-weapon-b"
+    ],
+    "top_activation_values": [
+      0.32315516471862793,
+      0.17509549856185913,
+      0.07968637347221375,
+      0.04004908725619316
+    ]
+  },
+  {
+    "activation_frequency": 0.125,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999998807907104,
+    "effect_size": 0.6441271368594126,
+    "feature": 79,
+    "harmful_mean": 0.036532722413539886,
+    "top_activating_record_ids": [
+      "tr-stalk-h",
+      "tr-bio-h"
+    ],
+    "top_activation_values": [
+      0.22676436603069305,
+      0.06549741327762604
+    ]
+  },
+  {
+    "activation_frequency": 0.3125,
+    "benign_mean": 0.037280529737472534,
+    "decoder_norm": 1.0,
+    "effect_size": 0.5891330323149705,
+    "feature": 120,
+    "harmful_mean": 0.11398357897996902,
+    "top_activating_record_ids": [
+      "tr-fraud-h",
+      "tr-cyber-h",
+      "tr-cyber-b",
+      "tr-stalk-h",
+      "tr-counterfeit-h"
+    ],
+    "top_activation_values": [
+      0.3525152802467346,
+      0.33669304847717285,
+      0.2982442378997803,
+      0.13374479115009308,
+      0.08891551196575165
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.5,
+    "feature": 1,
+    "harmful_mean": 0.014205904677510262,
+    "top_activating_record_ids": [
+      "tr-malware-h"
+    ],
+    "top_activation_values": [
+      0.11364723742008209
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.5,
+    "feature": 3,
+    "harmful_mean": 0.008657686412334442,
+    "top_activating_record_ids": [
+      "tr-evasion-h"
+    ],
+    "top_activation_values": [
+      0.06926149129867554
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.5,
+    "feature": 4,
+    "harmful_mean": 0.009243333712220192,
+    "top_activating_record_ids": [
+      "tr-bio-h"
+    ],
+    "top_activation_values": [
+      0.07394666969776154
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.5,
+    "feature": 7,
+    "harmful_mean": 0.010273171588778496,
+    "top_activating_record_ids": [
+      "tr-bio-h"
+    ],
+    "top_activation_values": [
+      0.08218537271022797
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999998807907104,
+    "effect_size": 0.5,
+    "feature": 10,
+    "harmful_mean": 0.012083154171705246,
+    "top_activating_record_ids": [
+      "tr-cyber-h"
+    ],
+    "top_activation_values": [
+      0.09666523337364197
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.012897751294076443,
+    "decoder_norm": 1.0,
+    "effect_size": -0.5,
+    "feature": 12,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [
+      "tr-weapon-b"
+    ],
+    "top_activation_values": [
+      0.10318201035261154
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.5,
+    "feature": 13,
+    "harmful_mean": 0.020505918189883232,
+    "top_activating_record_ids": [
+      "tr-counterfeit-h"
+    ],
+    "top_activation_values": [
+      0.16404734551906586
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.5,
+    "feature": 15,
+    "harmful_mean": 0.007815014570951462,
+    "top_activating_record_ids": [
+      "tr-weapon-h"
+    ],
+    "top_activation_values": [
+      0.0625201165676117
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.5,
+    "feature": 17,
+    "harmful_mean": 0.004852453712373972,
+    "top_activating_record_ids": [
+      "tr-evasion-h"
+    ],
+    "top_activation_values": [
+      0.038819629698991776
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.5,
+    "feature": 20,
+    "harmful_mean": 0.02130405232310295,
+    "top_activating_record_ids": [
+      "tr-bio-h"
+    ],
+    "top_activation_values": [
+      0.1704324185848236
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.020543815568089485,
+    "decoder_norm": 1.0,
+    "effect_size": -0.5,
+    "feature": 27,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [
+      "tr-counterfeit-b"
+    ],
+    "top_activation_values": [
+      0.16435052454471588
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.008867604658007622,
+    "decoder_norm": 1.0,
+    "effect_size": -0.5,
+    "feature": 28,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [
+      "tr-fraud-b"
+    ],
+    "top_activation_values": [
+      0.07094083726406097
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.04187477007508278,
+    "decoder_norm": 1.0,
+    "effect_size": -0.5,
+    "feature": 40,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [
+      "tr-bio-b"
+    ],
+    "top_activation_values": [
+      0.33499816060066223
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.02325393259525299,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": -0.5,
+    "feature": 42,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [
+      "tr-counterfeit-b"
+    ],
+    "top_activation_values": [
+      0.18603146076202393
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.019348708912730217,
+    "decoder_norm": 1.0,
+    "effect_size": -0.5,
+    "feature": 44,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [
+      "tr-counterfeit-b"
+    ],
+    "top_activation_values": [
+      0.15478967130184174
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.01920090988278389,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": -0.5,
+    "feature": 47,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [
+      "tr-fraud-b"
+    ],
+    "top_activation_values": [
+      0.15360727906227112
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.022080197930336,
+    "decoder_norm": 1.0,
+    "effect_size": -0.5,
+    "feature": 49,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [
+      "tr-weapon-b"
+    ],
+    "top_activation_values": [
+      0.176641583442688
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.5,
+    "feature": 50,
+    "harmful_mean": 0.0074041313491761684,
+    "top_activating_record_ids": [
+      "tr-bio-h"
+    ],
+    "top_activation_values": [
+      0.05923305079340935
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.5,
+    "feature": 52,
+    "harmful_mean": 0.013725518248975277,
+    "top_activating_record_ids": [
+      "tr-counterfeit-h"
+    ],
+    "top_activation_values": [
+      0.10980414599180222
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.5,
+    "feature": 57,
+    "harmful_mean": 0.0202331580221653,
+    "top_activating_record_ids": [
+      "tr-counterfeit-h"
+    ],
+    "top_activation_values": [
+      0.1618652641773224
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.5,
+    "feature": 64,
+    "harmful_mean": 0.008099337108433247,
+    "top_activating_record_ids": [
+      "tr-counterfeit-h"
+    ],
+    "top_activation_values": [
+      0.06479469686746597
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.04195650666952133,
+    "decoder_norm": 1.0,
+    "effect_size": -0.5,
+    "feature": 67,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [
+      "tr-evasion-b"
+    ],
+    "top_activation_values": [
+      0.33565205335617065
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.5,
+    "feature": 70,
+    "harmful_mean": 0.01110517606139183,
+    "top_activating_record_ids": [
+      "tr-malware-h"
+    ],
+    "top_activation_values": [
+      0.08884140849113464
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999998807907104,
+    "effect_size": 0.5,
+    "feature": 71,
+    "harmful_mean": 0.03418731316924095,
+    "top_activating_record_ids": [
+      "tr-fraud-h"
+    ],
+    "top_activation_values": [
+      0.2734985053539276
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.5,
+    "feature": 83,
+    "harmful_mean": 0.012518072500824928,
+    "top_activating_record_ids": [
+      "tr-malware-h"
+    ],
+    "top_activation_values": [
+      0.10014458000659943
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.019632549956440926,
+    "decoder_norm": 1.0,
+    "effect_size": -0.5,
+    "feature": 85,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [
+      "tr-cyber-b"
+    ],
+    "top_activation_values": [
+      0.1570603996515274
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.5,
+    "feature": 86,
+    "harmful_mean": 0.017495280131697655,
+    "top_activating_record_ids": [
+      "tr-evasion-h"
+    ],
+    "top_activation_values": [
+      0.13996224105358124
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.5,
+    "feature": 90,
+    "harmful_mean": 0.01726897805929184,
+    "top_activating_record_ids": [
+      "tr-stalk-h"
+    ],
+    "top_activation_values": [
+      0.13815182447433472
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.5,
+    "feature": 92,
+    "harmful_mean": 0.01916198804974556,
+    "top_activating_record_ids": [
+      "tr-evasion-h"
+    ],
+    "top_activation_values": [
+      0.15329590439796448
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.5,
+    "feature": 93,
+    "harmful_mean": 0.025586090981960297,
+    "top_activating_record_ids": [
+      "tr-fraud-h"
+    ],
+    "top_activation_values": [
+      0.20468872785568237
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.013966087251901627,
+    "decoder_norm": 1.0,
+    "effect_size": -0.5,
+    "feature": 97,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [
+      "tr-malware-b"
+    ],
+    "top_activation_values": [
+      0.11172869801521301
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.5,
+    "feature": 101,
+    "harmful_mean": 0.01346627064049244,
+    "top_activating_record_ids": [
+      "tr-stalk-h"
+    ],
+    "top_activation_values": [
+      0.10773016512393951
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.5,
+    "feature": 119,
+    "harmful_mean": 0.017165977507829666,
+    "top_activating_record_ids": [
+      "tr-weapon-h"
+    ],
+    "top_activation_values": [
+      0.13732782006263733
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.5,
+    "feature": 125,
+    "harmful_mean": 0.015298647806048393,
+    "top_activating_record_ids": [
+      "tr-evasion-h"
+    ],
+    "top_activation_values": [
+      0.12238918244838715
+    ]
+  },
+  {
+    "activation_frequency": 0.0625,
+    "benign_mean": 0.00704383198171854,
+    "decoder_norm": 1.0,
+    "effect_size": -0.5,
+    "feature": 127,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [
+      "tr-fraud-b"
+    ],
+    "top_activation_values": [
+      0.05635065585374832
+    ]
+  },
+  {
+    "activation_frequency": 0.125,
+    "benign_mean": 0.021555975079536438,
+    "decoder_norm": 1.0,
+    "effect_size": -0.4343251092492977,
+    "feature": 99,
+    "harmful_mean": 0.0026865126565098763,
+    "top_activating_record_ids": [
+      "tr-counterfeit-b",
+      "tr-evasion-h"
+    ],
+    "top_activation_values": [
+      0.1724478006362915,
+      0.02149210125207901
+    ]
+  },
+  {
+    "activation_frequency": 0.125,
+    "benign_mean": 0.02823583595454693,
+    "decoder_norm": 1.0,
+    "effect_size": -0.35988347515571434,
+    "feature": 19,
+    "harmful_mean": 0.007252853829413652,
+    "top_activating_record_ids": [
+      "tr-stalk-b",
+      "tr-counterfeit-h"
+    ],
+    "top_activation_values": [
+      0.22588668763637543,
+      0.05802283063530922
+    ]
+  },
+  {
+    "activation_frequency": 0.1875,
+    "benign_mean": 0.00809192843735218,
+    "decoder_norm": 1.0,
+    "effect_size": 0.3573245744842613,
+    "feature": 11,
+    "harmful_mean": 0.023012866266071796,
+    "top_activating_record_ids": [
+      "tr-malware-h",
+      "tr-fraud-b",
+      "tr-stalk-h"
+    ],
+    "top_activation_values": [
+      0.1554330587387085,
+      0.06473542749881744,
+      0.028669871389865875
+    ]
+  },
+  {
+    "activation_frequency": 0.3125,
+    "benign_mean": 0.09000852052122355,
+    "decoder_norm": 1.0,
+    "effect_size": 0.33550145893240163,
+    "feature": 118,
+    "harmful_mean": 0.1916995858773589,
+    "top_activating_record_ids": [
+      "tr-fraud-h",
+      "tr-cyber-b",
+      "tr-cyber-h",
+      "tr-stalk-h",
+      "tr-fraud-b"
+    ],
+    "top_activation_values": [
+      0.8556219339370728,
+      0.7000091671943665,
+      0.6493598818778992,
+      0.028614871203899384,
+      0.020058996975421906
+    ]
+  },
+  {
+    "activation_frequency": 0.375,
+    "benign_mean": 0.05107228830456734,
+    "decoder_norm": 1.0,
+    "effect_size": 0.32787624205555577,
+    "feature": 43,
+    "harmful_mean": 0.096015858463943,
+    "top_activating_record_ids": [
+      "tr-fraud-h",
+      "tr-cyber-h",
+      "tr-cyber-b",
+      "tr-malware-b",
+      "tr-fraud-b"
+    ],
+    "top_activation_values": [
+      0.42564117908477783,
+      0.29869815707206726,
+      0.27660879492759705,
+      0.07445964217185974,
+      0.05750986933708191
+    ]
+  },
+  {
+    "activation_frequency": 0.3125,
+    "benign_mean": 0.07812830805778503,
+    "decoder_norm": 1.0000001192092896,
+    "effect_size": 0.2753302722519642,
+    "feature": 122,
+    "harmful_mean": 0.13480420503765345,
+    "top_activating_record_ids": [
+      "tr-cyber-b",
+      "tr-fraud-h",
+      "tr-cyber-h",
+      "tr-fraud-b",
+      "tr-counterfeit-h"
+    ],
+    "top_activation_values": [
+      0.5235812664031982,
+      0.506462037563324,
+      0.48960697650909424,
+      0.10144519805908203,
+      0.08236462622880936
+    ]
+  },
+  {
+    "activation_frequency": 0.125,
+    "benign_mean": 0.022893717512488365,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": -0.26190413869342666,
+    "feature": 8,
+    "harmful_mean": 0.00984085351228714,
+    "top_activating_record_ids": [
+      "tr-evasion-b",
+      "tr-weapon-h"
+    ],
+    "top_activation_values": [
+      0.18314974009990692,
+      0.07872682809829712
+    ]
+  },
+  {
+    "activation_frequency": 0.25,
+    "benign_mean": 0.024653946980834007,
+    "decoder_norm": 1.0,
+    "effect_size": 0.23932974279941294,
+    "feature": 117,
+    "harmful_mean": 0.04174715839326382,
+    "top_activating_record_ids": [
+      "tr-cyber-h",
+      "tr-cyber-b",
+      "tr-bio-h",
+      "tr-malware-h"
+    ],
+    "top_activation_values": [
+      0.19991354644298553,
+      0.19723157584667206,
+      0.10143139958381653,
+      0.03263232111930847
+    ]
+  },
+  {
+    "activation_frequency": 0.25,
+    "benign_mean": 0.07652275823056698,
+    "decoder_norm": 1.0,
+    "effect_size": 0.20372807327824155,
+    "feature": 9,
+    "harmful_mean": 0.11575547233223915,
+    "top_activating_record_ids": [
+      "tr-fraud-h",
+      "tr-cyber-b",
+      "tr-cyber-h",
+      "tr-malware-b"
+    ],
+    "top_activation_values": [
+      0.4966181516647339,
+      0.4716312289237976,
+      0.4294256269931793,
+      0.14055083692073822
+    ]
+  },
+  {
+    "activation_frequency": 0.125,
+    "benign_mean": 0.008968724869191647,
+    "decoder_norm": 1.0,
+    "effect_size": -0.18435343663452708,
+    "feature": 121,
+    "harmful_mean": 0.005154642276465893,
+    "top_activating_record_ids": [
+      "tr-fraud-b",
+      "tr-fraud-h"
+    ],
+    "top_activation_values": [
+      0.07174979895353317,
+      0.04123713821172714
+    ]
+  },
+  {
+    "activation_frequency": 0.25,
+    "benign_mean": 0.01708224881440401,
+    "decoder_norm": 1.0000001192092896,
+    "effect_size": 0.18170133917507253,
+    "feature": 100,
+    "harmful_mean": 0.02658888418227434,
+    "top_activating_record_ids": [
+      "tr-cyber-h",
+      "tr-cyber-b",
+      "tr-counterfeit-b",
+      "tr-weapon-h"
+    ],
+    "top_activation_values": [
+      0.1895943582057953,
+      0.08407057821750641,
+      0.05258741229772568,
+      0.023116715252399445
+    ]
+  },
+  {
+    "activation_frequency": 0.125,
+    "benign_mean": 0.027394816279411316,
+    "decoder_norm": 1.0,
+    "effect_size": -0.14314387045463098,
+    "feature": 80,
+    "harmful_mean": 0.01800910197198391,
+    "top_activating_record_ids": [
+      "tr-stalk-b",
+      "tr-stalk-h"
+    ],
+    "top_activation_values": [
+      0.21915853023529053,
+      0.14407281577587128
+    ]
+  },
+  {
+    "activation_frequency": 0.125,
+    "benign_mean": 0.0163832139223814,
+    "decoder_norm": 1.0000001192092896,
+    "effect_size": 0.08688586022464488,
+    "feature": 22,
+    "harmful_mean": 0.021013418212532997,
+    "top_activating_record_ids": [
+      "tr-stalk-h",
+      "tr-weapon-b"
+    ],
+    "top_activation_values": [
+      0.16810734570026398,
+      0.1310657113790512
+    ]
+  },
+  {
+    "activation_frequency": 0.125,
+    "benign_mean": 0.022368457168340683,
+    "decoder_norm": 1.0,
+    "effect_size": -0.066720039344488,
+    "feature": 30,
+    "harmful_mean": 0.018495410680770874,
+    "top_activating_record_ids": [
+      "tr-malware-b",
+      "tr-malware-h"
+    ],
+    "top_activation_values": [
+      0.17894765734672546,
+      0.147963285446167
+    ]
+  },
+  {
+    "activation_frequency": 0.125,
+    "benign_mean": 0.013019290752708912,
+    "decoder_norm": 1.0,
+    "effect_size": 0.057349081024242354,
+    "feature": 103,
+    "harmful_mean": 0.015325783751904964,
+    "top_activating_record_ids": [
+      "tr-weapon-h",
+      "tr-stalk-b"
+    ],
+    "top_activation_values": [
+      0.12260627001523972,
+      0.1041543260216713
+    ]
+  },
+  {
+    "activation_frequency": 0.125,
+    "benign_mean": 0.015848103910684586,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.051456975684212355,
+    "feature": 73,
+    "harmful_mean": 0.01834283210337162,
+    "top_activating_record_ids": [
+      "tr-bio-h",
+      "tr-malware-b"
+    ],
+    "top_activation_values": [
+      0.14674265682697296,
+      0.12678483128547668
+    ]
+  },
+  {
+    "activation_frequency": 0.125,
+    "benign_mean": 0.013661375269293785,
+    "decoder_norm": 1.0,
+    "effect_size": 0.009243581201749819,
+    "feature": 105,
+    "harmful_mean": 0.0140233114361763,
+    "top_activating_record_ids": [
+      "tr-weapon-h",
+      "tr-weapon-b"
+    ],
+    "top_activation_values": [
+      0.1121864914894104,
+      0.10929100215435028
+    ]
+  },
+  {
+    "activation_frequency": 0.125,
+    "benign_mean": 0.01508725993335247,
+    "decoder_norm": 1.0,
+    "effect_size": -0.004785131773343667,
+    "feature": 6,
+    "harmful_mean": 0.014884430915117264,
+    "top_activating_record_ids": [
+      "tr-malware-b",
+      "tr-malware-h"
+    ],
+    "top_activation_values": [
+      0.12069807946681976,
+      0.11907544732093811
+    ]
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 2,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 5,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 14,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999998807907104,
+    "effect_size": 0.0,
+    "feature": 16,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.0,
+    "feature": 18,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 21,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 23,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 24,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.0,
+    "feature": 25,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 26,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 29,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.0,
+    "feature": 32,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 33,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 34,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 35,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 36,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 37,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.0,
+    "feature": 38,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 39,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 41,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 46,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.0,
+    "feature": 48,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 51,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 53,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 54,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 55,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 56,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 58,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.0,
+    "feature": 59,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 60,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.0,
+    "feature": 61,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 62,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.0,
+    "feature": 63,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 68,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.0,
+    "feature": 69,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 72,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 74,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 75,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 76,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.0,
+    "feature": 77,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.0,
+    "feature": 78,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.0,
+    "feature": 81,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0000001192092896,
+    "effect_size": 0.0,
+    "feature": 82,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999998807907104,
+    "effect_size": 0.0,
+    "feature": 87,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 88,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0000001192092896,
+    "effect_size": 0.0,
+    "feature": 91,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 95,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 96,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.0,
+    "feature": 98,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0000001192092896,
+    "effect_size": 0.0,
+    "feature": 102,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.0,
+    "feature": 104,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 106,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.0,
+    "feature": 107,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.0,
+    "feature": 108,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.0,
+    "feature": 109,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 110,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 0.9999999403953552,
+    "effect_size": 0.0,
+    "feature": 111,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 112,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0000001192092896,
+    "effect_size": 0.0,
+    "feature": 113,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 114,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 115,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 116,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 123,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 124,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  },
+  {
+    "activation_frequency": 0.0,
+    "benign_mean": 0.0,
+    "decoder_norm": 1.0,
+    "effect_size": 0.0,
+    "feature": 126,
+    "harmful_mean": 0.0,
+    "top_activating_record_ids": [],
+    "top_activation_values": []
+  }
+]

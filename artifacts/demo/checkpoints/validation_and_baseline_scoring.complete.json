@@ -1,0 +1,12 @@
+{
+  "finished_at": 1783691838.028814,
+  "seconds": 0.5536096096038818,
+  "selected_scales": {
+    "linear_probe": -4.0,
+    "mean_difference": -4.0,
+    "sae_features": -4.0
+  },
+  "stage": "validation_and_baseline_scoring",
+  "started_at": 1783691837.4752045,
+  "status": "completed"
+}

@@ -1,0 +1,19 @@
+{
+  "controlled_path": "data/refusal_controlled_v2_1000.jsonl",
+  "controlled_sha256": "1c912d796753c4cd29104d0ed78c05b1c585394d98f67e513d92e3c9166276b6",
+  "embedding_similarity_check": {
+    "reason": "No local embedding dependency is required for release validation; hash and string-similarity checks are reported.",
+    "status": "not_run"
+  },
+  "exact_duplicate_prompts_cross_split": [],
+  "external_overlap_with_controlled": [],
+  "family_overlap_across_splits": {},
+  "harmful_benign_pair_prompt_overlap": [],
+  "leakage_pass": true,
+  "n_records": 2000,
+  "near_duplicate_prompt_pairs_cross_split": [],
+  "normalized_duplicate_prompts_cross_split": [],
+  "pair_overlap_across_splits": {},
+  "paraphrase_warning": false,
+  "schema_version": "1.0"
+}

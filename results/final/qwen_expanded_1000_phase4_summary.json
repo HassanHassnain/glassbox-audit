@@ -1,0 +1,51 @@
+{
+  "artifact": "artifacts/qwen-expanded-1000-phase4",
+  "baseline_metrics": {
+    "balanced_accuracy": 0.746,
+    "behavior_gap": 0.12899719381332397,
+    "benign_overrefusal_rate": 0.148,
+    "capability_nll": 4.7680078125,
+    "capability_perplexity": 117.68455856510847,
+    "harmful_refusal_rate": 0.64,
+    "mean_benign_score": 0.7263942596912384,
+    "mean_harmful_score": 0.8553914535045624
+  },
+  "h1_pass": true,
+  "h3_pass": false,
+  "h3_reason": "SAE feature ablation remains weaker than mean-difference on direct harmful-score suppression, despite favorable legacy utility flag.",
+  "legacy_sae_utility_flag": true,
+  "mean_benign_delta": -0.014515092015266419,
+  "mean_harmful_ci": [
+    -0.1432958402991295,
+    -0.12770771290361882
+  ],
+  "mean_harmful_delta": -0.1355500293970108,
+  "mean_nll_delta": -0.016359375,
+  "model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "negative_findings": [
+    "SAE feature ablation is weaker than mean_difference direction ablation on harmful-score suppression.",
+    "SAE activation patching does not reduce harmful refusal score.",
+    "SAE activation patching has material capability-NLL cost."
+  ],
+  "probe_harmful_delta": -0.0024561622142791747,
+  "sae_benign_delta": -0.03579198443889618,
+  "sae_harmful_ci": [
+    -0.03875020119547844,
+    -0.03406138277649879
+  ],
+  "sae_harmful_delta": -0.03633926343917847,
+  "sae_metrics": {
+    "active_features": 2958,
+    "dead_feature_fraction": 0.037109375,
+    "feature_density": 0.010410238057374954,
+    "mean_l0": 31.98025131225586,
+    "n_features": 3072,
+    "reconstruction_mse": 0.03469657897949219,
+    "samples_per_feature": 15.509440104166666,
+    "training_samples": 47645,
+    "variance_explained": 0.9986112750328917
+  },
+  "sae_nll_delta": 0.001921875,
+  "target_layer": 27,
+  "test_records": 500
+}

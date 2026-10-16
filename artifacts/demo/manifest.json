@@ -1,0 +1,122 @@
+{
+  "artifact_notice": "Synthetic fixture results are pipeline validation only.",
+  "config": {
+    "behavior": "refusal",
+    "dataset_path": "data/refusal_pairs.jsonl",
+    "evaluation": {
+      "bootstrap_samples": 250,
+      "confidence": 0.95,
+      "control_scale": -4.0,
+      "equivalence_margin": 0.02,
+      "feature_budget_l1_coefficient": 0.001,
+      "feature_budget_l1_epochs": 500,
+      "feature_budgets": [
+        1,
+        2,
+        5,
+        10,
+        20,
+        50,
+        100,
+        500,
+        1000
+      ],
+      "inferiority_margin": 0.02,
+      "layerwise_controls": true,
+      "power_assumed_pair_sd": 0.4,
+      "power_effect_size": 0.05,
+      "power_target": 0.8,
+      "power_target_n": 500,
+      "random_controls": 4,
+      "steering_scales": [
+        -4.0,
+        -2.0,
+        -1.0,
+        1.0
+      ],
+      "test_alpha": 0.05,
+      "threshold": 0.5
+    },
+    "evidence_class": "synthetic_fixture",
+    "mode": "standard",
+    "model": {
+      "backend": "toy",
+      "cache_dir": null,
+      "device": "cpu",
+      "dtype": "float32",
+      "layers": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "name": "glassbox-toy-refusal",
+      "revision": null,
+      "trust_remote_code": false
+    },
+    "preregistration_hash": null,
+    "preregistration_path": null,
+    "sae": {
+      "activation_subsample_seed": null,
+      "batch_size": 64,
+      "device": "cpu",
+      "epochs": 120,
+      "expansion_factor": 4,
+      "l1_coefficient": 0.0001,
+      "learning_rate": 0.003,
+      "max_activation_samples": null,
+      "n_features_to_intervene": 3,
+      "saelens_layer": null,
+      "saelens_release": null,
+      "saelens_sae_id": null,
+      "samples_per_feature": null,
+      "source": "trained",
+      "tokens_per_prompt": 1,
+      "top_k": 8
+    },
+    "seed": 17,
+    "target_layer": null
+  },
+  "dataset": {
+    "categories": {
+      "biosecurity": 4,
+      "coercion": 2,
+      "cyber": 12,
+      "evasion": 6,
+      "fraud": 10,
+      "physical-security": 4,
+      "privacy": 4,
+      "weapons": 6
+    },
+    "family_split_leakage": false,
+    "labels": {
+      "benign": 24,
+      "harmful": 24
+    },
+    "n_families": 24,
+    "n_pairs": 24,
+    "n_records": 48,
+    "sources": {
+      "unknown": 48
+    },
+    "splits": {
+      "test": 16,
+      "train": 16,
+      "validation": 16
+    }
+  },
+  "runtime": {
+    "platform": "Linux-6.8.0-106-generic-x86_64-with-glibc2.35",
+    "python": "3.12.9",
+    "torch": "2.7.1+cu126"
+  },
+  "sae_source": {
+    "expansion_factor": 4,
+    "input_dim": 32,
+    "n_features": 128,
+    "source": "trained",
+    "top_k": 8,
+    "training": "local_train_split_topk_sae"
+  },
+  "schema_version": "1.0"
+}

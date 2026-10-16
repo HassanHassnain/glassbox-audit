@@ -1,0 +1,119 @@
+{
+  "baseline_comparison": {
+    "best_simple_method": "linear_probe",
+    "best_simple_specificity_adjusted_utility": 0.0015793447311107925,
+    "sae_outperforms_simple_baselines": false,
+    "sae_specificity_adjusted_utility": -0.00036910703549018265
+  },
+  "category_analysis": {
+    "biosecurity": {
+      "baseline_behavior_gap": 0.11866457874958325,
+      "mean_difference_ablation_harmful_delta": -0.1694024526155912,
+      "n_records": 26,
+      "sae_feature_ablation_harmful_delta": -0.0509836169389578
+    },
+    "coercion": {
+      "baseline_behavior_gap": 0.1101402411094079,
+      "mean_difference_ablation_harmful_delta": -0.08473867636460525,
+      "n_records": 26,
+      "sae_feature_ablation_harmful_delta": -0.029089244512411263
+    },
+    "cyber": {
+      "baseline_behavior_gap": 0.08733439445495605,
+      "mean_difference_ablation_harmful_delta": -0.12411338549393874,
+      "n_records": 26,
+      "sae_feature_ablation_harmful_delta": -0.04305136203765869
+    },
+    "evasion": {
+      "baseline_behavior_gap": 0.13458954600187445,
+      "mean_difference_ablation_harmful_delta": -0.1412619398190425,
+      "n_records": 26,
+      "sae_feature_ablation_harmful_delta": -0.03515718074945303
+    },
+    "fraud": {
+      "baseline_behavior_gap": 0.16321039429077733,
+      "mean_difference_ablation_harmful_delta": -0.15709963670143715,
+      "n_records": 26,
+      "sae_feature_ablation_harmful_delta": -0.03148837272937481
+    },
+    "illicit-drugs": {
+      "baseline_behavior_gap": 0.11300423053594733,
+      "mean_difference_ablation_harmful_delta": -0.1541601327749399,
+      "n_records": 26,
+      "sae_feature_ablation_harmful_delta": -0.04117200466302725
+    },
+    "misinformation": {
+      "baseline_behavior_gap": 0.12023642429938686,
+      "mean_difference_ablation_harmful_delta": -0.13339597445267898,
+      "n_records": 26,
+      "sae_feature_ablation_harmful_delta": -0.02623120638040396
+    },
+    "physical-security": {
+      "baseline_behavior_gap": 0.1630082795253167,
+      "mean_difference_ablation_harmful_delta": -0.1655623041666471,
+      "n_records": 26,
+      "sae_feature_ablation_harmful_delta": -0.03637679723592905
+    },
+    "privacy": {
+      "baseline_behavior_gap": 0.13680562606224644,
+      "mean_difference_ablation_harmful_delta": -0.15371814599403968,
+      "n_records": 26,
+      "sae_feature_ablation_harmful_delta": -0.02854514580506545
+    },
+    "weapons": {
+      "baseline_behavior_gap": 0.1478818013117864,
+      "mean_difference_ablation_harmful_delta": -0.12884142307134774,
+      "n_records": 26,
+      "sae_feature_ablation_harmful_delta": -0.031531806175525375
+    }
+  },
+  "intervention_stability": {
+    "linear_probe": {
+      "harmful_prompt_sign_consistency": 1.0,
+      "scale_effect_correlation": 0.9998543078747143,
+      "selected_scale": -4.0,
+      "specificity_adjusted_utility": 0.0015793447311107925,
+      "validation_to_test_harmful_effect_gap": 7.41816484011136e-05
+    },
+    "mean_difference": {
+      "harmful_prompt_sign_consistency": 1.0,
+      "scale_effect_correlation": 0.9999946575330436,
+      "selected_scale": -1.0,
+      "specificity_adjusted_utility": -0.0002797825978352476,
+      "validation_to_test_harmful_effect_gap": 2.3178870861347012e-05
+    },
+    "sae_features": {
+      "harmful_prompt_sign_consistency": 1.0,
+      "scale_effect_correlation": 0.9999890880402142,
+      "selected_scale": -1.0,
+      "specificity_adjusted_utility": -0.00036910703549018265,
+      "validation_to_test_harmful_effect_gap": 4.642514082101685e-05
+    }
+  },
+  "negative_findings": [
+    "SAE steering does not beat the best simple baseline (linear_probe) on specificity-adjusted utility.",
+    "SAE feature ablation is weaker than mean_difference direction ablation on harmful-score suppression.",
+    "SAE activation patching does not reduce harmful refusal score.",
+    "SAE activation patching has material capability-NLL cost."
+  ],
+  "random_ablation_control_comparison": {
+    "control_effect_max": 0.008843955626854529,
+    "control_effect_min": -0.011427441468605628,
+    "empirical_one_sided_p": 0.02040816326530612,
+    "n_controls": 48,
+    "sae_feature_ablation_harmful_effect": -0.035362673722780666
+  },
+  "sae_diagnostics": {
+    "active_features": 2580,
+    "dead_feature_fraction": 0.16015625,
+    "feature_density": 0.010416666666666666,
+    "max_prompt_feature_frequency": 1.0,
+    "mean_l0": 32.0,
+    "mean_prompt_feature_frequency": 0.010416666740904171,
+    "n_features": 3072,
+    "reconstruction_mse": 0.04143047705292702,
+    "samples_per_feature": 8.016927083333334,
+    "training_samples": 24628,
+    "variance_explained": 0.9983686153240775
+  }
+}

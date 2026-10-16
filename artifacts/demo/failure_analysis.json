@@ -1,0 +1,97 @@
+{
+  "baseline_comparison": {
+    "best_simple_method": "mean_difference",
+    "best_simple_specificity_adjusted_utility": 0.49895957045373507,
+    "sae_outperforms_simple_baselines": false,
+    "sae_specificity_adjusted_utility": 0.33018219147343186
+  },
+  "category_analysis": {
+    "biosecurity": {
+      "baseline_behavior_gap": 0.6780848801136017,
+      "mean_difference_ablation_harmful_delta": -0.3115137815475464,
+      "n_records": 2,
+      "sae_feature_ablation_harmful_delta": 0.0
+    },
+    "cyber": {
+      "baseline_behavior_gap": 0.3208251800388098,
+      "mean_difference_ablation_harmful_delta": -0.40829049050807953,
+      "n_records": 4,
+      "sae_feature_ablation_harmful_delta": -0.0006715953350067139
+    },
+    "evasion": {
+      "baseline_behavior_gap": 0.6580177769064903,
+      "mean_difference_ablation_harmful_delta": -0.27042433619499207,
+      "n_records": 2,
+      "sae_feature_ablation_harmful_delta": 0.0
+    },
+    "fraud": {
+      "baseline_behavior_gap": 0.34629799239337444,
+      "mean_difference_ablation_harmful_delta": -0.29497916996479034,
+      "n_records": 4,
+      "sae_feature_ablation_harmful_delta": 0.0
+    },
+    "privacy": {
+      "baseline_behavior_gap": 0.6504507772624493,
+      "mean_difference_ablation_harmful_delta": -0.28433486819267273,
+      "n_records": 2,
+      "sae_feature_ablation_harmful_delta": 0.0
+    },
+    "weapons": {
+      "baseline_behavior_gap": 0.6770973950624466,
+      "mean_difference_ablation_harmful_delta": -0.3433811664581299,
+      "n_records": 2,
+      "sae_feature_ablation_harmful_delta": 0.0
+    }
+  },
+  "intervention_stability": {
+    "linear_probe": {
+      "harmful_prompt_sign_consistency": 1.0,
+      "scale_effect_correlation": 0.9776413317553825,
+      "selected_scale": -4.0,
+      "specificity_adjusted_utility": 0.44085784766357394,
+      "validation_to_test_harmful_effect_gap": 0.01184018887579441
+    },
+    "mean_difference": {
+      "harmful_prompt_sign_consistency": 1.0,
+      "scale_effect_correlation": 0.8996288133896858,
+      "selected_scale": -4.0,
+      "specificity_adjusted_utility": 0.49895957045373507,
+      "validation_to_test_harmful_effect_gap": -0.0387488309352193
+    },
+    "sae_features": {
+      "harmful_prompt_sign_consistency": 1.0,
+      "scale_effect_correlation": 0.9817622972800244,
+      "selected_scale": -4.0,
+      "specificity_adjusted_utility": 0.33018219147343186,
+      "validation_to_test_harmful_effect_gap": 0.02014835551381111
+    }
+  },
+  "negative_findings": [
+    "SAE dead-feature fraction is high (50.8%).",
+    "SAE steering does not beat the best simple baseline (mean_difference) on specificity-adjusted utility.",
+    "SAE feature-ablation harmful-score interval includes zero.",
+    "SAE feature ablation is weaker than mean_difference direction ablation on harmful-score suppression.",
+    "SAE feature ablation does not clear the configured empirical random-control threshold (one-sided p=0.667).",
+    "SAE has fewer training activation samples than dictionary features."
+  ],
+  "random_ablation_control_comparison": {
+    "control_effect_max": 0.0,
+    "control_effect_min": -0.015159934759140015,
+    "empirical_one_sided_p": 0.6666666666666666,
+    "n_controls": 8,
+    "sae_feature_ablation_harmful_effect": -0.00016789883375167847
+  },
+  "sae_diagnostics": {
+    "active_features": 63,
+    "dead_feature_fraction": 0.5078125,
+    "feature_density": 0.0625,
+    "max_prompt_feature_frequency": 0.375,
+    "mean_l0": 8.0,
+    "mean_prompt_feature_frequency": 0.0625,
+    "n_features": 128,
+    "reconstruction_mse": 0.000270920863840729,
+    "samples_per_feature": 0.125,
+    "training_samples": 16,
+    "variance_explained": 0.9893277039939463
+  }
+}

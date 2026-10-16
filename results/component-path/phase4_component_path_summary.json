@@ -1,0 +1,247 @@
+{
+  "artifacts": [
+    {
+      "artifact": "artifacts/qwen-expanded-medium-preregistered/path_component_phase4.json",
+      "component_outputs": [
+        {
+          "benign_delta": -0.0037694188264700084,
+          "component": "residual",
+          "harmful_ci": [
+            -0.07810401717057594,
+            -0.06367491991474078
+          ],
+          "harmful_delta": -0.07092414039831896,
+          "layer": 16,
+          "nll_delta": 0.10746694711538461
+        },
+        {
+          "benign_delta": 0.00015701995446131778,
+          "component": "attention",
+          "harmful_ci": [
+            -0.015478109820530965,
+            -0.01276009582556211
+          ],
+          "harmful_delta": -0.014090277139957134,
+          "layer": 16,
+          "nll_delta": 0.035877403846153844
+        },
+        {
+          "benign_delta": -0.009778538346290588,
+          "component": "mlp",
+          "harmful_ci": [
+            -0.02510320704716902,
+            -0.020600396211330703
+          ],
+          "harmful_delta": -0.02281083602171678,
+          "layer": 16,
+          "nll_delta": -0.003200120192307692
+        },
+        {
+          "benign_delta": 0.020056419189159687,
+          "component": "residual",
+          "harmful_ci": [
+            -0.11271552543227488,
+            -0.08977527412084432
+          ],
+          "harmful_delta": -0.1008250470344837,
+          "layer": 20,
+          "nll_delta": 0.10631009615384615
+        },
+        {
+          "benign_delta": 0.010287308005186228,
+          "component": "attention",
+          "harmful_ci": [
+            0.00029957991379957937,
+            0.0014389108579892383
+          ],
+          "harmful_delta": 0.0008608391651740441,
+          "layer": 20,
+          "nll_delta": 0.0010967548076923077
+        },
+        {
+          "benign_delta": 0.012812568591191219,
+          "component": "mlp",
+          "harmful_ci": [
+            -0.013178518082086857,
+            -0.009108883016384562
+          ],
+          "harmful_delta": -0.011173679278447078,
+          "layer": 20,
+          "nll_delta": -0.0103515625
+        },
+        {
+          "benign_delta": 0.06851750107911916,
+          "component": "residual",
+          "harmful_ci": [
+            -0.06879864708735392,
+            -0.04623922068339127
+          ],
+          "harmful_delta": -0.05746409938885615,
+          "layer": 24,
+          "nll_delta": 0.12142427884615385
+        },
+        {
+          "benign_delta": 0.006779477917231046,
+          "component": "attention",
+          "harmful_ci": [
+            -0.002798154961604338,
+            -0.0017805991035241343
+          ],
+          "harmful_delta": -0.002289149394402137,
+          "layer": 24,
+          "nll_delta": -0.009014423076923076
+        },
+        {
+          "benign_delta": 0.007998482080606314,
+          "component": "mlp",
+          "harmful_ci": [
+            -0.006848073166150314,
+            -0.0043361464142799375
+          ],
+          "harmful_delta": -0.00559000510435838,
+          "layer": 24,
+          "nll_delta": 0.0047926682692307696
+        },
+        {
+          "benign_delta": -0.0128966734959529,
+          "component": "residual",
+          "harmful_ci": [
+            -0.15423016236378595,
+            -0.12787124168414335
+          ],
+          "harmful_delta": -0.1412294071454268,
+          "layer": 27,
+          "nll_delta": -0.02079326923076923
+        },
+        {
+          "benign_delta": 0.000245817808004526,
+          "component": "attention",
+          "harmful_ci": [
+            -0.0024753269323935876,
+            -0.0019385200624282544
+          ],
+          "harmful_delta": -0.0021988364366384654,
+          "layer": 27,
+          "nll_delta": 0.0010516826923076923
+        },
+        {
+          "benign_delta": 0.028991284737220176,
+          "component": "mlp",
+          "harmful_ci": [
+            0.010749315493381942,
+            0.014868212135938499
+          ],
+          "harmful_delta": 0.01280113962980417,
+          "layer": 27,
+          "nll_delta": 0.005829326923076923
+        }
+      ],
+      "confirmed_circuit": false,
+      "interpretation": "Component/path approximation only; does not meet confirmed-circuit claim criteria.",
+      "layers": [
+        16,
+        20,
+        24,
+        27
+      ],
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "n_records": 260,
+      "residual_projection_patching": [
+        {
+          "benign_to_harmful_nll_delta": 0.01015625,
+          "benign_to_harmful_rate_delta": 0.6615384615384615,
+          "benign_to_harmful_score_delta": 0.1298162872974689,
+          "harmful_to_benign_nll_delta": 0.2609074519230769,
+          "harmful_to_benign_rate_delta": -0.5153846153846153,
+          "harmful_to_benign_score_delta": -0.12251118880051833,
+          "layer": 16
+        },
+        {
+          "benign_to_harmful_nll_delta": 0.05228365384615385,
+          "benign_to_harmful_rate_delta": 0.6846153846153846,
+          "benign_to_harmful_score_delta": 0.14665980430749748,
+          "harmful_to_benign_nll_delta": 0.2342548076923077,
+          "harmful_to_benign_rate_delta": -0.6538461538461537,
+          "harmful_to_benign_score_delta": -0.19283041472618395,
+          "layer": 20
+        },
+        {
+          "benign_to_harmful_nll_delta": 0.4053185096153846,
+          "benign_to_harmful_rate_delta": 0.7307692307692307,
+          "benign_to_harmful_score_delta": 0.15637792348861695,
+          "harmful_to_benign_nll_delta": 0.16207932692307692,
+          "harmful_to_benign_rate_delta": -0.6538461538461537,
+          "harmful_to_benign_score_delta": -0.18207978766698105,
+          "layer": 24
+        },
+        {
+          "benign_to_harmful_nll_delta": 0.28716947115384617,
+          "benign_to_harmful_rate_delta": 0.823076923076923,
+          "benign_to_harmful_score_delta": 0.19889971751433153,
+          "harmful_to_benign_nll_delta": -0.02716346153846154,
+          "harmful_to_benign_rate_delta": -0.6076923076923076,
+          "harmful_to_benign_score_delta": -0.16707137456307045,
+          "layer": 27
+        }
+      ],
+      "source_artifact": "artifacts/qwen-expanded-medium-preregistered"
+    },
+    {
+      "artifact": "artifacts/qwen-expanded-1000-phase4/path_component_phase4.json",
+      "component_outputs": [
+        {
+          "benign_delta": -0.014515092015266419,
+          "component": "residual",
+          "harmful_ci": [
+            -0.1435716837197542,
+            -0.12769508192539214
+          ],
+          "harmful_delta": -0.1355500293970108,
+          "layer": 27,
+          "nll_delta": -0.016359375
+        },
+        {
+          "benign_delta": 0.0008885092735290527,
+          "component": "attention",
+          "harmful_ci": [
+            -0.0020532364904880525,
+            -0.001707160985469818
+          ],
+          "harmful_delta": -0.0018779256343841554,
+          "layer": 27,
+          "nll_delta": 0.0009609375
+        },
+        {
+          "benign_delta": 0.022940318703651427,
+          "component": "mlp",
+          "harmful_ci": [
+            0.006297931498289108,
+            0.00847541247010231
+          ],
+          "harmful_delta": 0.00738680624961853,
+          "layer": 27,
+          "nll_delta": 0.0040859375
+        }
+      ],
+      "confirmed_circuit": false,
+      "interpretation": "Component/path approximation only; does not meet confirmed-circuit claim criteria.",
+      "layers": [
+        27
+      ],
+      "model": "Qwen/Qwen2.5-1.5B-Instruct",
+      "n_records": 500,
+      "residual_projection_patching": [
+        {
+          "benign_to_harmful_nll_delta": 0.251234375,
+          "benign_to_harmful_rate_delta": 0.824,
+          "benign_to_harmful_score_delta": 0.20966371726989746,
+          "harmful_to_benign_nll_delta": -0.017234375,
+          "harmful_to_benign_rate_delta": -0.528,
+          "harmful_to_benign_score_delta": -0.169176225066185,
+          "layer": 27
+        }
+      ],
+      "source_artifact": "artifacts/qwen-expanded-1000-phase4"
+    }
+  ]
+}

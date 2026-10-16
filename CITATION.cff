@@ -1,0 +1,8 @@
+cff-version: 1.2.0
+title: "Glassbox: End-to-End Mechanistic Audit of Refusal Behavior"
+message: "Please cite the repository revision and model/dataset manifests used in your experiment."
+type: software
+authors:
+  - name: "Glassbox contributors"
+version: 0.1.0
+license: MIT

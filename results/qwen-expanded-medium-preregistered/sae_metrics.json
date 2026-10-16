@@ -1,0 +1,81 @@
+{
+  "history": [
+    {
+      "epoch": 1,
+      "loss": 10.818825132992803,
+      "mean_feature_activation": 0.2152580126207702,
+      "mse": 10.818803602335404
+    },
+    {
+      "epoch": 22,
+      "loss": 0.19040896120120068,
+      "mean_feature_activation": 0.2539168486789781,
+      "mse": 0.19038357023073701
+    },
+    {
+      "epoch": 44,
+      "loss": 0.12155892684751628,
+      "mean_feature_activation": 0.22685841151646205,
+      "mse": 0.12153624135012529
+    },
+    {
+      "epoch": 66,
+      "loss": 0.09349483814166516,
+      "mean_feature_activation": 0.20392730832099915,
+      "mse": 0.09347444635872938
+    },
+    {
+      "epoch": 88,
+      "loss": 0.07572916955972205,
+      "mean_feature_activation": 0.18515165849607818,
+      "mse": 0.07571065456283335
+    },
+    {
+      "epoch": 110,
+      "loss": 0.06698356226694827,
+      "mean_feature_activation": 0.17190628422766316,
+      "mse": 0.06696637172480019
+    },
+    {
+      "epoch": 132,
+      "loss": 0.0568830174755077,
+      "mean_feature_activation": 0.1627191670086919,
+      "mse": 0.056866745559536684
+    },
+    {
+      "epoch": 154,
+      "loss": 0.05019816984327472,
+      "mean_feature_activation": 0.15643907809744076,
+      "mse": 0.05018252598083749
+    },
+    {
+      "epoch": 176,
+      "loss": 0.04439238124355978,
+      "mean_feature_activation": 0.15150751994580638,
+      "mse": 0.04437723025983693
+    },
+    {
+      "epoch": 198,
+      "loss": 0.04936215692028707,
+      "mean_feature_activation": 0.1490834324943776,
+      "mse": 0.0493472484605653
+    },
+    {
+      "epoch": 220,
+      "loss": 0.041715542652777264,
+      "mean_feature_activation": 0.14539462327957153,
+      "mse": 0.04170100307282137
+    }
+  ],
+  "metrics": {
+    "active_features": 2580,
+    "dead_feature_fraction": 0.16015625,
+    "feature_density": 0.010416666666666666,
+    "mean_l0": 32.0,
+    "n_features": 3072,
+    "reconstruction_mse": 0.04143047705292702,
+    "samples_per_feature": 8.016927083333334,
+    "training_samples": 24628,
+    "variance_explained": 0.9983686153240775
+  }
+}

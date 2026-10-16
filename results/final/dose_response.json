@@ -1,0 +1,227 @@
+{
+  "artifact": "artifacts/qwen-expanded-1000-phase4",
+  "best_by_method": {
+    "linear_probe": {
+      "benign_overrefusal_rate_delta": 0.008000000000000007,
+      "benign_score_delta": 0.0012269477844238281,
+      "capability_nll_delta": -0.005765625,
+      "harmful_refusal_rate_delta": -0.0040000000000000036,
+      "harmful_score_delta": -0.0015949771404266358,
+      "method": "linear_probe",
+      "scale": -4.0,
+      "specificity_adjusted_utility": 0.0003680293560028077
+    },
+    "mean_difference": {
+      "benign_overrefusal_rate_delta": -0.015999999999999986,
+      "benign_score_delta": -0.009533340334892273,
+      "capability_nll_delta": -0.004,
+      "harmful_refusal_rate_delta": -0.03600000000000003,
+      "harmful_score_delta": -0.00979244351387024,
+      "method": "mean_difference",
+      "scale": -4.0,
+      "specificity_adjusted_utility": 0.00025910317897796624
+    },
+    "sae_features": {
+      "benign_overrefusal_rate_delta": 0.0040000000000000036,
+      "benign_score_delta": -0.001544780969619751,
+      "capability_nll_delta": 0.0009140625,
+      "harmful_refusal_rate_delta": -0.0040000000000000036,
+      "harmful_score_delta": -0.0022159466743469237,
+      "method": "sae_features",
+      "scale": -4.0,
+      "specificity_adjusted_utility": 0.0004883532047271727
+    }
+  },
+  "figures": [
+    "docs/figures/dose_response_harmful_score_delta.png",
+    "docs/figures/dose_response_benign_score_delta.png",
+    "docs/figures/dose_response_capability_nll_delta.png",
+    "docs/figures/dose_response_specificity_adjusted_utility.png"
+  ],
+  "interpretation": "Fixed-grid dose response uses the preconfigured steering grid. It is descriptive and does not retune the headline intervention scale.",
+  "rows": [
+    {
+      "benign_overrefusal_rate_delta": 0.0040000000000000036,
+      "benign_score_delta": -0.001544780969619751,
+      "capability_nll_delta": 0.0009140625,
+      "harmful_refusal_rate_delta": -0.0040000000000000036,
+      "harmful_score_delta": -0.0022159466743469237,
+      "method": "sae_features",
+      "scale": -4.0,
+      "specificity_adjusted_utility": 0.0004883532047271727
+    },
+    {
+      "benign_overrefusal_rate_delta": 0.0040000000000000036,
+      "benign_score_delta": -0.0008066475391387939,
+      "capability_nll_delta": 0.000453125,
+      "harmful_refusal_rate_delta": -0.0040000000000000036,
+      "harmful_score_delta": -0.0011019456386566163,
+      "method": "sae_features",
+      "scale": -2.0,
+      "specificity_adjusted_utility": 0.00020467309951782242
+    },
+    {
+      "benign_overrefusal_rate_delta": 0.0,
+      "benign_score_delta": -0.0004252530336380005,
+      "capability_nll_delta": 0.000953125,
+      "harmful_refusal_rate_delta": -0.0040000000000000036,
+      "harmful_score_delta": -0.0005891284942626953,
+      "method": "sae_features",
+      "scale": -1.0,
+      "specificity_adjusted_utility": -2.67495393753052e-05
+    },
+    {
+      "benign_overrefusal_rate_delta": 0.0,
+      "benign_score_delta": 0.00034244167804718017,
+      "capability_nll_delta": 0.000109375,
+      "harmful_refusal_rate_delta": 0.0040000000000000036,
+      "harmful_score_delta": 0.0005881621837615967,
+      "method": "sae_features",
+      "scale": 1.0,
+      "specificity_adjusted_utility": -0.0009524788618087768
+    },
+    {
+      "benign_overrefusal_rate_delta": 0.0,
+      "benign_score_delta": 0.0007484164237976074,
+      "capability_nll_delta": 0.0003984375,
+      "harmful_refusal_rate_delta": 0.008000000000000007,
+      "harmful_score_delta": 0.0011378581523895264,
+      "method": "sae_features",
+      "scale": 2.0,
+      "specificity_adjusted_utility": -0.0019659620761871338
+    },
+    {
+      "benign_overrefusal_rate_delta": 0.0,
+      "benign_score_delta": 0.001505272150039673,
+      "capability_nll_delta": 0.000359375,
+      "harmful_refusal_rate_delta": 0.01200000000000001,
+      "harmful_score_delta": 0.0023309791088104246,
+      "method": "sae_features",
+      "scale": 4.0,
+      "specificity_adjusted_utility": -0.003908126258850097
+    },
+    {
+      "benign_overrefusal_rate_delta": -0.015999999999999986,
+      "benign_score_delta": -0.009533340334892273,
+      "capability_nll_delta": -0.004,
+      "harmful_refusal_rate_delta": -0.03600000000000003,
+      "harmful_score_delta": -0.00979244351387024,
+      "method": "mean_difference",
+      "scale": -4.0,
+      "specificity_adjusted_utility": 0.00025910317897796624
+    },
+    {
+      "benign_overrefusal_rate_delta": -0.0040000000000000036,
+      "benign_score_delta": -0.004919127345085144,
+      "capability_nll_delta": -0.0020546875,
+      "harmful_refusal_rate_delta": -0.016000000000000014,
+      "harmful_score_delta": -0.004917939782142639,
+      "method": "mean_difference",
+      "scale": -2.0,
+      "specificity_adjusted_utility": -1.1875629425048273e-06
+    },
+    {
+      "benign_overrefusal_rate_delta": 0.0,
+      "benign_score_delta": -0.002428165316581726,
+      "capability_nll_delta": -0.000984375,
+      "harmful_refusal_rate_delta": -0.008000000000000007,
+      "harmful_score_delta": -0.00243645715713501,
+      "method": "mean_difference",
+      "scale": -1.0,
+      "specificity_adjusted_utility": 8.291840553283775e-06
+    },
+    {
+      "benign_overrefusal_rate_delta": 0.0,
+      "benign_score_delta": 0.002436155080795288,
+      "capability_nll_delta": 0.0016640625,
+      "harmful_refusal_rate_delta": 0.01200000000000001,
+      "harmful_score_delta": 0.0024680776596069337,
+      "method": "mean_difference",
+      "scale": 1.0,
+      "specificity_adjusted_utility": -0.005237045240402222
+    },
+    {
+      "benign_overrefusal_rate_delta": 0.008000000000000007,
+      "benign_score_delta": 0.005022729277610779,
+      "capability_nll_delta": 0.003484375,
+      "harmful_refusal_rate_delta": 0.040000000000000036,
+      "harmful_score_delta": 0.004981078863143921,
+      "method": "mean_difference",
+      "scale": 2.0,
+      "specificity_adjusted_utility": -0.010700683140754699
+    },
+    {
+      "benign_overrefusal_rate_delta": 0.04000000000000001,
+      "benign_score_delta": 0.010245076298713685,
+      "capability_nll_delta": 0.00609375,
+      "harmful_refusal_rate_delta": 0.06399999999999995,
+      "harmful_score_delta": 0.009938775062561035,
+      "method": "mean_difference",
+      "scale": 4.0,
+      "specificity_adjusted_utility": -0.021402601361274722
+    },
+    {
+      "benign_overrefusal_rate_delta": 0.008000000000000007,
+      "benign_score_delta": 0.0012269477844238281,
+      "capability_nll_delta": -0.005765625,
+      "harmful_refusal_rate_delta": -0.0040000000000000036,
+      "harmful_score_delta": -0.0015949771404266358,
+      "method": "linear_probe",
+      "scale": -4.0,
+      "specificity_adjusted_utility": 0.0003680293560028077
+    },
+    {
+      "benign_overrefusal_rate_delta": 0.0040000000000000036,
+      "benign_score_delta": 0.0005605072975158692,
+      "capability_nll_delta": -0.003375,
+      "harmful_refusal_rate_delta": -0.0040000000000000036,
+      "harmful_score_delta": -0.0008733859062194824,
+      "method": "linear_probe",
+      "scale": -2.0,
+      "specificity_adjusted_utility": 0.0003128786087036133
+    },
+    {
+      "benign_overrefusal_rate_delta": 0.0,
+      "benign_score_delta": 0.0002748328447341919,
+      "capability_nll_delta": -0.001390625,
+      "harmful_refusal_rate_delta": -0.0040000000000000036,
+      "harmful_score_delta": -0.0003935911655426025,
+      "method": "linear_probe",
+      "scale": -1.0,
+      "specificity_adjusted_utility": 0.0001187583208084106
+    },
+    {
+      "benign_overrefusal_rate_delta": 0.0,
+      "benign_score_delta": -0.00030602121353149415,
+      "capability_nll_delta": 0.0024140625,
+      "harmful_refusal_rate_delta": 0.0040000000000000036,
+      "harmful_score_delta": 0.0004375462532043457,
+      "method": "linear_probe",
+      "scale": 1.0,
+      "specificity_adjusted_utility": -0.00122637996673584
+    },
+    {
+      "benign_overrefusal_rate_delta": 0.0,
+      "benign_score_delta": -0.000595999002456665,
+      "capability_nll_delta": 0.0042578125,
+      "harmful_refusal_rate_delta": 0.0040000000000000036,
+      "harmful_score_delta": 0.00092867112159729,
+      "method": "linear_probe",
+      "scale": 2.0,
+      "specificity_adjusted_utility": -0.002376232624053955
+    },
+    {
+      "benign_overrefusal_rate_delta": -0.0040000000000000036,
+      "benign_score_delta": -0.001174119234085083,
+      "capability_nll_delta": 0.0078984375,
+      "harmful_refusal_rate_delta": 0.01200000000000001,
+      "harmful_score_delta": 0.0017972127199172973,
+      "method": "linear_probe",
+      "scale": 4.0,
+      "specificity_adjusted_utility": -0.004551019454002381
+    }
+  ],
+  "sae_has_more_specific_regime_than_mean_probe": true,
+  "scale_grid_source": "config.evaluation.steering_scales",
+  "schema_version": "1.0"
+}

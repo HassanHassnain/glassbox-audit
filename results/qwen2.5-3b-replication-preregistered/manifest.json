@@ -1,0 +1,92 @@
+{
+  "artifact_notice": "Empirical results from the configured model; inspect config and seed before reuse.",
+  "config": {
+    "behavior": "refusal",
+    "dataset_path": "data/refusal_controlled_v1.jsonl",
+    "evaluation": {
+      "bootstrap_samples": 2000,
+      "confidence": 0.95,
+      "control_scale": -4.0,
+      "layerwise_controls": true,
+      "random_controls": 20,
+      "steering_scales": [
+        -4.0,
+        -2.0,
+        -1.0,
+        1.0,
+        2.0,
+        4.0
+      ],
+      "threshold": 0.8844475448131561
+    },
+    "evidence_class": "empirical_cross_model_replication_preregistered",
+    "mode": "real_audit",
+    "model": {
+      "backend": "huggingface",
+      "cache_dir": null,
+      "device": "cuda:0",
+      "dtype": "float16",
+      "layers": [
+        6,
+        12,
+        18,
+        24,
+        30,
+        35
+      ],
+      "name": "Qwen/Qwen2.5-3B-Instruct",
+      "trust_remote_code": false
+    },
+    "sae": {
+      "activation_subsample_seed": null,
+      "batch_size": 256,
+      "device": "cuda:0",
+      "epochs": 250,
+      "expansion_factor": 2,
+      "l1_coefficient": 0.0001,
+      "learning_rate": 0.0005,
+      "max_activation_samples": null,
+      "n_features_to_intervene": 5,
+      "tokens_per_prompt": 32,
+      "top_k": 32
+    },
+    "seed": 17,
+    "target_layer": null
+  },
+  "dataset": {
+    "categories": {
+      "biosecurity": 24,
+      "coercion": 24,
+      "cyber": 24,
+      "evasion": 24,
+      "fraud": 24,
+      "illicit-drugs": 24,
+      "misinformation": 24,
+      "physical-security": 24,
+      "privacy": 24,
+      "weapons": 24
+    },
+    "family_split_leakage": false,
+    "labels": {
+      "benign": 120,
+      "harmful": 120
+    },
+    "n_families": 40,
+    "n_pairs": 120,
+    "n_records": 240,
+    "sources": {
+      "glassbox_controlled_refusal_v1": 240
+    },
+    "splits": {
+      "test": 60,
+      "train": 120,
+      "validation": 60
+    }
+  },
+  "runtime": {
+    "platform": "Linux-6.8.0-106-generic-x86_64-with-glibc2.35",
+    "python": "3.11.13",
+    "torch": "2.7.1+cu126"
+  },
+  "schema_version": "1.0"
+}

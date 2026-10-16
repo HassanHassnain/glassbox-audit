@@ -1,0 +1,124 @@
+{
+  "data_load_split_validation": {
+    "finished_at": 1783691834.0607927,
+    "seconds": 0.001283884048461914,
+    "stage": "data_load_split_validation",
+    "started_at": 1783691834.0595088,
+    "status": "completed",
+    "test_records": 16,
+    "train_records": 16,
+    "validation_records": 16
+  },
+  "failure_analysis_and_final_artifacts": {
+    "finished_at": 1783691841.7057889,
+    "seconds": 0.8562688827514648,
+    "stage": "failure_analysis_and_final_artifacts",
+    "started_at": 1783691840.84952,
+    "status": "completed",
+    "summary_written": true
+  },
+  "feature_budget_frontier": {
+    "budgets": [
+      1,
+      2,
+      5,
+      10,
+      20,
+      50,
+      100,
+      128
+    ],
+    "finished_at": 1783691839.8947778,
+    "rows": 16,
+    "seconds": 0.8411030769348145,
+    "stage": "feature_budget_frontier",
+    "started_at": 1783691839.0536747,
+    "status": "completed"
+  },
+  "feature_discovery": {
+    "finished_at": 1783691837.4739943,
+    "seconds": 0.573606014251709,
+    "selected_features": [
+      79,
+      120,
+      1
+    ],
+    "stage": "feature_discovery",
+    "started_at": 1783691836.9003882,
+    "status": "completed"
+  },
+  "held_out_causal_tests": {
+    "finished_at": 1783691839.0523403,
+    "rows": 5,
+    "seconds": 0.4868803024291992,
+    "stage": "held_out_causal_tests",
+    "started_at": 1783691838.56546,
+    "status": "completed"
+  },
+  "held_out_steering_sweeps": {
+    "finished_at": 1783691838.5639355,
+    "rows": 12,
+    "seconds": 0.5338215827941895,
+    "stage": "held_out_steering_sweeps",
+    "started_at": 1783691838.030114,
+    "status": "completed"
+  },
+  "layer_scan": {
+    "finished_at": 1783691834.4399245,
+    "sae_source": "trained",
+    "seconds": 0.36344218254089355,
+    "stage": "layer_scan",
+    "started_at": 1783691834.0764823,
+    "status": "completed",
+    "target_layer": 1
+  },
+  "layerwise_controls": {
+    "finished_at": 1783691840.8482506,
+    "rows": 4,
+    "seconds": 0.4416983127593994,
+    "stage": "layerwise_controls",
+    "started_at": 1783691840.4065523,
+    "status": "completed"
+  },
+  "model_load": {
+    "finished_at": 1783691834.0754032,
+    "hidden_size": 32,
+    "model": "glassbox-toy-refusal",
+    "seconds": 0.002434253692626953,
+    "stage": "model_load",
+    "started_at": 1783691834.072969,
+    "status": "completed"
+  },
+  "random_direction_and_matched_sae_controls": {
+    "finished_at": 1783691839.9911003,
+    "rows": 16,
+    "seconds": 0.09441351890563965,
+    "stage": "random_direction_and_matched_sae_controls",
+    "started_at": 1783691839.8966868,
+    "status": "completed"
+  },
+  "sae_training": {
+    "activation_samples": 16,
+    "collected_activation_samples": 16,
+    "effective_max_activation_samples": null,
+    "finished_at": 1783691836.8989701,
+    "sae_source": "trained",
+    "scaled_activation_sample_cap": null,
+    "seconds": 2.4543113708496094,
+    "stage": "sae_training",
+    "started_at": 1783691834.4446588,
+    "status": "completed"
+  },
+  "validation_and_baseline_scoring": {
+    "finished_at": 1783691838.028814,
+    "seconds": 0.5536096096038818,
+    "selected_scales": {
+      "linear_probe": -4.0,
+      "mean_difference": -4.0,
+      "sae_features": -4.0
+    },
+    "stage": "validation_and_baseline_scoring",
+    "started_at": 1783691837.4752045,
+    "status": "completed"
+  }
+}

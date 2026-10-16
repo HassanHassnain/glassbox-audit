@@ -4,7 +4,7 @@
     "equivalence_analysis.json": null,
     "failure_analysis.json": "8912ae3358df303ad05185ab8ffe6ad928d415f8fe11444b69dd3904f1c73534",
     "interventions.json": "085267ad87f1a4d7d3c9458bdc947af976011499748a85a586638b0c2aa392d0",
-    "manifest.json": "0d16948d6de059219d4f14d426ac2e9e0f2d33feab6ce28091e00090d8d9f78d",
+    "manifest.json": "bba07486b5a3f4bf5d3e8e46a8725046380ff725d44bc26ae735ab8c9888f1c6",
     "method_comparisons.json": "9e9189aab1088632b3d0985832cf90c1fe4a6276842953d558a24858ca01a8f6",
     "protocol.json": "06aea31a59e949787c35cb7ac947b77df1b4ac765ad799fabf08a88aaf077a86",
     "records.json": "55601442069b043478de5a5a709fefcd3923e40d77ff4ce1c871121d2b3129a2",
@@ -128,7 +128,7 @@
   },
   "schema_version": "1.0",
   "signature": {
-    "digest": "523a8160d888b7ed79d2711266f4c4c9b40b57ce84735dada589c93bade01d8b",
+    "digest": "aa8855186132b0a1d8e99f6cf0e0b98179a84370121b50dafb4dc8f1346e10d4",
     "git_ref": "audit-card-gallery-v1",
     "scheme": "sha256-card-digest"
   }
